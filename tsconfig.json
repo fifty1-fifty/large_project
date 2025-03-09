@@ -1,0 +1,16 @@
+{
+  "files": [],
+  "references": [
+    { "path": "./tsconfig.app.json" },
+    { "path": "./tsconfig.node.json" }
+  ],
+
+  "compilerOptions": {
+    "allowJs": true,  // Allow TypeScript to process JavaScript files
+    "checkJs": false,  // Disable JS type checking (if not needed)
+    "moduleResolution": "node",
+    "esModuleInterop": true
+  }
+}
+
+
