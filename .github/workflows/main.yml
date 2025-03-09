@@ -39,7 +39,6 @@ jobs:
           SSH_USERNAME: ${{ secrets.SSH_USERNAME }}
         run: |
           sshpass -p "${SSH_KEY}" ssh -o StrictHostKeyChecking=no ${SSH_USERNAME}@${SSH_HOST} << 'EOF'
-          if [ ! -d "/var/www/html/.git" ]; then
           cd /var/www/front/html
           git pull origin main
           npm install
