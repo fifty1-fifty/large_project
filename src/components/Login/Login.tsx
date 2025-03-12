@@ -1,4 +1,6 @@
 import React, { useState } from 'react';
+import isEmail from 'isemail';
+
 
 const app_name = 'group22cop4331c.xyz';
 
@@ -24,7 +26,8 @@ function Login()
 
     const [firstName,setFirstName] = React.useState('');
     const [lastName,setLastName] = React.useState('');
-    const [registerUserName,setRegisternName] = React.useState('');
+    const [registerEmail,setEmail] = React.useState('');
+    const [registerUserName,setRegisterName] = React.useState('');
     const [registerPassword,setRegisterPassword] = React.useState('');
     
 
@@ -57,9 +60,9 @@ function Login()
             alert(error.toString());
             return;
         }
-     };
+    };
 
-     async function newLogin(newLoginData:JSON) : Promise<void>
+    async function newLogin(newLoginData:JSON) : Promise<void>
     {
         var obj = newLoginData
         var js = JSON.stringify(obj);
@@ -96,7 +99,13 @@ function Login()
     async function doRegister(event:any) : Promise<void>
     {
         event.preventDefault();
-        var obj = {first:firstName,last:lastName,regname:registerUserName ,regpassword:registerPassword}
+
+        if(!isEmail.validate(registerEmail)) {
+            setMessage("Invalid email");
+            return;
+        }
+
+        var obj = {first:firstName, last:lastName, email:registerEmail, regname:registerUserName, regpassword:registerPassword}
         var js = JSON.stringify(obj);
 
         try
@@ -136,9 +145,14 @@ function Login()
         setLastName( e.target.value );
     }
 
+    function handleSetRegisterEmail( e: any ) : void
+    {
+        setEmail(e.target.value);
+    }
+
     function handleSetRegisterUserName( e: any ) : void
     {
-        setRegisternName( e.target.value );
+        setRegisterName( e.target.value );
     }
 
     function handleSetRegisterPassword( e: any ) : void
@@ -169,18 +183,21 @@ function Login()
 
             <span id="inner-title">GET REGISTRATED FUCKER</span><br />
 
-            First Name: <input type="text" id="registerFirstName" placeholder="New First Name"
+            First Name: <input type="text" id="registerFirstName" placeholder="First Name" value={firstName}
                 onChange={handleSetRegisterFirstName} />
 
-            Last Name: <input type="text" id="registerLastName" placeholder="New Last Name"
+            Last Name: <input type="text" id="registerLastName" placeholder="Last Name" value={lastName}
                 onChange={handleSetRegisterLastName} />
 
             <br /> <br />
 
-            Username: <input type="text" id="registerUserName" placeholder="New Username"
+            Email: <input type="text" id="registerEmail" placeholder="Enter Email" value={registerEmail}
+                onChange={handleSetRegisterEmail} />
+
+            Username: <input type="text" id="registerUserName" placeholder="New Username" value={registerUserName}
                 onChange={handleSetRegisterUserName} />
 
-            Password: <input type="password" id="registerPassword" placeholder="New Password"
+            Password: <input type="password" id="registerPassword" placeholder="New Password" value={registerPassword}
                 onChange={handleSetRegisterPassword} />
 
             <input type="submit" id="registerButton" className="buttons" value = "Get Goin"
