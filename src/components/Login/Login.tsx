@@ -181,7 +181,7 @@ function Login()
 
             <br /> <br /> <br /> 
 
-            <span id="inner-title">GET REGISTRATED FUCKER</span><br />
+            <span id="inner-title">Registration</span><br />
 
             First Name: <input type="text" id="registerFirstName" placeholder="First Name" value={firstName}
                 onChange={handleSetRegisterFirstName} />
