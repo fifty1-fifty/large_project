@@ -39,7 +39,7 @@ jobs:
           SSH_USERNAME: ${{ secrets.SSH_USERNAME }}
         run: |
           sshpass -p "${SSH_KEY}" ssh -o StrictHostKeyChecking=no ${SSH_USERNAME}@${SSH_HOST} << 'EOF'
-          cd /var/www/html
+          cd /var/www/html/large_project
           git pull origin main
           npm install
           npm run build
