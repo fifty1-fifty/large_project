@@ -1,7 +1,7 @@
 function PageTitle()
 {
     return(
-    <h1 id="title">suck eggs</h1>
+    <h1 id="title">test test test</h1>
     );
 };
 
