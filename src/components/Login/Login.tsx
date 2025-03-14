@@ -83,6 +83,40 @@ function Login()
            		 return;
         	}
     };
+
+	validLogin(username, password, email)
+	{
+		if(username == "")
+		{
+			return 0;
+			//res.status(401).json({ error: "First name is blank" });
+		}
+		
+		if(password == "")
+		{
+			return 0;
+			//res.status(401).json({ error: "Last name is blank" });
+		}
+		
+		if(email == "")
+		{
+			return 0;
+			//res.status(401).json({ error: "Email name is blank" });
+		}
+		else
+		{
+			var regex = /^([a-zA-Z0-9_\-\.]+)@([a-zA-Z0-9_\-\.]+)\.([a-zA-Z]{2,5})$/;
+			if(regex.test(regemail) == false)
+			{
+				return 0;
+				//res.status(401).json({ error: "Email is invalid" });
+			}
+			else
+			{
+				return 1;
+			}
+		}
+	}
 	
 
   /*  async function newLogin(newLoginData:JSON) : Promise<void>
