@@ -112,34 +112,38 @@ function Login()
 
 	
     return(
-        <div id="loginDiv" className = "container-fluid">
-            
+        <div id="loginDiv" className="container-fluid flex flex-col items-center p-6 bg-gray-100 rounded-lg shadow-lg max-w-sm mx-auto">
+  <h2 className="text-2xl font-semibold mb-4">Login</h2>
 
-	    <div className="form-group">
-	    <label htmlFor="Email">Email address:</label>    
-            <input type="text" id="emailName" placeholder="Email"
-                onChange={handleSetLoginEmail} />
-           </div>
+  <div className="w-full mb-4">
+    <label htmlFor="emailName" className="block text-sm font-medium text-gray-700 mb-1">Email address</label>
+    <input type="text" id="emailName" placeholder="Email"
+      className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-400"
+      onChange={handleSetLoginEmail} />
+  </div>
 
-	   <div className="form-group">
-	   <label htmlFor="loginName">Username</label>
-           <input type="text" id="loginName" placeholder="Username"
-                onChange={handleSetLoginName} />
-	    </div>
-           
-            <div className="form-group">
-	    <label htmlFor="loginPassword">Password</label>
-            <input type="password" id="loginPassword" placeholder="Password"
-                onChange={handleSetPassword} />
-	     </div>
-           
-            <input type="submit" id="loginButton" className="buttons" value = "Login"
-                onClick={doLogin} />
+  <div className="w-full mb-4">
+    <label htmlFor="loginName" className="block text-sm font-medium text-gray-700 mb-1">Username</label>
+    <input type="text" id="loginName" placeholder="Username"
+      className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-400"
+      onChange={handleSetLoginName} />
+  </div>
 
-	     <input type="submit" id="signupButton" className="buttons" value = "Signup Here"/>	
- 
-            <span id="loginResult">{message}</span> 
-        </div>
-        );
+  <div className="w-full mb-4">
+    <label htmlFor="loginPassword" className="block text-sm font-medium text-gray-700 mb-1">Password</label>
+    <input type="password" id="loginPassword" placeholder="Password"
+      className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-400"
+      onChange={handleSetPassword} />
+  </div>
+
+  <button id="loginButton"
+    className="w-full bg-blue-500 text-white font-semibold py-2 rounded-lg hover:bg-blue-600 transition duration-200"
+    onClick={doLogin}>Login</button>
+
+  <button id="signupButton"
+    className="w-full bg-gray-200 text-gray-700 font-semibold py-2 rounded-lg hover:bg-gray-300 transition duration-200 mt-3">Signup Here</button>
+
+  <span id="loginResult" className="text-red-500 mt-3">{message}</span>
+</div>
 }
 export default Login;
