@@ -124,7 +124,7 @@ function Login()
         {
             const response = await fetch(buildPath('/api/register'),
             {method:'POST',body:js,headers:{'Content-Type': 'application/json'}})
-            var res = JSON.parse(await response.text());
+            //var res = JSON.parse(await response.text());
 
             //newLogin(res);
         }
