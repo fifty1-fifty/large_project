@@ -44,6 +44,7 @@ function Register()
       {
           const response = await fetch(buildPath('/api/register'),
           {method:'POST',body:js,headers:{'Content-Type': 'application/json'}})
+          console.log(response);
           //var res = JSON.parse(await response.text());
 
       }
@@ -116,5 +117,5 @@ function Register()
         </div>
         );
 };
-export default Registration;
+export default Register;
   
