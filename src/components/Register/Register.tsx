@@ -1,4 +1,4 @@
-//import React, { useState } from 'react';
+import React, { useState } from 'react';
 import isEmail from 'isemail';
 
 
@@ -17,8 +17,10 @@ function buildPath(route:string) : string
     }
 }
 
-function doRegister()
+function Register()
 {
+    const [message,setMessage] = useState('');
+    
    const [firstName,setFirstName] = React.useState('');
    const [lastName,setLastName] = React.useState('');
    const [registerEmail,setEmail] = React.useState('');
@@ -29,7 +31,8 @@ function doRegister()
   {
       event.preventDefault();
 
-      if(!isEmail.validate(registerEmail)) {
+      if(!isEmail.validate(registerEmail)) 
+      {
           setMessage("Invalid email");
           return;
       }
@@ -41,7 +44,7 @@ function doRegister()
       {
           const response = await fetch(buildPath('/api/register'),
           {method:'POST',body:js,headers:{'Content-Type': 'application/json'}})
-          var res = JSON.parse(await response.text());
+          //var res = JSON.parse(await response.text());
 
       }
         
@@ -112,5 +115,6 @@ function doRegister()
          <span id="signupResult">{message}</span>
         </div>
         );
-}
+};
+export default Registration;
   
