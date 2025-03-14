@@ -27,17 +27,10 @@ function Login()
     const [loginName,setLoginName] = React.useState('');
     const [loginPassword,setPassword] = React.useState('');
 
-    /*const [firstName,setFirstName] = React.useState('');
-    const [lastName,setLastName] = React.useState('');
-    const [registerEmail,setEmail] = React.useState('');
-    const [registerUserName,setRegisterName] = React.useState('');
-    const [registerPassword,setRegisterPassword] = React.useState('');*/
-    
-
+   
     async function doLogin(event:any) : Promise<void>
     {
 	    console.log("im gat");
-	
         	event.preventDefault();
         	var obj = {login:loginName,password:loginPassword,email:emailName};
         	var js = JSON.stringify(obj);
@@ -72,8 +65,6 @@ function Login()
     };
 
 
-	
-
   /*  async function newLogin(newLoginData:JSON) : Promise<void>
     {
         var obj = newLoginData
@@ -104,39 +95,6 @@ function Login()
         }
      };*/
 
-
-
-    /*async function doRegister(event:any) : Promise<void>
-    {
-
-        
-        event.preventDefault();
-
-        if(!isEmail.validate(registerEmail)) {
-            setMessage("Invalid email");
-            return;
-        }
-
-        var obj = {first:firstName, last:lastName, email:registerEmail, regname:registerUserName, regpassword:registerPassword}
-        var js = JSON.stringify(obj);
-
-        try
-        {
-            const response = await fetch(buildPath('/api/register'),
-            {method:'POST',body:js,headers:{'Content-Type': 'application/json'}})
-            var res = JSON.parse(await response.text());
-
-            doLogin(res);
-        }
-        catch(error:any)
-        {
-            alert(error.toString());
-            return;
-        }
-    };*/
-
-
-    
     function handleSetLoginName( e: any ) : void
     {   
         setLoginName( e.target.value );
@@ -152,40 +110,11 @@ function Login()
         setLoginEmail( e.target.value );
     }
 
-
-
-
-    
-  /*  function handleSetRegisterFirstName( e: any ) : void
-    {
-        setFirstName( e.target.value );
-    }
-
-    function handleSetRegisterLastName( e: any ) : void
-    {
-        setLastName( e.target.value );
-    }
-
-    function handleSetRegisterEmail( e: any ) : void
-    {
-        setEmail(e.target.value);
-    }
-
-    function handleSetRegisterUserName( e: any ) : void
-    {
-        setRegisterName( e.target.value );
-    }
-
-    function handleSetRegisterPassword( e: any ) : void
-    {
-        setRegisterPassword( e.target.value );
-    } */
-
-
-
-
+	
     return(
-        <div id="loginDiv">
+	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
+	    
+        <div id="loginDiv" class="container-fluid">
             <span id="inner-title">Login</span><br />
 
             Email: <input type="text" id="emailName" placeholder="Email"
