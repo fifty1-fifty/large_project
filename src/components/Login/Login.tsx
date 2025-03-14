@@ -111,6 +111,11 @@ function Login()
         setLoginEmail( e.target.value );
     }
 
+    function gotoSignup()
+    {	
+	window.location.href = '/signup';
+    }
+
 	
     return(
         <div id="loginDiv" className="login-container">
@@ -135,7 +140,7 @@ function Login()
   </div>
 
   <button id="loginButton" onClick={doLogin}>Login</button>
-  <button id="signupButton">Signup Here</button>
+  <button id="signupButton" onClick={gotoSignup}Signup Here</button>
 
   <span id="loginResult">{message}</span>
 </div>
