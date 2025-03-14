@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import isEmail from 'isemail';
+//import isEmail from 'isemail';
 
 
 const app_name = 'group22cop4331c.xyz';
