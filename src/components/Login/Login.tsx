@@ -106,7 +106,7 @@ function Login()
 
 
 
-    async function doRegister(event:any) : Promise<void>
+    /*async function doRegister(event:any) : Promise<void>
     {
 
         
@@ -133,7 +133,7 @@ function Login()
             alert(error.toString());
             return;
         }
-    };
+    };*/
 
 
     
@@ -156,7 +156,7 @@ function Login()
 
 
     
-    function handleSetRegisterFirstName( e: any ) : void
+  /*  function handleSetRegisterFirstName( e: any ) : void
     {
         setFirstName( e.target.value );
     }
@@ -179,7 +179,7 @@ function Login()
     function handleSetRegisterPassword( e: any ) : void
     {
         setRegisterPassword( e.target.value );
-    }
+    } */
 
 
 
@@ -207,38 +207,6 @@ function Login()
                 onClick={doLogin} />
  
             <span id="loginResult">{message}</span>
-
-
-            <span id="inner-title">Registration</span><br />
-
-            First Name: <input type="text" id="registerFirstName" placeholder="First Name" value={firstName}
-                onChange={handleSetRegisterFirstName} />
-
-            <br /> 
-
-            Last Name: <input type="text" id="registerLastName" placeholder="Last Name" value={lastName}
-                onChange={handleSetRegisterLastName} />
-
-            <br />
-
-            Email: <input type="text" id="registerEmail" placeholder="Enter Email" value={registerEmail}
-                onChange={handleSetRegisterEmail} />
-
-            <br /> 
-
-            Username: <input type="text" id="registerUserName" placeholder="New Username" value={registerUserName}
-                onChange={handleSetRegisterUserName} />
-
-            <br /> 
-
-            Password: <input type="password" id="registerPassword" placeholder="New Password" value={registerPassword}
-                onChange={handleSetRegisterPassword} />
-
-            <br /> 
-
-            <input type="submit" id="registerButton" className="buttons" value = "Get Goin"
-                onClick={doRegister} />    
- 
         </div>
         );
 };
