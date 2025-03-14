@@ -115,7 +115,7 @@ function Register()
             <input type="submit" id="registerButton" className="buttons" value = "Get Goin"
                 onClick={doRegister} />    
         
-    
+            <span id="loginResult">{message}</span>
         </div>
         );
 };
