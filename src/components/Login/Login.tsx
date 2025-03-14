@@ -112,7 +112,7 @@ function Login()
 
 	
     return(
-        <div id="loginDiv" className="container-fluid">
+        <div id="loginDiv" className="form-group">
             <span id="inner-title">Login</span><br />
 
             Email: <input type="text" id="emailName" placeholder="Email"
