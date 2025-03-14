@@ -258,7 +258,7 @@ function Login()
             <br /> 
 
             <input type="submit" id="loginButton" className="buttons" value = "Do It"
-                onClick={doLogin} />
+                onClick={validLogin} />
  
             <span id="loginResult">{message}</span>
 
