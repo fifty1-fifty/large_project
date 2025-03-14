@@ -74,7 +74,7 @@ function Login()
             {method:'POST',body:js,headers:{'Content-Type': 'application/json'}})
             var res = JSON.parse(await response.text());
 
-            if( res.id <= 0 )
+            if( res.id <= 0 || res.status == 401)
             {
                 setMessage('User/Password combination incorrect');
             }
@@ -176,7 +176,7 @@ function Login()
 
     return(
         <div id="loginDiv">
-            <span id="inner-title">PLEASE LOG IN</span><br />
+            <span id="inner-title">Login</span><br />
 
             Email: <input type="text" id="emailName" placeholder="Email"
                 onChange={handleSetLoginEmail} />
