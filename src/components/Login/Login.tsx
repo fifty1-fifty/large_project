@@ -35,6 +35,19 @@ function Login()
 
     async function doLogin(event:any) : Promise<void>
     {
+		var loginState = validLogin(login, password, email);
+		if(loginState === 0)
+		{
+			setMessage("Invalid Credentials");
+			return;
+		}
+		else if(loginState === 1)
+		{
+			setMessage("Login credentials are blank");
+		}
+			
+		
+		
         event.preventDefault();
         var obj = {login:loginName,password:loginPassword,email:emailName};
         var js = JSON.stringify(obj);
@@ -67,6 +80,49 @@ function Login()
             return;
         }
     };
+	
+	
+	validLogin(username, password, email)
+	{
+		if(username == "")
+		{
+			return 0;
+			//res.status(401).json({ error: "First name is blank" });
+		}
+		
+		if(password == "")
+		{
+			return 0;
+			//res.status(401).json({ error: "Last name is blank" });
+		}
+		
+		if(email == "")
+		{
+			return 0;
+			//res.status(401).json({ error: "Email name is blank" });
+		}
+		else
+		{
+			var regex = /^([a-zA-Z0-9_\-\.]+)@([a-zA-Z0-9_\-\.]+)\.([a-zA-Z]{2,5})$/;
+			if(regex.test(regemail) == false)
+			{
+				return 0;
+				//res.status(401).json({ error: "Email is invalid" });
+			}
+			else
+			{
+				return 1;
+			}
+		}
+	}
+
+
+
+
+
+
+
+
 
 
   /*  async function newLogin(newLoginData:JSON) : Promise<void>
@@ -98,8 +154,6 @@ function Login()
             return;
         }
      };*/
-
-
 
 
 
@@ -240,5 +294,3 @@ function Login()
  
         </div>
         );
-};
-export default Login;
