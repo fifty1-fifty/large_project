@@ -199,8 +199,6 @@ function Login()
             <span id="loginResult">{message}</span>
 
 
-            <br /> <br /> <br /> 
-
             <span id="inner-title">Registration</span><br />
 
             First Name: <input type="text" id="registerFirstName" placeholder="First Name" value={firstName}
