@@ -1,7 +1,7 @@
-import React, { useState } from 'react';
+//import React, { useState } from 'react';
 
 const app_name = 'group22cop4331c.xyz';
-function buildPath(route:string) : string
+/*function buildPath(route:string) : string
 {
     if (process.env.NODE_ENV != 'development')
     {
@@ -11,7 +11,7 @@ function buildPath(route:string) : string
     {
         return 'http://localhost:5000/' + route;
     }
-}
+}*/
 
 
 function Home()
@@ -24,11 +24,11 @@ function Home()
 
             Login <br />
             <input type="submit" id="loginButton" className="buttons" value = "Login"
-                onClick={gotoLogin} />
+                /*onClick={gotoLogin}*/ />
 
             Signup <br />
             <input type="submit" id="singupButton" className="buttons" value = "Register"
-                onClick={gotoSignup} />
+                /*onClick={gotoSignup}*/ />
             
         </div>
         );
