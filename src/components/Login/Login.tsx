@@ -116,19 +116,19 @@ function Login()
             
 
 	    <div className="form-group">
-	    <label for="Email">Email address:</label>    
+	    <label htmlFor="Email">Email address:</label>    
             <input type="text" id="emailName" placeholder="Email"
                 onChange={handleSetLoginEmail} />
            </div>
 
 	   <div className="form-group">
-	   <label for="loginName">loginName</label>
+	   <label htmlFor="loginName">loginName</label>
            <input type="text" id="loginName" placeholder="Username"
                 onChange={handleSetLoginName} />
 	    </div>
            
             <div className="form-group">
-	    <label for="loginPassword">loginName</label>
+	    <label htmlFor="loginPassword">loginName</label>
             <input type="password" id="loginPassword" placeholder="Password"
                 onChange={handleSetPassword} />
 	     </div>
