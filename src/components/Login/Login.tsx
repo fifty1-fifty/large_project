@@ -36,6 +36,7 @@ function Login()
 
     async function doLogin(event:any) : Promise<void>
     {
+	    console.log("im gat");
 		var loginState = validLogin(login, password, email);
 		if(loginState == 0)
 		{
