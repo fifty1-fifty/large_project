@@ -178,7 +178,6 @@ function Login()
         <div id="loginDiv">
             <span id="inner-title">PLEASE LOG IN</span><br />
 
-
             Email: <input type="text" id="emailName" placeholder="Email"
                 onChange={handleSetLoginEmail} />
 
@@ -192,11 +191,12 @@ function Login()
             Password: <input type="password" id="loginPassword" placeholder="Password"
                 onChange={handleSetPassword} />
 
+            <br /> 
+
             <input type="submit" id="loginButton" className="buttons" value = "Do It"
                 onClick={doLogin} />
  
             <span id="loginResult">{message}</span>
-
 
 
             <br /> <br /> <br /> 
@@ -206,25 +206,31 @@ function Login()
             First Name: <input type="text" id="registerFirstName" placeholder="First Name" value={firstName}
                 onChange={handleSetRegisterFirstName} />
 
+            <br /> 
+
             Last Name: <input type="text" id="registerLastName" placeholder="Last Name" value={lastName}
                 onChange={handleSetRegisterLastName} />
 
-            <br /> <br />
+            <br />
 
             Email: <input type="text" id="registerEmail" placeholder="Enter Email" value={registerEmail}
                 onChange={handleSetRegisterEmail} />
 
+            <br /> 
+
             Username: <input type="text" id="registerUserName" placeholder="New Username" value={registerUserName}
                 onChange={handleSetRegisterUserName} />
+
+            <br /> 
 
             Password: <input type="password" id="registerPassword" placeholder="New Password" value={registerPassword}
                 onChange={handleSetRegisterPassword} />
 
+            <br /> 
+
             <input type="submit" id="registerButton" className="buttons" value = "Get Goin"
                 onClick={doRegister} />    
-
-        
-            
+ 
         </div>
         );
 };
