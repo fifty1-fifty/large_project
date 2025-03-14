@@ -59,6 +59,8 @@ function Login()
 
         const res = await response.json();
 
+        console.log(res.id);
+           
         // Ensure `res.id` exists before setting local storage and redirecting
         if (!res.id || res.id <= 0) {
             setMessage('User/Password combination incorrect');
