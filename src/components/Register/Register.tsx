@@ -1,4 +1,4 @@
-//import React, { useState } from 'react';
+import React, { useState } from 'react';
 //import { Buffer } from 'buffer';
 //import isEmail from 'isemail';
 
@@ -20,7 +20,7 @@ function buildPath(route:string) : string
 
 function Register()
 {
-    //const [message,setMessage] = useState('');
+    const [message,setMessage] = useState('');
     
    const [firstName,setFirstName] = React.useState('');
    const [lastName,setLastName] = React.useState('');
@@ -43,6 +43,7 @@ function Register()
 
       try
       {
+          setMessage("IM gay"); //this is stupid
           const response = await fetch(buildPath('/api/register'),
           {method:'POST',body:js,headers:{'Content-Type': 'application/json'}})
           console.log(response);
