@@ -44,7 +44,7 @@ function Login()
             {method:'POST',body:js,headers:{'Content-Type': 'application/json'}})
             var res = JSON.parse(await response.text());
 
-            if( res.id <= 0 )
+            if( res.id <= 0 || res.status == 401 )
             {
                 setMessage('User/Password combination incorrect');
             }
@@ -64,7 +64,7 @@ function Login()
         }
     };
 
-    async function newLogin(newLoginData:JSON) : Promise<void>
+  /*  async function newLogin(newLoginData:JSON) : Promise<void>
     {
         var obj = newLoginData
         var js = JSON.stringify(obj);
@@ -74,7 +74,7 @@ function Login()
             {method:'POST',body:js,headers:{'Content-Type': 'application/json'}})
             var res = JSON.parse(await response.text());
 
-            if( res.id <= 0 || res.status == 401)
+            if( res.id <= 0)
             {
                 setMessage('User/Password combination incorrect');
             }
@@ -92,7 +92,7 @@ function Login()
             alert(error.toString());
             return;
         }
-     };
+     };*/
 
 
 
