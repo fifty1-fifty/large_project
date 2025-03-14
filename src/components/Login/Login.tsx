@@ -20,6 +20,7 @@ function buildPath(route:string) : string
 
 function Login()
 {
+    console.log("im gat");
     const [message,setMessage] = useState('');
 
     const [emailName,setLoginEmail] = React.useState('');
