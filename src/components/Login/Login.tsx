@@ -115,23 +115,28 @@ function Login()
         <div id="loginDiv" className="form-group">
             <span id="inner-title">Login</span><br />
 
-            Email: <input type="text" id="emailName" placeholder="Email"
+	    <label for="emailName">Email Address:</label>
+            <input type="text" id="emailName" placeholder="Email"
                 onChange={handleSetLoginEmail} />
 
-            <br /> 
-            
-            Username: <input type="text" id="loginName" placeholder="Username"
+           
+
+	   <label for="loginName">Username:</label>
+           <input type="text" id="loginName" placeholder="Username"
                 onChange={handleSetLoginName} />
 
-            <br /> 
-            
-            Password: <input type="password" id="loginPassword" placeholder="Password"
+           
+            <label for="loginPassword">Password:</label>
+            <input type="password" id="loginPassword" placeholder="Password"
                 onChange={handleSetPassword} />
 
-            <br /> 
+           
 
-            <input type="submit" id="loginButton" className="buttons" value = "Do It"
+            <input type="submit" id="loginButton" className="buttons" value = "Login"
                 onClick={doLogin} />
+
+	     <input type="submit" id="signupButton" className="buttons" value = "Signup Here"
+                />	
  
             <span id="loginResult">{message}</span> 
         </div>
