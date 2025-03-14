@@ -112,7 +112,7 @@ function Login()
 
 	
     return(
-	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
+	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css"> </link>
 	    
         <div id="loginDiv" class="container-fluid">
             <span id="inner-title">Login</span><br />
@@ -138,5 +138,5 @@ function Login()
             <span id="loginResult">{message}</span>
         </div>
         );
-};
+}
 export default Login;
