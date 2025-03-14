@@ -46,6 +46,8 @@ function Login()
             headers: { 'Content-Type': 'application/json' }
         });
 
+           console.log(response);
+
         // If 401 Unauthorized, prevent navigation
         if (response.status === 401) {
             setMessage('User/Password combination incorrect');
