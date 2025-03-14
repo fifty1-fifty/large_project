@@ -83,7 +83,7 @@ function Login()
     };
 	
 	
-	validLogin(username, password, email)
+	function validLogin(username, password, email)
 	{
 		if(username == "")
 		{
