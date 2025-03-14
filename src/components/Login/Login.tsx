@@ -33,36 +33,54 @@ function Login()
     const [registerPassword,setRegisterPassword] = React.useState('');
     
 
-    async function doLogin(event:any) : Promise<void>
-    {
+   async function doLogin(event: any): Promise<void> 
+   {
         event.preventDefault();
-        var obj = {login:loginName,password:loginPassword, email:emailName};
-        var js = JSON.stringify(obj);
-        try
-        {
-            const response = await fetch(buildPath('/api/login'),
-            {method:'POST',body:js,headers:{'Content-Type': 'application/json'}})
-            var res = JSON.parse(await response.text());
+        const obj = { login: loginName, password: loginPassword, email: emailName };
+        const js = JSON.stringify(obj);
 
-            if( res.id <= 0 || res.status === 401 )
-            {
-                setMessage('User/Password combination incorrect');
-            }
-            else
-            {
-                var user =
-                {firstName:res.firstName,lastName:res.lastName,id:res.id}
-                localStorage.setItem('user_data', JSON.stringify(user));
-                setMessage('');
-                window.location.href = '/cards';
-             }
-        }
-        catch(error:any)
+        try {
+                const response = await fetch(buildPath('/api/login'), {
+                method: 'POST',
+                body: js,
+                headers: { 'Content-Type': 'application/json' }
+            });
+
+        // Handle 401 Unauthorized properly
+        if (response.status === 401) 
         {
-            alert(error.toString());
-            return;
+            setMessage('User/Password combination incorrect');
+            return; // Prevent navigation
         }
-    };
+
+        // Ensure the response is okay before parsing
+        if (!response.ok) 
+        {
+            throw new Error(`HTTP error! Status: ${response.status}`);
+        }
+
+        const res = await response.json(); // Parse JSON safely
+
+        if (res.id <= 0) 
+        {
+            setMessage('User/Password combination incorrect');
+        } 
+        else 
+        {
+            const user = {
+                firstName: res.firstName,
+                lastName: res.lastName,
+                id: res.id
+            };
+            localStorage.setItem('user_data', JSON.stringify(user));
+            setMessage('');
+            window.location.href = '/cards';
+        }
+    } catch (error: any) {
+        alert(`Login failed: ${error.message}`);
+    }
+};
+
 
   /*  async function newLogin(newLoginData:JSON) : Promise<void>
     {
