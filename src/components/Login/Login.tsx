@@ -21,6 +21,8 @@ function buildPath(route:string) : string
 function Login()
 {
     const [message,setMessage] = useState('');
+
+    const [emailName,setLoginEmail] = React.useState('');
     const [loginName,setLoginName] = React.useState('');
     const [loginPassword,setPassword] = React.useState('');
 
@@ -135,6 +137,15 @@ function Login()
         setPassword( e.target.value );
     }
 
+    function handleSetLoginEmail( e: any ) : void
+    {
+        setLoginEmail( e.target.value );
+    }
+
+
+
+
+    
     function handleSetRegisterFirstName( e: any ) : void
     {
         setFirstName( e.target.value );
@@ -166,9 +177,18 @@ function Login()
     return(
         <div id="loginDiv">
             <span id="inner-title">PLEASE LOG IN</span><br />
-            Login: <input type="text" id="loginName" placeholder="Username"
+
+
+            Email: <input type="text" id="emailName" placeholder="Email"
+                onChange={handleSetLoginEmail} />
+
+            <br /> 
+            
+            Username: <input type="text" id="loginName" placeholder="Username"
                 onChange={handleSetLoginName} />
 
+            <br /> 
+            
             Password: <input type="password" id="loginPassword" placeholder="Password"
                 onChange={handleSetPassword} />
 
