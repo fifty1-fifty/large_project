@@ -105,12 +105,16 @@ function Login()
 
     async function doRegister(event:any) : Promise<void>
     {
+
+        
         event.preventDefault();
 
         if(!isEmail.validate(registerEmail)) {
             setMessage("Invalid email");
             return;
         }
+
+        validRegistration(first, last, email, regname, regpassword);
 
         var obj = {first:firstName, last:lastName, email:registerEmail, regname:registerUserName, regpassword:registerPassword}
         var js = JSON.stringify(obj);
