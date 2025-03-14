@@ -1,3 +1,5 @@
+// This file is dedicated to setting up the routing between pages
+
 import { BrowserRouter as Router, Route, Navigate, Routes } from 'react-router-dom';
 import './App.css';
 import LoginPage from './pages/LoginPage';
