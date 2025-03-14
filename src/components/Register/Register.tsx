@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import isEmail from 'isemail';
+//import isEmail from 'isemail';
 
 
 const app_name = 'group22cop4331c.xyz';
@@ -31,11 +31,11 @@ function Register()
   {
       event.preventDefault();
 
-      if(!isEmail.validate(registerEmail)) 
+      /*if(!isEmail.validate(registerEmail)) 
       {
           setMessage("Invalid email");
           return;
-      }
+      } */
 
       var obj = {first:firstName, last:lastName, email:registerEmail, regname:registerUserName, regpassword:registerPassword}
       var js = JSON.stringify(obj);
