@@ -36,7 +36,7 @@ function Login()
     async function doLogin(event:any) : Promise<void>
     {
         event.preventDefault();
-        var obj = {login:loginName,password:loginPassword};
+        var obj = {login:loginName,password:loginPassword, email:emailName};
         var js = JSON.stringify(obj);
         try
         {
