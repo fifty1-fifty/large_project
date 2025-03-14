@@ -38,6 +38,7 @@ function Login()
 		var loginState = validLogin(login, password, email);
 		if(loginState === 0)
 		{
+			console.log("iamahga");
 			setMessage("Invalid Credentials");
 			return;
 		}
