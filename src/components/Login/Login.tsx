@@ -44,7 +44,7 @@ function Login()
             {method:'POST',body:js,headers:{'Content-Type': 'application/json'}})
             var res = JSON.parse(await response.text());
 
-            if( res.id <= 0 || res.status == 401 )
+            if( res.id <= 0 || res.status === 401 )
             {
                 setMessage('User/Password combination incorrect');
             }
