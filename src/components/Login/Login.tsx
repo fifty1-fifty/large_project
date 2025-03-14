@@ -27,11 +27,11 @@ function Login()
     const [loginName,setLoginName] = React.useState('');
     const [loginPassword,setPassword] = React.useState('');
 
-    const [firstName,setFirstName] = React.useState('');
+    /*const [firstName,setFirstName] = React.useState('');
     const [lastName,setLastName] = React.useState('');
     const [registerEmail,setEmail] = React.useState('');
     const [registerUserName,setRegisterName] = React.useState('');
-    const [registerPassword,setRegisterPassword] = React.useState('');
+    const [registerPassword,setRegisterPassword] = React.useState('');*/
     
 
     async function doLogin(event:any) : Promise<void>
