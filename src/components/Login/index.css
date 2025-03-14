@@ -1,0 +1,71 @@
+/* Center the form */
+.login-container {
+  width: 100%;
+  max-width: 350px;
+  margin: 50px auto;
+  padding: 20px;
+  background: #fff;
+  border-radius: 8px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  text-align: center;
+}
+
+/* Style form groups */
+.form-group {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  margin-bottom: 15px;
+}
+
+/* Style labels */
+.form-group label {
+  font-size: 14px;
+  font-weight: 600;
+  margin-bottom: 5px;
+  color: #333;
+}
+
+/* Style input fields */
+.form-group input {
+  width: 100%;
+  padding: 10px;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+  font-size: 14px;
+}
+
+/* Style buttons */
+button {
+  width: 100%;
+  padding: 10px;
+  border: none;
+  border-radius: 5px;
+  font-size: 16px;
+  font-weight: 600;
+  cursor: pointer;
+  margin-top: 10px;
+}
+
+#loginButton {
+  background: #007bff;
+  color: white;
+}
+
+#signupButton {
+  background: #f8f9fa;
+  color: #333;
+  border: 1px solid #ccc;
+}
+
+button:hover {
+  opacity: 0.9;
+}
+
+/* Error message styling */
+#loginResult {
+  display: block;
+  margin-top: 10px;
+  font-size: 14px;
+  color: red;
+}
