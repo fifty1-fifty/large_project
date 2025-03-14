@@ -117,8 +117,6 @@ function Login()
             return;
         }
 
-        validRegistration(first, last, email, regname, regpassword);
-
         var obj = {first:firstName, last:lastName, email:registerEmail, regname:registerUserName, regpassword:registerPassword}
         var js = JSON.stringify(obj);
 
