@@ -40,23 +40,23 @@ function Login()
         const js = JSON.stringify(obj);
 
         try {
-                const response = await fetch(buildPath('/api/login'), {
+                const res = await fetch(buildPath('/api/login'), {
                 method: 'POST',
                 body: js,
                 headers: { 'Content-Type': 'application/json' }
             });
 
         // Handle 401 Unauthorized properly
-        if (response.status === 401) 
+        if (res.status === 401) 
         {
             setMessage('User/Password combination incorrect');
             return; // Prevent navigation
         }
 
         // Ensure the response is okay before parsing
-        if (!response.ok) 
+        if (!res.ok) 
         {
-            throw new Error(`HTTP error! Status: ${response.status}`);
+            throw new Error(`HTTP error! Status: ${res.status}`);
         }
 
         const res = await response.json(); // Parse JSON safely
