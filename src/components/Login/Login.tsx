@@ -112,31 +112,31 @@ function Login()
 
 	
     return(
-        <div id="loginDiv" className="form-group">
-            <span id="inner-title">Login</span><br />
+        <div id="loginDiv">
+            
 
-	   
+	    <div className="form-group">
+	    <label for="Email">Email address:</label>    
             <input type="text" id="emailName" placeholder="Email"
                 onChange={handleSetLoginEmail} />
+           </div>
 
-           
-
-	 
+	   <div className="form-group">
+	   <label for="loginName">loginName</label>
            <input type="text" id="loginName" placeholder="Username"
                 onChange={handleSetLoginName} />
-
+	    </div>
            
-          
+            <div className="form-group">
+	    <label for="loginPassword">loginName</label>
             <input type="password" id="loginPassword" placeholder="Password"
                 onChange={handleSetPassword} />
-
+	     </div>
            
-
             <input type="submit" id="loginButton" className="buttons" value = "Login"
                 onClick={doLogin} />
 
-	     <input type="submit" id="signupButton" className="buttons" value = "Signup Here"
-                />	
+	     <input type="submit" id="signupButton" className="buttons" value = "Signup Here"/>	
  
             <span id="loginResult">{message}</span> 
         </div>
