@@ -126,7 +126,7 @@ function Login()
             {method:'POST',body:js,headers:{'Content-Type': 'application/json'}})
             var res = JSON.parse(await response.text());
 
-            newLogin(res);
+            //newLogin(res);
         }
         catch(error:any)
         {
