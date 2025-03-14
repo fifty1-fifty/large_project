@@ -145,5 +145,6 @@ function Login()
 
   <span id="loginResult" className="text-red-500 mt-3">{message}</span>
 </div>
+	    );
 }
 export default Login;
