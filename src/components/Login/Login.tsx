@@ -74,7 +74,7 @@ function Login()
             const user = { firstName: res.firstName, lastName: res.lastName, id: res.id };
             localStorage.setItem('user_data', JSON.stringify(user));
             setMessage('');
-            window.location.href = '/cards'; // ⬅️ Only executes on valid login
+            //window.location.href = '/cards'; // ⬅️ Only executes on valid login
         }
             
 
