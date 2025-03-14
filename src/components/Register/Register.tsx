@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+//import React, { useState } from 'react';
 import isEmail from 'isemail';
 
 
@@ -17,7 +17,7 @@ function buildPath(route:string) : string
     }
 }
 
-function Register()
+function doRegister()
 {
    const [firstName,setFirstName] = React.useState('');
    const [lastName,setLastName] = React.useState('');
@@ -108,7 +108,8 @@ function Register()
 
             <input type="submit" id="registerButton" className="buttons" value = "Get Goin"
                 onClick={doRegister} />    
- 
+        
+         <span id="signupResult">{message}</span>
         </div>
         );
 }
