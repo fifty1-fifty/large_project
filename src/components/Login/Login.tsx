@@ -39,44 +39,40 @@ function Login()
         const obj = { login: loginName, password: loginPassword, email: emailName };
         const js = JSON.stringify(obj);
 
-        try {
-                const res = await fetch(buildPath('/api/login'), {
-                method: 'POST',
-                body: js,
-                headers: { 'Content-Type': 'application/json' }
-            });
+       try {
+        const response = await fetch(buildPath('/api/login'), {
+            method: 'POST',
+            body: js,
+            headers: { 'Content-Type': 'application/json' }
+        });
 
-        // Handle 401 Unauthorized properly
-        if (res.status === 401) 
-        {
+        // If 401 Unauthorized, prevent navigation
+        if (response.status === 401) {
             setMessage('User/Password combination incorrect');
-            return; // Prevent navigation
+            return;  // ⬅️ This must stop further execution
         }
 
-        // Ensure the response is okay before parsing
-        if (!res.ok) 
-        {
-            throw new Error(`HTTP error! Status: ${res.status}`);
+        // Ensure response is successful before parsing JSON
+        if (!response.ok) {
+            throw new Error(`HTTP error! Status: ${response.status}`);
         }
 
-        const res = await response.json(); // Parse JSON safely
+        const res = await response.json();
 
-        if (res.id <= 0) 
-        {
+        // Ensure `res.id` exists before setting local storage and redirecting
+        if (!res.id || res.id <= 0) {
             setMessage('User/Password combination incorrect');
-        } 
-        else 
-        {
-            const user = {
-                firstName: res.firstName,
-                lastName: res.lastName,
-                id: res.id
-            };
-            localStorage.setItem('user_data', JSON.stringify(user));
-            setMessage('');
-            window.location.href = '/cards';
+            return; // ⬅️ Stops redirection
         }
-    } catch (error: any) {
+
+        // Store user data & navigate only on successful login
+        const user = { firstName: res.firstName, lastName: res.lastName, id: res.id };
+        localStorage.setItem('user_data', JSON.stringify(user));
+        setMessage('');
+        window.location.href = '/cards'; // ⬅️ Only executes on valid login
+           
+    } 
+       catch (error: any) {
         alert(`Login failed: ${error.message}`);
     }
 };
