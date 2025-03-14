@@ -112,7 +112,7 @@ function Login()
 
 	
     return(
-        <div id="loginDiv">
+        <div id="loginDiv" className = "container-fluid">
             
 
 	    <div className="form-group">
@@ -122,13 +122,13 @@ function Login()
            </div>
 
 	   <div className="form-group">
-	   <label htmlFor="loginName">loginName</label>
+	   <label htmlFor="loginName">Username</label>
            <input type="text" id="loginName" placeholder="Username"
                 onChange={handleSetLoginName} />
 	    </div>
            
             <div className="form-group">
-	    <label htmlFor="loginPassword">loginName</label>
+	    <label htmlFor="loginPassword">Password</label>
             <input type="password" id="loginPassword" placeholder="Password"
                 onChange={handleSetPassword} />
 	     </div>
