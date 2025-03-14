@@ -36,13 +36,13 @@ function Login()
     async function doLogin(event:any) : Promise<void>
     {
 		var loginState = validLogin(login, password, email);
-		if(loginState === 0)
+		if(loginState == 0)
 		{
 			console.log("iamahga");
 			setMessage("Invalid Credentials");
 			return;
 		}
-		else if(loginState === 1)
+		else if(loginState == 1)
 		{
 			setMessage("Login credentials are blank");
 		}
