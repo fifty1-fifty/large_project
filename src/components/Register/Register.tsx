@@ -88,7 +88,7 @@ function Register()
         
     <h2>Signup Below</h2>
 
-            <div className="form-group>
+            <div className="form-group">
             <label htmlFor="registerFirstName">FirstName</label>
             <input type="text" id="registerFirstName" placeholder="First Name" value={firstName}
                 onChange={handleSetRegisterFirstName} />
