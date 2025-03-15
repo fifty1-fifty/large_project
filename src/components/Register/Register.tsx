@@ -84,34 +84,44 @@ function Register()
   }
 
   return(
-    <div id = "signupDiv">
-    <span id="inner-title">Registration</span><br />
+    <div id = "signupDiv" className="signup-container>
+        
+    <h2>Signup Below</h2>
 
-            First Name: <input type="text" id="registerFirstName" placeholder="First Name" value={firstName}
+            <div className="form-group>
+            <label htmlFor="registerFirstName">FirstName</label>
+            <input type="text" id="registerFirstName" placeholder="First Name" value={firstName}
                 onChange={handleSetRegisterFirstName} />
+            </div>
 
-            <br /> 
+         
 
-            Last Name: <input type="text" id="registerLastName" placeholder="Last Name" value={lastName}
+            <div className="form-group">
+            <label htmlFor="registerLastName">Last Name</label>
+            <input type="text" id="registerLastName" placeholder="Last Name" value={lastName}
                 onChange={handleSetRegisterLastName} />
-
-            <br />
-
-            Email: <input type="text" id="registerEmail" placeholder="Enter Email" value={registerEmail}
+            </div>
+            
+            <div className="form-group">
+            <label htmlFor="registerEmail">Email</label>
+            <input type="text" id="registerEmail" placeholder="Enter Email" value={registerEmail}
                 onChange={handleSetRegisterEmail} />
+            </div>
 
-            <br /> 
-
-            Username: <input type="text" id="registerUserName" placeholder="New Username" value={registerUserName}
+           
+            <div className="form-group">
+            <label htmlFor="registerUserName">Email</label>
+            <input type="text" id="registerUserName" placeholder="New Username" value={registerUserName}
                 onChange={handleSetRegisterUserName} />
+            </div>
 
-            <br /> 
 
-            Password: <input type="password" id="registerPassword" placeholder="New Password" value={registerPassword}
+            <div className="form-group">
+            <label htmlFor="registerPassword">Password</label>
+            <input type="password" id="registerPassword" placeholder="New Password" value={registerPassword}
                 onChange={handleSetRegisterPassword} />
 
-            <br /> 
-
+                
             <input type="submit" id="registerButton" className="buttons" value = "Get Goin"
                 onClick={doRegister} />    
         
