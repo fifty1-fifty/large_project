@@ -120,6 +120,7 @@ function Register()
             <label htmlFor="registerPassword">Password</label>
             <input type="password" id="registerPassword" placeholder="New Password" value={registerPassword}
                 onChange={handleSetRegisterPassword} />
+            </div>
 
                 
             <input type="submit" id="registerButton" className="buttons" value = "Get Goin"
