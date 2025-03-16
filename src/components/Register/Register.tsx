@@ -38,7 +38,7 @@ function Register()
           return;
       } */
 
-      var obj = {first:firstName, last:lastName, email:registerEmail, regname:registerUserName, regpassword:registerPassword}
+      var obj = {first:firstName, last:lastName, regemail:registerEmail, regname:registerUserName, regpassword:registerPassword}
       var js = JSON.stringify(obj);
 
       try
