@@ -1,0 +1,26 @@
+
+/* CSS for the background of the explore search grid */
+.photo-container
+{
+  background-color: rgb(255, 255, 255);;
+}
+
+/*CSS for the frame around the photoframes*/
+.photo-card 
+{
+    background: none;
+    border: 0;
+    justify-content: center;
+    align-items: center;
+    height: 100%; /* Ensures the card fills its parent */
+    width: 100%;
+    position: relative;
+  }
+  
+/* CSS for the actual image within the frame */  
+.card-img-top
+{
+ 
+  width: 160%;
+}
+  

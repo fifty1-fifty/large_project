@@ -3,9 +3,8 @@
 import { BrowserRouter as Router, Route, Navigate, Routes } from 'react-router-dom';
 import './App.css';
 import LoginPage from './pages/LoginPage';
-import CardPage from './pages/CardPage';
-import FriendPage from './pages/FriendPage';
 import RegisterPage from './pages/RegisterPage';
+import ExplorePage from './pages/ExplorePage';
 
 
 function App() {
@@ -14,8 +13,8 @@ function App() {
       <Routes>
         <Route path="/login" element={<LoginPage />} />
         <Route path="/signup" element={<RegisterPage />} />
-        <Route path="/cards" element={<CardPage />} />
-        <Route path="/friends" element={<FriendPage />} />
+        <Route path="/explore" element={<ExplorePage />} />
+        
         <Route path="/" element={<Navigate to="/login" />} /> 
         <Route path="*" element={<Navigate to="/login" />} /> 
       </Routes>
