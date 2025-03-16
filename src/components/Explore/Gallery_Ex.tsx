@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
 import './Gallery_Ex.css'
-import ajfa from './photo/ajfa.jpg'
+
 
 interface Photo 
 {
@@ -16,8 +16,8 @@ const PhotoGallery: React.FC = () => {
   useEffect(() => {
     const photoData: Photo[] = [
       { src: "./", title: "Photo 1" },
-      { src: ajfa, title: "Photo 2" },
-      { src: "ajfa", title: "Photo 3" },
+      { src: "https://via.placeholder.com/300", title: "Photo 2" },
+      { src: "https://via.placeholder.com/300", title: "Photo 3" },
       { src: "https://via.placeholder.com/300", title: "Photo 4" },
       { src: "https://via.placeholder.com/300", title: "Photo 5" },
       { src: "https://via.placeholder.com/300", title: "Photo 6" },
