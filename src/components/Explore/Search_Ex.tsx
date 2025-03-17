@@ -1,4 +1,4 @@
-chimport React, { useState } from 'react';
+import React, { useState } from 'react';
 //import isEmail from 'isemail';
 import "./Search_Ex.css"
 
