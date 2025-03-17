@@ -1,7 +1,6 @@
 import React, { useState } from 'react';
 import axios from 'axios';
-
-import Search_Ex from './Search_Ex';
+import Search_Ex from './Search_E';
 import Gallery_Ex from './Gallery_Ex';
 
 const App = () => {
