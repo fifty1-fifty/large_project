@@ -48,15 +48,16 @@ function Search()
         setSearchQuery( e.target.value );
         console.log("killMe");
     }
+
+   
             
-    
     return (
         <div className="search-container">
             <label htmlFor="searchbar">Discover</label>
             <div className="form-group">
-                <input type="text" id="searchbar" placeholder="Discover"/>
+                <input type="text" id="searchbar" placeholder="Discover" onChange={handleSetSearchQuery}/>
             </div>
-            <button id="searchButton" onClick={handleSetSearchQuery}>Search</button>
+            <button id="searchButton" onClick={doSearch}>Search</button>
         </div>
 
     );
