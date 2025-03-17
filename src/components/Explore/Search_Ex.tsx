@@ -24,10 +24,10 @@ function buildPath(route:string) : string
 
         
 }*/
-
+  const [search, setSearchQuery] = React.useState('');
   async function doSearch(event:any) : Promise<void>
     {
-        const [search, setSearchQuery] = React.useState('');
+        
         event.preventDefault();
         var obj = {searchQuery:search};
         var js = JSON.stringify(obj);
