@@ -28,6 +28,7 @@ function Search()
     functionn handleSetSearchQuery( e: any ) : void
     {
         setSearchQuery( e.target.value );
+        console.log("killMe");
     }
             
     
