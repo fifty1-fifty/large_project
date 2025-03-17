@@ -15,7 +15,7 @@ function buildPath(route:string) : string
     {
         return 'http://localhost:5000/' + route;
     }
-} */
+} 
 import "./Search_Ex.css"
 
 function Search()
