@@ -1,11 +1,11 @@
-import React from "react";
+//import React from "react";
 import './Gallery_Ex.css'
 
-interface Photo 
+/*interface Photo 
 {
   src: string;
   title: string;
-}
+}*/
 
 const Gallery_Ex = (props) => {
   
@@ -50,4 +50,4 @@ const Gallery_Ex = (props) => {
   return <h3> {props.data}</h3>;
 };
 
-export default PhotoGallery;
+export default Gallery_Ex;
