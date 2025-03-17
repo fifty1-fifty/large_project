@@ -7,7 +7,7 @@ const Mediator = () => {
     <div className="Mediator">
             <h1>testtesttest</h1>
             <h3>This is App.js Component</h3>
-            <Parent />
+            <Search_Ex />
         </div>
     );
 };
