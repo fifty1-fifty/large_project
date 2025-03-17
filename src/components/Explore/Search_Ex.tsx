@@ -19,14 +19,15 @@ function buildPath(route:string) : string
     }
 } 
 
-
-function Search()
+/*function Search()
 {
-    const [search, setSearchQuery] = React.useState('');
 
+        
+}*/
 
-    async function doSearch(event:any) : Promise<void>
+  async function doSearch(event:any) : Promise<void>
     {
+        const [search, setSearchQuery] = React.useState('');
         event.preventDefault();
         var obj = {searchQuery:search};
         var js = JSON.stringify(obj);
@@ -45,15 +46,12 @@ function Search()
            	return;
         }
     }
-            
-        
 
-    function handleSetSearchQuery( e: any ) : void
+ function handleSetSearchQuery( e: any ) : void
     {
         setSearchQuery( e.target.value );
         console.log("killMe");
     }
-}
 
 const Parent = () => {
     const data = "testestest" 
