@@ -56,7 +56,7 @@ function Search()
 }
 
 const Parent = () => {
-    cosnt data = "testestest" 
+    const data = "testestest" 
     return (
         <div className="search-container">
             <label htmlFor="searchbar">Discover</label>
