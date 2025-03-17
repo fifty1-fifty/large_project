@@ -56,7 +56,7 @@ function Search()
             
     return (
         <div className="search-container">
-            <label htmlFor="searchbar">Tits Up</label>
+            <label htmlFor="searchbar">Discover</label>
             <div className="form-group">
                 <input type="text" id="searchbar" placeholder="Discover" onChange={handleSetSearchQuery}/>
             </div>
