@@ -1,8 +1,6 @@
 import React from 'react';
-import Gallery_Ex from './Gallery_Ex';
-
+//import isEmail from 'isemail';
 import "./Search_Ex.css"
-
 
 const app_name = 'group22cop4331c.xyz';
 
@@ -19,15 +17,14 @@ function buildPath(route:string) : string
     }
 } 
 
-/*function Search()
-{
 
-        
-}*/
-  const [search, setSearchQuery] = React.useState('');
-  async function doSearch(event:any) : Promise<void>
+function Search()
+{
+    const [search, setSearchQuery] = React.useState('');
+
+
+    async function doSearch(event:any) : Promise<void>
     {
-        
         event.preventDefault();
         var obj = {searchQuery:search};
         var js = JSON.stringify(obj);
@@ -46,24 +43,26 @@ function buildPath(route:string) : string
            	return;
         }
     }
+            
+        
 
- function handleSetSearchQuery( e: any ) : void
+    function handleSetSearchQuery( e: any ) : void
     {
         setSearchQuery( e.target.value );
         console.log("killMe");
     }
 
-const Parent = () => {
-    const data = "testestest" 
+   
+            
     return (
         <div className="search-container">
-            <label htmlFor="searchbar">Discover</label>
+            <label htmlFor="searchbar">Tits Up</label>
             <div className="form-group">
                 <input type="text" id="searchbar" placeholder="Discover" onChange={handleSetSearchQuery}/>
             </div>
             <button id="searchButton" onClick={doSearch}>Search</button>
-            <Gallery_Ex data = {data} />
         </div>
+
     );
-};
-export default Parent;
+}
+export default Search;
