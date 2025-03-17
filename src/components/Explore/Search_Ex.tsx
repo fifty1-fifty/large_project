@@ -32,7 +32,7 @@ const Search_Ex = ({ fetchData }) =>
         <div className="search-container">
             <label htmlFor="searchbar">Discover</label>
             <div className="form-group">
-                <input type="text" id="searchbar" placeholder="Discover" value={input} onChange{(e) => setInput(e.target.value)}/>
+                <input type="text" id="searchbar" placeholder="Discover" value={input} onChange={(e) => setInput(e.target.value)}/>
             </div>
                 <button onClick={handleSearch}>Search</button>
         </div>
