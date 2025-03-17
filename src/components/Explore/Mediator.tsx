@@ -1,4 +1,4 @@
-//import React from 'react';
+/*//import React from 'react';
 import Search_Ex from './Search_Ex';
 
 const Mediator = () => {
@@ -12,4 +12,4 @@ const Mediator = () => {
     );
 };
 
-export default Mediator;
+export default Mediator; */
