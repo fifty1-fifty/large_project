@@ -1,11 +1,11 @@
 //import React, { useState } from 'react';
 //import isEmail from 'isemail';
-
+import "./Search_Ex.css"
 
 const app_name = 'group22cop4331c.xyz';
 
 
-function buildPath(route:string) : string
+/*function buildPath(route:string) : string
 {
     if (process.env.NODE_ENV != 'development')
     {
@@ -15,8 +15,8 @@ function buildPath(route:string) : string
     {
         return 'http://localhost:5000/' + route;
     }
-} 
-import "./Search_Ex.css"
+} */
+
 
 function Search()
 {
