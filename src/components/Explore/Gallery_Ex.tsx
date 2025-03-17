@@ -8,9 +8,9 @@ interface Photo
   title: string;
 }
 
-const PhotoGallery: React.FC = () => {
+const Gallery_Ex: React.FC = ({results}) => {
   // State to hold photo data
-  const [photos, setPhotos] = useState<Photo[]>([]);
+  /*const [photos, setPhotos] = useState<Photo[]>([]);
 
   // Simulate fetching dynamic data
   useEffect(() => {
@@ -41,15 +41,15 @@ const PhotoGallery: React.FC = () => {
       { src: "https://via.placeholder.com/300", title: "pls fucking kill me" }
     ];
     setPhotos(photoData);
-  }, []);
+  }, []); */
 
   return (
     <div className="container photo-container">
       <div className="row">
-        {photos.map((photo, index) => (
+        {results.map((movie) => (
           <div className="col-sm-2" key={index}>
             <div className="card photo-card">
-              <img src={photo.src} className="card-img-top"/>
+              <img src={movie.poster} className="card-img-top"/>
             </div>
           </div>
         ))}
