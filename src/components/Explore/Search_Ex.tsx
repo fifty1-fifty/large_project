@@ -2,7 +2,7 @@
 //import isEmail from 'isemail';
 import "./Search_Ex.css"
 
-const app_name = 'group22cop4331c.xyz';
+//const app_name = 'group22cop4331c.xyz';
 
 
 /*function buildPath(route:string) : string
