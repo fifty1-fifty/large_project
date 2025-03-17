@@ -7,7 +7,7 @@ interface Photo
   title: string;
 }
 
-const PhotoGallery: React.FC = () => {
+const PhotoGallery: React.FC = (props) => {
   // State to hold photo data
   const [photos, setPhotos] = useState<Photo[]>([]);
 
@@ -43,17 +43,7 @@ const PhotoGallery: React.FC = () => {
   }, []);
 
   return (
-    <div className="container photo-container">
-      <div className="row">
-        {photos.map((photo, index) => (
-          <div className="col-sm-2" key={index}>
-            <div className="card photo-card">
-              <img src={photo.src} className="card-img-top"/>
-            </div>
-          </div>
-        ))}
-      </div>
-    </div>
+    <h3> {props.data}</h3>
   );
 };
 
