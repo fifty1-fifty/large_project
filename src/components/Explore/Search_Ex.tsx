@@ -1,42 +1,23 @@
 import React, { useState } from 'react';
 
-import "./Search_Ex.css"
+const SearchComponent = ({ fetchData }) => {
+  const [input, setInput] = useState('');
 
+  const handleSearch = () => {
+    fetchData(input); // Calls API request function in parent
+  };
 
-/*const app_name = 'group22cop4331c.xyz';
-function buildPath(route:string) : string
-{
-    if (process.env.NODE_ENV != 'development')
-    {
-        return 'http://' + app_name + route;
-    }
-    else
-    {
-        return 'http://localhost:5000/' + route;
-    }
-} */
+  return (
+    <div>
+      <input 
+        type="text" 
+        placeholder="Search for a movie..." 
+        value={input} 
+        onChange={(e) => setInput(e.target.value)} 
+      />
+      <button onClick={handleSearch}>Search</button>
+    </div>
+  );
+};
 
-
-const Search_Ex = ({ fetchData }) =>
-{
-    const [search, setSearch] = useState('');
-    
-    const handleSearch = () =>
-    {
-        fetchData(search);
-    };
-            
-
-
-    return (
-        <div className="search-container">
-            <label htmlFor="searchbar">Discover</label>
-            <div className="form-group">
-                <input type="text" id="searchbar" placeholder="Discover" value={input} onChange={(e) => setInput(e.target.value)}/>
-            </div>
-                <button onClick={handleSearch}>Search</button>
-        </div>
-
-    );
-}
-export default Search_Ex;
+export default SearchComponent;
