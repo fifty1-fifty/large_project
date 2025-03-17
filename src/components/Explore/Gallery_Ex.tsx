@@ -1,61 +1,18 @@
-import React, { useState, useEffect } from "react";
-import './Gallery_Ex.css'
+import React from 'react';
 
-
-interface Photo 
-{
-  src: string;
-  title: string;
-}
-
-const Gallery_Ex: React.FC = ({results}) => {
-  // State to hold photo data
-  /*const [photos, setPhotos] = useState<Photo[]>([]);
-
-  // Simulate fetching dynamic data
-  useEffect(() => {
-    const photoData: Photo[] = [
-      { src: "./", title: "Photo 1" },
-      { src: "https://via.placeholder.com/300", title: "Photo 2" },
-      { src: "https://via.placeholder.com/300", title: "Photo 3" },
-      { src: "https://via.placeholder.com/300", title: "Photo 4" },
-      { src: "https://via.placeholder.com/300", title: "Photo 5" },
-      { src: "https://via.placeholder.com/300", title: "Photo 6" },
-      { src: "https://via.placeholder.com/300", title: "Photo 7" },
-      { src: "https://via.placeholder.com/300", title: "Photo 8" },
-      { src: "https://via.placeholder.com/300", title: "Photo 9" },
-      { src: "https://via.placeholder.com/300", title: "Photo 9" },
-      { src: "https://via.placeholder.com/300", title: "Photo 9" },
-      { src: "https://via.placeholder.com/300", title: "Photo 9" },
-      { src: "https://via.placeholder.com/300", title: "Photo 9" },
-      { src: "https://via.placeholder.com/300", title: "Photo 9" },
-      { src: "https://via.placeholder.com/300", title: "pls fucking kill me" },
-      { src: "https://via.placeholder.com/300", title: "pls fucking kill me" },
-      { src: "https://via.placeholder.com/300", title: "pls fucking kill me" },
-      { src: "https://via.placeholder.com/300", title: "pls fucking kill me" },
-      { src: "https://via.placeholder.com/300", title: "pls fucking kill me" },
-      { src: "https://via.placeholder.com/300", title: "pls fucking kill me" },
-      { src: "https://via.placeholder.com/300", title: "pls fucking kill me" },
-      { src: "https://via.placeholder.com/300", title: "pls fucking kill me" },
-      { src: "https://via.placeholder.com/300", title: "pls fucking kill me" },
-      { src: "https://via.placeholder.com/300", title: "pls fucking kill me" }
-    ];
-    setPhotos(photoData);
-  }, []); */
-
+const ResultsComponent = ({ results }) => {
   return (
-    <div className="container photo-container">
-      <div className="row">
+    <div>
+      <h2>Search Results</h2>
+      <ul>
         {results.map((movie) => (
-          <div className="col-sm-2" key={index}>
-            <div className="card photo-card">
-              <img src={movie.poster} className="card-img-top"/>
-            </div>
-          </div>
+          <li key={movie.id}>
+            <strong>{movie.title}</strong> ({movie.release_date})
+          </li>
         ))}
-      </div>
+      </ul>
     </div>
   );
 };
 
-export default PhotoGallery;
+export default ResultsComponent;
