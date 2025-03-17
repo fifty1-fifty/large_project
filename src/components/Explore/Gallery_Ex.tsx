@@ -47,9 +47,7 @@ const Gallery_Ex = (props_ => {
     setPhotos(photoData);
   }, []); */
 
-  return (
-    <h3> {props.data}</h3>
-  );
+  return <h3> {props.data}</h3>
 };
 
 export default PhotoGallery;
