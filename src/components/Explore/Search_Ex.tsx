@@ -1,6 +1,8 @@
 import React from 'react';
-//import isEmail from 'isemail';
+import Gallery_Ex from './Gallery_Ex';
+
 import "./Search_Ex.css"
+
 
 const app_name = 'group22cop4331c.xyz';
 
@@ -51,9 +53,10 @@ function Search()
         setSearchQuery( e.target.value );
         console.log("killMe");
     }
+}
 
-   
-            
+const Parent = () => {
+    cosnt data = "testestest" 
     return (
         <div className="search-container">
             <label htmlFor="searchbar">Discover</label>
@@ -61,8 +64,8 @@ function Search()
                 <input type="text" id="searchbar" placeholder="Discover" onChange={handleSetSearchQuery}/>
             </div>
             <button id="searchButton" onClick={doSearch}>Search</button>
+            <Gallery_Ex data = {data} />
         </div>
-
     );
-}
-export default Search;
+};
+export default Parent;
