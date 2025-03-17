@@ -23,7 +23,7 @@ const App = () => {
             <newContextProvider>
                 <Search_Ex />
                 <Gallery_Ex />
-            </neweContextProvider>
+            </newContextProvider>
         </div>
     );
 };
