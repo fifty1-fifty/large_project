@@ -28,6 +28,8 @@ function Search()
         event.preventDefault();
         var obj = {searchQuery:search};
         var js = JSON.stringify(obj);
+        console.log(js);
+        
         try
         {
             const response = await fetch(buildPath('/api/searchMovie'),
