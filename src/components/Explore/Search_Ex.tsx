@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+chimport React, { useState } from 'react';
 //import isEmail from 'isemail';
 import "./Search_Ex.css"
 
@@ -31,7 +31,7 @@ function Search()
         try
         {
             
-            const response = await fetch(buildPath('/api/login'),
+            const response = await fetch(buildPath('/api/searchMovie'),
             {method:'POST',body:js,headers:{'Content-Type': 'application/json'}})
            	var res = JSON.parse(await response.text());
             
