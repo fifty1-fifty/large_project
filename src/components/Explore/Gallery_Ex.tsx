@@ -7,7 +7,7 @@ import './Gallery_Ex.css'
   title: string;
 }*/
 
-const Gallery_Ex = (props) => {
+const Gallery_Ex = (props: string) => {
   
 
 
