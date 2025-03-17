@@ -2,7 +2,7 @@
 //import isEmail from 'isemail';
 
 
-/*const app_name = 'group22cop4331c.xyz';
+const app_name = 'group22cop4331c.xyz';
 
 
 function buildPath(route:string) : string
@@ -27,6 +27,7 @@ function Search()
             <div className="form-group">
                 <input type="text" id="searchbar" placeholder="Discover"/>
             </div>
+            <button>Search</button>
         </div>
 
     );
