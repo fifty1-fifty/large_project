@@ -12,4 +12,4 @@ const Mediator = () => {
     );
 };
 
-export
+export default Mediator;
