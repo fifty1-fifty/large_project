@@ -1,20 +1,15 @@
-//import React from "react";
+import React, { useState, useEffect } from "react";
 import './Gallery_Ex.css'
 
-/*interface Photo 
+interface Photo 
 {
   src: string;
   title: string;
-}*/
+}
 
-const Gallery_Ex = (props: string) => {
-  
-
-
-
-//const PhotoGallery: React.FC = (props) => {
+const PhotoGallery: React.FC = () => {
   // State to hold photo data
- /* const [photos, setPhotos] = useState<Photo[]>([]);
+  const [photos, setPhotos] = useState<Photo[]>([]);
 
   // Simulate fetching dynamic data
   useEffect(() => {
@@ -45,9 +40,21 @@ const Gallery_Ex = (props: string) => {
       { src: "https://via.placeholder.com/300", title: "pls fucking kill me" }
     ];
     setPhotos(photoData);
-  }, []); */
+  }, []);
 
-  return <h3> {props.data}</h3>;
+  return (
+    <div className="container photo-container">
+      <div className="row">
+        {photos.map((photo, index) => (
+          <div className="col-sm-2" key={index}>
+            <div className="card photo-card">
+              <img src={photo.src} className="card-img-top"/>
+            </div>
+          </div>
+        ))}
+      </div>
+    </div>
+  );
 };
 
-export default Gallery_Ex;
+export default PhotoGallery;
