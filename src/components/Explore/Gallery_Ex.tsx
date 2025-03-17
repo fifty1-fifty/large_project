@@ -7,7 +7,12 @@ interface Photo
   title: string;
 }
 
-const PhotoGallery: React.FC = (props) => {
+const Gallery_Ex = (props_ => {
+  
+
+
+
+//const PhotoGallery: React.FC = (props) => {
   // State to hold photo data
  /* const [photos, setPhotos] = useState<Photo[]>([]);
 
