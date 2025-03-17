@@ -23,7 +23,27 @@ function Search()
     const [search, setSearchQuery] = React.useState('');
 
 
-
+    async function doSearch(event:any) : Promise<void>
+    {
+        event.preventDefault();
+        var obj = {searchQuery:search};
+        var js = JSON.stringify(obj);
+        try
+        {
+            
+            const response = await fetch(buildPath('/api/login'),
+            {method:'POST',body:js,headers:{'Content-Type': 'application/json'}})
+           	var res = JSON.parse(await response.text());
+            
+           	console.log(res.id);
+        }
+        catch(error:any)
+       	{
+            alert(error.toString());
+           	return;
+        }
+            
+        
 
     functionn handleSetSearchQuery( e: any ) : void
     {
