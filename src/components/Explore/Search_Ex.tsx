@@ -40,10 +40,11 @@ function Search()
             alert(error.toString());
            	return;
         }
+    }
             
         
 
-    functionn handleSetSearchQuery( e: any ) : void
+    function handleSetSearchQuery( e: any ) : void
     {
         setSearchQuery( e.target.value );
         console.log("killMe");
