@@ -38,7 +38,7 @@ function Register()
           return;
       } */
 
-      var obj = {first:firstName, last:lastName, email:registerEmail, regname:registerUserName, regpassword:registerPassword}
+      var obj = {first:firstName, last:lastName, regemail:registerEmail, regname:registerUserName, regpassword:registerPassword}
       var js = JSON.stringify(obj);
 
       try
@@ -89,6 +89,26 @@ function Register()
     <h2>Signup Below</h2>
 
             <div className="form-group">
+            <label htmlFor="registerEmail">Email</label>
+            <input type="text" id="registerEmail" placeholder="Enter Email" value={registerEmail}
+                onChange={handleSetRegisterEmail} />
+            </div>
+
+           
+            <div className="form-group">
+            <label htmlFor="registerUserName">Login</label>
+            <input type="text" id="registerUserName" placeholder="New Username" value={registerUserName}
+                onChange={handleSetRegisterUserName} />
+            </div>
+
+
+            <div className="form-group">
+            <label htmlFor="registerPassword">Password</label>
+            <input type="password" id="registerPassword" placeholder="New Password" value={registerPassword}
+                onChange={handleSetRegisterPassword} />
+            </div>
+
+            <div className="form-group">
             <label htmlFor="registerFirstName">FirstName</label>
             <input type="text" id="registerFirstName" placeholder="First Name" value={firstName}
                 onChange={handleSetRegisterFirstName} />
@@ -100,26 +120,6 @@ function Register()
             <label htmlFor="registerLastName">Last Name</label>
             <input type="text" id="registerLastName" placeholder="Last Name" value={lastName}
                 onChange={handleSetRegisterLastName} />
-            </div>
-            
-            <div className="form-group">
-            <label htmlFor="registerEmail">Email</label>
-            <input type="text" id="registerEmail" placeholder="Enter Email" value={registerEmail}
-                onChange={handleSetRegisterEmail} />
-            </div>
-
-           
-            <div className="form-group">
-            <label htmlFor="registerUserName">Email</label>
-            <input type="text" id="registerUserName" placeholder="New Username" value={registerUserName}
-                onChange={handleSetRegisterUserName} />
-            </div>
-
-
-            <div className="form-group">
-            <label htmlFor="registerPassword">Password</label>
-            <input type="password" id="registerPassword" placeholder="New Password" value={registerPassword}
-                onChange={handleSetRegisterPassword} />
             </div>
 
                 
