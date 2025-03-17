@@ -23,7 +23,7 @@ function Search()
 
     return (
         <div className="search-container">
-            <label htmlFor="searchbar">Discover</label>
+            <label htmlFor="searchbar">tits</label>
             <div className="form-group">
                 <input type="text" id="searchbar" placeholder="Discover"/>
             </div>
