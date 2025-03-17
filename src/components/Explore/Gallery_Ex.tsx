@@ -9,7 +9,7 @@ interface Photo
 
 const PhotoGallery: React.FC = (props) => {
   // State to hold photo data
-  const [photos, setPhotos] = useState<Photo[]>([]);
+ /* const [photos, setPhotos] = useState<Photo[]>([]);
 
   // Simulate fetching dynamic data
   useEffect(() => {
@@ -40,7 +40,7 @@ const PhotoGallery: React.FC = (props) => {
       { src: "https://via.placeholder.com/300", title: "pls fucking kill me" }
     ];
     setPhotos(photoData);
-  }, []);
+  }, []); */
 
   return (
     <h3> {props.data}</h3>
