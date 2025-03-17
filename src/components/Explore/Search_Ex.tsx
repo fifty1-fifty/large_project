@@ -17,10 +17,10 @@ function buildPath(route:string) : string
 } 
 
 
-const Search_Ex = ({ fetchDatra }) =>
+const Search_Ex = ({ fetchData }) =>
 {
-    const [search, setSearch] = useState(''):
-    const handleSearch = () => 
+    const [search, setSearch] = useState('');
+    const handleSearch = () =>
     {
         fetchData(search);
     };
@@ -31,11 +31,11 @@ const Search_Ex = ({ fetchDatra }) =>
         <div className="search-container">
             <label htmlFor="searchbar">Discover</label>
             <div className="form-group">
-                <input type="text" id="searchbar" placeholder="Discover" value = {input} onChange{(e) => setInput(e.target.value)}/>
+                <input type="text" id="searchbar" placeholder="Discover" value={input} onChange{(e) => setInput(e.target.value)}/>
             </div>
                 <button onClick={handleSearch}>Search</button>
         </div>
 
     );
 }
-export default Search;
+export default Search_Ex;
