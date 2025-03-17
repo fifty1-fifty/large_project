@@ -20,7 +20,7 @@ function buildPath(route:string) : string
 
 function Search()
 {
-    const [search, setSearchQuery] = React.useState('');
+    const [search, setSearchQuery] = useState('');
 
 
     async function doSearch(event:any) : Promise<void>
