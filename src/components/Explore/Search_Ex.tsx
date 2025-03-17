@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React from 'react';
 //import isEmail from 'isemail';
 import "./Search_Ex.css"
 
@@ -20,7 +20,7 @@ function buildPath(route:string) : string
 
 function Search()
 {
-    const [search, setSearchQuery] = useState('');
+    const [search, setSearchQuery] = React.useState('');
 
 
     async function doSearch(event:any) : Promise<void>
