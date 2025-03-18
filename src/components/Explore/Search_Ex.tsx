@@ -19,7 +19,7 @@ function buildPath(route:string) : string
     }
 } 
 
-const Parent = () => 
+const Search_Ex = () => 
 {
     const [message, setMessage] = useState([""]);
     const [search, setSearchQuery] = React.useState('');
@@ -144,4 +144,4 @@ function handleSetSearchQuery( e: any ) : void
     );
 };
 
-export default Parent;
+export default Search_Ex;
