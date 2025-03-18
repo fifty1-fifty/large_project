@@ -1,7 +1,7 @@
 //import React from "react";
 //<h5>{JSON.stringify(props.data)}</h5>
-const Child = ( {posters} : {posters : string[]}) => {
-    console.log(posters);
+const Gallery_Ex = ( {posters} : {posters : string[]}) => {
+    //console.log(posters);
     return (
         <div className="container">
             <div className="row">
@@ -17,5 +17,5 @@ const Child = ( {posters} : {posters : string[]}) => {
     );
 };
 
-export default Child;
+export default Gallery_Ex;
 
