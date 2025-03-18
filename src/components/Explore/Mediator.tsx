@@ -5,7 +5,7 @@ import Search_Ex from "./Search_Ex.tsx";
 const App = () => {
     return (
         <div className="App">
-            <Parent />
+            <Search_Ex />
         </div>
     );
 };
