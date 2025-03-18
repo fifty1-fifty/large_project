@@ -32,7 +32,7 @@ const Search_Ex = () =>
         {
             //console.log("page has loaded");
             try{
-                const response = await fetch(buildPath('api/trendingMovie'),
+                const response = await fetch(buildPath('/api/trendingMovie'),
                 {method:'POST',headers:{'Content-Type': 'application/json'}})
                     var res = JSON.parse(await response.text());
     
@@ -62,7 +62,7 @@ const Search_Ex = () =>
         {
             //console.log("page has loaded");
             try{
-                const response = await fetch(buildPath('api/trendingMovie'),
+                const response = await fetch(buildPath('/api/trendingMovie'),
                 {method:'POST',headers:{'Content-Type': 'application/json'}})
                     var res = JSON.parse(await response.text());
     
@@ -102,7 +102,7 @@ const Search_Ex = () =>
         
         try
         {
-            const response = await fetch(buildPath('api/searchMovie'),
+            const response = await fetch(buildPath('/api/searchMovie'),
             {method:'POST',body:js,headers:{'Content-Type': 'application/json'}})
                 var res = JSON.parse(await response.text());
 
