@@ -1,4 +1,79 @@
-body
+.page-navigation-button 
 {
-    padding-top: 20px;
+    display: flex;
+    gap: 10px;
+    justify-content: center; /* Centers buttons horizontally */
+    align-items: center; /* Aligns them properly */
 }
+
+.form-group
+{
+    background-color: rgb(255, 255, 255);
+    display: inline-block;
+    gap: 10px;
+    justify-content: center; /* Centers buttons horizontally */
+    align-items: center; /* Aligns them properly */
+    width: 100%
+}
+
+button {
+    padding: 10px;
+    border-radius: 5px;
+    font-size: 16px;
+    font-weight: 600;
+    cursor: pointer;
+    margin-top: 10px;
+  }
+
+  
+
+  
+  #nextButton {
+    color: #007bff;
+    background: white;
+    width: 5%;
+  }
+
+  #prevButton {
+    color: #007bff;
+    background: white;
+    width: 5%;
+
+  }
+
+
+
+
+
+
+  #searchButton 
+  {
+    justify-content: center; /* Centers buttons horizontally */
+    align-items: center; /* Aligns them properly */
+    margin-left: 5px;
+    width: 3%; /* Adjust width */
+    background-color: rgb(255, 255, 255); /* Example background */
+    color: #007bff;
+    border: none;
+    cursor: pointer;
+  }
+
+
+
+  #signupButton 
+  {
+    background: #f8f9fa;
+    color: #333;
+    border: 1px solid #ccc;
+  }
+
+  #searchbar
+  {
+    width: 60%;
+    height: 1%;
+  }
+  
+  button:hover {
+    opacity: 0.9;
+  }
+  
