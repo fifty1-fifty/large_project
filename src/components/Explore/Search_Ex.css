@@ -30,13 +30,13 @@ button {
   
   #nextButton {
     color: #007bff;
-    background: white;
+    background: none;
     width: 5%;
   }
 
   #prevButton {
     color: #007bff;
-    background: white;
+    background: none;
     width: 5%;
 
   }
