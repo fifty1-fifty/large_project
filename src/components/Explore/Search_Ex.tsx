@@ -1,6 +1,6 @@
 import Gallery_Ex from "./Gallery_Ex"
 import React, { useState, useEffect } from "react";
-import "./Search_Ex.css"
+import "./Search_Ex.css";
 
 
 
@@ -20,7 +20,7 @@ function buildPath(route:string) : string
 } 
 
 let pageNumber = 1;
-const Parent = () => 
+const Search_Ex = () => 
 {
     const [message, setMessage] = useState([""]);
     const [search, setSearchQuery] = React.useState('');
