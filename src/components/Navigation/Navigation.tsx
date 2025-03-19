@@ -22,11 +22,11 @@ const Navbar: React.FC = () => {
             <li className="nav-item">
               <a className="nav-link" href="#">Profile</a>
             </li>
-            <li className="nav-item">
+            {/* <li className="nav-item">
               <a className="nav-link" href="#">Contact</a>
-            </li>
+            </li> */}
             <li className="nav-item">
-              <a className="btn btn-primary ms-2" href="#">Login</a>
+              <a className="btn btn-primary ms-2" href="#">Log Out</a>
             </li>
           </ul>
         </div>

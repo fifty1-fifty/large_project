@@ -142,8 +142,8 @@ function handleSetSearchQuery( e: any ) : void
             <Gallery_Ex posters = {message}/>
 
             <div>
-                <button id="nextPage"></button>
-                <button id="previousPage"></button>
+                <button id="nextPage">Next Page</button>
+                <button id="previousPage">Previous Page</button>
             </div>
         
         </div>
