@@ -1,8 +1,6 @@
 import Gallery_Ex from "./Gallery_Ex"
 import React, { useState, useEffect } from "react";
 
-//import ajfa from "../Explore/photo/ajfa.jpg"
-//import ajfa1 from "../Explore/photo/ajfa.png"
 
 const app_name = 'group22cop4331c.xyz';
 
@@ -19,20 +17,22 @@ function buildPath(route:string) : string
     }
 } 
 
-const Search_Ex = () => 
+let pageNumber = 1;
+const Parent = () => 
 {
     const [message, setMessage] = useState([""]);
     const [search, setSearchQuery] = React.useState('');
     let posterPath: string[] = [];
+    
 
 
 
     useEffect(() => {
-        async function popularPull()
+        /*async function firstPull()
         {
             //console.log("page has loaded");
             try{
-                const response = await fetch(buildPath('/api/trendingMovie'),
+                const response = await fetch(buildPath('api/trendingMovie'),
                 {method:'POST',headers:{'Content-Type': 'application/json'}})
                     var res = JSON.parse(await response.text());
     
@@ -52,6 +52,7 @@ const Search_Ex = () =>
                 return;
             }
         }
+        firstPull();*/
         popularPull();
         },
         []); 
@@ -60,12 +61,16 @@ const Search_Ex = () =>
 
         async function popularPull()
         {
+            var obj = {page:pageNumber};
+            var js = JSON.stringify(obj);
             //console.log("page has loaded");
             try{
-                const response = await fetch(buildPath('/api/trendingMovie'),
-                {method:'POST',headers:{'Content-Type': 'application/json'}})
+                const response = await fetch(buildPath('api/trendingMovie'),
+                {method:'POST',body:js,headers:{'Content-Type': 'application/json'}})
                     var res = JSON.parse(await response.text());
     
+
+
                     for (let i = 0; i < res["movieData"].results.length; i++) 
                         {
                             if (res["movieData"].results[i].poster_path !== null) 
@@ -86,15 +91,17 @@ const Search_Ex = () =>
 
 
 
-    async function doSearch(event:any) : Promise<void>
+    async function doSearch() : Promise<void>
     {
         //console.log(search);
-        event.preventDefault();
-        var obj = {searchQuery:search};
+        //event.preventDefault();
+        var obj = {searchQuery:search, page:pageNumber};
         //console.log(obj);
+        console.log(pageNumber);
         if(obj.searchQuery === "")
         {
-            popularPull()
+            popularPull();
+            return;
         }
 
         var js = JSON.stringify(obj);
@@ -102,7 +109,7 @@ const Search_Ex = () =>
         
         try
         {
-            const response = await fetch(buildPath('/api/searchMovie'),
+            const response = await fetch(buildPath('api/searchMovie'),
             {method:'POST',body:js,headers:{'Content-Type': 'application/json'}})
                 var res = JSON.parse(await response.text());
 
@@ -129,23 +136,43 @@ const Search_Ex = () =>
 function handleSetSearchQuery( e: any ) : void
 {
     setSearchQuery( e.target.value );
+    pageNumber = 1;
+}
+
+function nextPage(e: any): void
+{
+    e.preventDefault();
+    pageNumber = pageNumber + 1;
+    doSearch();
+}
+
+function prevPage(e: any): void
+{
+    if(pageNumber <= 1)
+    {
+        e.preventDefault();
+        console.log("Already on the first page");
+        return;
+    }
+    pageNumber = pageNumber - 1;
+    doSearch();
 }
 
 
-    return (
+   return (
         <div>
             <label htmlFor="searchbar">Discover</label>
             <div className="form-group">
                 <input type="text" id="searchbar" placeholder="Discover" onChange={handleSetSearchQuery}/>
+                <button id="searchButton" onClick={doSearch}> <i className="material-icons">search</i></button>
             </div>
-            <button id="searchButton" onClick={doSearch}>Search</button>
             <Gallery_Ex posters = {message}/>
 
-            <div>
-                <button id="nextPage">Next Page</button>
-                <button id="previousPage">Previous Page</button>
+           <div className="page-navigation-button">
+            <button id="nextButton"onClick={prevPage} ><i className="material-icons">arrow_back_ios</i></button>
+            <button id="prevButton"onClick={nextPage}><i className="material-icons">arrow_forward_ios</i></button>
             </div>
-        
+
         </div>
     );
 };
