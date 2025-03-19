@@ -1,5 +1,7 @@
 import Gallery_Ex from "./Gallery_Ex"
 import React, { useState, useEffect } from "react";
+import "./Search_Ex.css"
+
 
 
 const app_name = 'group22cop4331c.xyz';
