@@ -1,7 +1,7 @@
 //import React from "react";
 //<h5>{JSON.stringify(props.data)}</h5>
 const Gallery_Ex = ( {posters} : {posters : string[]}) => {
-    //console.log(posters);
+    console.log(posters.length);
     return (
         <div className="container">
             <div className="row">
