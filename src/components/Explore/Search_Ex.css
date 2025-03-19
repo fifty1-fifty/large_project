@@ -8,7 +8,7 @@
 
 .form-group
 {
-    background-color: rgb(255, 255, 255);
+    background-color: #121212;
     display: inline-block;
     gap: 10px;
     justify-content: center; /* Centers buttons horizontally */
@@ -52,7 +52,7 @@ button {
     align-items: center; /* Aligns them properly */
     margin-left: 5px;
     width: 3%; /* Adjust width */
-    background-color: rgb(255, 255, 255); /* Example background */
+    background: none; /* Example background */
     color: #007bff;
     border: none;
     cursor: pointer;
