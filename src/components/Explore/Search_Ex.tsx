@@ -141,10 +141,10 @@ function handleSetSearchQuery( e: any ) : void
             <button id="searchButton" onClick={doSearch}>Search</button>
             <Gallery_Ex posters = {message}/>
 
-        <div>
-            <button id="nextPage"></button>
-            <button id="previousPage"></button>
-        </div>
+            <div>
+                <button id="nextPage"></button>
+                <button id="previousPage"></button>
+            </div>
         
         </div>
     );
