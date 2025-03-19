@@ -139,7 +139,7 @@ function handleSetSearchQuery( e: any ) : void
                 <input type="text" id="searchbar" placeholder="Discover" onChange={handleSetSearchQuery}/>
             </div>
             <button id="searchButton" onClick={doSearch}>Search</button>
-            <Gallery_Ex posters = {message}/></button>
+            <Gallery_Ex posters = {message}/>
 
         <div>
             <button id="nextPage"></button>
