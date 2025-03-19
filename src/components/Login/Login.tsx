@@ -73,31 +73,31 @@ function Login()
         var js = JSON.stringify(obj);
         try
         {
-                const response = await fetch(buildPath('/api/login'),
-                {method:'POST',body:js,headers:{'Content-Type': 'application/json'}})
-                var res = JSON.parse(await response.text());
+            const response = await fetch(buildPath('/api/login'),
+            {method:'POST',body:js,headers:{'Content-Type': 'application/json'}})
+            var res = JSON.parse(await response.text());
 
 
-                console.log(res.id);
-        
-                if( res.id <= 0 )
-                {
-                        setMessage('User/Password combination incorrect');
-                        return;
-                }
-                else
-                {
-                        var user =
-                        {firstName:res.firstName,lastName:res.lastName,id:res.id}
-                        localStorage.setItem('user_data', JSON.stringify(user));
-                        setMessage('');
-                        window.location.href = '/explore';
-                    }
-            }
-            catch(error:any)
+            console.log(res.id);
+    
+            if( res.id <= 0 )
             {
-                alert(error.toString());
+                setMessage('User/Password combination incorrect');
                 return;
+            }
+            else
+            {
+                var user =
+                {firstName:res.firstName,lastName:res.lastName,id:res.id}
+                localStorage.setItem('user_data', JSON.stringify(user));
+                setMessage('');
+                window.location.href = '/explore';
+            }
+        }
+        catch(error:any)
+        {
+            alert(error.toString());
+            return;
         }
     };
 

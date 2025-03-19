@@ -5,6 +5,7 @@ import './App.css';
 import LoginPage from './pages/LoginPage';
 import RegisterPage from './pages/RegisterPage';
 import ExplorePage from './pages/ExplorePage';
+import RegisterComplete from './pages/RegisterComplete';
 
 /*  test  */
 import { Buffer } from 'buffer';
@@ -17,6 +18,7 @@ function App() {
         <Route path="/login" element={<LoginPage />} />
         <Route path="/signup" element={<RegisterPage />} />
         <Route path="/explore" element={<ExplorePage />} />
+        <Route path="/registerComplete" element={<RegisterComplete />} />
         
         <Route path="/" element={<Navigate to="/login" />} /> 
         <Route path="*" element={<Navigate to="/login" />} /> 
