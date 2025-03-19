@@ -6,6 +6,9 @@ import LoginPage from './pages/LoginPage';
 import RegisterPage from './pages/RegisterPage';
 import ExplorePage from './pages/ExplorePage';
 
+/*  test  */
+import { Buffer } from 'buffer';
+window.Buffer = Buffer;
 
 function App() {
   return (
