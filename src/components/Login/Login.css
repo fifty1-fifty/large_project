@@ -35,6 +35,12 @@
   font-size: 14px;
   background: white;
   color:black;
+  caret-color: black;
+}
+
+.form-group input::placeholder {
+  color:gray;
+  opacity:1;
 }
 
 /* Style buttons */
