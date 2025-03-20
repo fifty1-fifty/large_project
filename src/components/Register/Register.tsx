@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 //import { Buffer } from 'buffer';
+import "./Register.css";
 import isEmail from 'isemail';
 
 
