@@ -148,9 +148,9 @@ function Login()
         setLoginEmail( e.target.value );
     }*/
 
-    function gotoSignup()
+    function goToRegister()
     {	
-	    window.location.href = '/signup';
+	    window.location.href = '/register';
     }
 
 	
@@ -195,7 +195,7 @@ function Login()
             </div>
 
             <button id="loginButton" onClick={doLogin}>Login</button>
-            <button id="signupButton" onClick={gotoSignup}>Sign Up Here</button>
+            <button id="signupButton" onClick={goToRegister}>Sign Up Here</button>
 
             <span id="loginResult">{message}</span>
         </div>

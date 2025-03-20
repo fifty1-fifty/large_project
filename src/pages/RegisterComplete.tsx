@@ -4,7 +4,7 @@ const RegisterComplete = () => {
     return(
         <div>
             <PageTitle />
-            <h2>Register complete! Click the link in the email sent to you to log into Flicks!</h2>
+            <h2>Register complete! Close this page and click the link sent to your email to log into Flicks!</h2>
         </div>
     );
 };

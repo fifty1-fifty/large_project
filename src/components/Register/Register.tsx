@@ -129,7 +129,7 @@ function Register()
     return(
         <div id = "signupDiv" className="signup-container">
             
-        <h2>Sign Up Below</h2>
+        <h2>Register</h2>
 
             <div className="form-group">
                 <label htmlFor="registerEmail">Email</label>
