@@ -24,42 +24,15 @@ const Search_Ex = () =>
 {
     const [message, setMessage] = useState([""]);
     const [search, setSearchQuery] = React.useState('');
-    let posterPath: string[] = [];
+    let posterPath: JSON[] = [];
     
 
 
 
     useEffect(() => {
-        /*async function firstPull()
-        {
-            //console.log("page has loaded");
-            try{
-                const response = await fetch(buildPath('api/trendingMovie'),
-                {method:'POST',headers:{'Content-Type': 'application/json'}})
-                    var res = JSON.parse(await response.text());
-    
-                    for (let i = 0; i < res["movieData"].results.length; i++) 
-                        {
-                            if (res["movieData"].results[i].poster_path !== null) 
-                            {
-                                //console.log(res["movieData"].results[i].poster_path);
-                                posterPath.push(res["movieData"].results[i].poster_path); // Push into array
-                            }
-                        }
-                        setMessage(posterPath);
-            }
-            catch(error:any)
-            {
-                alert(error.toString());
-                return;
-            }
-        }
-        firstPull();*/
         popularPull();
         },
         []); 
-
-
 
         async function popularPull()
         {
@@ -78,7 +51,7 @@ const Search_Ex = () =>
                             if (res["movieData"].results[i].poster_path !== null) 
                             {
                                 //console.log(res["movieData"].results[i].poster_path);
-                                posterPath.push(res["movieData"].results[i].poster_path); // Push into array
+                                posterPath.push(res["movieData"].results[i]); // Push into array
                             }
                         }
                         setMessage(posterPath);
@@ -121,7 +94,7 @@ const Search_Ex = () =>
                 if (res["movieData"].results[i].poster_path !== null) 
                 {
                     //console.log(res["movieData"].results[i].poster_path);
-                    posterPath.push(res["movieData"].results[i].poster_path); // Push into array
+                    posterPath.push(res["movieData"].results[i]); // Push into array
                 }
             }
            
@@ -168,7 +141,7 @@ function prevPage(e: any): void
                 <input type="text" id="searchbar" placeholder="Discover" onChange={handleSetSearchQuery}/>
                 <button id="searchButton" onClick={doSearch}> <i className="material-icons">search</i></button>
             </div>
-            <Gallery_Ex posters = {message}/>
+            <Gallery_Ex movies = {message}/>
 
            <div className="page-navigation-button">
             <button id="nextButton"onClick={prevPage} ><i className="material-icons">arrow_back_ios</i></button>
