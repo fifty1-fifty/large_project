@@ -6,7 +6,7 @@ const Gallery_Ex = ( {posters} : {posters : string[]}) => {
         <div className="container">
             <div className="row">
                 {posters.map((poster : string, index : number) => (
-                    <div key={index} className="col-sm-3 mb-4">
+                    <div key={index} className="col-sm-2 mb-4">
                         <div className="photo-card">
                             <img src={`https://image.tmdb.org/t/p/original${poster}`} className="card-img-top img-fluid" alt={`Movie Poster ${index}`} />
                         </div>
