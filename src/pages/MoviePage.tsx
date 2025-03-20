@@ -1,4 +1,4 @@
-import Info from '../components/Test/MovieInfo'
+import Info from '../components/MovieInfo/MovieInfo'
 
 const InfoPage = () =>
 {
