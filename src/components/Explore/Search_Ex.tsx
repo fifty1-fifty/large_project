@@ -22,7 +22,7 @@ function buildPath(route:string) : string
 let pageNumber = 1;
 const Search_Ex = () => 
 {
-    const [message, setMessage] = useState([""]);
+    const [message, setMessage] = useState([JSON]);
     const [search, setSearchQuery] = React.useState('');
     let posterPath: JSON[] = [];
     
