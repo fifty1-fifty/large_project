@@ -16,6 +16,7 @@
   flex-direction: column;
   align-items: flex-start;
   margin-bottom: 15px;
+  background-color: white;
 }
 
 /* Style labels */
@@ -24,7 +25,6 @@
   font-weight: 600;
   margin-bottom: 5px;
   color: #121212;
-  background-color: white;
 }
 
 /* Style input fields */
