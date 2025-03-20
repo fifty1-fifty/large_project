@@ -1,6 +1,6 @@
 //import React from "react";
 //<h5>{JSON.stringify(props.data)}</h5>
-import './Gallery_Ex.css'
+import './Gallery_Ex.css';
 
 const Gallery_Ex = ( {movies} : {movies : any) => {
 
