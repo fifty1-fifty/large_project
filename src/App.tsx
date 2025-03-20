@@ -6,6 +6,7 @@ import LoginPage from './pages/LoginPage';
 import RegisterPage from './pages/RegisterPage';
 import ExplorePage from './pages/ExplorePage';
 import RegisterComplete from './pages/RegisterComplete';
+import MoviePage from './pages/MoviePage';
 
 /*  test  */
 import { Buffer } from 'buffer';
@@ -19,6 +20,7 @@ function App() {
         <Route path="/register" element={<RegisterPage />} />
         <Route path="/explore" element={<ExplorePage />} />
         <Route path="/registerComplete" element={<RegisterComplete />} />
+        <Route path="/movie" element={<MoviePage />} />
         
         <Route path="/" element={<Navigate to="/login" />} /> 
         <Route path="*" element={<Navigate to="/login" />} /> 
