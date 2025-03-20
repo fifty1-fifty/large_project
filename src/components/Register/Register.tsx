@@ -140,7 +140,7 @@ function Register()
 
         
             <div className="form-group">
-                <label htmlFor="registerUserName">Username</label>
+                <label htmlFor="registerUserName">Login</label>
                 <input type="text" id="registerUserName" placeholder="New Username" value={registerUserName}
                     onChange={handleSetRegisterUserName} />
                 {usernameError && <span className="error-message">{usernameError}</span>}
