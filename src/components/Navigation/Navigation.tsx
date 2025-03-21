@@ -1,9 +1,18 @@
 import React from "react";
-import { Link }  from "react-router-dom";
+import { Link, useNavigate }  from "react-router-dom";
 
 
 const Navbar: React.FC = () => {
-  
+
+  // Logout
+   const navigate = useNavigate();
+   const handleLogout = () => {
+
+      // remove user from local storage
+      localStorage.removeItem("user_data");
+      navigate("/login");
+   }
+
   return (
     <nav className="navbar navbar-expand-lg custom-navbar fixed-top">
       <div className="container-fluid">
@@ -25,7 +34,7 @@ const Navbar: React.FC = () => {
               <Link className="nav-link" to="/profile">Profile</Link>
             </li>
             <li className="nav-item">
-              <button className="btn btn-primary ms-2">Log Out</button>
+              <button className="btn btn-primary ms-2" onClick={handleLogout}>Log Out</button>
             </li>
           </ul>
         </div>
