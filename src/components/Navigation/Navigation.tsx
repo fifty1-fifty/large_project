@@ -1,12 +1,17 @@
 import React from "react";
-import "./Navigation.css"
+import { Link, useNavigate } from "react-router-dom";
+import "./Navigation.css";
 
 const Navbar: React.FC = () => {
+  
+
+
+
   return (
     <nav className="navbar navbar-expand-lg custom-navbar fixed-top">
       <div className="container-fluid">
 
-        <a className="navbar-brand" href="#">FLICKS</a>
+        <Link className="navbar-brand" to="/">FLICKS</Link>
         <button className="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
           <span className="navbar-toggler-icon"></span>
         </button>
@@ -14,19 +19,16 @@ const Navbar: React.FC = () => {
         <div className="collapse navbar-collapse" id="navbarNav">
           <ul className="navbar-nav ms-auto">
             <li className="nav-item">
-              <a className="nav-link active" href="#">Home</a>
+              <Link className="nav-link active" to="/">Home</Link>
             </li>
             <li className="nav-item">
-              <a className="nav-link" href="#">Explore</a>
-            </li> 
-            <li className="nav-item">
-              <a className="nav-link" href="#">Profile</a>
+              <Link className="nav-link" to="/explore">Explore</Link>
             </li>
-            {/* <li className="nav-item">
-              <a className="nav-link" href="#">Contact</a>
-            </li> */}
             <li className="nav-item">
-              <a className="btn btn-primary ms-2" href="#">Log Out</a>
+              <Link className="nav-link" to="/profile">Profile</Link>
+            </li>
+            <li className="nav-item">
+              <button className="btn btn-primary ms-2">Log Out</button>
             </li>
           </ul>
         </div>
