@@ -27,8 +27,6 @@ const Search_Ex = () =>
     let posterPath: JSON[] = [];
     
 
-
-
     useEffect(() => {
         popularPull();
         },
@@ -136,7 +134,7 @@ function prevPage(e: any): void
 
    return (
         <div>
-            <label htmlFor="searchbar">Discover</label>
+            <label htmlFor="searchbar" style={{ color: '#0e6dfb'}} >Discover</label>
             <div className="form-group">
                 <input type="text" id="searchbar" placeholder="Discover" onChange={handleSetSearchQuery}/>
                 <button id="searchButton" onClick={doSearch}> <i className="material-icons">search</i></button>
