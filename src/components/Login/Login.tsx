@@ -1,7 +1,23 @@
 import React, { useState } from 'react';
 import "./Login.css";
 import isEmail from 'isemail';
-import { buildPath } from '../Path';
+
+
+const app_name = 'group22cop4331c.xyz';
+
+
+function buildPath(route:string) : string
+{
+    if (process.env.NODE_ENV != 'development')
+    {
+        return 'http://' + app_name + route;
+    }
+    else
+    {
+        return 'http://localhost:5000/' + route;
+    }
+}
+
 
 function Login()
 {
