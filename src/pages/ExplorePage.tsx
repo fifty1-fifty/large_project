@@ -1,18 +1,13 @@
-//import Gallery_Ex from '../components/Explore/Gallery_Ex.tsx';
-//import Search_Ex from '../components/Explore/Search_Ex.tsx';
-import Navigation from '../components/Navigation/Navigation.tsx';
-import Mediator from '../components/Explore/Mediator.tsx';
+import PageTitle from '../components/PageTitle.tsx';
 
 
-const ExplorePage = () =>
-{
+const ExplorePage = () => {
     return(
         <div>
-            <Navigation />
-            <Mediator />
-
+            <PageTitle />
+            <h2>In progress</h2>
         </div>
-        );
-}
+    );
+};
 
 export default ExplorePage;
