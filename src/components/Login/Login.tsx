@@ -91,7 +91,7 @@ function Login()
                 {firstName:res.firstName,lastName:res.lastName,id:res.id}
                 localStorage.setItem('user_data', JSON.stringify(user));
                 setMessage('');
-                window.location.href = '/explore';
+                window.location.href = '/home';
             }
         }
         catch(error:any)
