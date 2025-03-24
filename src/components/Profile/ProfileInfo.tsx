@@ -1,6 +1,6 @@
 // ProfileInfo.tsx
 import React from "react";
-import "./ProfileInfo.css"; 
+import "../index.css" 
 
 interface ProfileInfoProps {
   firstName: string;
@@ -10,18 +10,18 @@ interface ProfileInfoProps {
 
 const ProfileInfo: React.FC<ProfileInfoProps> = ({ firstName, lastName, email }) => {
   return (
-    <div className="profile-info-card">
-      <div className="profile-info-section">
-        <strong className="profile-info-label">First Name:</strong>
-        <p className="profile-info-value">{firstName}</p>
+    <div>
+      <div >
+        <strong>First Name:</strong>
+        <p>{firstName}</p>
       </div>
-      <div className="profile-info-section">
-        <strong className="profile-info-label">Last Name:</strong>
-        <p className="profile-info-value">{lastName}</p>
+      <div>
+        <strong>Last Name:</strong>
+        <p>{lastName}</p>
       </div>
-      <div className="profile-info-section">
-        <strong className="profile-info-label">Email:</strong>
-        <p className="profile-info-value">{email}</p>
+      <div>
+        <strong>Email:</strong>
+        <p>{email}</p>
       </div>
     </div>
   );
