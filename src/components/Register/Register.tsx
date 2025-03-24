@@ -128,7 +128,7 @@ function Register()
 
     return(
         <div className="row" id="background">
-            <div className="signup-container" >
+            <div className="signup-container" id="fade-in" >
                 
                 <div className="form-group" id="getridofttheannoyingbackgroun">
                     <input type="text" id="input" placeholder="Enter Email" value={registerEmail}
