@@ -1,48 +1,65 @@
 /* Center the form */
 .login-container {
-  width: 100%;
+  width: 60%;
+  height: 73%;
   max-width: 350px;
-  margin: 50px auto;
-  padding: 20px;
-  background: #fff;
-  border-radius: 8px;
-  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  margin: 50px;
+  padding: 12px;
+  background: #EDf2f4;
+  border-radius: 3px;
+  box-shadow: 0px 1px 4px rgb(65, 65, 65);
   text-align: center;
+} 
+
+
+#background
+{
+  padding: 0px;
+  margin-top: -2%;
 }
 
 /* Style form groups */
-.form-group {
+.form-group 
+{
   display: flex;
   flex-direction: column;
   align-items: flex-start;
   margin-bottom: 15px;
-  background-color: white;
 }
 
-/* Style labels */
-.form-group label {
-  font-size: 14px;
-  font-weight: 600;
-  margin-bottom: 5px;
-  color: #ffffff;
+#signin
+{
+  color: rgb(255, 255, 255);
 }
+
+.photo-card
+{
+  margin-top: 5%;
+  padding: 0px;
+  background:none;
+}
+
+
+#getridoftheannoyingbackground
+{
+  background: none;
+}
+
 
 /* Style input fields */
-.form-group input {
-  width: 100%;
+#input
+{
+  width: 95%;
   padding: 10px;
-  border: 1px solid #ccc;
+  background: #8d99Ae;
   border-radius: 5px;
   font-size: 14px;
-  background: white;
-  color:black;
-  caret-color: black;
+  color: rgb(41, 39, 39);
 }
 
-.form-group input::placeholder {
-  color:gray;
-  opacity:1;
-}
+
+
+
 
 /* Style buttons */
 button {
@@ -56,15 +73,33 @@ button {
   margin-top: 10px;
 }
 
-#loginButton {
-  background: #007bff;
-  color: white;
+.loginButton 
+{
+  margin-top: 0px;
+  width: 75%;
+  background-color: #ef233c;
+  color: rgb(255, 255, 255);
 }
 
-#signupButton {
-  background: #f8f9fa;
-  color: #333;
-  border: 1px solid #ccc;
+#signupLabel
+{
+  bottom: 5%;
+  margin-top: 20%;
+  margin-bottom: 0px;
+  font-size: 13px;
+  color: #5f5f5f;
+  background-color: none;
+}
+
+
+
+.signupButton {
+
+  width: 50%;
+  background: none;
+  color: #d80032;
+  margin-top: -5000px;
+  padding: 0px;
 }
 
 button:hover {
@@ -76,5 +111,46 @@ button:hover {
   display: block;
   margin-top: 10px;
   font-size: 14px;
-  color: white;
+  color: red;
 }
+
+
+
+
+
+
+
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(50px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+#fade-in {
+  animation: fadeIn 1.2s ease-out;
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
