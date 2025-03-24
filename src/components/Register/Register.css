@@ -88,7 +88,7 @@ button:hover {
 /* Error message styling */
 .error-message {
   display: block;
-  margin-top: 10px;
+  padding: 2px;
   font-size: 14px;
   color: black;
 }
