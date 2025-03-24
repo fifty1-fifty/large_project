@@ -2,7 +2,7 @@
 import React from "react";
 import { useNavigate } from "react-router-dom";
 import ProfileInfo from "../components/Profile/ProfileInfo"; 
-
+import Background from "../components/Background"; // Import Background component
 
 const ProfilePage: React.FC = () => {
   const navigate = useNavigate();
@@ -10,23 +10,25 @@ const ProfilePage: React.FC = () => {
 
   return (
     <div>
-      <div>
+      
+
+      <div className="profile-content">
         <h2>Profile</h2>
-      </div>
 
-      {/* Profile Info Component */}
-      <ProfileInfo
-        firstName={user.firstName || ""}
-        lastName={user.lastName || ""}
-        email={user.email || ""}
-      />
+        {/* Profile Info Component */}
+        <ProfileInfo
+          firstName={user.firstName || ""}
+          lastName={user.lastName || ""}
+          email={user.email || ""}
+        />
 
-      {/* Edit Profile Button */}
-      <div>
-        <button onClick={() => navigate("/edit-profile")}>
-          Edit Profile
-        </button>
-      </div>
+        {/* Edit Profile Button */}
+        <div>
+          <button onClick={() => navigate("/edit-profile")}>
+            Edit Profile
+          </button>
+        </div>
+      <Background /> 
     </div>
   );
 };
