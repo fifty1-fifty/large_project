@@ -52,19 +52,32 @@ button {
 }
 
 #signupButton {
-  background: #007bff;
-  color: white;
+   margin-top: 0px;
+  width: 75%;
+  background-color: #ef233c;
+  color: rgb(255, 255, 255);
 }
 
 #loginButton {
-  background: #f8f9fa;
-  color: #333;
-  border: 1px solid #ccc;
+   width: 50%;
+  background: none;
+  color: #d80032;
+  margin-top: -5000px;
+  padding: 0px;
 }
+
+
+
+
 
 button:hover {
   opacity: 0.9;
 }
+
+
+
+
+
 
 /* Error message styling */
 #signupResult {
