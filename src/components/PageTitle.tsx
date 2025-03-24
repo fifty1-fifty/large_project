@@ -1,7 +1,7 @@
 function PageTitle()
 {
     return(
-    <h1 id="title">Flicks</h1>
+    <h1 id="title-page" className="syncopate-regular">FlickS</h1>
     );
 };
 
