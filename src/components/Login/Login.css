@@ -49,6 +49,8 @@
 /* Style input fields */
 #input
 {
+  border: none;
+  border-color: none;
   width: 95%;
   padding: 10px;
   background: #8d99Ae;
