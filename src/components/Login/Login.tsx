@@ -32,7 +32,7 @@ function Login()
     const [emailError, setEmailError] = useState('');
     const [usernameError, setUsernameError] = useState('');
     const [passwordError, setPasswordError] = useState('');
-    function validateInputs(): boolean {
+    /*function validateInputs(): boolean {
         let valid = true;
 
         // Use isEmail for email validation
@@ -58,7 +58,7 @@ function Login()
         }
 
         return valid;
-    }
+    } */
    
     async function doLogin(event:any) : Promise<void>
     {
@@ -133,7 +133,7 @@ function Login()
     };*/
 
 
-    /*function handleSetLoginName( e: any ) : void
+    function handleSetLoginName( e: any ) : void
     {   
         setLoginName( e.target.value );
     }
@@ -146,7 +146,7 @@ function Login()
     function handleSetLoginEmail( e: any ) : void
     {
         setLoginEmail( e.target.value );
-    }*/
+    }
 
     function goToRegister()
     {	
@@ -155,50 +155,44 @@ function Login()
 
 	
     return(
-        <div id="loginDiv" className="login-container">
-            <h2>Login</h2>
+        <div className="row" id="background">
 
-            <div className="form-group">
-                <label htmlFor="emailName">Email address</label>
-                <input
-                    type="text"
-                    id="emailName"
-                    placeholder="Email"
-                    value={emailName}
-                    onChange={(e) => setLoginEmail(e.target.value)}
-                />
-                {emailError && <span className="error-message">{emailError}</span>}
+        <div className="col" id="fade-in">
+             <div className="photo-card">
+                <img src={home} style={{ maxWidth: "550px", maxHeight: "500px", objectFit: "cover", borderRadius: "5px" }}/>
             </div>
-
-            <div className="form-group">
-                <label htmlFor="loginName">Username</label>
-                <input
-                    type="text"
-                    id="loginName"
-                    placeholder="Username"
-                    value={loginName}
-                    onChange={(e) => setLoginName(e.target.value)}
-                />
-                {usernameError && <span className="error-message">{usernameError}</span>}
-            </div>
-
-            <div className="form-group">
-                <label htmlFor="loginPassword">Password</label>
-                <input
-                    type="password"
-                    id="loginPassword"
-                    placeholder="Password"
-                    value={loginPassword}
-                    onChange={(e) => setPassword(e.target.value)}
-                />
-                {passwordError && <span className="error-message">{passwordError}</span>}
-            </div>
-
-            <button id="loginButton" onClick={doLogin}>Login</button>
-            <button id="signupButton" onClick={goToRegister}>Sign Up Here</button>
-
-            <span id="loginResult">{message}</span>
         </div>
+
+        <div className="col" id="fade-in">
+            <div className="login-container">
+
+                <div className="form-group" id="getridoftheannoyingbackground">
+                     <input type="text" id="input" placeholder="Email or Username"
+                      onChange={handleSetLoginEmail} />
+                 </div>
+
+                <div className="form-group" id="getridoftheannoyingbackground">
+                    <input type="text" id="input" placeholder="Username"
+                    onChange={handleSetLoginName} />
+                </div>
+
+                <div className="form-group" id="getridoftheannoyingbackground">
+                    <input type="password" id="input" placeholder="Password"
+                     onChange={handleSetPassword} />
+                 </div>
+
+                <button className="loginButton" onClick={doLogin}>Login</button>
+
+               
+                    <h2 id="signupLabel">Don't have an account? </h2>
+                    <button className="signupButton">Register Here</button>
+
+
+                <span id="loginResult">{message}</span>
+            </div>
+        </div>
+     </div>
+
         
 	);
 }
