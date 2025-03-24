@@ -109,6 +109,15 @@ button:hover {
   opacity: 0.9;
 }
 
+
+
+.error-message {
+  display: block;
+  padding: 2px;
+  font-size: 14px;
+  color: black;
+}
+
 /* Error message styling */
 #loginResult {
   display: block;
