@@ -128,51 +128,51 @@ function Register()
 
     return(
         <div className="row" id="background">
-            
-        <h2>Register</h2>
-
-            <div className="form-group">
-                <label htmlFor="registerEmail">Email</label>
-                <input type="text" id="registerEmail" placeholder="Enter Email" value={registerEmail}
-                    onChange={handleSetRegisterEmail} />
-                {emailError && <span className="error-message">{emailError}</span>}
-            </div>
-
-        
-            <div className="form-group">
-                <label htmlFor="registerUserName">Login</label>
-                <input type="text" id="registerUserName" placeholder="New Username" value={registerUserName}
-                    onChange={handleSetRegisterUserName} />
-                {usernameError && <span className="error-message">{usernameError}</span>}
-            </div>
-
-
-            <div className="form-group">
-                <label htmlFor="registerPassword">Password</label>
-                <input type="password" id="registerPassword" placeholder="New Password" value={registerPassword}
-                    onChange={handleSetRegisterPassword} />
-                {passwordError && <span className="error-message">{passwordError}</span>}
-            </div>
-
-            <div className="form-group">
-                <label htmlFor="registerFirstName">First Name</label>
-                <input type="text" id="registerFirstName" placeholder="First Name" value={firstName}
-                    onChange={handleSetRegisterFirstName} />
-            </div>
-
-            <div className="form-group">
-                <label htmlFor="registerLastName">Last Name</label>
-                <input type="text" id="registerLastName" placeholder="Last Name" value={lastName}
-                    onChange={handleSetRegisterLastName} />
-            </div>
-
+            <div className="signup-container" id="getridofttheannoyingbackground">
                 
-            {/* <input type="submit" id="registerButton" className="buttons" value = "Get Goin"
-                onClick={doRegister} /> */}
-            <button id="registerButton" onClick={doRegister}>Get Goin</button> 
-            <button id="loginButton" onClick={backToLogin}>Back to Login</button>
+                <div className="form-group">
+                    <label htmlFor="registerEmail">Email</label>
+                    <input type="text" id="registerEmail" placeholder="Enter Email" value={registerEmail}
+                    onChange={handleSetRegisterEmail} />
+                    {emailError && <span className="error-message">{emailError}</span>}
+                </div>
+
         
-            <span id="loginResult">{message}</span>
+                <div className="form-group">
+                    <label htmlFor="registerUserName">Login</label>
+                    <input type="text" id="registerUserName" placeholder="New Username" value={registerUserName}
+                    onChange={handleSetRegisterUserName} />
+                    {usernameError && <span className="error-message">{usernameError}</span>}
+                </div>
+
+
+                <div className="form-group">
+                    <label htmlFor="registerPassword">Password</label>
+                    <input type="password" id="registerPassword" placeholder="New Password" value={registerPassword}
+                    onChange={handleSetRegisterPassword} />
+                    {passwordError && <span className="error-message">{passwordError}</span>}
+                </div>
+
+                <div className="form-group">
+                    <label htmlFor="registerFirstName">First Name</label>
+                    <input type="text" id="registerFirstName" placeholder="First Name" value={firstName}
+                    onChange={handleSetRegisterFirstName} />
+                </div>
+
+                <div className="form-group">
+                    <label htmlFor="registerLastName">Last Name</label>
+                    <input type="text" id="registerLastName" placeholder="Last Name" value={lastName}
+                    onChange={handleSetRegisterLastName} />
+                </div>
+
+        
+                <button id="registerButton" onClick={doRegister}>Get Goin</button> 
+                <button id="loginButton" onClick={backToLogin}>Back to Login</button>
+                <span id="loginResult">{message}</span>
+
+           
+            </div>
+            
         </div>
     );
 };
