@@ -127,7 +127,7 @@ const Info = () => {
         var js = JSON.stringify(obj);
         
         try{
-            const response = await fetch(buildPath('api/fullMovieInfo'),
+            const response = await fetch(buildPath('/api/fullMovieInfo'),
             {method:'POST',body:js,headers:{'Content-Type': 'application/json'}})
                 var res = JSON.parse(await response.text());
 
@@ -172,7 +172,7 @@ const Info = () => {
         var js = JSON.stringify(obj);
         
         try{
-            const response = await fetch(buildPath('api/movieCredit'),
+            const response = await fetch(buildPath('/api/movieCredit'),
             {method:'POST',body:js,headers:{'Content-Type': 'application/json'}})
                 var res = JSON.parse(await response.text());
                 //console.log(res);
