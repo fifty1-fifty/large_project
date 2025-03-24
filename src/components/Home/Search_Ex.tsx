@@ -133,7 +133,7 @@ function prevPage(e: any): void
 
 
    return (
-        <div>
+        <div className ="move-down">
             <div className="form-group">
                 <input type="text" id="searchbar" placeholder="Discover" onChange={handleSetSearchQuery}/>
                 <button id="searchButton" onClick={doSearch}> <i className="material-icons">search</i></button>
