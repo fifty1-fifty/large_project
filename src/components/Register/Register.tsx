@@ -130,14 +130,14 @@ function Register()
         <div className="row" id="background">
             <div className="signup-container" >
                 
-                <div className="form-group" id="getridofttheannoyingbackground">
+                <div className="form-group" id="getridofttheannoyingbackgroun">
                     <input type="text" id="input" placeholder="Enter Email" value={registerEmail}
                     onChange={handleSetRegisterEmail} />
                     {emailError && <span className="error-message">{emailError}</span>}
                 </div>
 
         
-                <div className="form-group" id="test">
+                <div className="form-group" id="getridofttheannoyingbackgroun">
                     <input type="text" id="input" placeholder="Enter Username" value={registerUserName}
                     onChange={handleSetRegisterUserName} />
                     {usernameError && <span className="error-message">{usernameError}</span>}
@@ -155,7 +155,7 @@ function Register()
                     onChange={handleSetRegisterFirstName} />
                 </div>
 
-                <div className="form-group">
+                <div className="form-group" id="getridofttheannoyingbackgroun">
                     <input type="text" id="input" placeholder="Enter Last Name" value={lastName}
                     onChange={handleSetRegisterLastName} />
                 </div>
