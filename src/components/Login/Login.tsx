@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import "./Login.css";
+import home from "./home.png";
 import isEmail from 'isemail';
 
 
