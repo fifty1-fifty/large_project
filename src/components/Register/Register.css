@@ -51,12 +51,10 @@ button {
   margin-top: 10px;
 }
 
-#signupButton 
+#registerBut
 {
-   margin-top: 0px;
-  width: 75%;
-  background-color: #ef233c;
-  color: rgb(255, 255, 255);
+  width: 50%;
+  background: yellow;
 }
 
 #loginButton 
