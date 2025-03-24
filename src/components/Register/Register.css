@@ -24,24 +24,6 @@
   margin-bottom: 15px;
 }
 
-/* Style labels */
-.form-group label {
-  font-size: 14px;
-  font-weight: 600;
-  margin-bottom: 5px;
-  color: #ffffff;
-}
-
-/* Style input fields */
-.form-group input {
-  width: 100%;
-  padding: 10px;
-  border: 1px solid #ccc;
-  border-radius: 5px;
-  font-size: 14px;
-  background: white;
-  color:black;
-}
 
 /* Style input fields */
 #input
