@@ -23,7 +23,6 @@ function buildPath(route:string) : string
 function Login()
 {
     console.log("im gat");
-    const [message,setMessage] = useState('');
 
     const [emailName,setLoginEmail] = React.useState('');
     const [loginName,setLoginName] = React.useState('');
@@ -85,7 +84,6 @@ function Login()
     
             if( res.id <= 0 )
             {
-                setMessage('User/Password combination incorrect');
                 return;
             }
             else
@@ -186,15 +184,13 @@ function Login()
 
                 <button className="loginButton" onClick={doLogin}>Login</button>
 
-		     {emailError && <span className="error-message">{emailError}</span>}a
+		     {emailError && <span className="error-message">{emailError}</span>}
 		     {usernameError && <span className="error-message">{usernameError}</span>}
 		     {passwordError && <span className="error-message">{passwordError}</span>}
                
                     <h2 id="signupLabel">Don't have an account? </h2>
                     <button className="signupButton" onClick={goToRegister}>Register Here</button>
 	
-
-                <span id="loginResult"> im gay why why why{message}</span>
             </div>
         </div>
      </div>
