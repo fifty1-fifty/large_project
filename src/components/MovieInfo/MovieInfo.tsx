@@ -51,7 +51,7 @@ const Info = () => {
 
     const [castList, setCastList] = useState<CastMember[]>([]);
     const [importantPersonOne, setImportantPersonOne] = useState([""]);
-    const [importantPersonTwo, setImportantPersonTwo] = useState([""]);
+    //const [importantPersonTwo, setImportantPersonTwo] = useState([""]);
     
 
 
