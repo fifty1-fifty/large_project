@@ -137,20 +137,20 @@ function Register()
                 </div>
 
         
-                <div className="form-group" id="getridofttheannoyingbackground">
+                <div className="form-group" id="getridofttheannoyingbackgroun">
                     <input type="text" id="input" placeholder="Enter Username" value={registerUserName}
                     onChange={handleSetRegisterUserName} />
                     {usernameError && <span className="error-message">{usernameError}</span>}
                 </div>
 
 
-                <div className="form-group" id="getridofttheannoyingbackground">
+                <div className="form-group" id="getridofttheannoyingbackgroun">
                     <input type="password" id="input" placeholder="Enter Password" value={registerPassword}
                     onChange={handleSetRegisterPassword} />
                     {passwordError && <span className="error-message">{passwordError}</span>}
                 </div>
 
-                <div className="form-group" id="getridofttheannoyingbackground">
+                <div className="form-group" id="getridofttheannoyingbackgroun">
                     <input type="text" id="input" placeholder="Enter First Name" value={firstName}
                     onChange={handleSetRegisterFirstName} />
                 </div>
