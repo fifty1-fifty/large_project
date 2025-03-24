@@ -6,6 +6,11 @@
     align-items: center; /* Aligns them properly */
 }
 
+.move-down
+{
+    margin-top: 50px;
+}
+
 .form-group
 {
     display: inline-block;
@@ -68,7 +73,7 @@ button {
 
   #searchbar
   {
-    background-color: #121212;
+    
     color: white;
     width: 60%;
     height: 1%;
