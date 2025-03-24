@@ -10,6 +10,12 @@
   text-align: center;
 }
 
+#getridoftheannoyingbackground
+{
+  background: none;
+}
+
+
 /* Style form groups */
 .form-group {
   display: flex;
