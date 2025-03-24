@@ -8,7 +8,6 @@
 
 .form-group
 {
-    background-color: #121212;
     display: inline-block;
     gap: 10px;
     justify-content: center; /* Centers buttons horizontally */
