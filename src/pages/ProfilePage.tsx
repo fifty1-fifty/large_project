@@ -2,14 +2,15 @@
 import React from "react";
 import { useNavigate } from "react-router-dom";
 import ProfileInfo from "../components/Profile/ProfileInfo"; 
-import "./ProfilePage.css"; 
+import "./index.css"; 
+
 const ProfilePage: React.FC = () => {
   const navigate = useNavigate();
   const user = JSON.parse(localStorage.getItem("user_data") || "{}");
 
   return (
-    <div className="profile-page-container">
-      <div className="profile-header">
+    <div>
+      <div>
         <h2>Profile</h2>
       </div>
 
@@ -21,8 +22,8 @@ const ProfilePage: React.FC = () => {
       />
 
       {/* Edit Profile Button */}
-      <div className="edit-button-container">
-        <button className="edit-button" onClick={() => navigate("/edit-profile")}>
+      <div>
+        <button onClick={() => navigate("/edit-profile")}>
           Edit Profile
         </button>
       </div>
