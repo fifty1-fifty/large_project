@@ -131,7 +131,6 @@ function Register()
             <div className="signup-container" id="getridofttheannoyingbackground">
                 
                 <div className="form-group">
-                    <label htmlFor="registerEmail">Email</label>
                     <input type="text" id="registerEmail" placeholder="Enter Email" value={registerEmail}
                     onChange={handleSetRegisterEmail} />
                     {emailError && <span className="error-message">{emailError}</span>}
@@ -139,29 +138,25 @@ function Register()
 
         
                 <div className="form-group">
-                    <label htmlFor="registerUserName">Login</label>
-                    <input type="text" id="registerUserName" placeholder="New Username" value={registerUserName}
+                    <input type="text" id="registerUserName" placeholder="Enter Username" value={registerUserName}
                     onChange={handleSetRegisterUserName} />
                     {usernameError && <span className="error-message">{usernameError}</span>}
                 </div>
 
 
                 <div className="form-group">
-                    <label htmlFor="registerPassword">Password</label>
-                    <input type="password" id="registerPassword" placeholder="New Password" value={registerPassword}
+                    <input type="password" id="registerPassword" placeholder="Enter Password" value={registerPassword}
                     onChange={handleSetRegisterPassword} />
                     {passwordError && <span className="error-message">{passwordError}</span>}
                 </div>
 
                 <div className="form-group">
-                    <label htmlFor="registerFirstName">First Name</label>
-                    <input type="text" id="registerFirstName" placeholder="First Name" value={firstName}
+                    <input type="text" id="registerFirstName" placeholder="Enter First Name" value={firstName}
                     onChange={handleSetRegisterFirstName} />
                 </div>
 
                 <div className="form-group">
-                    <label htmlFor="registerLastName">Last Name</label>
-                    <input type="text" id="registerLastName" placeholder="Last Name" value={lastName}
+                    <input type="text" id="registerLastName" placeholder="Enter Last Name" value={lastName}
                     onChange={handleSetRegisterLastName} />
                 </div>
 
