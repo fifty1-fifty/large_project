@@ -128,29 +128,29 @@ function Register()
 
     return(
         <div className="row" id="background">
-            <div className="signup-container" id="getridofttheannoyingbackground">
+            <div className="signup-container" >
                 
-                <div className="form-group">
+                <div className="form-group" id="getridofttheannoyingbackground">
                     <input type="text" id="registerEmail" placeholder="Enter Email" value={registerEmail}
                     onChange={handleSetRegisterEmail} />
                     {emailError && <span className="error-message">{emailError}</span>}
                 </div>
 
         
-                <div className="form-group">
+                <div className="form-group" id="getridofttheannoyingbackground">
                     <input type="text" id="registerUserName" placeholder="Enter Username" value={registerUserName}
                     onChange={handleSetRegisterUserName} />
                     {usernameError && <span className="error-message">{usernameError}</span>}
                 </div>
 
 
-                <div className="form-group">
+                <div className="form-group" id="getridofttheannoyingbackground">
                     <input type="password" id="registerPassword" placeholder="Enter Password" value={registerPassword}
                     onChange={handleSetRegisterPassword} />
                     {passwordError && <span className="error-message">{passwordError}</span>}
                 </div>
 
-                <div className="form-group">
+                <div className="form-group" id="getridofttheannoyingbackground">
                     <input type="text" id="registerFirstName" placeholder="Enter First Name" value={firstName}
                     onChange={handleSetRegisterFirstName} />
                 </div>
