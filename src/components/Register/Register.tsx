@@ -161,7 +161,7 @@ function Register()
                 </div>
 
         
-                <button id="signupButton" onClick={doRegister}>Get Started</button> 
+                <button id="registerBut" onClick={doRegister}>Get Started</button> 
                 <button id="loginButton" onClick={backToLogin}>Back to Login</button>
                 <span id="loginResult">{message}</span>
 
