@@ -1,0 +1,313 @@
+#padding
+{
+    margin-top: 5%;
+}
+
+/*.container
+{
+    background-color: rgb(94, 255, 0);
+}
+
+.col
+{
+    background-color: aqua;
+}
+
+.row
+{
+    background-color: brown;
+}*/
+
+.card
+{
+    background: none;
+    border-radius: 0px;
+    box-shadow: none;
+    
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+/* THE VERY TOP ROW -> TITLE AND */
+#title
+{
+    
+    padding: 0px;
+}
+
+#title-body
+{
+    font-weight: bolder;
+    font-size: 50px;
+    width: 100%;
+    text-align: left;
+}
+
+#tag
+{
+    margin-top: -10px;
+    font-size: 15px;
+    font-style: oblique;
+    /*background-color: rgb(130, 118, 7);*/
+    text-align: left;
+    width: 100%;
+}
+
+#genre-date-runtime
+{
+    margin-top: -5px;
+    font-size: 18px;
+    /*background-color: rgb(154, 139, 6);*/
+    text-align: left;
+    width: 100%;
+}
+
+#rating
+{
+    font-size: 5px;
+    width:100%;
+
+}
+
+#vertical
+{
+    display: inline-block;
+}
+
+#rating-button
+{
+    width: 20%;
+
+    
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+/* THE SECOND ROW-> DESCRIPTION SUMMARY */
+#description
+{
+
+    padding: 5px;
+}
+
+#summ-title
+{
+  
+    font-size: 28px;
+    text-align: left;
+    width: 65%;
+
+}
+
+#summary
+{
+    width: 80%;
+    text-align: left;
+    font-size: 15px;
+}
+
+
+
+
+
+
+
+
+
+
+
+
+/*gaygaygaygaygay budget revenue*/
+#budget-revenue-div
+{
+    padding: 0px;
+}
+
+#budget
+{
+    text-align: right;
+    padding: 0px;
+    font-size: 20px;
+
+}
+
+#budget-value
+{
+    text-align: right;
+    padding: 0px;
+    font-size: 25px;
+}
+
+#revenue
+{
+    text-align: right;
+    font-size: 20px;
+}
+
+#revenue-value
+{
+    text-align: right;
+    font-size: 25px;
+
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+/* THE THIRDS ROW -> creewwww */
+#important-crew
+{
+    margin-top: 50px;
+   
+}
+
+#important-person-div
+{
+    width:80%;
+    padding: 0px;
+}
+
+#important-person-two-div
+{
+    margin-top: 100px;
+    width:80%;
+    padding: 0px;
+   
+}
+
+#important-person
+{
+    font-size: 25px;
+    font-weight: 600;
+}
+
+#important-person-jobs
+{
+    font-size: 20px;
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+/* BOTTOM SECTION w/ CAST N SHIT */
+#cast-header
+{
+
+    margin-left: auto;
+    margin-right: auto;
+    margin-top: 10px;
+    margin-bottom: 2px;
+    font-size: 35px;
+    width: 85%;
+    text-align: left;
+
+}
+
+
+#photo-slide
+{
+    padding: 1px;
+    margin: 1px;
+   
+}
+
+#carousel-width
+{
+    width: 95%;
+    margin: auto;
+}
+
+#prev
+{
+    margin-right: 60%;
+}
+
+#next
+{
+    margin-left: 60%;
+}
+
+h5
+{
+    margin-top: -11px;
+    line-height: 20px;
+    font-size: 18px;
+    font-weight: 600;
+    text-align: left;
+}
+
+p
+{
+    line-height: 15px;
+    margin-top: -3px;
+    text-align: left;
+    font-size: 15px;
+}
+
+
+
+
