@@ -4,12 +4,39 @@
   padding: 2rem;
   text-align: center;
   color: rgb(255, 255, 255);
-  background-color: #121212;
+  background: none;
 }
 
-h2 {
-  color: #0e6dfb;
+
+
+
+
+#title-page
+{
+  margin-top: -50px;
+  padding: 0px;
+  color: #EDf2f4;
+  animation: titleFadeIn 1.2s ease-out;
 }
+
+@keyframes titleFadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+
+
+
+
+
+
+
 
 .logo {
   height: 6em;
