@@ -1,7 +1,7 @@
 // ProfilePage.tsx
 import React from "react";
 import { useNavigate } from "react-router-dom";
-import ProfileInfo from "../components/Profile/ProfileInfo"; 
+import ProfileInfo from "../components/Profile/ProfileInfo";
 import Background from "../components/Background"; // Import Background component
 
 const ProfilePage: React.FC = () => {
@@ -10,8 +10,10 @@ const ProfilePage: React.FC = () => {
 
   return (
     <div>
-      
+      {/* Background component */}
+      <Background />
 
+      {/* Main Profile content */}
       <div className="profile-content">
         <h2>Profile</h2>
 
@@ -28,7 +30,7 @@ const ProfilePage: React.FC = () => {
             Edit Profile
           </button>
         </div>
-      <Background /> 
+      </div>
     </div>
   );
 };
