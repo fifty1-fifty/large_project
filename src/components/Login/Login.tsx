@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import "./Login.css";
 import home from "./home.png";
-import isEmail from 'isemail';
+//import isEmail from 'isemail';
 
 
 const app_name = 'group22cop4331c.xyz';
@@ -30,9 +30,9 @@ function Login()
     const [loginPassword,setPassword] = React.useState('');
 
     // login credentials validator
-    const [emailError, setEmailError] = useState('');
-    const [usernameError, setUsernameError] = useState('');
-    const [passwordError, setPasswordError] = useState('');
+    //const [emailError, setEmailError] = useState('');
+    //const [usernameError, setUsernameError] = useState('');
+    //const [passwordError, setPasswordError] = useState('');
     /*function validateInputs(): boolean {
         let valid = true;
 
@@ -66,9 +66,9 @@ function Login()
 
         event.preventDefault();
 
-        if(!validateInputs()) {
+        /*if(!validateInputs()) {
             return;
-        }
+        }*/
 
         var obj = {login:loginName,password:loginPassword,email:emailName};
         var js = JSON.stringify(obj);
@@ -186,7 +186,7 @@ function Login()
 
                
                     <h2 id="signupLabel">Don't have an account? </h2>
-                    <button className="signupButton">Register Here</button>
+                    <button className="signupButton" onClick={goToRegister}>Register Here</button>
 
 
                 <span id="loginResult">{message}</span>
