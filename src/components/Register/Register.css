@@ -54,8 +54,11 @@ button {
 
 #registerBut
 {
-  width: 50%;
-  background: yellow;
+  padding: 5px;
+  margin-top: 0px;
+  width: 75%;
+  background-color: #ef233c;
+  color: rgb(255, 255, 255);
 }
 
 #loginButton 
