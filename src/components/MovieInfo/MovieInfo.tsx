@@ -77,15 +77,15 @@ const Info = () => {
         }
 
 
-        function findDirectorAndProfessions(crewArray: JSON[]) 
+        function findDirectorAndProfessions(crewArray: any[]) 
         {
-            const director = crewArray.find((person: JSON) => person.job === "Director");
+            const director = crewArray.find((person: any) => person.job === "Director");
         
             const directorName: string = director.name;
             const professions: Set<string> = new Set(); // Use Set to avoid duplicate jobs
         
             professions.add(directorName);
-            crewArray.forEach((person: JSON) => {
+            crewArray.forEach((person: any) => {
                 if (person.name === directorName) {
                     professions.add(person.job);
                 }
@@ -98,7 +98,7 @@ const Info = () => {
         }
 
         // COME BACK AND FINISH WRITING THIS FUNCTION
-        function findAnotherPerson(crewArray: JSON[]) 
+       /* function findAnotherPerson(crewArray: JSON[]) 
         {
             const director = crewArray.find((person: JSON) => person.job === "Director");
         
@@ -116,7 +116,7 @@ const Info = () => {
 
             //console.log(Array.from(professions).join(", "));
             return Array.from(professions); // Convert Set to a comma-separated string
-        }
+        } */
 
         
         
@@ -184,7 +184,7 @@ const Info = () => {
                 
                 
                 setImportantPersonOne(findDirectorAndProfessions(res["movieData"].crew));
-                setImportantPersonTwo(findAnotherPerson(res["movieData"].crew));
+                //setImportantPersonTwo(findAnotherPerson(res["movieData"].crew));
                 //console.log(importantPersonOne);                
                 
 
