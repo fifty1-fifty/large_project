@@ -29,11 +29,11 @@ function Login()
     const [loginName,setLoginName] = React.useState('');
     const [loginPassword,setPassword] = React.useState('');
 
-    // login credentials validator
-    //const [emailError, setEmailError] = useState('');
-    //const [usernameError, setUsernameError] = useState('');
-    //const [passwordError, setPasswordError] = useState('');
-    /*function validateInputs(): boolean {
+    //login credentials validator
+    const [emailError, setEmailError] = useState('');
+    const [usernameError, setUsernameError] = useState('');
+    const [passwordError, setPasswordError] = useState('');
+    function validateInputs(): boolean {
         let valid = true;
 
         // Use isEmail for email validation
@@ -59,7 +59,7 @@ function Login()
         }
 
         return valid;
-    } */
+    } 
    
     async function doLogin(event:any) : Promise<void>
     {
@@ -184,10 +184,13 @@ function Login()
 
                 <button className="loginButton" onClick={doLogin}>Login</button>
 
+		     {emailError && <span className="error-message">{emailError}</span>}a
+		     {usernameError && <span className="error-message">{usernameError}</span>}
+		     {passwordError && <span className="error-message">{passwordError}</span>}
                
                     <h2 id="signupLabel">Don't have an account? </h2>
                     <button className="signupButton" onClick={goToRegister}>Register Here</button>
-
+	
 
                 <span id="loginResult">{message}</span>
             </div>
