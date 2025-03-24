@@ -1,6 +1,6 @@
 /* css for top navigation bar (any style not seen customized here is defaulted from bootstrap library) */
 .custom-navbar 
 {
-  background-color: #121212;
+  background-color: #13141d;
   box-shadow: 2px 2px 5px -5px gray;
 }
