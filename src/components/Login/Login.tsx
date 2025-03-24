@@ -194,7 +194,7 @@ function Login()
                     <button className="signupButton" onClick={goToRegister}>Register Here</button>
 	
 
-                <span id="loginResult">{message}</span>
+                <span id="loginResult"> im gay why why why{message}</span>
             </div>
         </div>
      </div>
