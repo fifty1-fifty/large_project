@@ -2,7 +2,7 @@
 import React from "react";
 import { useNavigate } from "react-router-dom";
 import ProfileInfo from "../components/Profile/ProfileInfo"; 
-import "./index.css"; 
+import "../index.css"; 
 
 const ProfilePage: React.FC = () => {
   const navigate = useNavigate();
