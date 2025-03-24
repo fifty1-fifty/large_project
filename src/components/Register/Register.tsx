@@ -127,7 +127,7 @@ function Register()
     }
 
     return(
-        <div id = "signupDiv" className="signup-container">
+        <div className="row" id="background">
             
         <h2>Register</h2>
 
