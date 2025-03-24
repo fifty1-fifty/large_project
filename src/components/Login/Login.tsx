@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import "./Login.css";
 import home from "./home.png";
-//import isEmail from 'isemail';
+import isEmail from 'isemail';
 
 
 const app_name = 'group22cop4331c.xyz';
@@ -33,7 +33,9 @@ function Login()
     const [emailError, setEmailError] = useState('');
     const [usernameError, setUsernameError] = useState('');
     const [passwordError, setPasswordError] = useState('');
-    function validateInputs(): boolean {
+
+	
+	function validateInputs(): boolean {
         let valid = true;
 
         // Use isEmail for email validation
@@ -66,9 +68,9 @@ function Login()
 
         event.preventDefault();
 
-        /*if(!validateInputs()) {
+        if(!validateInputs()) {
             return;
-        }*/
+        }
 
         var obj = {login:loginName,password:loginPassword,email:emailName};
         var js = JSON.stringify(obj);
