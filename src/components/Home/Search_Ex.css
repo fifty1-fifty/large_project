@@ -73,7 +73,7 @@ button {
 
   #searchbar
   {
-    background-color: red;
+    background: none;
     color: white;
     width: 60%;
     height: 1%;
