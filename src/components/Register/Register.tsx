@@ -131,7 +131,7 @@ function Register()
             <div className="signup-container" >
                 
                 <div className="form-group" id="getridofttheannoyingbackground">
-                    <input type="text" id="registerEmail" placeholder="Enter Email" value={registerEmail}
+                    <input type="text" id="input" placeholder="Enter Email" value={registerEmail}
                     onChange={handleSetRegisterEmail} />
                     {emailError && <span className="error-message">{emailError}</span>}
                 </div>
