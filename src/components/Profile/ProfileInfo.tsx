@@ -1,6 +1,6 @@
 // ProfileInfo.tsx
 import React from "react";
-import "../index.css" 
+
 
 interface ProfileInfoProps {
   firstName: string;
