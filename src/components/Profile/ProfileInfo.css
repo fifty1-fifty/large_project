@@ -1,0 +1,35 @@
+/* ProfileInfo.css */
+
+/* Card container for profile info */
+.profile-info-card {
+    padding: 20px;
+    background-color: #f8f9fa;
+    border-radius: 8px;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    margin-bottom: 20px;
+  }
+  
+  /* Each profile info section (label + value pair) */
+  .profile-info-section {
+    margin-bottom: 15px;
+  }
+  
+  /* Label for profile info */
+  .profile-info-label {
+    font-size: 1.2rem;
+    font-weight: bold;
+    color: #333;
+  }
+  
+  /* Value text for profile info */
+  .profile-info-value {
+    font-size: 1rem;
+    color: #555;
+  }
+  
+  /* Optional: Style for separators or dividers if needed */
+  .profile-info-divider {
+    border-top: 1px solid #ddd;
+    margin: 20px 0;
+  }
+  

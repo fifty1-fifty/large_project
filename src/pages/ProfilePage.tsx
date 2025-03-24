@@ -1,35 +1,30 @@
+// ProfilePage.tsx
 import React from "react";
 import { useNavigate } from "react-router-dom";
 import ProfileInfo from "../components/Profile/ProfileInfo"; 
-
+import "./ProfilePage.css"; 
 const ProfilePage: React.FC = () => {
   const navigate = useNavigate();
   const user = JSON.parse(localStorage.getItem("user_data") || "{}");
 
   return (
-    <div className="container mt-5">
-      <div className="row justify-content-center">
-        <div className="col-md-6">
-          <div className="card shadow-sm">
-            <div className="card-body">
-              <h2 className="text-center mb-4">Profile</h2>
+    <div className="profile-page-container">
+      <div className="profile-header">
+        <h2>Profile</h2>
+      </div>
 
-              {/* Profile Info Component */}
-              <ProfileInfo
-                firstName={user.firstName || ""}
-                lastName={user.lastName || ""}
-                email={user.email || ""}
-              />
+      {/* Profile Info Component */}
+      <ProfileInfo
+        firstName={user.firstName || ""}
+        lastName={user.lastName || ""}
+        email={user.email || ""}
+      />
 
-              {/* Edit Profile Button */}
-              <div className="text-center mt-4">
-                <button className="btn btn-primary" onClick={() => navigate("/edit-profile")}>
-                  Edit Profile
-                </button>
-              </div>
-            </div>
-          </div>
-        </div>
+      {/* Edit Profile Button */}
+      <div className="edit-button-container">
+        <button className="edit-button" onClick={() => navigate("/edit-profile")}>
+          Edit Profile
+        </button>
       </div>
     </div>
   );
