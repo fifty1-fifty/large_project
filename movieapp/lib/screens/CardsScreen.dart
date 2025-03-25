@@ -1,35 +1,28 @@
 import 'package:flutter/material.dart';
 
-class CardsScreen extends StatefulWidget {
-  @override
-  _CardsScreenState createState() => _CardsScreenState();
-}
-
-class _CardsScreenState extends State<CardsScreen> {
-  @override
-  void initState() {
-    super.initState();
-  }
-
+class CardsScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
-    return Scaffold(backgroundColor: Colors.red, body: MainPage());
-  }
-}
-
-class MainPage extends StatefulWidget {
-  @override
-  _MainPageState createState() => _MainPageState();
-}
-
-class _MainPageState extends State<MainPage> {
-  @override
-  void initState() {
-    super.initState();
-  }
-
-  @override
-  Widget build(BuildContext context) {
-    return Container();
+    return Scaffold(
+      body: Center(
+        child: Container(
+          child: ElevatedButton(
+            child: Text(
+              'To Login',
+              style: TextStyle(fontSize: 14, color: Colors.black),
+            ),
+            onPressed: () {
+              Navigator.pushNamed(context, '/login');
+            },
+            style: ElevatedButton.styleFrom(
+              backgroundColor: Colors.brown[50], // Button color
+              foregroundColor: Colors.black, // Text color
+              padding: EdgeInsets.all(2.0),
+              splashFactory: InkRipple.splashFactory, // Ripple effect
+            ),
+          ),
+        ),
+      ),
+    );
   }
 }
