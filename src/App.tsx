@@ -9,7 +9,7 @@ import HomePage from './pages/HomePage';
 import ExplorePage from './pages/ExplorePage';
 import ProfilePage from './pages/ProfilePage';
 import Layout from "./components/Layout"; 
-
+import EditProfilePage from "./pages/EditProfilePage"; 
 /*  test  */
 import { Buffer } from 'buffer';
 window.Buffer = Buffer;
@@ -25,6 +25,7 @@ function App() {
         <Route path="/movie" element={<Layout><MoviePage /></Layout>} />
         <Route path="/home" element={<Layout><HomePage /></Layout>} />
         <Route path="/profile" element={<Layout><ProfilePage /></Layout>} />
+        <Route path="/edit" element={<Layout><EditProfilePage /></Layout>} />
 
         {/* don't require layout */}
         <Route path="/register" element={<RegisterPage />} />

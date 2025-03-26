@@ -1,16 +1,20 @@
 import React, { useEffect, useState } from "react";
-import { buildPath } from "../utils";
-import ProfileInfo from "../components/Profile/ProfileInfo"; // Import ProfileInfo component
+import { useHistory } from "react-router-dom"; 
+import { Button, Row, Col } from 'react-bootstrap';
 
 const ProfilePage: React.FC = () => {
-  const [userInfo, setUserInfo] = useState<any>(null); // Holds user's profile info
-  const [error, setError] = useState<string>("");
-  const user = JSON.parse(localStorage.getItem("user_data") || "{}"); // Get current user info from localStorage
+  const [userInfo, setUserInfo] = useState<any>(null); 
+  const [loading, setLoading] = useState<boolean>(false); 
+  const [error, setError] = useState<string>(""); 
+
+  const user = JSON.parse(localStorage.getItem("user_data") || "{}");
+  const history = useHistory(); 
 
   useEffect(() => {
     async function fetchProfile() {
+      setLoading(true);
       try {
-        const response = await fetch(buildPath(`/api/profile/${user.id}`));
+        const response = await fetch(`/api/profile/${user.id}`);
         if (!response.ok) {
           throw new Error("Failed to fetch user profile");
         }
@@ -19,6 +23,8 @@ const ProfilePage: React.FC = () => {
         setUserInfo(profileData);
       } catch (err: any) {
         setError(err.message);
+      } finally {
+        setLoading(false);
       }
     }
 
@@ -27,47 +33,42 @@ const ProfilePage: React.FC = () => {
     }
   }, [user]);
 
-  // Error handling
-  if (error) {
-    return <div>Error: {error}</div>;
-  }
+  // Navigate to edit profile page
+  const navigateToEdit = () => {
+    history.push("/edit");
+  };
 
-  if (!userInfo) {
-    return <div>Loading profile...</div>;
-  }
+  if (loading) return <div>Loading...</div>;
 
   return (
     <div className="profile-page">
-      <h1>Welcome to Your Profile</h1>
+      <h1>Profile</h1>
+      {error && <div style={{ color: "red" }}>Error: {error}</div>}
 
-      {/* Profile Info Component */}
-      <ProfileInfo
-        firstName={userInfo.firstName}
-        lastName={userInfo.lastName}
-        email={userInfo.email}
-        bio={userInfo.bio || "No bio available"}
-        profilePic={userInfo.profilePic}
-      />
-
-      {/* Additional Profile Content */}
-      <div className="followers-following">
-        <div>
-          <h3>Followers ({userInfo.followers.length})</h3>
-          <ul>
-            {userInfo.followers.map((follower: any, index: number) => (
-              <li key={index}>{follower}</li>
-            ))}
-          </ul>
-        </div>
-        <div>
-          <h3>Following ({userInfo.following.length})</h3>
-          <ul>
-            {userInfo.following.map((following: any, index: number) => (
-              <li key={index}>{following}</li>
-            ))}
-          </ul>
-        </div>
-      </div>
+      {userInfo ? (
+        <Row>
+          <Col md={6}>
+            <h3>{userInfo.firstName} {userInfo.lastName}</h3>
+            <p>Email: {userInfo.email}</p>
+            <p>Bio: {userInfo.bio}</p>
+            <div>
+              {userInfo.profilePic && (
+                <img
+                  src={userInfo.profilePic}
+                  alt="Profile"
+                  className="profilePic"
+                  style={{ width: "150px", height: "150px", borderRadius: "50%" }}
+                />
+              )}
+            </div>
+            <Button variant="primary" onClick={navigateToEdit}>
+              Edit Profile
+            </Button>
+          </Col>
+        </Row>
+      ) : (
+        <div>No profile information available</div>
+      )}
     </div>
   );
 };
