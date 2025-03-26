@@ -1,5 +1,5 @@
 import React, { useState, useEffect, useMemo } from "react";
-
+import { useNavigate } from "react-router-dom";
 
 const EditProfilePage: React.FC = () => {
   const [name, setName] = useState<string>("");
@@ -12,6 +12,7 @@ const EditProfilePage: React.FC = () => {
   const [picMessage, setPicMessage] = useState<string>("");
   const [successMessage, setSuccessMessage] = useState<string>("");
 
+  const navigate = useNavigate();
   // Parse localStorage once and memoize the userId
   const userId = useMemo(() => {
     const storedUser = localStorage.getItem("user_data");
@@ -79,7 +80,14 @@ const EditProfilePage: React.FC = () => {
       );
 
       setSuccessMessage("Successful profile update!");
- 
+      
+
+       // Redirect to the profile page after successful update
+       setTimeout(() => {
+        navigate("/profile"); // Change '/profile' to the path of your profile page
+      }, 1000); // Wait 1 second to show success message before redirecting
+
+
       setPassword("");
       setConfirmPassword("");
       
@@ -109,7 +117,7 @@ const EditProfilePage: React.FC = () => {
     >
       <h1>Edit Profile</h1>
       {error && <div style={{ color: "red", marginBottom: "15px" }}>Error: {error}</div>}
-      {successMessage && <div style={{ color: "green", marginBottom: "15px" }}>{successMessage}</div>}
+      {successMessage && <div style={{  color: "#28a745", marginBottom: "15px" }}>{successMessage}</div>}
       <form onSubmit={submitHandler}>
         <div className="form-group" style={{ marginBottom: "15px" }}>
           <label htmlFor="name">Name</label>

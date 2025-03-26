@@ -13,7 +13,7 @@ const ProfilePage: React.FC = () => {
   const navigate = useNavigate();
 
   useEffect(() => {
-    if (!userId) return;
+    if (!userId) return; 
 
     async function fetchProfile() {
       try {
@@ -36,56 +36,80 @@ const ProfilePage: React.FC = () => {
   };
 
   return (
-    <div
-      className="profile-page container"
-      style={{
-        padding: "20px",
-        display: "flex",
-        flexDirection: "column",
-        alignItems: "flex-start",
-      }}
-    >
+    <div className="profile-page container" style={{ padding: "20px" }}>
+      <h1 style={{ textAlign: "center", marginBottom: "20px" }}></h1>
       {error && <div style={{ color: "red" }}>Error: {error}</div>}
       {userInfo ? (
-        <div className="profile-header" style={{ textAlign: "left" }}>
-          {userInfo.profilePic && (
-            <img
-              src={userInfo.profilePic}
-              alt="Profile"
-              style={{
-                width: "150px",
-                height: "150px",
-                borderRadius: "50%",
-                marginBottom: "10px",
-              }}
-            />
-          )}
-          <h3 style={{ margin: "0 0 10px 0" }}>
-            {userInfo.firstName} {userInfo.lastName}
-          </h3>
-          <p style={{ margin: "0 0 5px 0" }}>
-            <strong>Email:</strong> {userInfo.email}
-          </p>
-          <p style={{ margin: 0 }}>
-            <strong>Bio:</strong> {userInfo.bio}
-          </p>
-          {/* Optional Edit button */}
-          <button
-            onClick={navigateToEdit}
+        <>
+        
+          <div className="profile-header" style={{ textAlign: "left" }}>
+            {userInfo.profilePic && (
+              <img
+                src={userInfo.profilePic}
+                alt="Profile"
+                style={{ width: "150px", height: "150px", borderRadius: "50%" }}
+              />
+            )}
+            <h3>
+              {userInfo.firstName} {userInfo.lastName}
+            </h3>
+            <p><strong>Email:</strong> {userInfo.email}</p>
+            <p><strong>Bio:</strong> {userInfo.bio}</p>
+          </div>
+
+          {/* Followers and Following (Horizontal, centered) */}
+          <div
+            className="followers-following"
             style={{
-              marginTop: "20px",
-              padding: "10px 20px",
-              fontSize: "16px",
-              cursor: "pointer",
-              backgroundColor: "#007bff",
-              color: "#fff",
-              border: "none",
-              borderRadius: "4px",
+              display: "flex",
+              justifyContent: "center",
+              alignItems: "center",
+              marginTop: "50px",
+              gap: "50px",
             }}
           >
-            Edit Profile
-          </button>
-        </div>
+            <div className="followers" style={{ textAlign: "center" }}>
+              <h4>Followers</h4>
+              <p>{userInfo.followers ? userInfo.followers.length : 0}</p>
+              {userInfo.followers && userInfo.followers.length > 0 && (
+                <div style={{ display: "flex", gap: "10px", justifyContent: "center" }}>
+                  {userInfo.followers.map((follower: string, index: number) => (
+                    <span key={index}>{follower}</span>
+                  ))}
+                </div>
+              )}
+            </div>
+            <div className="following" style={{ textAlign: "center" }}>
+              <h4>Following</h4>
+              <p>{userInfo.following ? userInfo.following.length : 0}</p>
+              {userInfo.following && userInfo.following.length > 0 && (
+                <div style={{ display: "flex", gap: "10px", justifyContent: "center" }}>
+                  {userInfo.following.map((following: string, index: number) => (
+                    <span key={index}>{following}</span>
+                  ))}
+                </div>
+              )}
+            </div>
+          </div>
+
+          
+          <div style={{ marginTop: "20px", textAlign: "left" }}>
+            <button
+              onClick={navigateToEdit}
+              style={{
+                padding: "10px 20px",
+                fontSize: "16px",
+                cursor: "pointer",
+                backgroundColor: "#007bff",
+                color: "#fff",
+                border: "none",
+                borderRadius: "4px",
+              }}
+            >
+              Edit Profile
+            </button>
+          </div>
+        </>
       ) : (
         <div>No profile information available</div>
       )}
