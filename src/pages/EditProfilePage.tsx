@@ -1,6 +1,5 @@
 import React, { useState, useEffect } from "react";
-import { useNavigate } from "react-router-dom"; // Import to handle navigation
-
+import { useNavigate } from "react-router-dom";
 
 const EditProfilePage: React.FC = () => {
   const [name, setName] = useState<string>("");
@@ -14,7 +13,7 @@ const EditProfilePage: React.FC = () => {
   const [picMessage, setPicMessage] = useState<string>("");
 
   const user = JSON.parse(localStorage.getItem("user_data") || "{}");
-  const history = useNavigate(); // Used for navigation
+  const navigate = useNavigate();
 
   useEffect(() => {
     // Fetch current profile data for editing
@@ -56,7 +55,7 @@ const EditProfilePage: React.FC = () => {
 
     try {
       const response = await fetch(`/api/profile/${user.id}/edit`, {
-        method: "PUT", 
+        method: "PUT",
         headers: {
           "Content-Type": "application/json",
         },
@@ -74,14 +73,14 @@ const EditProfilePage: React.FC = () => {
       }
 
       alert("Profile updated successfully");
-      history("/profile"); // Navigate back to profile page after successful update
+      navigate("/profile"); // Navigate back to profile page after successful update
     } catch (err: any) {
       setError(err.message);
       setLoading(false);
     }
   };
 
-  const postDetails = (pics: any) => {
+  const postDetails = (pics: File) => {
     setPicMessage(""); // Clear previous messages
     if (pics.type === "image/jpeg" || pics.type === "image/png") {
       const reader = new FileReader();
@@ -97,75 +96,94 @@ const EditProfilePage: React.FC = () => {
   if (loading) return <div>Loading...</div>;
 
   return (
-    <div className="edit-profile-page">
+    <div className="edit-profile-page" style={{ maxWidth: "600px", margin: "0 auto", padding: "20px" }}>
       <h1>Edit Profile</h1>
       {error && <div style={{ color: "red" }}>Error: {error}</div>}
-
-      <Row>
-        <Col md={6}>
-          <Form onSubmit={submitHandler}>
-            <Form.Group controlId="name">
-              <Form.Label>Name</Form.Label>
-              <Form.Control
-                type="text"
-                placeholder="Enter Name"
-                value={name}
-                onChange={(e: React.ChangeEvent<HTMLInputElement>) => setName(e.target.value)}
-              />
-            </Form.Group>
-            <Form.Group controlId="email">
-              <Form.Label>Email Address</Form.Label>
-              <Form.Control
-                type="email"
-                placeholder="Enter Email"
-                value={email}
-                onChange={(e: React.ChangeEvent<HTMLInputElement>) => setEmail(e.target.value)}
-              />
-            </Form.Group>
-            <Form.Group controlId="bio">
-              <Form.Label>Bio</Form.Label>
-              <Form.Control
-                as="textarea"
-                rows={3}
-                value={bio}
-                onChange={(e: React.ChangeEvent<HTMLTextAreaElement>) => setBio(e.target.value)}
-                placeholder="Tell us about yourself"
-              />
-            </Form.Group>
-            <Form.Group controlId="password">
-              <Form.Label>Password</Form.Label>
-              <Form.Control
-                type="password"
-                placeholder="Enter Password"
-                value={password}
-                onChange={(e: React.ChangeEvent<HTMLInputElement>) => setPassword(e.target.value)}
-              />
-            </Form.Group>
-            <Form.Group controlId="confirmPassword">
-              <Form.Label>Confirm Password</Form.Label>
-              <Form.Control
-                type="password"
-                placeholder="Confirm Password"
-                value={confirmPassword}
-                onChange={(e: React.ChangeEvent<HTMLInputElement>) => setConfirmPassword(e.target.value)}
-              />
-            </Form.Group>
-            {picMessage && <div style={{ color: "red" }}>{picMessage}</div>}
-            <Form.Group controlId="pic">
-              <Form.Label>Change Profile Picture</Form.Label>
-              <Form.File
-                onChange={(e: React.ChangeEvent<HTMLInputElement>) => postDetails(e.target.files![0])}
-                id="custom-file"
-                label="Upload Profile Picture"
-                custom
-              />
-            </Form.Group>
-            <Button type="submit" variant="primary">
-              Update Profile
-            </Button>
-          </Form>
-        </Col>
-      </Row>
+      <form onSubmit={submitHandler}>
+        <div className="form-group" style={{ marginBottom: "15px" }}>
+          <label htmlFor="name">Name</label>
+          <input
+            type="text"
+            id="name"
+            placeholder="Enter Name"
+            value={name}
+            onChange={(e: React.ChangeEvent<HTMLInputElement>) => setName(e.target.value)}
+            style={{ width: "100%", padding: "8px", boxSizing: "border-box" }}
+          />
+        </div>
+        <div className="form-group" style={{ marginBottom: "15px" }}>
+          <label htmlFor="email">Email Address</label>
+          <input
+            type="email"
+            id="email"
+            placeholder="Enter Email"
+            value={email}
+            onChange={(e: React.ChangeEvent<HTMLInputElement>) => setEmail(e.target.value)}
+            style={{ width: "100%", padding: "8px", boxSizing: "border-box" }}
+          />
+        </div>
+        <div className="form-group" style={{ marginBottom: "15px" }}>
+          <label htmlFor="bio">Bio</label>
+          <textarea
+            id="bio"
+            placeholder="Tell us about yourself"
+            value={bio}
+            onChange={(e: React.ChangeEvent<HTMLTextAreaElement>) => setBio(e.target.value)}
+            rows={3}
+            style={{ width: "100%", padding: "8px", boxSizing: "border-box" }}
+          ></textarea>
+        </div>
+        <div className="form-group" style={{ marginBottom: "15px" }}>
+          <label htmlFor="password">Password</label>
+          <input
+            type="password"
+            id="password"
+            placeholder="Enter Password"
+            value={password}
+            onChange={(e: React.ChangeEvent<HTMLInputElement>) => setPassword(e.target.value)}
+            style={{ width: "100%", padding: "8px", boxSizing: "border-box" }}
+          />
+        </div>
+        <div className="form-group" style={{ marginBottom: "15px" }}>
+          <label htmlFor="confirmPassword">Confirm Password</label>
+          <input
+            type="password"
+            id="confirmPassword"
+            placeholder="Confirm Password"
+            value={confirmPassword}
+            onChange={(e: React.ChangeEvent<HTMLInputElement>) => setConfirmPassword(e.target.value)}
+            style={{ width: "100%", padding: "8px", boxSizing: "border-box" }}
+          />
+        </div>
+        {picMessage && <div style={{ color: "red", marginBottom: "15px" }}>{picMessage}</div>}
+        <div className="form-group" style={{ marginBottom: "15px" }}>
+          <label htmlFor="pic">Change Profile Picture</label>
+          <input
+            type="file"
+            id="pic"
+            onChange={(e: React.ChangeEvent<HTMLInputElement>) => {
+              if (e.target.files && e.target.files.length > 0) {
+                postDetails(e.target.files[0]);
+              }
+            }}
+            style={{ width: "100%" }}
+          />
+        </div>
+        <button
+          type="submit"
+          style={{
+            padding: "10px 20px",
+            fontSize: "16px",
+            cursor: "pointer",
+            backgroundColor: "#007bff",
+            color: "#fff",
+            border: "none",
+            borderRadius: "4px"
+          }}
+        >
+          Update Profile
+        </button>
+      </form>
     </div>
   );
 };

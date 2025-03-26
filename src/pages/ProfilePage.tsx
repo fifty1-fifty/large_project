@@ -1,14 +1,13 @@
 import React, { useEffect, useState } from "react";
-import { useNavigate } from "react-router-dom"; 
-
+import { useNavigate } from "react-router-dom";
 
 const ProfilePage: React.FC = () => {
-  const [userInfo, setUserInfo] = useState<any>(null); 
-  const [loading, setLoading] = useState<boolean>(false); 
-  const [error, setError] = useState<string>(""); 
+  const [userInfo, setUserInfo] = useState<any>(null);
+  const [loading, setLoading] = useState<boolean>(false);
+  const [error, setError] = useState<string>("");
 
   const user = JSON.parse(localStorage.getItem("user_data") || "{}");
-  const navigate = useNavigate(); 
+  const navigate = useNavigate();
 
   useEffect(() => {
     async function fetchProfile() {
@@ -37,7 +36,7 @@ const ProfilePage: React.FC = () => {
     navigate("/edit");
   };
 
-  if (loading) return <Spinner animation="border" variant="primary" />;
+  if (loading) return <div>Loading...</div>;
 
   return (
     <div className="profile-page container mt-5">
@@ -45,34 +44,24 @@ const ProfilePage: React.FC = () => {
       {error && <div style={{ color: "red" }}>Error: {error}</div>}
 
       {userInfo ? (
-        <Row className="justify-content-center">
-          <Col md={8}>
-            <Card>
-              <Card.Body>
-                <Row className="align-items-center">
-                  <Col md={4} className="text-center">
-                    {userInfo.profilePic && (
-                      <img
-                        src={userInfo.profilePic}
-                        alt="Profile"
-                        className="rounded-circle"
-                        style={{ width: "150px", height: "150px" }}
-                      />
-                    )}
-                  </Col>
-                  <Col md={8}>
-                    <h3>{userInfo.firstName} {userInfo.lastName}</h3>
-                    <p><strong>Email:</strong> {userInfo.email}</p>
-                    <p><strong>Bio:</strong> {userInfo.bio}</p>
-                    <Button variant="primary" onClick={navigateToEdit}>
-                      Edit Profile
-                    </Button>
-                  </Col>
-                </Row>
-              </Card.Body>
-            </Card>
-          </Col>
-        </Row>
+        <div className="profile-info text-center">
+          <div>
+            {userInfo.profilePic && (
+              <img
+                src={userInfo.profilePic}
+                alt="Profile"
+                className="rounded-circle"
+                style={{ width: "150px", height: "150px" }}
+              />
+            )}
+          </div>
+          <h3>{userInfo.firstName} {userInfo.lastName}</h3>
+          <p><strong>Email:</strong> {userInfo.email}</p>
+          <p><strong>Bio:</strong> {userInfo.bio}</p>
+          <button onClick={navigateToEdit} style={{ padding: "10px 20px", fontSize: "16px", cursor: "pointer" }}>
+            Edit Profile
+          </button>
+        </div>
       ) : (
         <div>No profile information available</div>
       )}
