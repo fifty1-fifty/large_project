@@ -6,18 +6,23 @@ const ProfilePage: React.FC = () => {
   const [loading, setLoading] = useState<boolean>(false);
   const [error, setError] = useState<string>("");
 
-  const user = JSON.parse(localStorage.getItem("user_data") || "{}");
+  // Read user data from localStorage once and extract the user ID
+  const storedUser = localStorage.getItem("user_data");
+  const user = storedUser ? JSON.parse(storedUser) : {};
+  const userId = user?.id;
+
   const navigate = useNavigate();
 
   useEffect(() => {
+    if (!userId) return; // If there's no user ID, do nothing.
+
     async function fetchProfile() {
       setLoading(true);
       try {
-        const response = await fetch(`/api/profile/${user.id}`);
+        const response = await fetch(`/api/profile/${userId}`);
         if (!response.ok) {
           throw new Error("Failed to fetch user profile");
         }
-
         const profileData = await response.json();
         setUserInfo(profileData);
       } catch (err: any) {
@@ -27,10 +32,8 @@ const ProfilePage: React.FC = () => {
       }
     }
 
-    if (user?.id) {
-      fetchProfile();
-    }
-  }, [user]);
+    fetchProfile();
+  }, [userId]); // Depend on userId instead of the full user object
 
   const navigateToEdit = () => {
     navigate("/edit");
@@ -58,7 +61,10 @@ const ProfilePage: React.FC = () => {
           <h3>{userInfo.firstName} {userInfo.lastName}</h3>
           <p><strong>Email:</strong> {userInfo.email}</p>
           <p><strong>Bio:</strong> {userInfo.bio}</p>
-          <button onClick={navigateToEdit} style={{ padding: "10px 20px", fontSize: "16px", cursor: "pointer" }}>
+          <button
+            onClick={navigateToEdit}
+            style={{ padding: "10px 20px", fontSize: "16px", cursor: "pointer" }}
+          >
             Edit Profile
           </button>
         </div>
