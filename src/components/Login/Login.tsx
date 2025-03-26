@@ -2,23 +2,7 @@ import React, { useState } from 'react';
 import "./Login.css";
 import home from "./home.png";
 import isEmail from 'isemail';
-
-
-const app_name = 'group22cop4331c.xyz';
-
-
-function buildPath(route:string) : string
-{
-    if (process.env.NODE_ENV != 'development')
-    {
-        return 'http://' + app_name + route;
-    }
-    else
-    {
-        return 'http://localhost:5000/' + route;
-    }
-}
-
+import { buildPath } from '../../utils'; 
 
 function Login()
 {
@@ -33,7 +17,7 @@ function Login()
     const [usernameError, setUsernameError] = useState('');
     const [passwordError, setPasswordError] = useState('');
 
-	
+
 	function validateInputs(): boolean {
         let valid = true;
 

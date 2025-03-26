@@ -1,41 +1,39 @@
 import React, { useState } from 'react';
-//import { Buffer } from 'buffer';
 import "./Register.css";
 import isEmail from 'isemail';
+import { buildPath } from '../../utils'; 
 
+const Register: React.FC = () => {
+    const [message, setMessage] = useState('');
 
-const app_name = 'group22cop4331c.xyz';
+    // States for attributes
+    const [firstName, setFirstName] = useState('');
+    const [lastName, setLastName] = useState('');
+    const [registerEmail, setEmail] = useState('');
+    const [registerUserName, setRegisterName] = useState('');
+    const [registerPassword, setRegisterPassword] = useState('');
+    const [bio, setBio] = useState('');
+    const [profilePic, setProfilePic] = useState<File | null>(null);
 
-
-function buildPath(route:string) : string
-{
-    if (process.env.NODE_ENV != 'development')
-    {
-        return 'http://' + app_name + route;
-    }
-    else
-    {
-        return 'http://localhost:5000/' + route;
-    }
-}
-
-
-
-function Register()
-{
-    const [message,setMessage] = useState('');
-    
-    const [firstName,setFirstName] = React.useState('');
-    const [lastName,setLastName] = React.useState('');
-    const [registerEmail,setEmail] = React.useState('');
-    const [registerUserName,setRegisterName] = React.useState('');
-    const [registerPassword,setRegisterPassword] = React.useState('');
-
-    // register credentials validator
+    // States for errors
     const [emailError, setEmailError] = useState('');
     const [usernameError, setUsernameError] = useState('');
     const [passwordError, setPasswordError] = useState('');
-    function validateRegister(): boolean {
+
+    // Calls check-username input to verifiy username availability
+    const checkUsernameAvailability = async (username: string) => {
+        const response = await fetch(buildPath('/api/check-username'), {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({ username })
+        });
+
+        const result = await response.json();
+        return result.exists ? 'Username already taken' : '';
+    };
+
+    // Async function to can use await for checkUsernameAvailability
+    const validateRegister = async (): Promise<boolean> => {
         let valid = true;
 
         if (!isEmail.validate(registerEmail)) {
@@ -48,9 +46,6 @@ function Register()
         if (registerUserName.trim() === '') {
             setUsernameError('Username cannot be empty.');
             valid = false;
-            /*
-                add username check to see if username already exists
-            */
         } else {
             setUsernameError('');
         }
@@ -62,114 +57,112 @@ function Register()
             setPasswordError('');
         }
 
+        const usernameTaken = await checkUsernameAvailability(registerUserName);
+        if (usernameTaken) {
+            setUsernameError(usernameTaken);
+            valid = false;
+        }
+
         return valid;
-    }
-    
+    };
 
-    async function doRegister(event:any) : Promise<void>
-    {
+    const doRegister = async (event: React.FormEvent) => {
         event.preventDefault();
+        
+        // If valid registration, then create and append to formData
+        if (!(await validateRegister())) return;
 
-        if(!validateRegister()) {
-            return;
-        }
+        const formData = new FormData();
+        formData.append('firstName', firstName);
+        formData.append('lastName', lastName);
+        formData.append('email', registerEmail);
+        formData.append('username', registerUserName);
+        formData.append('password', registerPassword);
+        formData.append('bio', bio);
 
-        var obj = {first:firstName, last:lastName, regemail:registerEmail, regname:registerUserName, regpassword:registerPassword}
-        var js = JSON.stringify(obj);
+        if (profilePic) formData.append('profilePic', profilePic);
 
-        try
-        {
-            setMessage("Test"); //this is stupid
-            const response = await fetch(buildPath('/api/register'),
-            {method:'POST',body:js,headers:{'Content-Type': 'application/json'}})
-            console.log(response);
-            //var res = JSON.parse(await response.text());
+        // Call registration endpoint with formData
+        try {
+            const response = await fetch(buildPath('/api/register'), {
+                method: 'POST',
+                body: formData,
+            });
 
-            window.location.href = '/registerComplete';
+            const res = await response.json();
 
-        }
-            
-        catch(error:any)
-        {
-            alert(error.toString());
-            return;
+            if (!res.error) {
+                localStorage.setItem('user_data', JSON.stringify({
+                    firstName,
+                    lastName,
+                    login: registerUserName,
+                    email: registerEmail,
+                    bio
+                }));
+                
+                window.location.href = '/home';
+            } else {
+                setMessage(res.error);
+            }
+        } catch (error: any) {
+            setMessage(error.toString());
         }
     };
 
-    function handleSetRegisterFirstName( e: any ) : void
-    {
-        setFirstName( e.target.value );
-    }
-
-    function handleSetRegisterLastName( e: any ) : void
-    {
-        setLastName( e.target.value );
-    }
-
-    function handleSetRegisterEmail( e: any ) : void
-    {        
-        setEmail(e.target.value); 
-    }
-
-    function handleSetRegisterUserName( e: any ) : void
-    {
-        setRegisterName( e.target.value );
-    }
-
-    function handleSetRegisterPassword( e: any ) : void
-    {
-        setRegisterPassword( e.target.value );
-    }
-
-    function backToLogin()
-    {
+    const backToLogin = () => {
         window.location.href = '/login';
-    }
+    };
 
-    return(
+    return (
         <div className="row" id="background">
-            <div className="signup-container" id="fade-in" >
-                
-                <div className="form-group" id="getridofttheannoyingbackgroun">
-                    <input type="text" id="input" placeholder="Enter Email" value={registerEmail}
-                    onChange={handleSetRegisterEmail} />
-                </div>
+            <div className="signup-container" id="fade-in">
+                <form onSubmit={doRegister}>
+                    <div className="form-group" id="getridofttheannoyingbackgroun">
+                        <input type="text" id="input" placeholder="Enter Email" value={registerEmail}
+                            onChange={(e) => setEmail(e.target.value)} />
+                        {emailError && <span className="error-message">{emailError}</span>}
+                    </div>
 
-        
-                <div className="form-group" id="getridofttheannoyingbackgroun">
-                    <input type="text" id="input" placeholder="Enter Username" value={registerUserName}
-                    onChange={handleSetRegisterUserName} />
-                </div>
+                    <div className="form-group" id="getridofttheannoyingbackgroun">
+                        <input type="text" id="input" placeholder="Enter Username" value={registerUserName}
+                            onChange={(e) => setRegisterName(e.target.value)} />
+                        {usernameError && <span className="error-message">{usernameError}</span>}
+                    </div>
 
+                    <div className="form-group" id="getridofttheannoyingbackgroun">
+                        <input type="password" id="input" placeholder="Enter Password" value={registerPassword}
+                            onChange={(e) => setRegisterPassword(e.target.value)} />
+                        {passwordError && <span className="error-message">{passwordError}</span>}
+                    </div>
 
-                <div className="form-group" id="getridofttheannoyingbackgroun">
-                    <input type="password" id="input" placeholder="Enter Password" value={registerPassword}
-                    onChange={handleSetRegisterPassword} />
-                </div>
+                    <div className="form-group" id="getridofttheannoyingbackgroun">
+                        <input type="text" id="input" placeholder="Enter First Name" value={firstName}
+                            onChange={(e) => setFirstName(e.target.value)} />
+                    </div>
 
-                <div className="form-group" id="getridofttheannoyingbackgroun">
-                    <input type="text" id="input" placeholder="Enter First Name" value={firstName}
-                    onChange={handleSetRegisterFirstName} />
-                </div>
+                    <div className="form-group" id="getridofttheannoyingbackgroun">
+                        <input type="text" id="input" placeholder="Enter Last Name" value={lastName}
+                            onChange={(e) => setLastName(e.target.value)} />
+                    </div>
 
-                <div className="form-group" id="getridofttheannoyingbackgroun">
-                    <input type="text" id="input" placeholder="Enter Last Name" value={lastName}
-                    onChange={handleSetRegisterLastName} />
-                </div>
+                    <div className="form-group" id="getridofttheannoyingbackgroun">
+                        <textarea id="input" placeholder="Write your bio..." value={bio} 
+                            onChange={(e) => setBio(e.target.value)} />
+                    </div>
 
-                {emailError && <span className="error-message">{emailError}</span>}
-                {usernameError && <span className="error-message">{usernameError}</span>}    
-                {passwordError && <span className="error-message">{passwordError}</span>}
-        
-                <button id="registerBut" onClick={doRegister}>Get Started</button> 
-                <button id="loginButton" onClick={backToLogin}>Back to Login</button>
-                <span id="loginResult">{message}</span>
+                    <div className="form-group" id="getridofttheannoyingbackgroun">
+                        <input type="file" accept="image/*" 
+                            onChange={(e) => setProfilePic(e.target.files?.[0] || null)} />
+                    </div>
 
-           
+                    <button type="submit" id="registerBut">Get Started</button>
+                    <button type="button" id="loginButton" onClick={backToLogin}>Back to Login</button>
+
+                    {message && <span id="loginResult">{message}</span>}
+                </form>
             </div>
-            
         </div>
     );
 };
+
 export default Register;
-  

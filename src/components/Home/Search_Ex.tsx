@@ -1,23 +1,7 @@
 import Gallery_Ex from "./Gallery_Ex"
 import React, { useState, useEffect } from "react";
 import "./Search_Ex.css";
-
-
-
-const app_name = 'group22cop4331c.xyz';
-
-
-function buildPath(route:string) : string
-{
-    if (process.env.NODE_ENV != 'development')
-    {
-        return 'http://' + app_name + route;
-    }
-    else
-    {
-        return 'http://localhost:5000/' + route;
-    }
-} 
+import { buildPath } from '../../utils'; 
 
 let pageNumber = 1;
 const Search_Ex = () => 
