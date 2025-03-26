@@ -1,0 +1,136 @@
+/* Center the form */
+.signup-container {
+  width: 100%;
+  height: 150%;
+  max-width: 350px;
+  margin: 50px auto;
+  padding: 12px;
+  background: #EDf2f4;
+  border-radius: 3px;
+  box-shadow: 0px 1px 4px rgb(65, 65, 65);
+  text-align: center;
+}
+
+#getridofttheannoyingbackgroun
+{
+  background: none;
+}
+
+#test
+{
+  background-color: red;
+}
+
+
+/* Style form groups */
+.form-group {
+   display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  margin-bottom: 15px;
+}
+
+
+/* Style input fields */
+#input
+{
+  width: 95%;
+  padding: 10px;
+  background: #8d99Ae;
+  border-radius: 5px;
+  font-size: 14px;
+  color: rgb(41, 39, 39);
+}
+
+
+
+
+/* Style buttons */
+button {
+  width: 100%;
+  padding: 10px;
+  border: none;
+  border-radius: 5px;
+  font-size: 16px;
+  font-weight: 600;
+  cursor: pointer;
+  margin-top: 10px;
+}
+
+#registerBut
+{
+  padding: 5px;
+  margin-top: 0px;
+  width: 75%;
+  background-color: #ef233c;
+  color: rgb(255, 255, 255);
+}
+
+#loginButton 
+{
+   width: 50%;
+  background: none;
+  color: #d80032;
+  margin-top: -5000px;
+  padding: 0px;
+}
+
+
+
+
+
+button:hover {
+  opacity: 0.9;
+}
+
+
+
+/* Error message styling */
+/*.error-message {
+  display: block;
+  padding: 2px;
+  font-size: 14px;
+  color: black;
+} */
+
+#error-are
+{
+  background: none;
+  margin-top: 10px;
+  min-height: 60px;
+  margin-bottom: 10px;
+  width: 100%;
+}
+
+#err
+{
+  display: block;
+  font-size: 14px;
+  color: #ed4337;
+  padding: 0px;
+}
+
+
+
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(50px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+#fade-in {
+  animation: fadeIn 1.2s ease-out;
+}
+
+
+
+
+
+
+
