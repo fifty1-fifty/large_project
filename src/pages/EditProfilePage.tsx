@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useEffect, useState, useMemo } from "react";
 import { useNavigate } from "react-router-dom";
 
 const EditProfilePage: React.FC = () => {
@@ -11,14 +11,20 @@ const EditProfilePage: React.FC = () => {
   const [error, setError] = useState<string>("");
   const [picMessage, setPicMessage] = useState<string>("");
 
-  const user = JSON.parse(localStorage.getItem("user_data") || "{}");
+  // Parse localStorage once and memoize the userId
+  const userId = useMemo(() => {
+    const storedUser = localStorage.getItem("user_data");
+    const user = storedUser ? JSON.parse(storedUser) : {};
+    return user?.id;
+  }, []);
+
   const navigate = useNavigate();
 
   useEffect(() => {
-    // Fetch current profile data for editing
+    if (!userId) return;
     async function fetchProfile() {
       try {
-        const response = await fetch(`/api/profile/${user.id}`);
+        const response = await fetch(`/api/profile/${userId}`);
         if (!response.ok) {
           throw new Error("Failed to fetch user profile for editing");
         }
@@ -31,15 +37,11 @@ const EditProfilePage: React.FC = () => {
         setError(err.message);
       }
     }
-
-    if (user?.id) {
-      fetchProfile();
-    }
-  }, [user]);
+    fetchProfile();
+  }, [userId]);
 
   const submitHandler = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-
     // Validate passwords match
     if (password !== confirmPassword) {
       setError("Passwords do not match");
@@ -47,24 +49,14 @@ const EditProfilePage: React.FC = () => {
     }
 
     try {
-      const response = await fetch(`/api/profile/${user.id}/edit`, {
+      const response = await fetch(`/api/profile/${userId}/edit`, {
         method: "PUT",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify({
-          name,
-          email,
-          bio,
-          password,
-          profilePic,
-        }),
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ name, email, bio, password, profilePic }),
       });
-
       if (!response.ok) {
         throw new Error("Failed to update profile");
       }
-
       alert("Profile updated successfully");
       navigate("/profile"); // Navigate back to profile page after successful update
     } catch (err: any) {
@@ -78,7 +70,7 @@ const EditProfilePage: React.FC = () => {
       const reader = new FileReader();
       reader.readAsDataURL(pics); // Convert image to base64
       reader.onloadend = () => {
-        setProfilePic(reader.result as string); // Set base64 string as profilePic
+        setProfilePic(reader.result as string);
       };
     } else {
       setPicMessage("Please select a valid image (JPEG or PNG).");
@@ -86,10 +78,7 @@ const EditProfilePage: React.FC = () => {
   };
 
   return (
-    <div
-      className="edit-profile-page"
-      style={{ maxWidth: "600px", margin: "0 auto", padding: "20px" }}
-    >
+    <div className="edit-profile-page" style={{ maxWidth: "600px", margin: "0 auto", padding: "20px" }}>
       <h1>Edit Profile</h1>
       {error && <div style={{ color: "red" }}>Error: {error}</div>}
       <form onSubmit={submitHandler}>
@@ -100,9 +89,7 @@ const EditProfilePage: React.FC = () => {
             id="name"
             placeholder="Enter Name"
             value={name}
-            onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
-              setName(e.target.value)
-            }
+            onChange={(e: React.ChangeEvent<HTMLInputElement>) => setName(e.target.value)}
             style={{ width: "100%", padding: "8px", boxSizing: "border-box" }}
           />
         </div>
@@ -113,9 +100,7 @@ const EditProfilePage: React.FC = () => {
             id="email"
             placeholder="Enter Email"
             value={email}
-            onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
-              setEmail(e.target.value)
-            }
+            onChange={(e: React.ChangeEvent<HTMLInputElement>) => setEmail(e.target.value)}
             style={{ width: "100%", padding: "8px", boxSizing: "border-box" }}
           />
         </div>
@@ -125,9 +110,7 @@ const EditProfilePage: React.FC = () => {
             id="bio"
             placeholder="Tell us about yourself"
             value={bio}
-            onChange={(e: React.ChangeEvent<HTMLTextAreaElement>) =>
-              setBio(e.target.value)
-            }
+            onChange={(e: React.ChangeEvent<HTMLTextAreaElement>) => setBio(e.target.value)}
             rows={3}
             style={{ width: "100%", padding: "8px", boxSizing: "border-box" }}
           ></textarea>
@@ -139,9 +122,7 @@ const EditProfilePage: React.FC = () => {
             id="password"
             placeholder="Enter Password"
             value={password}
-            onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
-              setPassword(e.target.value)
-            }
+            onChange={(e: React.ChangeEvent<HTMLInputElement>) => setPassword(e.target.value)}
             style={{ width: "100%", padding: "8px", boxSizing: "border-box" }}
           />
         </div>
@@ -152,15 +133,11 @@ const EditProfilePage: React.FC = () => {
             id="confirmPassword"
             placeholder="Confirm Password"
             value={confirmPassword}
-            onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
-              setConfirmPassword(e.target.value)
-            }
+            onChange={(e: React.ChangeEvent<HTMLInputElement>) => setConfirmPassword(e.target.value)}
             style={{ width: "100%", padding: "8px", boxSizing: "border-box" }}
           />
         </div>
-        {picMessage && (
-          <div style={{ color: "red", marginBottom: "15px" }}>{picMessage}</div>
-        )}
+        {picMessage && <div style={{ color: "red", marginBottom: "15px" }}>{picMessage}</div>}
         <div className="form-group" style={{ marginBottom: "15px" }}>
           <label htmlFor="pic">Change Profile Picture</label>
           <input
