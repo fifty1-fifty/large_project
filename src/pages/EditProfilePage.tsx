@@ -8,7 +8,6 @@ const EditProfilePage: React.FC = () => {
   const [profilePic, setProfilePic] = useState<string>("");
   const [password, setPassword] = useState<string>("");
   const [confirmPassword, setConfirmPassword] = useState<string>("");
-  const [loading, setLoading] = useState<boolean>(false);
   const [error, setError] = useState<string>("");
   const [picMessage, setPicMessage] = useState<string>("");
 
@@ -18,13 +17,11 @@ const EditProfilePage: React.FC = () => {
   useEffect(() => {
     // Fetch current profile data for editing
     async function fetchProfile() {
-      setLoading(true);
       try {
         const response = await fetch(`/api/profile/${user.id}`);
         if (!response.ok) {
           throw new Error("Failed to fetch user profile for editing");
         }
-
         const profileData = await response.json();
         setName(profileData.firstName);
         setEmail(profileData.email);
@@ -32,8 +29,6 @@ const EditProfilePage: React.FC = () => {
         setProfilePic(profileData.profilePic);
       } catch (err: any) {
         setError(err.message);
-      } finally {
-        setLoading(false);
       }
     }
 
@@ -44,12 +39,10 @@ const EditProfilePage: React.FC = () => {
 
   const submitHandler = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-    setLoading(true);
 
     // Validate passwords match
     if (password !== confirmPassword) {
       setError("Passwords do not match");
-      setLoading(false);
       return;
     }
 
@@ -76,7 +69,6 @@ const EditProfilePage: React.FC = () => {
       navigate("/profile"); // Navigate back to profile page after successful update
     } catch (err: any) {
       setError(err.message);
-      setLoading(false);
     }
   };
 
@@ -93,10 +85,11 @@ const EditProfilePage: React.FC = () => {
     }
   };
 
-  if (loading) return <div>Loading...</div>;
-
   return (
-    <div className="edit-profile-page" style={{ maxWidth: "600px", margin: "0 auto", padding: "20px" }}>
+    <div
+      className="edit-profile-page"
+      style={{ maxWidth: "600px", margin: "0 auto", padding: "20px" }}
+    >
       <h1>Edit Profile</h1>
       {error && <div style={{ color: "red" }}>Error: {error}</div>}
       <form onSubmit={submitHandler}>
@@ -107,7 +100,9 @@ const EditProfilePage: React.FC = () => {
             id="name"
             placeholder="Enter Name"
             value={name}
-            onChange={(e: React.ChangeEvent<HTMLInputElement>) => setName(e.target.value)}
+            onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
+              setName(e.target.value)
+            }
             style={{ width: "100%", padding: "8px", boxSizing: "border-box" }}
           />
         </div>
@@ -118,7 +113,9 @@ const EditProfilePage: React.FC = () => {
             id="email"
             placeholder="Enter Email"
             value={email}
-            onChange={(e: React.ChangeEvent<HTMLInputElement>) => setEmail(e.target.value)}
+            onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
+              setEmail(e.target.value)
+            }
             style={{ width: "100%", padding: "8px", boxSizing: "border-box" }}
           />
         </div>
@@ -128,7 +125,9 @@ const EditProfilePage: React.FC = () => {
             id="bio"
             placeholder="Tell us about yourself"
             value={bio}
-            onChange={(e: React.ChangeEvent<HTMLTextAreaElement>) => setBio(e.target.value)}
+            onChange={(e: React.ChangeEvent<HTMLTextAreaElement>) =>
+              setBio(e.target.value)
+            }
             rows={3}
             style={{ width: "100%", padding: "8px", boxSizing: "border-box" }}
           ></textarea>
@@ -140,7 +139,9 @@ const EditProfilePage: React.FC = () => {
             id="password"
             placeholder="Enter Password"
             value={password}
-            onChange={(e: React.ChangeEvent<HTMLInputElement>) => setPassword(e.target.value)}
+            onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
+              setPassword(e.target.value)
+            }
             style={{ width: "100%", padding: "8px", boxSizing: "border-box" }}
           />
         </div>
@@ -151,11 +152,15 @@ const EditProfilePage: React.FC = () => {
             id="confirmPassword"
             placeholder="Confirm Password"
             value={confirmPassword}
-            onChange={(e: React.ChangeEvent<HTMLInputElement>) => setConfirmPassword(e.target.value)}
+            onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
+              setConfirmPassword(e.target.value)
+            }
             style={{ width: "100%", padding: "8px", boxSizing: "border-box" }}
           />
         </div>
-        {picMessage && <div style={{ color: "red", marginBottom: "15px" }}>{picMessage}</div>}
+        {picMessage && (
+          <div style={{ color: "red", marginBottom: "15px" }}>{picMessage}</div>
+        )}
         <div className="form-group" style={{ marginBottom: "15px" }}>
           <label htmlFor="pic">Change Profile Picture</label>
           <input
@@ -178,7 +183,7 @@ const EditProfilePage: React.FC = () => {
             backgroundColor: "#007bff",
             color: "#fff",
             border: "none",
-            borderRadius: "4px"
+            borderRadius: "4px",
           }}
         >
           Update Profile
