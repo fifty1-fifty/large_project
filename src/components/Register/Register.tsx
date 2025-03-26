@@ -141,7 +141,7 @@ const Register: React.FC = () => {
                     </div>
 
                     <div className="form-group" id="getridofttheannoyingbackgroun">
-                        <input type="text" id="input" placeholder="Enter Last Name lol" value={lastName}
+                        <input type="text" id="input" placeholder="Enter Last Name" value={lastName}
                             onChange={(e) => setLastName(e.target.value)} />
                     </div>
 
@@ -151,9 +151,19 @@ const Register: React.FC = () => {
                     </div>
 
                     <div className="form-group" id="getridofttheannoyingbackgroun">
-                        <input type="file" accept="image/*" 
-                            onChange={(e) => setProfilePic(e.target.files?.[0] || null)} />
+
+                    <label htmlFor="profilePicUpload" className="upload-button">
+                        Choose a Profile Picture
+                    </label>
+                    <input 
+                        id="profilePicUpload" 
+                        type="file" 
+                        accept="image/*" 
+                        onChange={(e) => setProfilePic(e.target.files?.[0] || null)}
+                        style={{ display: 'none' }} 
+                    />
                     </div>
+
 
                     <button type="submit" id="registerBut">Get Started</button>
                     <button type="button" id="loginButton" onClick={backToLogin}>Back to Login</button>
