@@ -13,9 +13,9 @@ function Login()
     const [loginPassword,setPassword] = React.useState('');
 
     //login credentials validator
-    const [emailError, setEmailError] = useState('');
-    const [usernameError, setUsernameError] = useState('');
-    const [passwordError, setPasswordError] = useState('');
+    const [emailError, setEmailError] = useState(' ');
+    const [usernameError, setUsernameError] = useState(' ');
+    const [passwordError, setPasswordError] = useState(' ');
 
 
 	function validateInputs(): boolean {
@@ -37,7 +37,7 @@ function Login()
         }
 
         if (loginPassword.length < 6) {
-            setPasswordError('Password must be at least 6 characters long.');
+            setPasswordError('Password must be at least 6 characters.');
             valid = false;
         } else {
             setPasswordError('');
@@ -167,9 +167,14 @@ function Login()
 
                 <button className="loginButton" onClick={doLogin}>Login</button>
 
-		     {emailError && <span className="error-message">{emailError}</span>}
-		     {usernameError && <span className="error-message">{usernameError}</span>}
-		     {passwordError && <span className="error-message">{passwordError}</span>}
+                <div className="form-group" id="error-dv">
+                     {emailError && <span className="error-message" id="error" >{emailError}</span>}
+		              {usernameError && <span className="error-message" id="error" >{usernameError}</span>}
+		              {passwordError && <span className="error-message" id="error" >{passwordError}</span>}
+                </div>
+
+
+		     
                
                     <h2 id="signupLabel">Don't have an account? </h2>
                     <button className="signupButton" onClick={goToRegister}>Register Here</button>
