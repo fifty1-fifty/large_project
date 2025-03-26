@@ -145,26 +145,6 @@ const Register: React.FC = () => {
                             onChange={(e) => setLastName(e.target.value)} />
                     </div>
 
-                    <div className="form-group" id="getridofttheannoyingbackgroun">
-                        <textarea id="input" placeholder="Write your bio..." value={bio} 
-                            onChange={(e) => setBio(e.target.value)} />
-                    </div>
-
-                    <div className="form-group" id="getridofttheannoyingbackgroun">
-
-                    <label htmlFor="profilePicUpload" className="upload-button">
-                        Choose a Profile Picture
-                    </label>
-                    <input 
-                        id="profilePicUpload" 
-                        type="file" 
-                        accept="image/*" 
-                        onChange={(e) => setProfilePic(e.target.files?.[0] || null)}
-                        style={{ display: 'none' }} 
-                    />
-                    </div>
-
-
                     <button type="submit" id="registerBut">Get Started</button>
                     <button type="button" id="loginButton" onClick={backToLogin}>Back to Login</button>
 

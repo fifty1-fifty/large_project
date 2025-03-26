@@ -4,11 +4,11 @@ import { buildPath } from '../utils';
 const ProfilePage = () => {
     const [userInfo, setUserInfo] = useState<any>(null); // Holds user's profile info
     const [error, setError] = useState<string>('');
+    const [bio, setBio] = useState<string>(''); // State for bio input
+    const [profilePic, setProfilePic] = useState<File | null>(null); // State for profile pic upload
     const user = JSON.parse(localStorage.getItem('user_data') || '{}'); // Get current user info from localStorage
 
     useEffect(() => {
-
-        // Fetch user profile details from backend when component mounts
         async function fetchProfile() {
             try {
                 const response = await fetch(buildPath(`/api/profile/${user.id}`));
@@ -17,11 +17,10 @@ const ProfilePage = () => {
                 }
 
                 const profileData = await response.json();
-                
-                // Set user info to state
-                setUserInfo(profileData); 
+                setUserInfo(profileData);
+                setBio(profileData.bio || ''); // Set initial bio
             } catch (err: any) {
-                setError(err.message); // Handle errors
+                setError(err.message);
             }
         }
 
@@ -38,7 +37,7 @@ const ProfilePage = () => {
     if (!userInfo) {
         return <div>Loading profile...</div>;
     }
-    
+
     return (
         <div className="profile-page">
             <h1>{userInfo.firstName} {userInfo.lastName}'s Profile</h1>
@@ -51,9 +50,26 @@ const ProfilePage = () => {
                 )}
             </div>
 
-            <div className="bio">
-                <h3>Bio:</h3>
-                <p>{userInfo.bio || 'This user has not set a bio.'}</p>
+            <div className="form-group">
+                <textarea 
+                    id="input" 
+                    placeholder="Write your bio..." 
+                    value={bio} 
+                    onChange={(e) => setBio(e.target.value)} 
+                />
+            </div>
+
+            <div className="form-group">
+                <label htmlFor="profilePicUpload" className="upload-button">
+                    Choose a Profile Picture
+                </label>
+                <input 
+                    id="profilePicUpload" 
+                    type="file" 
+                    accept="image/*" 
+                    onChange={(e) => setProfilePic(e.target.files?.[0] || null)}
+                    style={{ display: 'none' }} 
+                />
             </div>
 
             <div className="followers-following">
