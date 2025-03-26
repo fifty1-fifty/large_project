@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom"; 
-import { Button, Row, Col, Card, Spinner } from 'react-bootstrap';
+
 
 const ProfilePage: React.FC = () => {
   const [userInfo, setUserInfo] = useState<any>(null); 

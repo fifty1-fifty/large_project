@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom"; // Import to handle navigation
-import { Button, Row, Col, Form } from 'react-bootstrap';
+
 
 const EditProfilePage: React.FC = () => {
   const [name, setName] = useState<string>("");
