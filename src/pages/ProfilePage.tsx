@@ -39,8 +39,6 @@ const ProfilePage = () => {
         return <div>Loading profile...</div>;
     }
     
-
-    // I have no idea what this will look like
     return (
         <div className="profile-page">
             <h1>{userInfo.firstName} {userInfo.lastName}'s Profile</h1>

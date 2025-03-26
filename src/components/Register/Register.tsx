@@ -141,7 +141,7 @@ const Register: React.FC = () => {
                     </div>
 
                     <div className="form-group" id="getridofttheannoyingbackgroun">
-                        <input type="text" id="input" placeholder="Enter Last Name" value={lastName}
+                        <input type="text" id="input" placeholder="Enter Last Name lol" value={lastName}
                             onChange={(e) => setLastName(e.target.value)} />
                     </div>
 
