@@ -75,17 +75,18 @@ const EditProfilePage: React.FC = () => {
           firstName: updatedProfile.firstName,
           lastName: updatedProfile.lastName,
           email: updatedProfile.email,
-          // Optionally update other fields if needed
+          bio: updatedProfile.bio,
+          profilePicture: updatedProfile.profilePicture
         })
       );
 
       setSuccessMessage("Successful profile update!");
       
 
-       // Redirect to the profile page after successful update
+      // Redirect to profile page
        setTimeout(() => {
-        navigate("/profile"); // Change '/profile' to the path of your profile page
-      }, 1000); // Wait 1 second to show success message before redirecting
+        navigate("/profile"); 
+      }, 1000); 
 
 
       setPassword("");
@@ -98,10 +99,10 @@ const EditProfilePage: React.FC = () => {
   };
 
   const postDetails = (pics: File) => {
-    setPicMessage(""); // Clear previous messages
+    setPicMessage(""); 
     if (pics.type === "image/jpeg" || pics.type === "image/png") {
       const reader = new FileReader();
-      reader.readAsDataURL(pics); // Convert image to base64
+      reader.readAsDataURL(pics); 
       reader.onloadend = () => {
         setProfilePic(reader.result as string);
       };
