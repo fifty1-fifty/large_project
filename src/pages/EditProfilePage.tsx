@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
-import { useHistory } from "react-router-dom"; // Import to handle navigation
-import { Button, Row, Col } from 'react-bootstrap';
+import { useNavigate } from "react-router-dom"; // Import to handle navigation
+import { Button, Row, Col, Form, Spinner } from 'react-bootstrap';
 
 const EditProfilePage: React.FC = () => {
   const [name, setName] = useState<string>("");
@@ -14,7 +14,7 @@ const EditProfilePage: React.FC = () => {
   const [picMessage, setPicMessage] = useState<string>("");
 
   const user = JSON.parse(localStorage.getItem("user_data") || "{}");
-  const history = useHistory(); // Used for navigation
+  const navigate = useNavigate(); // Use navigate for React Router v6
 
   useEffect(() => {
     // Fetch current profile data for editing
@@ -74,7 +74,7 @@ const EditProfilePage: React.FC = () => {
       }
 
       alert("Profile updated successfully");
-      history.push("/profile"); // Navigate back to profile page after successful update
+      navigate("/profile"); // Navigate back to profile page after successful update
     } catch (err: any) {
       setError(err.message);
       setLoading(false);
@@ -94,10 +94,15 @@ const EditProfilePage: React.FC = () => {
     }
   };
 
-  if (loading) return <div>Loading...</div>;
+  if (loading) return (
+    <div className="text-center mt-5">
+      <Spinner animation="border" variant="primary" />
+      <p>Loading...</p>
+    </div>
+  );
 
   return (
-    <div className="edit-profile-page">
+    <div className="edit-profile-page container mt-5">
       <h1>Edit Profile</h1>
       {error && <div style={{ color: "red" }}>Error: {error}</div>}
 
@@ -153,11 +158,11 @@ const EditProfilePage: React.FC = () => {
             {picMessage && <div style={{ color: "red" }}>{picMessage}</div>}
             <Form.Group controlId="pic">
               <Form.Label>Change Profile Picture</Form.Label>
-              <Form.File
+              <Form.Control
+                type="file"
                 onChange={(e) => postDetails(e.target.files[0])}
                 id="custom-file"
                 label="Upload Profile Picture"
-                custom
               />
             </Form.Group>
             <Button type="submit" variant="primary">
