@@ -86,11 +86,27 @@ button:hover {
 
 
 /* Error message styling */
-.error-message {
+/*.error-message {
   display: block;
   padding: 2px;
   font-size: 14px;
   color: black;
+} */
+
+#error-are
+{
+  background: none;
+  margin-top: 10px;
+  min-height: 60px;
+  margin-bottom: 10px;
+  width: 100%;
+}
+
+#err
+{
+  font-size: 12px;
+  color: #ed4337;
+  padding: 0px;
 }
 
 
