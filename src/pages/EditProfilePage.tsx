@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom"; // Import to handle navigation
-import { Button, Row, Col, Form, Spinner } from 'react-bootstrap';
+import { Button, Row, Col, Form } from 'react-bootstrap';
 
 const EditProfilePage: React.FC = () => {
   const [name, setName] = useState<string>("");
@@ -14,7 +14,7 @@ const EditProfilePage: React.FC = () => {
   const [picMessage, setPicMessage] = useState<string>("");
 
   const user = JSON.parse(localStorage.getItem("user_data") || "{}");
-  const navigate = useNavigate(); // Use navigate for React Router v6
+  const history = useNavigate(); // Used for navigation
 
   useEffect(() => {
     // Fetch current profile data for editing
@@ -43,7 +43,7 @@ const EditProfilePage: React.FC = () => {
     }
   }, [user]);
 
-  const submitHandler = async (e: React.FormEvent) => {
+  const submitHandler = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     setLoading(true);
 
@@ -74,7 +74,7 @@ const EditProfilePage: React.FC = () => {
       }
 
       alert("Profile updated successfully");
-      navigate("/profile"); // Navigate back to profile page after successful update
+      history("/profile"); // Navigate back to profile page after successful update
     } catch (err: any) {
       setError(err.message);
       setLoading(false);
@@ -94,15 +94,10 @@ const EditProfilePage: React.FC = () => {
     }
   };
 
-  if (loading) return (
-    <div className="text-center mt-5">
-      <Spinner animation="border" variant="primary" />
-      <p>Loading...</p>
-    </div>
-  );
+  if (loading) return <div>Loading...</div>;
 
   return (
-    <div className="edit-profile-page container mt-5">
+    <div className="edit-profile-page">
       <h1>Edit Profile</h1>
       {error && <div style={{ color: "red" }}>Error: {error}</div>}
 
@@ -115,7 +110,7 @@ const EditProfilePage: React.FC = () => {
                 type="text"
                 placeholder="Enter Name"
                 value={name}
-                onChange={(e) => setName(e.target.value)}
+                onChange={(e: React.ChangeEvent<HTMLInputElement>) => setName(e.target.value)}
               />
             </Form.Group>
             <Form.Group controlId="email">
@@ -124,7 +119,7 @@ const EditProfilePage: React.FC = () => {
                 type="email"
                 placeholder="Enter Email"
                 value={email}
-                onChange={(e) => setEmail(e.target.value)}
+                onChange={(e: React.ChangeEvent<HTMLInputElement>) => setEmail(e.target.value)}
               />
             </Form.Group>
             <Form.Group controlId="bio">
@@ -133,7 +128,7 @@ const EditProfilePage: React.FC = () => {
                 as="textarea"
                 rows={3}
                 value={bio}
-                onChange={(e) => setBio(e.target.value)}
+                onChange={(e: React.ChangeEvent<HTMLTextAreaElement>) => setBio(e.target.value)}
                 placeholder="Tell us about yourself"
               />
             </Form.Group>
@@ -143,7 +138,7 @@ const EditProfilePage: React.FC = () => {
                 type="password"
                 placeholder="Enter Password"
                 value={password}
-                onChange={(e) => setPassword(e.target.value)}
+                onChange={(e: React.ChangeEvent<HTMLInputElement>) => setPassword(e.target.value)}
               />
             </Form.Group>
             <Form.Group controlId="confirmPassword">
@@ -152,17 +147,17 @@ const EditProfilePage: React.FC = () => {
                 type="password"
                 placeholder="Confirm Password"
                 value={confirmPassword}
-                onChange={(e) => setConfirmPassword(e.target.value)}
+                onChange={(e: React.ChangeEvent<HTMLInputElement>) => setConfirmPassword(e.target.value)}
               />
             </Form.Group>
             {picMessage && <div style={{ color: "red" }}>{picMessage}</div>}
             <Form.Group controlId="pic">
               <Form.Label>Change Profile Picture</Form.Label>
-              <Form.Control
-                type="file"
-                onChange={(e) => postDetails(e.target.files[0])}
+              <Form.File
+                onChange={(e: React.ChangeEvent<HTMLInputElement>) => postDetails(e.target.files![0])}
                 id="custom-file"
                 label="Upload Profile Picture"
+                custom
               />
             </Form.Group>
             <Button type="submit" variant="primary">
