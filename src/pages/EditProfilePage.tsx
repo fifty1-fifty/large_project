@@ -75,7 +75,8 @@ const EditProfilePage: React.FC = () => {
           firstName: updatedProfile.firstName,
           lastName: updatedProfile.lastName,
           email: updatedProfile.email,
-          // Optionally update other fields if needed
+          bio: updatedProfile.bio, 
+          profilePic: updatedProfile.profilePic, 
         })
       );
 
