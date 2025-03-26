@@ -1,5 +1,5 @@
 import React, { useState, useEffect, useMemo } from "react";
-import { useNavigate } from "react-router-dom";
+
 
 const EditProfilePage: React.FC = () => {
   const [name, setName] = useState<string>("");
@@ -19,7 +19,7 @@ const EditProfilePage: React.FC = () => {
     return user?.id;
   }, []);
 
-  const navigate = useNavigate();
+
 
   useEffect(() => {
     if (!userId) return;
@@ -63,7 +63,7 @@ const EditProfilePage: React.FC = () => {
       if (!response.ok) {
         throw new Error("Failed to update profile");
       }
-      // Assume backend returns updated profile data
+    
       const updatedProfile = await response.json();
 
       // Update localStorage with new profile info
@@ -79,12 +79,11 @@ const EditProfilePage: React.FC = () => {
       );
 
       setSuccessMessage("Successful profile update!");
-      // Optionally clear password fields after update
+ 
       setPassword("");
       setConfirmPassword("");
       
-      // Optionally navigate back after a delay:
-      // setTimeout(() => navigate("/profile"), 2000);
+
     } catch (err: any) {
       setError(err.message);
     }
