@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { buildPath } from '../utils'; 
 import 'bootstrap/dist/css/bootstrap.min.css';
-import '../components/Profile';
+import "./ProfilePage.css";
 
 const ProfilePage = () => {
     const [userInfo, setUserInfo] = useState<any>(null);
