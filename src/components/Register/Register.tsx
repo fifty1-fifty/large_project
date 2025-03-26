@@ -114,19 +114,16 @@ const Register: React.FC = () => {
                     <div className="form-group" id="getridofttheannoyingbackgroun">
                         <input type="text" id="input" placeholder="Enter Email" value={registerEmail}
                             onChange={(e) => setEmail(e.target.value)} />
-                        {emailError && <span className="error-message">{emailError}</span>}
                     </div>
 
                     <div className="form-group" id="getridofttheannoyingbackgroun">
                         <input type="text" id="input" placeholder="Enter Username" value={registerUserName}
                             onChange={(e) => setRegisterName(e.target.value)} />
-                        {usernameError && <span className="error-message">{usernameError}</span>}
                     </div>
 
                     <div className="form-group" id="getridofttheannoyingbackgroun">
                         <input type="password" id="input" placeholder="Enter Password" value={registerPassword}
                             onChange={(e) => setRegisterPassword(e.target.value)} />
-                        {passwordError && <span className="error-message">{passwordError}</span>}
                     </div>
 
                     <div className="form-group" id="getridofttheannoyingbackgroun">
@@ -138,6 +135,13 @@ const Register: React.FC = () => {
                         <input type="text" id="input" placeholder="Enter Last Name" value={lastName}
                             onChange={(e) => setLastName(e.target.value)} />
                     </div>
+
+                    <div className="form-group" id="getridofttheannoyingbackgroun">
+                        {emailError && <span className="error-message">{emailError}</span>}
+                        {usernameError && <span className="error-message">{usernameError}</span>}
+                        {passwordError && <span className="error-message">{passwordError}</span>}
+                    </div>
+                    
 
                     <button type="submit" id="registerBut">Get Started</button>
                     <button type="button" id="loginButton" onClick={backToLogin}>Back to Login</button>
