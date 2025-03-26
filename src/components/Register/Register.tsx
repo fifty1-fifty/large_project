@@ -76,9 +76,6 @@ const Register: React.FC = () => {
         formData.append('email', registerEmail);
         formData.append('username', registerUserName);
         formData.append('password', registerPassword);
-        formData.append('bio', bio);
-
-        if (profilePic) formData.append('profilePic', profilePic);
 
         // Call registration endpoint with formData
         try {
@@ -95,7 +92,6 @@ const Register: React.FC = () => {
                     lastName,
                     login: registerUserName,
                     email: registerEmail,
-                    bio
                 }));
                 
                 window.location.href = '/home';
