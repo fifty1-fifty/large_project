@@ -1,4 +1,4 @@
-import React, { useEffect, useState, useMemo } from "react";
+import React, { useState, useEffect, useMemo } from "react";
 import { useNavigate } from "react-router-dom";
 
 const EditProfilePage: React.FC = () => {
@@ -10,6 +10,7 @@ const EditProfilePage: React.FC = () => {
   const [confirmPassword, setConfirmPassword] = useState<string>("");
   const [error, setError] = useState<string>("");
   const [picMessage, setPicMessage] = useState<string>("");
+  const [successMessage, setSuccessMessage] = useState<string>("");
 
   // Parse localStorage once and memoize the userId
   const userId = useMemo(() => {
@@ -42,6 +43,11 @@ const EditProfilePage: React.FC = () => {
 
   const submitHandler = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
+
+    // Clear any previous messages
+    setError("");
+    setSuccessMessage("");
+
     // Validate passwords match
     if (password !== confirmPassword) {
       setError("Passwords do not match");
@@ -57,8 +63,28 @@ const EditProfilePage: React.FC = () => {
       if (!response.ok) {
         throw new Error("Failed to update profile");
       }
-      alert("Profile updated successfully");
-      navigate("/profile"); // Navigate back to profile page after successful update
+      // Assume backend returns updated profile data
+      const updatedProfile = await response.json();
+
+      // Update localStorage with new profile info
+      localStorage.setItem(
+        "user_data",
+        JSON.stringify({
+          id: userId,
+          firstName: updatedProfile.firstName,
+          lastName: updatedProfile.lastName,
+          email: updatedProfile.email,
+          // Optionally update other fields if needed
+        })
+      );
+
+      setSuccessMessage("Successful profile update!");
+      // Optionally clear password fields after update
+      setPassword("");
+      setConfirmPassword("");
+      
+      // Optionally navigate back after a delay:
+      // setTimeout(() => navigate("/profile"), 2000);
     } catch (err: any) {
       setError(err.message);
     }
@@ -78,9 +104,13 @@ const EditProfilePage: React.FC = () => {
   };
 
   return (
-    <div className="edit-profile-page" style={{ maxWidth: "600px", margin: "0 auto", padding: "20px" }}>
+    <div
+      className="edit-profile-page"
+      style={{ maxWidth: "600px", margin: "0 auto", padding: "20px" }}
+    >
       <h1>Edit Profile</h1>
-      {error && <div style={{ color: "red" }}>Error: {error}</div>}
+      {error && <div style={{ color: "red", marginBottom: "15px" }}>Error: {error}</div>}
+      {successMessage && <div style={{ color: "green", marginBottom: "15px" }}>{successMessage}</div>}
       <form onSubmit={submitHandler}>
         <div className="form-group" style={{ marginBottom: "15px" }}>
           <label htmlFor="name">Name</label>
@@ -89,7 +119,9 @@ const EditProfilePage: React.FC = () => {
             id="name"
             placeholder="Enter Name"
             value={name}
-            onChange={(e: React.ChangeEvent<HTMLInputElement>) => setName(e.target.value)}
+            onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
+              setName(e.target.value)
+            }
             style={{ width: "100%", padding: "8px", boxSizing: "border-box" }}
           />
         </div>
@@ -100,7 +132,9 @@ const EditProfilePage: React.FC = () => {
             id="email"
             placeholder="Enter Email"
             value={email}
-            onChange={(e: React.ChangeEvent<HTMLInputElement>) => setEmail(e.target.value)}
+            onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
+              setEmail(e.target.value)
+            }
             style={{ width: "100%", padding: "8px", boxSizing: "border-box" }}
           />
         </div>
@@ -110,7 +144,9 @@ const EditProfilePage: React.FC = () => {
             id="bio"
             placeholder="Tell us about yourself"
             value={bio}
-            onChange={(e: React.ChangeEvent<HTMLTextAreaElement>) => setBio(e.target.value)}
+            onChange={(e: React.ChangeEvent<HTMLTextAreaElement>) =>
+              setBio(e.target.value)
+            }
             rows={3}
             style={{ width: "100%", padding: "8px", boxSizing: "border-box" }}
           ></textarea>
@@ -122,7 +158,9 @@ const EditProfilePage: React.FC = () => {
             id="password"
             placeholder="Enter Password"
             value={password}
-            onChange={(e: React.ChangeEvent<HTMLInputElement>) => setPassword(e.target.value)}
+            onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
+              setPassword(e.target.value)
+            }
             style={{ width: "100%", padding: "8px", boxSizing: "border-box" }}
           />
         </div>
@@ -133,11 +171,15 @@ const EditProfilePage: React.FC = () => {
             id="confirmPassword"
             placeholder="Confirm Password"
             value={confirmPassword}
-            onChange={(e: React.ChangeEvent<HTMLInputElement>) => setConfirmPassword(e.target.value)}
+            onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
+              setConfirmPassword(e.target.value)
+            }
             style={{ width: "100%", padding: "8px", boxSizing: "border-box" }}
           />
         </div>
-        {picMessage && <div style={{ color: "red", marginBottom: "15px" }}>{picMessage}</div>}
+        {picMessage && (
+          <div style={{ color: "red", marginBottom: "15px" }}>{picMessage}</div>
+        )}
         <div className="form-group" style={{ marginBottom: "15px" }}>
           <label htmlFor="pic">Change Profile Picture</label>
           <input
