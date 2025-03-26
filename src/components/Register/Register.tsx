@@ -12,9 +12,7 @@ const Register: React.FC = () => {
     const [registerEmail, setEmail] = useState('');
     const [registerUserName, setRegisterName] = useState('');
     const [registerPassword, setRegisterPassword] = useState('');
-    const [bio, setBio] = useState('');
-    const [profilePic, setProfilePic] = useState<File | null>(null);
-
+   
     // States for errors
     const [emailError, setEmailError] = useState('');
     const [usernameError, setUsernameError] = useState('');
