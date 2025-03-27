@@ -61,7 +61,7 @@ const EditProfilePage: React.FC = () => {
       const response = await fetch(`/api/profile/${userId}/edit`, {
         method: "PUT",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ name, email, bio, password, profilePic }),
+        body: JSON.stringify({ firstName, lastName, email, bio, password, profilePic }),
       });
       if (!response.ok) {
         throw new Error("Failed to update profile");
@@ -78,6 +78,7 @@ const EditProfilePage: React.FC = () => {
           lastName: updatedProfile.lastName,
           email: updatedProfile.email,
           bio: updatedProfile.bio,
+          password: updatedProfile.password,
           profilePicture: updatedProfile.profilePicture
         })
       );
@@ -126,7 +127,7 @@ const EditProfilePage: React.FC = () => {
           <label htmlFor="name">First Name</label>
           <input
             type="text"
-            id="name"
+            id="firstName"
             placeholder="Enter First Name"
             value={firstName}
             onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
@@ -139,7 +140,7 @@ const EditProfilePage: React.FC = () => {
           <label htmlFor="name">Last Name</label>
           <input
             type="text"
-            id="name"
+            id="lastName"
             placeholder="Enter Last Name"
             value={lastName}
             onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
@@ -175,7 +176,7 @@ const EditProfilePage: React.FC = () => {
           ></textarea>
         </div>
         <div className="form-group" style={{ marginBottom: "15px" }}>
-          <label htmlFor="password">Password</label>
+          <label htmlFor="password">New Password</label>
           <input
             type="password"
             id="password"
