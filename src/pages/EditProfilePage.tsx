@@ -14,12 +14,14 @@ const EditProfilePage: React.FC = () => {
   const [successMessage, setSuccessMessage] = useState<string>("");
 
   const navigate = useNavigate();
-  // Parse localStorage once and memoize the userId
-  const userId = useMemo(() => {
+  const [userId, setUserId] = useState<string | null>(null);
+
+  useEffect(() => {
     const storedUser = localStorage.getItem("user_data");
     const user = storedUser ? JSON.parse(storedUser) : {};
-    return user?.id;
+    setUserId(user?.id || null);
   }, []);
+  
 
 
 
