@@ -2,7 +2,8 @@ import React, { useState, useEffect, useMemo } from "react";
 import { useNavigate } from "react-router-dom";
 
 const EditProfilePage: React.FC = () => {
-  const [name, setName] = useState<string>("");
+  const [firstName, setFirstName] = useState<string>("");
+  const [lastName, setLastName] = useState<string>("");
   const [email, setEmail] = useState<string>("");
   const [bio, setBio] = useState<string>("");
   const [profilePic, setProfilePic] = useState<string>("");
@@ -31,7 +32,8 @@ const EditProfilePage: React.FC = () => {
           throw new Error("Failed to fetch user profile for editing");
         }
         const profileData = await response.json();
-        setName(profileData.firstName);
+        setFirstName(profileData.firstName);
+        setLastName(profileData.lastName);
         setEmail(profileData.email);
         setBio(profileData.bio || "");
         setProfilePic(profileData.profilePic);
@@ -121,14 +123,27 @@ const EditProfilePage: React.FC = () => {
       {successMessage && <div style={{  color: "#28a745", marginBottom: "15px" }}>{successMessage}</div>}
       <form onSubmit={submitHandler}>
         <div className="form-group" style={{ marginBottom: "15px" }}>
-          <label htmlFor="name">Name</label>
+          <label htmlFor="name">First Name</label>
           <input
             type="text"
             id="name"
-            placeholder="Enter Name"
-            value={name}
+            placeholder="Enter First Name"
+            value={firstName}
             onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
-              setName(e.target.value)
+              setFirstName(e.target.value)
+            }
+            style={{ width: "100%", padding: "8px", boxSizing: "border-box" }}
+          />
+        </div>
+        <div className="form-group" style={{ marginBottom: "15px" }}>
+          <label htmlFor="name">Last Name</label>
+          <input
+            type="text"
+            id="name"
+            placeholder="Enter Last Name"
+            value={lastName}
+            onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
+              setLastName(e.target.value)
             }
             style={{ width: "100%", padding: "8px", boxSizing: "border-box" }}
           />
