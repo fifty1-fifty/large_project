@@ -39,7 +39,7 @@ class _LoginScreenState extends State<LoginScreen> {
         _passwordController.text,
       );
       // Navigate to home on success
-      Navigator.pushReplacementNamed(context, '/register');
+      Navigator.pushReplacementNamed(context, '/home');
     } catch (e) {
       ScaffoldMessenger.of(context).showSnackBar(
         SnackBar(content: Text(e.toString())),

@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:movieapp/screens/LoginScreen.dart';
 import 'package:movieapp/screens/RegisterScreen.dart';
-// import 'package:movieapp/screens/HomeScreen.dart'; // Add this if you have a home screen
+import 'package:movieapp/screens/HomeScreen.dart'; // Add this if you have a home screen
 
 
 class Routes {
@@ -12,6 +12,6 @@ class Routes {
   static Map<String, WidgetBuilder> get routes => {
         login: (context) => const LoginScreen(),
         register: (context) => const RegisterScreen(),
-        // home: (context) => const HomeScreen(),
+        home: (context) => const HomeScreen(),
       };
 }

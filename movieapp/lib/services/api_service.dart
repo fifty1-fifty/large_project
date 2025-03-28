@@ -1,5 +1,6 @@
 import 'dart:convert';
 import 'package:http/http.dart' as http;
+import '../models/movie.dart';
 
 class ApiService {
   // Use your server IP or domain (replace if needed)
@@ -43,6 +44,19 @@ class ApiService {
     );
     return _handleResponse(response);
   }
+
+  static Future<List<Movie>> trendingMovie({required int page}) async {
+  final response = await http.post(
+    Uri.parse('$_baseUrl/trendingMovie'),
+    headers: {'Content-Type': 'application/json'},
+    body: jsonEncode({'page': page}),
+  );
+  
+  final data = jsonDecode(response.body);
+  return (data['movieData']['results'] as List)
+      .map((json) => Movie.fromJson(json))
+      .toList();
+}
 
   // Handle API responses
   static dynamic _handleResponse(http.Response response) {
