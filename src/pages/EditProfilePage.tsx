@@ -16,23 +16,25 @@ const EditProfilePage: React.FC = () => {
   const navigate = useNavigate();
   const [userId, setUserId] = useState<string | null>(null);
 
+  // Load user ID from localStorage
   useEffect(() => {
     const storedUser = localStorage.getItem("user_data");
-    const user = storedUser ? JSON.parse(storedUser) : {};
-    setUserId(user?.id || null);
+    if (storedUser) {
+      const user = JSON.parse(storedUser);
+      setUserId(user?.id || null);
+    }
   }, []);
-  
 
-
-
+  // Fetch user profile data when userId is set
   useEffect(() => {
     if (!userId) return;
+
     async function fetchProfile() {
       try {
+        console.log("Fetching profile for user:", userId);
         const response = await fetch(`/api/profile/${userId}`);
-        if (!response.ok) {
-          throw new Error("Failed to fetch user profile for editing");
-        }
+        if (!response.ok) throw new Error("Failed to fetch user profile");
+
         const profileData = await response.json();
         setFirstName(profileData.firstName);
         setLastName(profileData.lastName);
@@ -43,71 +45,72 @@ const EditProfilePage: React.FC = () => {
         setError(err.message);
       }
     }
+
     fetchProfile();
   }, [userId]);
 
   const submitHandler = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
 
-    // Clear any previous messages
     setError("");
     setSuccessMessage("");
 
-    // Validate passwords match
     if (password !== confirmPassword) {
       setError("Passwords do not match");
       return;
     }
 
     try {
+      console.log("Submitting update request with data:", {
+        firstName,
+        lastName,
+        email,
+        bio,
+        password,
+        profilePic,
+      });
+
       const response = await fetch(`/api/profile/${userId}/edit`, {
         method: "PUT",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ firstName, lastName, email, bio, password, profilePic }),
       });
-      if (!response.ok) {
-        throw new Error("Failed to update profile");
-      }
-    
+
+      if (!response.ok) throw new Error("Failed to update profile");
+
       const updatedProfile = await response.json();
 
       // Update localStorage with new profile info
-      localStorage.setItem(
-        "user_data",
-        JSON.stringify({
-          id: userId,
-          firstName: updatedProfile.firstName,
-          lastName: updatedProfile.lastName,
-          email: updatedProfile.email,
-          bio: updatedProfile.bio,
-          password: updatedProfile.password,
-          profilePicture: updatedProfile.profilePicture
-        })
-      );
+      const updatedUserData = {
+        id: userId,
+        firstName: updatedProfile.firstName,
+        lastName: updatedProfile.lastName,
+        email: updatedProfile.email,
+        bio: updatedProfile.bio,
+        profilePic: updatedProfile.profilePic,
+      };
 
-      setSuccessMessage("Successful profile update!");
-      
+      localStorage.setItem("user_data", JSON.stringify(updatedUserData));
+      console.log("Updated localStorage:", updatedUserData);
 
-      // Redirect to profile page
-       setTimeout(() => {
-        navigate("/profile"); 
-      }, 1000); 
+      setSuccessMessage("Profile updated successfully!");
 
+      setTimeout(() => {
+        navigate("/profile", { state: { updated: true } }); // Redirect with state
+      }, 1000);
 
       setPassword("");
       setConfirmPassword("");
-      
-
     } catch (err: any) {
       setError(err.message);
     }
   };
 
   const postDetails = (pics: File) => {
-    setPicMessage(""); 
+    setPicMessage("");
     if (pics.type === "image/jpeg" || pics.type === "image/png") {
       const reader = new FileReader();
-      reader.readAsDataURL(pics); 
+      reader.readAsDataURL(pics);
       reader.onloadend = () => {
         setProfilePic(reader.result as string);
       };
@@ -117,77 +120,59 @@ const EditProfilePage: React.FC = () => {
   };
 
   return (
-    <div
-      className="edit-profile-page"
-      style={{ maxWidth: "600px", margin: "0 auto", padding: "20px" }}
-    >
+    <div style={{ maxWidth: "600px", margin: "0 auto", padding: "20px" }}>
       <h1>Edit Profile</h1>
-      {error && <div style={{ color: "red", marginBottom: "15px" }}>Error: {error}</div>}
-      {successMessage && <div style={{  color: "#28a745", marginBottom: "15px" }}>{successMessage}</div>}
+      {error && <div style={{ color: "red", marginBottom: "15px" }}>{error}</div>}
+      {successMessage && <div style={{ color: "#28a745", marginBottom: "15px" }}>{successMessage}</div>}
       <form onSubmit={submitHandler}>
         <div className="form-group" style={{ marginBottom: "15px" }}>
-          <label htmlFor="name">First Name</label>
+          <label htmlFor="firstName">First Name</label>
           <input
             type="text"
             id="firstName"
-            placeholder="Enter First Name"
             value={firstName}
-            onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
-              setFirstName(e.target.value)
-            }
-            style={{ width: "100%", padding: "8px", boxSizing: "border-box" }}
+            onChange={(e) => setFirstName(e.target.value)}
+            style={{ width: "100%", padding: "8px" }}
           />
         </div>
         <div className="form-group" style={{ marginBottom: "15px" }}>
-          <label htmlFor="name">Last Name</label>
+          <label htmlFor="lastName">Last Name</label>
           <input
             type="text"
             id="lastName"
-            placeholder="Enter Last Name"
             value={lastName}
-            onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
-              setLastName(e.target.value)
-            }
-            style={{ width: "100%", padding: "8px", boxSizing: "border-box" }}
+            onChange={(e) => setLastName(e.target.value)}
+            style={{ width: "100%", padding: "8px" }}
           />
         </div>
         <div className="form-group" style={{ marginBottom: "15px" }}>
-          <label htmlFor="email">Email Address</label>
+          <label htmlFor="email">Email</label>
           <input
             type="email"
             id="email"
-            placeholder="Enter Email"
             value={email}
-            onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
-              setEmail(e.target.value)
-            }
-            style={{ width: "100%", padding: "8px", boxSizing: "border-box" }}
+            onChange={(e) => setEmail(e.target.value)}
+            style={{ width: "100%", padding: "8px" }}
           />
         </div>
         <div className="form-group" style={{ marginBottom: "15px" }}>
           <label htmlFor="bio">Bio</label>
           <textarea
             id="bio"
-            placeholder="Tell us about yourself"
             value={bio}
-            onChange={(e: React.ChangeEvent<HTMLTextAreaElement>) =>
-              setBio(e.target.value)
-            }
+            onChange={(e) => setBio(e.target.value)}
             rows={3}
-            style={{ width: "100%", padding: "8px", boxSizing: "border-box" }}
-          ></textarea>
+            style={{ width: "100%", padding: "8px" }}
+          />
         </div>
         <div className="form-group" style={{ marginBottom: "15px" }}>
           <label htmlFor="password">New Password</label>
           <input
             type="password"
             id="password"
-            placeholder="Enter Password"
             value={password}
-            onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
-              setPassword(e.target.value)
-            }
-            style={{ width: "100%", padding: "8px", boxSizing: "border-box" }}
+            onChange={(e) => setPassword(e.target.value)}
+            style={{ width: "100%", padding: "8px" }}
           />
         </div>
         <div className="form-group" style={{ marginBottom: "15px" }}>
@@ -195,30 +180,21 @@ const EditProfilePage: React.FC = () => {
           <input
             type="password"
             id="confirmPassword"
-            placeholder="Confirm Password"
             value={confirmPassword}
-            onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
-              setConfirmPassword(e.target.value)
-            }
-            style={{ width: "100%", padding: "8px", boxSizing: "border-box" }}
+            onChange={(e) => setConfirmPassword(e.target.value)}
+            style={{ width: "100%", padding: "8px" }}
           />
         </div>
-        {picMessage && (
-          <div style={{ color: "red", marginBottom: "15px" }}>{picMessage}</div>
-        )}
         <div className="form-group" style={{ marginBottom: "15px" }}>
           <label htmlFor="pic">Change Profile Picture</label>
           <input
             type="file"
             id="pic"
-            onChange={(e: React.ChangeEvent<HTMLInputElement>) => {
-              if (e.target.files && e.target.files.length > 0) {
-                postDetails(e.target.files[0]);
-              }
-            }}
+            onChange={(e) => e.target.files && postDetails(e.target.files[0])}
             style={{ width: "100%" }}
           />
         </div>
+        {picMessage && <div style={{ color: "red", marginBottom: "15px" }}>{picMessage}</div>}
         <button
           type="submit"
           style={{
