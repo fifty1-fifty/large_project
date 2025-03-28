@@ -1,28 +1,11 @@
 import { useLocation } from "react-router-dom";
 import { useEffect, useState } from "react";
 import "./MovieInfo.css";
-
-
-
-const app_name = 'group22cop4331c.xyz';
-function buildPath(route:string) : string
-{
-    if (process.env.NODE_ENV != 'development')
-    {
-        return 'http://' + app_name + route;
-    }
-    else
-    {
-        return 'http://localhost:5000/' + route;
-    }
-} 
-
-
+import { buildPath } from '../../utils'; 
 
 
 const Info = () => {
 
-    
     const query = new URLSearchParams(useLocation().search);
     let movieId = query.get("movieId");
 
@@ -53,8 +36,6 @@ const Info = () => {
     const [importantPersonOne, setImportantPersonOne] = useState([""]);
     //const [importantPersonTwo, setImportantPersonTwo] = useState([""]);
     
-
-
 
     useEffect(() => {
         fullMovieInfoPull();

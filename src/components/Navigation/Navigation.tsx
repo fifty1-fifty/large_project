@@ -17,7 +17,7 @@ const Navbar: React.FC = () => {
     <nav className="navbar navbar-expand-lg custom-navbar fixed-top">
       <div className="container-fluid">
 
-        <Link className="navbar-brand" to="/">FLICKS</Link>
+        <Link className="navbar-brand" id="syncopate-regular" to="/">FLICKS</Link>
         <button className="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
           <span className="navbar-toggler-icon"></span>
         </button>

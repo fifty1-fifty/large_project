@@ -1,16 +1,16 @@
 import React, { useEffect, useState } from "react";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, useLocation } from "react-router-dom";
 
 const ProfilePage: React.FC = () => {
   const [userInfo, setUserInfo] = useState<any>(null);
   const [error, setError] = useState<string>("");
-
-  // Read user data from localStorage once and extract the user ID
+  
   const storedUser = localStorage.getItem("user_data");
   const user = storedUser ? JSON.parse(storedUser) : {};
   const userId = user?.id;
 
   const navigate = useNavigate();
+  const location = useLocation();
 
   useEffect(() => {
     if (!userId) return; 
@@ -29,7 +29,7 @@ const ProfilePage: React.FC = () => {
     }
 
     fetchProfile();
-  }, [userId]);
+  }, [userId, location]);
 
   const navigateToEdit = () => {
     navigate("/edit");
@@ -57,7 +57,6 @@ const ProfilePage: React.FC = () => {
             <p><strong>Bio:</strong> {userInfo.bio}</p>
           </div>
 
-          {/* Followers and Following (Horizontal, centered) */}
           <div
             className="followers-following"
             style={{
