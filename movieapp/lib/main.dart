@@ -1,9 +1,29 @@
-import 'package:movieapp/routes/routes.dart';
 import 'package:flutter/material.dart';
-
+import 'package:movieapp/routes/routes.dart';
+import 'package:movieapp/screens/LoginScreen.dart';
 
 void main() {
   runApp(MyApp());
+}
+
+class MyApp extends StatelessWidget {
+  @override
+  Widget build(BuildContext context) {
+    return MaterialApp(
+      debugShowCheckedModeBanner: false,
+      theme: ThemeData(),
+      home: LoginScreen(),
+      initialRoute: Routes.login, // Set initial route
+      routes: Routes.routes,
+      // Optional: Add error handling
+      onUnknownRoute:
+          (settings) => MaterialPageRoute(
+            builder:
+                (context) =>
+                    Scaffold(body: Center(child: Text('Route not found'))),
+          ),
+    );
+  }
 }
 
 // class MyApp extends StatelessWidget {
@@ -26,19 +46,4 @@ void main() {
 //     );
 //   }
 // }
-
-
-class MyApp extends StatelessWidget {
-// This widget is the root of your application.
-@override
-Widget build(BuildContext context) {
-return MaterialApp(
-title: '',
-debugShowCheckedModeBanner: false,
-theme: ThemeData(),
-routes: Routes.getroutes,
-);
-}
-}
-
 
