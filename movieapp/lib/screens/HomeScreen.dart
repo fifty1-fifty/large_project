@@ -1,9 +1,9 @@
 // lib/screens/home_screen.dart
 import 'package:flutter/material.dart';
-import '../services/api_service.dart';
+import 'package:google_fonts/google_fonts.dart';
 import '../models/movie.dart';
+import '../services/api_service.dart';
 import '../widgets/movie_card.dart';
-
 
 class HomeScreen extends StatefulWidget {
   const HomeScreen({super.key});
@@ -20,80 +20,103 @@ class _HomeScreenState extends State<HomeScreen> {
   @override
   void initState() {
     super.initState();
-    _loadMovies();
+    _fetchTrendingMovies();
   }
 
-  Future<void> _loadMovies() async {
+  Future<void> _fetchTrendingMovies() async {
     setState(() => _isLoading = true);
     try {
-      final newMovies = await ApiService.trendingMovie(page: _currentPage);
-      setState(() => _movies = newMovies);
+      final response = await ApiService.trendingMovie(page: _currentPage);
+      setState(() {
+        _movies = response;
+      });
     } catch (e) {
-      ScaffoldMessenger.of(context).showSnackBar(
-        SnackBar(content: Text('Error loading movies: ${e.toString()}')),
-      );
+      ScaffoldMessenger.of(
+        context,
+      ).showSnackBar(SnackBar(content: Text('Error: ${e.toString()}')));
     } finally {
       setState(() => _isLoading = false);
     }
   }
 
-  void _nextPage() {
-    setState(() => _currentPage++);
-    _loadMovies();
-  }
-
-  void _prevPage() {
-    if (_currentPage > 1) {
-      setState(() => _currentPage--);
-      _loadMovies();
-    }
-  }
-
   @override
-  Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(
-        title: const Text('FLICKS'),
-        centerTitle: true,
+Widget build(BuildContext context) {
+  return Scaffold(
+    backgroundColor: const Color.fromARGB(225, 0, 0, 0),
+    appBar: AppBar(
+      backgroundColor: Colors.black,
+      title: Text(
+        'FLICKS',
+        style: GoogleFonts.syncopate(
+          fontWeight: FontWeight.w400,
+          fontSize: 24,
+        ),
       ),
-      body: Column(
-        children: [
-          Expanded(
-            child: _isLoading
-                ? const Center(child: CircularProgressIndicator())
-                : GridView.builder(
-                    padding: const EdgeInsets.all(8),
-                    gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
-                      crossAxisCount: 2,
-                      childAspectRatio: 0.7,
-                      mainAxisSpacing: 10,
-                      crossAxisSpacing: 10,
+    ),
+    body: Column(
+      children: [
+        // Search bar positioned 55px below app bar
+        Padding(
+          padding: const EdgeInsets.only(top: 55.0, left: 580, right: 580),
+          child: Container(
+            height: 25, // Height of search bar
+            decoration: BoxDecoration(
+              color: Colors.black, // Light grey background
+              borderRadius: BorderRadius.circular(5), // Rounded corners
+            ),
+            child: Padding(
+              padding: const EdgeInsets.symmetric(horizontal: 0),
+              child: Row(
+                children: [
+                  const SizedBox(width: 10),
+                  Text(
+                    'Discover',
+                    style: TextStyle(
+                      color: Colors.grey[600],
+                      fontSize: 16,
                     ),
-                    itemCount: _movies.length,
-                    itemBuilder: (context, index) {
-                      return MovieCard(movie: _movies[index]);
-                    },
                   ),
-          ),
-          Padding(
-            padding: const EdgeInsets.symmetric(vertical: 16),
-            child: Row(
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: [
-                IconButton(
-                  icon: const Icon(Icons.arrow_back, color: Colors.blue),
-                  onPressed: _prevPage,
-                ),
-                Text('Page $_currentPage'),
-                IconButton(
-                  icon: const Icon(Icons.arrow_forward, color: Colors.blue),
-                  onPressed: _nextPage,
-                ),
-              ],
+                ],
+              ),
             ),
           ),
-        ],
-      ),
-    );
+        ),
+        // Movie grid
+        Expanded(
+          child: _isLoading
+              ? const Center(child: CircularProgressIndicator())
+              : Center(
+                  child: Container(
+                    constraints: BoxConstraints(
+                      maxWidth: 210.0 * 6, // Total width for 6 columns
+                    ),
+                    child: GridView.builder(
+                      padding: const EdgeInsets.symmetric(
+                        horizontal: 30,
+                        vertical: 30, // Reduced from 110 since search bar is separate
+                      ),
+                      gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
+                        crossAxisCount: 6,
+                        crossAxisSpacing: 30,
+                        mainAxisSpacing: 30,
+                        childAspectRatio: 131.0 / 196.50,
+                      ),
+                      itemCount: _movies.length,
+                      itemBuilder: (context, index) => MovieCard(
+                        imageUrl: _movies[index].posterUrl,
+                        title: " ",
+                        onTap: () => _navigateToDetail(_movies[index]),
+                      ),
+                    ),
+                  ),
+                ),
+        ),
+      ],
+    ),
+  );
+}
+
+  void _navigateToDetail(Movie movie) {
+    Navigator.pushNamed(context, '/movie-detail', arguments: movie);
   }
 }

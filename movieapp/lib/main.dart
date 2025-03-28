@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:movieapp/routes/routes.dart';
 import 'package:movieapp/screens/LoginScreen.dart';
+import 'package:movieapp/theme/bootstrap_theme.dart';
 
 void main() {
   runApp(MyApp());
@@ -11,9 +12,9 @@ class MyApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return MaterialApp(
       debugShowCheckedModeBanner: false,
-      theme: ThemeData(),
+      theme: BootstrapTheme.themeData,
       home: LoginScreen(),
-      initialRoute: Routes.login, // Set initial route
+      initialRoute: Routes.login,
       routes: Routes.routes,
       // Optional: Add error handling
       onUnknownRoute:

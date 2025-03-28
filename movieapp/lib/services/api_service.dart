@@ -3,7 +3,6 @@ import 'package:http/http.dart' as http;
 import '../models/movie.dart';
 
 class ApiService {
-  // Use your server IP or domain (replace if needed)
   static const String _baseUrl = 'http://group22cop4331c.xyz:5000/api'; 
 
   // Login
