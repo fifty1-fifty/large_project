@@ -4,7 +4,7 @@ import { useNavigate, useLocation } from "react-router-dom";
 const ProfilePage: React.FC = () => {
   const [userInfo, setUserInfo] = useState<any>(null);
   const [error, setError] = useState<string>("");
-
+  
   const storedUser = localStorage.getItem("user_data");
   const user = storedUser ? JSON.parse(storedUser) : {};
   const userId = user?.id;

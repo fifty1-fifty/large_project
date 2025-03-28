@@ -4,11 +4,8 @@ import "./MovieInfo.css";
 import { buildPath } from '../../utils'; 
 
 
-
-
 const Info = () => {
 
-    
     const query = new URLSearchParams(useLocation().search);
     let movieId = query.get("movieId");
 
@@ -39,8 +36,6 @@ const Info = () => {
     const [importantPersonOne, setImportantPersonOne] = useState([""]);
     //const [importantPersonTwo, setImportantPersonTwo] = useState([""]);
     
-
-
 
     useEffect(() => {
         fullMovieInfoPull();
