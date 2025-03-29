@@ -55,14 +55,13 @@ Widget build(BuildContext context) {
     ),
     body: Column(
       children: [
-        // Search bar positioned 55px below app bar
         Padding(
-          padding: const EdgeInsets.only(top: 55.0, left: 580, right: 580),
+          padding: const EdgeInsets.only(top: 55.0, left: 580, right: 580), //currently matches home page pretty well
           child: Container(
-            height: 25, // Height of search bar
+            height: 25, //height of search bar
             decoration: BoxDecoration(
-              color: Colors.black, // Light grey background
-              borderRadius: BorderRadius.circular(5), // Rounded corners
+              color: Colors.black,
+              borderRadius: BorderRadius.circular(5),
             ),
             child: Padding(
               padding: const EdgeInsets.symmetric(horizontal: 0),
@@ -81,25 +80,25 @@ Widget build(BuildContext context) {
             ),
           ),
         ),
-        // Movie grid
+        //grid of movies
         Expanded(
           child: _isLoading
               ? const Center(child: CircularProgressIndicator())
               : Center(
                   child: Container(
                     constraints: BoxConstraints(
-                      maxWidth: 210.0 * 6, // Total width for 6 columns
+                      maxWidth: 210.0 * 6, //6 columns of movies
                     ),
                     child: GridView.builder(
-                      padding: const EdgeInsets.symmetric(
+                      padding: const EdgeInsets.symmetric( //matches web app pretty well
                         horizontal: 30,
-                        vertical: 30, // Reduced from 110 since search bar is separate
+                        vertical: 30,
                       ),
                       gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
-                        crossAxisCount: 6,
-                        crossAxisSpacing: 30,
-                        mainAxisSpacing: 30,
-                        childAspectRatio: 131.0 / 196.50,
+                        crossAxisCount: 6, //6 columns
+                        crossAxisSpacing: 30,  //distance between columns
+                        mainAxisSpacing: 30,  //distance between rows
+                        childAspectRatio: 131.0 / 196.50,  //matches pretty well
                       ),
                       itemCount: _movies.length,
                       itemBuilder: (context, index) => MovieCard(

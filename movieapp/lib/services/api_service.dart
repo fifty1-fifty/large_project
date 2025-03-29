@@ -5,7 +5,7 @@ import '../models/movie.dart';
 class ApiService {
   static const String _baseUrl = 'http://group22cop4331c.xyz:5000/api'; 
 
-  // Login
+  //Login
   static Future<Map<String, dynamic>> login(
     String email, 
     String password,
@@ -16,13 +16,13 @@ class ApiService {
       body: jsonEncode({
         'email': email,
         'password': password,
-        'login': '', // Required by your backend but seems unused
+        'login': '',
       }),
     );
     return _handleResponse(response);
   }
 
-  // Register
+  //Register
   static Future<Map<String, dynamic>> register(
     String email,
     String password,
@@ -57,7 +57,7 @@ class ApiService {
       .toList();
 }
 
-  // Handle API responses
+  //handle API responses
   static dynamic _handleResponse(http.Response response) {
     switch (response.statusCode) {
       case 200:

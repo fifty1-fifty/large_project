@@ -9,6 +9,7 @@ import 'package:movieapp/models/movie.dart';
 
 
 class Routes {
+  //ADD SCREEN EXTENSIONS HERE:
   static const String login = '/login';
   static const String register = '/register';
   static const String home = '/home';
@@ -16,6 +17,7 @@ class Routes {
 
 
   static Map<String, WidgetBuilder> get routes => {
+        //ADD SCREENS HERE:
         login: (context) => const LoginScreen(),
         register: (context) => const RegisterScreen(),
         home: (context) => const HomeScreen(),

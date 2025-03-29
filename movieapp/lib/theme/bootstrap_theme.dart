@@ -1,69 +1,8 @@
-// // lib/theme/bootstrap_theme.dart
-// import 'package:flutter/material.dart';
-// import 'package:google_fonts/google_fonts.dart';
-
-// class BootstrapTheme {
-//   // Colors (from your --bs-* variables)
-//   static const Color primary = Color(0xFF0d6efd);
-//   static const Color secondary = Color(0xFF6c757d);
-//   static const Color success = Color(0xFF198754);
-//   // Add all other colors from your palette...
-
-//   // Typography
-//   static TextStyle bodyText(BuildContext context) {
-//     return GoogleFonts.getFont(
-//       'Segoe UI',
-//       fontSize: 16,
-//       height: 1.5,
-//       color: Colors.black,
-//     );
-//   }
-
-//   // Card Theme
-//   static CardTheme cardTheme = const CardTheme(
-//     elevation: 0,
-//     margin: EdgeInsets.zero,
-//     shape: RoundedRectangleBorder(
-//       borderRadius: BorderRadius.vertical(
-//         top: Radius.circular(4), // From calc(.25rem - 1px)
-//         bottom: Radius.circular(4),
-//       ),
-//     ),
-//   );
-
-//   // Button Theme
-//   static ElevatedButtonThemeData elevatedButtonTheme = ElevatedButtonThemeData(
-//     style: ElevatedButton.styleFrom(
-//       padding: const EdgeInsets.symmetric(vertical: 12, horizontal: 16),
-//       textStyle: GoogleFonts.getFont('Segoe UI', fontWeight: FontWeight.w500),
-//       shape: RoundedRectangleBorder(
-//         borderRadius: BorderRadius.circular(4),
-//       ),
-//     ),
-//   );
-
-//   // Full ThemeData
-//   static ThemeData get themeData {
-//     return ThemeData(
-//       colorScheme: ColorScheme.light(
-//         primary: primary,
-//         secondary: secondary,
-//       ),
-//       cardTheme: cardTheme,
-//       elevatedButtonTheme: elevatedButtonTheme,
-//       textTheme: TextTheme(
-//         bodyMedium: bodyText,
-//       ),
-//     );
-//   }
-// }
-
-// lib/theme/bootstrap_theme.dart
 // lib/theme/bootstrap_theme.dart
 import 'package:flutter/material.dart';
 
 class BootstrapTheme {
-  // Colors (from your --bs-* variables)
+  //colors from the --bs-* variables from the web app
   static const Color primary = Color(0xFF0d6efd);
   static const Color secondary = Color(0xFF6c757d);
   static const Color success = Color(0xFF198754);
@@ -73,7 +12,7 @@ class BootstrapTheme {
   static const Color light = Color(0xFFf8f9fa);
   static const Color dark = Color(0xFF212529);
 
-  // Typography
+  //typography
   static TextStyle bodyText() {
     return const TextStyle(
       fontSize: 16,
@@ -82,7 +21,7 @@ class BootstrapTheme {
     );
   }
 
-  // Card Theme
+  //card looks
   static const CardTheme cardTheme = CardTheme(
     elevation: 0,
     margin: EdgeInsets.zero,
@@ -91,7 +30,7 @@ class BootstrapTheme {
     ),
   );
 
-  // Button Theme
+  //button looks
   static final ElevatedButtonThemeData elevatedButtonTheme = ElevatedButtonThemeData(
     style: ElevatedButton.styleFrom(
       padding: const EdgeInsets.symmetric(vertical: 12, horizontal: 16),
@@ -105,7 +44,7 @@ class BootstrapTheme {
     ),
   );
 
-  // Full ThemeData
+  //integrate all themes together
   static ThemeData get themeData {
     return ThemeData(
       colorScheme: ColorScheme.light(
@@ -125,10 +64,10 @@ class BootstrapTheme {
         titleLarge: TextStyle(
           fontSize: 24,
           fontWeight: FontWeight.bold,
-          fontFamily: 'Roboto', // Default Flutter font that's similar to Avenir
+          fontFamily: 'Roboto',
         ),
       ),
-      useMaterial3: false, // For Bootstrap-like appearance
+      useMaterial3: false,
     );
   }
 }
