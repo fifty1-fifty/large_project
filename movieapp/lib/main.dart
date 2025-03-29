@@ -26,25 +26,3 @@ class MyApp extends StatelessWidget {
     );
   }
 }
-
-// class MyApp extends StatelessWidget {
-//   const MyApp({super.key});
-
-//   @override
-//   Widget build(BuildContext context) {
-//     return MaterialApp(
-//       home: Scaffold(
-//         appBar: AppBar(
-//           titleTextStyle: TextStyle(
-//             package: "Movie App",
-//           color: Colors.grey
-            
-//           ),
-//           backgroundColor: Colors.black,
-//           title: Center(child: const Text("Movie App")),
-//         ),
-//       ),
-//     );
-//   }
-// }
-
