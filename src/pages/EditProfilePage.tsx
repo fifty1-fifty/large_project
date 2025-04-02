@@ -30,6 +30,7 @@ const EditProfilePage: React.FC = () => {
     if (storedUser) {
       const user = JSON.parse(storedUser);
       setUserId(user?.id || null);
+      console.log("User ID set from localStorage:", user?.id);
     }
   }, []);
 
@@ -37,15 +38,19 @@ const EditProfilePage: React.FC = () => {
   useEffect(() => {
     if (!userId) return;
 
+    console.log("Fetching profile for userId:", userId);
     const fetchProfile = async () => {
       try {
         const response = await fetch(`/api/profile/${userId}`);
         if (!response.ok) throw new Error("Failed to fetch user profile");
 
         const data: ProfileData = await response.json();
+        console.log("Fetched profile data:", data);
+
         setProfileData(data);
         setOriginalProfile(data); // Store original profile for change detection
       } catch (err: any) {
+        console.error("Error fetching profile:", err.message);
         setError(err.message);
       }
     };
@@ -56,12 +61,15 @@ const EditProfilePage: React.FC = () => {
   // Handle input changes (updates state only)
   const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
     const { id, value } = e.target;
+    console.log(`Updating field '${id}' to:`, value);
     setProfileData((prev) => ({ ...prev, [id]: value }));
   };
 
   // Check if profile data has changed
   const hasProfileChanged = () => {
-    return JSON.stringify(profileData) !== JSON.stringify(originalProfile);
+    const changed = JSON.stringify(profileData) !== JSON.stringify(originalProfile);
+    console.log("Profile changed?", changed);
+    return changed;
   };
 
   // Handle form submission
@@ -73,9 +81,11 @@ const EditProfilePage: React.FC = () => {
     // Prevent submission if nothing has changed
     if (!hasProfileChanged()) {
       setError("No changes detected.");
+      console.log("No changes detected, submission blocked.");
       return;
     }
 
+    console.log("Submitting updated profile:", profileData);
     try {
       const response = await fetch(`/api/profile/${userId}/edit`, {
         method: "PUT",
@@ -85,6 +95,8 @@ const EditProfilePage: React.FC = () => {
 
       if (!response.ok) throw new Error("Failed to update profile");
 
+      console.log("Profile updated successfully!");
+
       // Update localStorage with new profile data
       localStorage.setItem("user_data", JSON.stringify({ ...profileData, id: userId }));
 
@@ -92,6 +104,7 @@ const EditProfilePage: React.FC = () => {
       setOriginalProfile(profileData); // Update original profile after saving
       setTimeout(() => navigate("/profile", { state: { updated: true } }), 1000);
     } catch (err: any) {
+      console.error("Error updating profile:", err.message);
       setError(err.message);
     }
   };
