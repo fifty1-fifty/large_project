@@ -2,21 +2,22 @@ import React, { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 
 const EditProfilePage: React.FC = () => {
-  const [firstName, setFirstName] = useState<string>("");
-  const [lastName, setLastName] = useState<string>("");
-  const [email, setEmail] = useState<string>("");
-  const [bio, setBio] = useState<string>("");
-  const [profilePic, setProfilePic] = useState<string>("");
-  const [password, setPassword] = useState<string>("");
-  const [confirmPassword, setConfirmPassword] = useState<string>("");
-  const [error, setError] = useState<string>("");
-  const [picMessage, setPicMessage] = useState<string>("");
-  const [successMessage, setSuccessMessage] = useState<string>("");
-
   const navigate = useNavigate();
   const [userId, setUserId] = useState<string | null>(null);
+  const [profileData, setProfileData] = useState({
+    firstName: "",
+    lastName: "",
+    email: "",
+    bio: "",
+    profilePic: "default.png",
+    password: "",
+    confirmPassword: "",
+  });
+  const [error, setError] = useState<string | null>(null);
+  const [successMessage, setSuccessMessage] = useState<string | null>(null);
+  const [picMessage, setPicMessage] = useState<string | null>(null);
 
-  // Load user ID from localStorage
+  // Load user ID from localStorage on mount
   useEffect(() => {
     const storedUser = localStorage.getItem("user_data");
     if (storedUser) {
@@ -25,98 +26,85 @@ const EditProfilePage: React.FC = () => {
     }
   }, []);
 
-  // Fetch user profile data when userId is set
+  // Fetch user profile data when userId is available
   useEffect(() => {
     if (!userId) return;
 
-    async function fetchProfile() {
+    const fetchProfile = async () => {
       try {
-        console.log("Fetching profile for user:", userId);
         const response = await fetch(`/api/profile/${userId}`);
         if (!response.ok) throw new Error("Failed to fetch user profile");
 
-        const profileData = await response.json();
-        setFirstName(profileData.firstName);
-        setLastName(profileData.lastName);
-        setEmail(profileData.email);
-        setBio(profileData.bio || "");
-        setProfilePic(profileData.profilePic);
+        const data = await response.json();
+        setProfileData((prev) => ({
+          ...prev,
+          firstName: data.firstName,
+          lastName: data.lastName,
+          email: data.email,
+          bio: data.bio || "",
+          profilePic: data.profilePic,
+        }));
       } catch (err: any) {
         setError(err.message);
       }
-    }
+    };
 
     fetchProfile();
   }, [userId]);
 
+  // Handle input changes
+  const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
+    const { id, value } = e.target;
+    setProfileData((prev) => ({ ...prev, [id]: value }));
+  };
+
+  // Handle profile update submission
   const submitHandler = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
+    setError(null);
+    setSuccessMessage(null);
 
-    setError("");
-    setSuccessMessage("");
-
-    if (password !== confirmPassword) {
+    if (profileData.password && profileData.password !== profileData.confirmPassword) {
       setError("Passwords do not match");
       return;
     }
 
     try {
-      console.log("Submitting update request with data:", {
-        firstName,
-        lastName,
-        email,
-        bio,
-        password,
-        profilePic,
-      });
+      const { firstName, lastName, email, bio, password, profilePic } = profileData;
+      const requestBody = { firstName, lastName, email, bio, profilePic };
+      if (password) requestBody["password"] = password; // Only send password if updated
 
       const response = await fetch(`/api/profile/${userId}/edit`, {
         method: "PUT",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ firstName, lastName, email, bio, password, profilePic }),
+        body: JSON.stringify(requestBody),
       });
 
       if (!response.ok) throw new Error("Failed to update profile");
 
-      const updatedProfile = await response.json();
-
-      // Update localStorage with new profile info
-      const updatedUserData = {
-        id: userId,
-        firstName: updatedProfile.user.firstName,
-        lastName: updatedProfile.user.lastName,
-        email: updatedProfile.user.email,
-        bio: updatedProfile.user.bio,
-        profilePic: updatedProfile.user.profilePic,
-      };
-
-      localStorage.setItem("user_data", JSON.stringify(updatedUserData));
-      console.log("Updated localStorage:", updatedUserData);
-
       setSuccessMessage("Profile updated successfully!");
-
-      setTimeout(() => {
-        navigate("/profile", { state: { updated: true } }); // Redirect with state
-      }, 1000);
-
-      setPassword("");
-      setConfirmPassword("");
+      setTimeout(() => navigate("/profile", { state: { updated: true } }), 1000);
     } catch (err: any) {
       setError(err.message);
     }
+
+    // Clear passwords after submission
+    setProfileData((prev) => ({ ...prev, password: "", confirmPassword: "" }));
   };
 
+  // Handle profile picture upload
   const postDetails = (pics: File) => {
-    setPicMessage("");
-    if (pics.type === "image/jpeg" || pics.type === "image/png") {
-      const reader = new FileReader();
-      reader.readAsDataURL(pics);
-      reader.onloadend = () => {
-        setProfilePic(reader.result as string);
-      };
-    } else {
+    setPicMessage(null);
+    if (!pics || (pics.type !== "image/jpeg" && pics.type !== "image/png")) {
       setPicMessage("Please select a valid image (JPEG or PNG).");
+      return;
     }
+
+    const reader = new FileReader();
+    reader.readAsDataURL(pics);
+    reader.onloadend = () => {
+      setProfileData((prev) => ({ ...prev, profilePic: reader.result as string }));
+    };
   };
 
   return (
@@ -124,77 +112,51 @@ const EditProfilePage: React.FC = () => {
       <h1>Edit Profile</h1>
       {error && <div style={{ color: "red", marginBottom: "15px" }}>{error}</div>}
       {successMessage && <div style={{ color: "#28a745", marginBottom: "15px" }}>{successMessage}</div>}
+
       <form onSubmit={submitHandler}>
-        <div className="form-group" style={{ marginBottom: "15px" }}>
-          <label htmlFor="firstName">First Name</label>
-          <input
-            type="text"
-            id="firstName"
-            value={firstName}
-            onChange={(e) => setFirstName(e.target.value)}
-            style={{ width: "100%", padding: "8px" }}
-          />
-        </div>
-        <div className="form-group" style={{ marginBottom: "15px" }}>
-          <label htmlFor="lastName">Last Name</label>
-          <input
-            type="text"
-            id="lastName"
-            value={lastName}
-            onChange={(e) => setLastName(e.target.value)}
-            style={{ width: "100%", padding: "8px" }}
-          />
-        </div>
-        <div className="form-group" style={{ marginBottom: "15px" }}>
-          <label htmlFor="email">Email</label>
-          <input
-            type="email"
-            id="email"
-            value={email}
-            onChange={(e) => setEmail(e.target.value)}
-            style={{ width: "100%", padding: "8px" }}
-          />
-        </div>
+        {["firstName", "lastName", "email"].map((field) => (
+          <div key={field} className="form-group" style={{ marginBottom: "15px" }}>
+            <label htmlFor={field}>{field.replace(/^\w/, (c) => c.toUpperCase())}</label>
+            <input
+              type={field === "email" ? "email" : "text"}
+              id={field}
+              value={profileData[field]}
+              onChange={handleChange}
+              style={{ width: "100%", padding: "8px" }}
+            />
+          </div>
+        ))}
+
         <div className="form-group" style={{ marginBottom: "15px" }}>
           <label htmlFor="bio">Bio</label>
           <textarea
             id="bio"
-            value={bio}
-            onChange={(e) => setBio(e.target.value)}
+            value={profileData.bio}
+            onChange={handleChange}
             rows={3}
             style={{ width: "100%", padding: "8px" }}
           />
         </div>
+
+        {["password", "confirmPassword"].map((field) => (
+          <div key={field} className="form-group" style={{ marginBottom: "15px" }}>
+            <label htmlFor={field}>{field === "password" ? "New Password" : "Confirm Password"}</label>
+            <input
+              type="password"
+              id={field}
+              value={profileData[field]}
+              onChange={handleChange}
+              style={{ width: "100%", padding: "8px" }}
+            />
+          </div>
+        ))}
+
         <div className="form-group" style={{ marginBottom: "15px" }}>
-          <label htmlFor="password">New Password</label>
-          <input
-            type="password"
-            id="password"
-            value={password}
-            onChange={(e) => setPassword(e.target.value)}
-            style={{ width: "100%", padding: "8px" }}
-          />
+          <label htmlFor="profilePic">Change Profile Picture</label>
+          <input type="file" id="profilePic" onChange={(e) => e.target.files && postDetails(e.target.files[0])} />
+          {picMessage && <div style={{ color: "red", marginTop: "5px" }}>{picMessage}</div>}
         </div>
-        <div className="form-group" style={{ marginBottom: "15px" }}>
-          <label htmlFor="confirmPassword">Confirm Password</label>
-          <input
-            type="password"
-            id="confirmPassword"
-            value={confirmPassword}
-            onChange={(e) => setConfirmPassword(e.target.value)}
-            style={{ width: "100%", padding: "8px" }}
-          />
-        </div>
-        <div className="form-group" style={{ marginBottom: "15px" }}>
-          <label htmlFor="pic">Change Profile Picture</label>
-          <input
-            type="file"
-            id="pic"
-            onChange={(e) => e.target.files && postDetails(e.target.files[0])}
-            style={{ width: "100%" }}
-          />
-        </div>
-        {picMessage && <div style={{ color: "red", marginBottom: "15px" }}>{picMessage}</div>}
+
         <button
           type="submit"
           style={{
