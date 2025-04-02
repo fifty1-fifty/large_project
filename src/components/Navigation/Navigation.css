@@ -1,14 +1,40 @@
 /* css for top navigation bar (any style not seen customized here is defaulted from bootstrap library) */
 .custom-navbar 
 {
-  background-color: #191a24;
-  box-shadow: 2px 2px 5px -5px gray;
+  background-color: #171722;
+  box-shadow: 2px 2px 5px -5px rgb(76, 75, 75);
 }
 
-
-.navbar-brand
+.nav-item
 {
-  font-family: "Syncopate", sans-serif;
-  font-weight: 400;
-  color: #edf2f4;
+  margin-left: 15px;
+  margin-right: 15px;
 }
+
+#linkButton
+{
+  display: flex;
+  align-items: center;
+  gap: 3px;
+  background-color: #c44747;
+  border-color: #edf2f4;
+  border-width: 5px;
+  color: #edf2f4;
+  border-radius: 5px;
+  height: 90%;
+
+}
+
+#linkButton:hover
+{
+  background-color: #edf2f4;
+  color: #c44747;
+}
+
+
+#buttonContainer
+{
+  margin-left: auto;
+  margin-right: auto;
+}
+
