@@ -83,11 +83,11 @@ const EditProfilePage: React.FC = () => {
       // Update localStorage with new profile info
       const updatedUserData = {
         id: userId,
-        firstName: updatedProfile.firstName,
-        lastName: updatedProfile.lastName,
-        email: updatedProfile.email,
-        bio: updatedProfile.bio,
-        profilePic: updatedProfile.profilePic,
+        firstName: updatedProfile.user.firstName,
+        lastName: updatedProfile.user.lastName,
+        email: updatedProfile.user.email,
+        bio: updatedProfile.user.bio,
+        profilePic: updatedProfile.user.profilePic,
       };
 
       localStorage.setItem("user_data", JSON.stringify(updatedUserData));
