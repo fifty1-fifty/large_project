@@ -32,16 +32,27 @@ button {
 
   
   #theButton {
-    background: none;
-    color: #bb0a21; 
+    align-items: center;
+    margin: 5px;
+    background-color: #c44747;
+    border-color: #edf2f4;
+    border-width: 5px;
+    color: #edf2f4;
+    border-radius: 5px;
+    height: 30px;
     width: 10%;
   }
+  
+  #theButton:hover
+{
+  background-color: #edf2f4;
+  color: #c44747;
+}
 
   #iconnon
   {
-    width: 100%;
-    height: 100%;
-    font-size: xx-large;
+    margin-top: -9px;
+    font-size: 30px;
     align-self: center;
     text-align: center;
 
