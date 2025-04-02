@@ -1,15 +1,12 @@
 import React, { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 
-// Define ProfileData with optional password and confirmPassword fields
 interface ProfileData {
   firstName: string;
   lastName: string;
   email: string;
   bio: string;
   profilePic: string;
-  password?: string;  // Make password optional
-  confirmPassword?: string;  // Make confirmPassword optional
 }
 
 const EditProfilePage: React.FC = () => {
@@ -21,13 +18,10 @@ const EditProfilePage: React.FC = () => {
     email: "",
     bio: "",
     profilePic: "default.png",
-    password: "",  // Initialize password as an empty string
-    confirmPassword: "",  // Initialize confirmPassword as an empty string
   });
   const [error, setError] = useState<string | null>(null);
   const [successMessage, setSuccessMessage] = useState<string | null>(null);
 
-  // Load user ID from localStorage on mount
   useEffect(() => {
     const storedUser = localStorage.getItem("user_data");
     if (storedUser) {
@@ -36,7 +30,6 @@ const EditProfilePage: React.FC = () => {
     }
   }, []);
 
-  // Fetch user profile data when userId is available
   useEffect(() => {
     if (!userId) return;
 
@@ -45,13 +38,8 @@ const EditProfilePage: React.FC = () => {
         const response = await fetch(`/api/profile/${userId}`);
         if (!response.ok) throw new Error("Failed to fetch user profile");
 
-        const data: Omit<ProfileData, "password" | "confirmPassword"> = await response.json();
-
-        setProfileData({
-          ...data,
-          password: "",  // Clear password fields on load
-          confirmPassword: "",
-        });
+        const data: ProfileData = await response.json();
+        setProfileData(data);
       } catch (err: any) {
         setError(err.message);
       }
@@ -60,52 +48,32 @@ const EditProfilePage: React.FC = () => {
     fetchProfile();
   }, [userId]);
 
-  // Handle input changes
   const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
     const { id, value } = e.target;
     setProfileData((prev) => ({ ...prev, [id]: value }));
   };
 
-  // Handle profile update submission
   const submitHandler = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     setError(null);
     setSuccessMessage(null);
 
-    if (profileData.password && profileData.password !== profileData.confirmPassword) {
-      setError("Passwords do not match");
-      return;
-    }
-
     try {
-      const { password, confirmPassword, ...updateData } = profileData;
-      if (password) updateData.password = password;
-
       const response = await fetch(`/api/profile/${userId}/edit`, {
         method: "PUT",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify(updateData),
+        body: JSON.stringify(profileData),
       });
 
       if (!response.ok) throw new Error("Failed to update profile");
 
-      // Update localStorage with the new profile data after a successful update
-      const updatedProfile = {
-        ...updateData,
-        id: userId,
-        password: "",  // Make sure password is not stored in localStorage
-        confirmPassword: "",  // Make sure confirmPassword is not stored in localStorage
-      };
-
-      localStorage.setItem("user_data", JSON.stringify(updatedProfile));
+      localStorage.setItem("user_data", JSON.stringify({ ...profileData, id: userId }));
 
       setSuccessMessage("Profile updated successfully!");
       setTimeout(() => navigate("/profile", { state: { updated: true } }), 1000);
     } catch (err: any) {
       setError(err.message);
     }
-
-    setProfileData((prev) => ({ ...prev, password: "", confirmPassword: "" }));
   };
 
   return (
@@ -138,19 +106,6 @@ const EditProfilePage: React.FC = () => {
             style={{ width: "100%", padding: "8px" }}
           />
         </div>
-
-        {["password", "confirmPassword"].map((field) => (
-          <div key={field} className="form-group" style={{ marginBottom: "15px" }}>
-            <label htmlFor={field}>{field === "password" ? "New Password" : "Confirm Password"}</label>
-            <input
-              type="password"
-              id={field}
-              value={profileData[field as keyof ProfileData] || ""}
-              onChange={handleChange}
-              style={{ width: "100%", padding: "8px" }}
-            />
-          </div>
-        ))}
 
         <button
           type="submit"
