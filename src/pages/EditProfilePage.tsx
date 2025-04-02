@@ -25,7 +25,8 @@ const EditProfilePage: React.FC = () => {
   });
   const [error, setError] = useState<string | null>(null);
   const [successMessage, setSuccessMessage] = useState<string | null>(null);
-  
+
+  // Load user ID from localStorage on mount
   useEffect(() => {
     const storedUser = localStorage.getItem("user_data");
     if (storedUser) {
@@ -34,13 +35,17 @@ const EditProfilePage: React.FC = () => {
     }
   }, []);
 
+  // Fetch user profile data when userId is available
   useEffect(() => {
     if (!userId) return;
+
     const fetchProfile = async () => {
       try {
         const response = await fetch(`/api/profile/${userId}`);
         if (!response.ok) throw new Error("Failed to fetch user profile");
-        const data = await response.json();
+
+        const data: Omit<ProfileData, "password" | "confirmPassword"> = await response.json();
+        
         setProfileData({
           ...data,
           password: "",
@@ -50,36 +55,45 @@ const EditProfilePage: React.FC = () => {
         setError(err.message);
       }
     };
+
     fetchProfile();
   }, [userId]);
 
+  // Handle input changes
   const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
     const { id, value } = e.target;
     setProfileData((prev) => ({ ...prev, [id]: value }));
   };
 
+  // Handle profile update submission
   const submitHandler = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     setError(null);
     setSuccessMessage(null);
+
     if (profileData.password && profileData.password !== profileData.confirmPassword) {
       setError("Passwords do not match");
       return;
     }
+
     try {
       const { password, confirmPassword, ...updateData } = profileData;
       if (password) updateData.password = password;
+
       const response = await fetch(`/api/profile/${userId}/edit`, {
         method: "PUT",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify(updateData),
       });
+
       if (!response.ok) throw new Error("Failed to update profile");
+
       setSuccessMessage("Profile updated successfully!");
       setTimeout(() => navigate("/profile", { state: { updated: true } }), 1000);
     } catch (err: any) {
       setError(err.message);
     }
+
     setProfileData((prev) => ({ ...prev, password: "", confirmPassword: "" }));
   };
 
@@ -88,6 +102,7 @@ const EditProfilePage: React.FC = () => {
       <h1>Edit Profile</h1>
       {error && <div style={{ color: "red", marginBottom: "15px" }}>{error}</div>}
       {successMessage && <div style={{ color: "green", marginBottom: "15px" }}>{successMessage}</div>}
+
       <form onSubmit={submitHandler}>
         {["firstName", "lastName", "email"].map((field) => (
           <div key={field} className="form-group" style={{ marginBottom: "15px" }}>
@@ -101,6 +116,7 @@ const EditProfilePage: React.FC = () => {
             />
           </div>
         ))}
+
         <div className="form-group" style={{ marginBottom: "15px" }}>
           <label htmlFor="bio">Bio</label>
           <textarea
@@ -111,6 +127,7 @@ const EditProfilePage: React.FC = () => {
             style={{ width: "100%", padding: "8px" }}
           />
         </div>
+
         {["password", "confirmPassword"].map((field) => (
           <div key={field} className="form-group" style={{ marginBottom: "15px" }}>
             <label htmlFor={field}>{field === "password" ? "New Password" : "Confirm Password"}</label>
@@ -123,7 +140,19 @@ const EditProfilePage: React.FC = () => {
             />
           </div>
         ))}
-        <button type="submit" style={{ padding: "10px 20px", fontSize: "16px", cursor: "pointer", backgroundColor: "#007bff", color: "#fff", border: "none", borderRadius: "4px" }}>
+
+        <button
+          type="submit"
+          style={{
+            padding: "10px 20px",
+            fontSize: "16px",
+            cursor: "pointer",
+            backgroundColor: "#007bff",
+            color: "#fff",
+            border: "none",
+            borderRadius: "4px",
+          }}
+        >
           Update Profile
         </button>
       </form>
