@@ -19,9 +19,12 @@ const EditProfilePage: React.FC = () => {
     bio: "",
     profilePic: "default.png",
   });
+
+  const [originalProfile, setOriginalProfile] = useState<ProfileData | null>(null);
   const [error, setError] = useState<string | null>(null);
   const [successMessage, setSuccessMessage] = useState<string | null>(null);
 
+  // Load user ID from localStorage on mount
   useEffect(() => {
     const storedUser = localStorage.getItem("user_data");
     if (storedUser) {
@@ -30,6 +33,7 @@ const EditProfilePage: React.FC = () => {
     }
   }, []);
 
+  // Fetch user profile data when userId is available
   useEffect(() => {
     if (!userId) return;
 
@@ -40,6 +44,7 @@ const EditProfilePage: React.FC = () => {
 
         const data: ProfileData = await response.json();
         setProfileData(data);
+        setOriginalProfile(data); // Store original profile for change detection
       } catch (err: any) {
         setError(err.message);
       }
@@ -48,15 +53,28 @@ const EditProfilePage: React.FC = () => {
     fetchProfile();
   }, [userId]);
 
+  // Handle input changes (updates state only)
   const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
     const { id, value } = e.target;
     setProfileData((prev) => ({ ...prev, [id]: value }));
   };
 
+  // Check if profile data has changed
+  const hasProfileChanged = () => {
+    return JSON.stringify(profileData) !== JSON.stringify(originalProfile);
+  };
+
+  // Handle form submission
   const submitHandler = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     setError(null);
     setSuccessMessage(null);
+
+    // Prevent submission if nothing has changed
+    if (!hasProfileChanged()) {
+      setError("No changes detected.");
+      return;
+    }
 
     try {
       const response = await fetch(`/api/profile/${userId}/edit`, {
@@ -67,9 +85,11 @@ const EditProfilePage: React.FC = () => {
 
       if (!response.ok) throw new Error("Failed to update profile");
 
+      // Update localStorage with new profile data
       localStorage.setItem("user_data", JSON.stringify({ ...profileData, id: userId }));
 
       setSuccessMessage("Profile updated successfully!");
+      setOriginalProfile(profileData); // Update original profile after saving
       setTimeout(() => navigate("/profile", { state: { updated: true } }), 1000);
     } catch (err: any) {
       setError(err.message);
@@ -113,11 +133,12 @@ const EditProfilePage: React.FC = () => {
             padding: "10px 20px",
             fontSize: "16px",
             cursor: "pointer",
-            backgroundColor: "#007bff",
+            backgroundColor: hasProfileChanged() ? "#007bff" : "#ccc",
             color: "#fff",
             border: "none",
             borderRadius: "4px",
           }}
+          disabled={!hasProfileChanged()}
         >
           Update Profile
         </button>
