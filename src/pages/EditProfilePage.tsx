@@ -1,14 +1,15 @@
 import React, { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 
+// Define ProfileData with optional password and confirmPassword fields
 interface ProfileData {
   firstName: string;
   lastName: string;
   email: string;
   bio: string;
   profilePic: string;
-  password?: string;
-  confirmPassword?: string;
+  password?: string;  // Make password optional
+  confirmPassword?: string;  // Make confirmPassword optional
 }
 
 const EditProfilePage: React.FC = () => {
@@ -20,8 +21,8 @@ const EditProfilePage: React.FC = () => {
     email: "",
     bio: "",
     profilePic: "default.png",
-    password: "",
-    confirmPassword: "",
+    password: "",  // Initialize password as an empty string
+    confirmPassword: "",  // Initialize confirmPassword as an empty string
   });
   const [error, setError] = useState<string | null>(null);
   const [successMessage, setSuccessMessage] = useState<string | null>(null);
@@ -48,7 +49,7 @@ const EditProfilePage: React.FC = () => {
 
         setProfileData({
           ...data,
-          password: "",
+          password: "",  // Clear password fields on load
           confirmPassword: "",
         });
       } catch (err: any) {
@@ -92,8 +93,8 @@ const EditProfilePage: React.FC = () => {
       const updatedProfile = {
         ...updateData,
         id: userId,
-        password: "", 
-        confirmPassword: "", 
+        password: "",  // Make sure password is not stored in localStorage
+        confirmPassword: "",  // Make sure confirmPassword is not stored in localStorage
       };
 
       localStorage.setItem("user_data", JSON.stringify(updatedProfile));
