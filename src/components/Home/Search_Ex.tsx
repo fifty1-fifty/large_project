@@ -94,6 +94,7 @@ function handleSetSearchQuery( e: any ) : void
 {
     setSearchQuery( e.target.value );
     pageNumber = 1;
+    doSearch();
 }
 
 function nextPage(e: any): void
@@ -119,14 +120,13 @@ function prevPage(e: any): void
    return (
         <div className ="move-down">
             <div className="form-group">
-                <input type="text" id="searchbar" placeholder="Discover" onChange={handleSetSearchQuery}/>
-                <button id="searchButton" onClick={doSearch}> <i className="material-icons">search</i></button>
+                <input type="text" id="searchbar" placeholder="Discover your favorites" onChange={handleSetSearchQuery}/>
             </div>
             <Gallery_Ex movies = {message}/>
 
            <div className="page-navigation-button">
-            <button id="nextButton"onClick={prevPage} ><i className="material-icons">arrow_back_ios</i></button>
-            <button id="prevButton"onClick={nextPage}><i className="material-icons">arrow_forward_ios</i></button>
+            <button id="theButton"onClick={prevPage} ><i className="material-icons" id="iconnon">arrow_back</i></button>
+            <button id="theButton"onClick={nextPage}><i className="material-icons" id="iconnon">arrow_forward</i></button>
             </div>
 
         </div>
