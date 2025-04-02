@@ -45,7 +45,7 @@ const EditProfilePage: React.FC = () => {
         if (!response.ok) throw new Error("Failed to fetch user profile");
 
         const data: Omit<ProfileData, "password" | "confirmPassword"> = await response.json();
-        
+
         setProfileData({
           ...data,
           password: "",
@@ -87,6 +87,16 @@ const EditProfilePage: React.FC = () => {
       });
 
       if (!response.ok) throw new Error("Failed to update profile");
+
+      // Update localStorage with the new profile data after a successful update
+      const updatedProfile = {
+        ...updateData,
+        id: userId,
+        password: "", 
+        confirmPassword: "", 
+      };
+
+      localStorage.setItem("user_data", JSON.stringify(updatedProfile));
 
       setSuccessMessage("Profile updated successfully!");
       setTimeout(() => navigate("/profile", { state: { updated: true } }), 1000);
