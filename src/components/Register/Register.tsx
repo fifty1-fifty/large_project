@@ -54,13 +54,13 @@ const Register: React.FC = () => {
         } else {
             setPasswordError('');
         }
-
+        /* For whatever reason this endpoint is not working
         const usernameTaken = await checkUsernameAvailability(registerUserName);
         if (usernameTaken) {
             setUsernameError(usernameTaken);
             valid = false;
         }
-
+        */
         return valid;
     };
 
