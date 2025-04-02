@@ -1,10 +1,20 @@
 import React, { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 
+interface ProfileData {
+  firstName: string;
+  lastName: string;
+  email: string;
+  bio: string;
+  profilePic: string;
+  password?: string;
+  confirmPassword?: string;
+}
+
 const EditProfilePage: React.FC = () => {
   const navigate = useNavigate();
   const [userId, setUserId] = useState<string | null>(null);
-  const [profileData, setProfileData] = useState({
+  const [profileData, setProfileData] = useState<ProfileData>({
     firstName: "",
     lastName: "",
     email: "",
@@ -85,7 +95,7 @@ const EditProfilePage: React.FC = () => {
             <input
               type={field === "email" ? "email" : "text"}
               id={field}
-              value={profileData[field]}
+              value={profileData[field as keyof ProfileData] || ""}
               onChange={handleChange}
               style={{ width: "100%", padding: "8px" }}
             />
@@ -107,7 +117,7 @@ const EditProfilePage: React.FC = () => {
             <input
               type="password"
               id={field}
-              value={profileData[field]}
+              value={profileData[field as keyof ProfileData] || ""}
               onChange={handleChange}
               style={{ width: "100%", padding: "8px" }}
             />
