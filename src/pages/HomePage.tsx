@@ -9,7 +9,6 @@ const HomePage = () =>
     return(
         <div>
             <Mediator />
-            <Background />
         </div>
         );
 }
