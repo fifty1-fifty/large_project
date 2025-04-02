@@ -28,7 +28,7 @@ const Gallery_Ex = ( {movies} : {movies : any}) => {
         <div className="row">
             {posters.map((poster : string, index : number) => (
                 <div key={index} className="col-sm-3 mb-2">
-                    <div className="photo-card">
+                    <div className="photo-card border bg-light">
                 <img src={`https://image.tmdb.org/t/p/original${poster}`} id="poster" className="card-img-top img-fluid" alt={"No Movies"} onClick={() => gotoInfoPage(index)} style={{ cursor: "pointer"}}/>
             </div>
         </div>
