@@ -18,6 +18,7 @@ const Register: React.FC = () => {
     const [usernameError, setUsernameError] = useState('');
     const [passwordError, setPasswordError] = useState('');
 
+    /* endpoint is not working
     // Calls check-username input to verifiy username availability
     const checkUsernameAvailability = async (username: string) => {
         const response = await fetch(buildPath('/api/check-username'), {
@@ -29,6 +30,7 @@ const Register: React.FC = () => {
         const result = await response.json();
         return result.exists ? 'Username already taken' : '';
     };
+    */
 
     // Async function to can use await for checkUsernameAvailability
     const validateRegister = async (): Promise<boolean> => {
@@ -54,7 +56,7 @@ const Register: React.FC = () => {
         } else {
             setPasswordError('');
         }
-        /* For whatever reason this endpoint is not working
+        /* endpoint is not working
         const usernameTaken = await checkUsernameAvailability(registerUserName);
         if (usernameTaken) {
             setUsernameError(usernameTaken);
