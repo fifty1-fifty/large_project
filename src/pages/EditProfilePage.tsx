@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-
+import { useNavigate } from "react-router-dom";
 
 interface ProfileData {
   FirstName: string;
@@ -10,7 +10,7 @@ interface ProfileData {
 }
 
 const EditProfilePage: React.FC = () => {
-  
+  const navigate = useNavigate();
   const [userId, setUserId] = useState<string | null>(null);
   const [profileData, setProfileData] = useState<ProfileData>({
     FirstName: "",
@@ -47,7 +47,7 @@ const EditProfilePage: React.FC = () => {
 
   // Fetch user profile data from API only if needed
   useEffect(() => {
-    if (!userId || originalProfile) return; // Don't fetch if already loaded from localStorage
+    if (!userId || originalProfile) return;
 
     console.log("Fetching profile for userId:", userId);
     const fetchProfile = async () => {
@@ -108,6 +108,9 @@ const EditProfilePage: React.FC = () => {
 
       setSuccessMessage("Profile updated successfully!");
       setOriginalProfile(profileData);
+
+      // Redirect to profile page after 1 second
+      setTimeout(() => navigate("/profile", { state: { updated: true } }), 1000);
     } catch (err: any) {
       setError(err.message);
     }
