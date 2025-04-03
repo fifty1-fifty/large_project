@@ -23,7 +23,7 @@ const EditProfilePage: React.FC = () => {
   const [originalProfile, setOriginalProfile] = useState<ProfileData | null>(null);
   const [error, setError] = useState<string | null>(null);
   const [successMessage, setSuccessMessage] = useState<string | null>(null);
-  const [imagePreview, setImagePreview] = useState<string | null>(null); 
+  const [imagePreview, setImagePreview] = useState<string | null>(null);
 
   // Load user ID and profile from localStorage on mount
   useEffect(() => {
@@ -89,10 +89,9 @@ const EditProfilePage: React.FC = () => {
       };
       reader.readAsDataURL(file);
 
-      
       setProfileData((prev) => ({
         ...prev,
-        ProfilePic: file.name, 
+        ProfilePic: file.name, // Store the file name or URL
       }));
     }
   };
@@ -118,7 +117,11 @@ const EditProfilePage: React.FC = () => {
     formData.append("LastName", profileData.LastName);
     formData.append("Email", profileData.Email);
     formData.append("Bio", profileData.Bio);
-    formData.append("ProfilePic", (e.target as any).ProfilePic.files[0]); 
+
+    // Send ProfilePic if there's a file uploaded
+    if (e.target instanceof HTMLFormElement && e.target.ProfilePic.files[0]) {
+      formData.append("ProfilePic", e.target.ProfilePic.files[0]);
+    }
 
     try {
       const response = await fetch(`/api/profile/${userId}/edit`, {
