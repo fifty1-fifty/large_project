@@ -13,13 +13,7 @@ interface EditProfileFormProps {
 }
 
 const EditProfileForm: React.FC<EditProfileFormProps> = ({ userId }) => {
-  const [profileData, setProfileData] = useState<ProfileData>({
-    FirstName: "",
-    LastName: "",
-    Email: "",
-    Bio: "",
-  });
-
+  const [formData, setFormData] = useState<FormData>(new FormData());
   const [originalData, setOriginalData] = useState<ProfileData>({
     FirstName: "",
     LastName: "",
@@ -38,8 +32,15 @@ const EditProfileForm: React.FC<EditProfileFormProps> = ({ userId }) => {
         if (!response.ok) throw new Error("Failed to fetch user profile");
 
         const data: ProfileData = await response.json();
-        setProfileData(data); 
+
         setOriginalData(data); 
+        const newFormData = new FormData();
+        newFormData.set("FirstName", data.FirstName);
+        newFormData.set("LastName", data.LastName);
+        newFormData.set("Email", data.Email);
+        newFormData.set("Bio", data.Bio);
+
+        setFormData(newFormData);
       } catch (err: any) {
         setError(err.message);
       }
@@ -51,12 +52,19 @@ const EditProfileForm: React.FC<EditProfileFormProps> = ({ userId }) => {
   // Handle form field changes
   const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
     const { id, value } = e.target;
-    setProfileData((prev) => ({ ...prev, [id]: value }));
+    const updatedFormData = new FormData(formData);
+    updatedFormData.set(id, value);
+    setFormData(updatedFormData);
   };
 
   // Check if any profile field has changed
   const hasProfileChanged = () => {
-    return JSON.stringify(profileData) !== JSON.stringify(originalData);
+    return (
+      formData.get("FirstName") !== originalData.FirstName ||
+      formData.get("LastName") !== originalData.LastName ||
+      formData.get("Email") !== originalData.Email ||
+      formData.get("Bio") !== originalData.Bio
+    );
   };
 
   // Handle form submission
@@ -66,15 +74,9 @@ const EditProfileForm: React.FC<EditProfileFormProps> = ({ userId }) => {
     setSuccessMessage(null);
 
     try {
-      const formData = new FormData();
-      formData.append("FirstName", profileData.FirstName);
-      formData.append("LastName", profileData.LastName);
-      formData.append("Email", profileData.Email);
-      formData.append("Bio", profileData.Bio);
-
       const response = await fetch(`/api/profile/${userId}/edit`, {
         method: "PUT",
-        body: formData,
+        body: formData, 
       });
 
       if (!response.ok) {
@@ -84,9 +86,18 @@ const EditProfileForm: React.FC<EditProfileFormProps> = ({ userId }) => {
       setSuccessMessage("Profile updated successfully!");
 
       // Update local storage
-      localStorage.setItem("user_data", JSON.stringify({ ...profileData, id: userId }));
+      localStorage.setItem(
+        "user_data",
+        JSON.stringify({
+          FirstName: formData.get("FirstName"),
+          LastName: formData.get("LastName"),
+          Email: formData.get("Email"),
+          Bio: formData.get("Bio"),
+          id: userId,
+        })
+      );
 
-      setTimeout(() => window.location.href = "/profile", 1000);
+      setTimeout(() => window.location.href = "/profile", 1000); 
     } catch (err: any) {
       setError(err.message);
     }
@@ -105,7 +116,7 @@ const EditProfileForm: React.FC<EditProfileFormProps> = ({ userId }) => {
           <input
             type="text"
             id="FirstName"
-            value={profileData.FirstName} 
+            value={formData.get("FirstName")?.toString() || ""}
             onChange={handleChange}
           />
         </div>
@@ -115,7 +126,7 @@ const EditProfileForm: React.FC<EditProfileFormProps> = ({ userId }) => {
           <input
             type="text"
             id="LastName"
-            value={profileData.LastName} 
+            value={formData.get("LastName")?.toString() || ""}
             onChange={handleChange}
           />
         </div>
@@ -125,7 +136,7 @@ const EditProfileForm: React.FC<EditProfileFormProps> = ({ userId }) => {
           <input
             type="email"
             id="Email"
-            value={profileData.Email}
+            value={formData.get("Email")?.toString() || ""}
             onChange={handleChange}
           />
         </div>
@@ -134,7 +145,7 @@ const EditProfileForm: React.FC<EditProfileFormProps> = ({ userId }) => {
           <label htmlFor="Bio">Bio</label>
           <textarea
             id="Bio"
-            value={profileData.Bio} 
+            value={formData.get("Bio")?.toString() || ""}
             onChange={handleChange}
             rows={3}
           />
