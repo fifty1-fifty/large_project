@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { useNavigate, useLocation } from "react-router-dom";
 import ProfileDetails from "../components/Profile/ProfileDetails";
-import "../components/ProfileDetails.css"; 
+import "../components/Profile/ProfileDetails.css";
 
 const ProfilePage: React.FC = () => {
   const [userInfo, setUserInfo] = useState<any>(null);
