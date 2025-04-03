@@ -92,7 +92,7 @@ const EditProfilePage: React.FC = () => {
       
       setProfileData((prev) => ({
         ...prev,
-        ProfilePic: file.name, 
+        ProfilePic: file.name, // Store filename temporarily, can be used in the backend
       }));
     }
   };
@@ -112,13 +112,12 @@ const EditProfilePage: React.FC = () => {
     }
 
     const formData = new FormData();
-
     // Append profile data
     formData.append("FirstName", profileData.FirstName);
     formData.append("LastName", profileData.LastName);
     formData.append("Email", profileData.Email);
     formData.append("Bio", profileData.Bio);
-    formData.append("ProfilePic", (e.target as any).ProfilePic.files[0]); 
+    formData.append("ProfilePic", (e.target as any).ProfilePic.files[0]); // Append the file from input
 
     try {
       const response = await fetch(`/api/profile/${userId}/edit`, {
