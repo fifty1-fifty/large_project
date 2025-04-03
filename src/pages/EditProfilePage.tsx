@@ -24,19 +24,30 @@ const EditProfilePage: React.FC = () => {
   const [error, setError] = useState<string | null>(null);
   const [successMessage, setSuccessMessage] = useState<string | null>(null);
 
-  // Load user ID from localStorage on mount
+  // Load user ID and profile from localStorage on mount
   useEffect(() => {
     const storedUser = localStorage.getItem("user_data");
     if (storedUser) {
       const user = JSON.parse(storedUser);
       setUserId(user?.id || null);
-      console.log("User ID set from localStorage:", user?.id);
+
+      // If localStorage has profile data, use it
+      setProfileData({
+        FirstName: user.FirstName || "",
+        LastName: user.LastName || "",
+        Email: user.Email || "",
+        Bio: user.Bio || "",
+        ProfilePic: user.ProfilePic || "default.png",
+      });
+
+      setOriginalProfile(user);
+      console.log("Loaded profile from localStorage:", user);
     }
   }, []);
 
-  // Fetch user profile data when userId is available
+  // Fetch user profile data from API only if needed
   useEffect(() => {
-    if (!userId) return;
+    if (!userId || originalProfile) return; // Don't fetch if already loaded from localStorage
 
     console.log("Fetching profile for userId:", userId);
     const fetchProfile = async () => {
@@ -47,15 +58,11 @@ const EditProfilePage: React.FC = () => {
         const data: ProfileData = await response.json();
         console.log("Fetched profile data:", data);
 
-        setProfileData({
-          FirstName: data.FirstName || "",
-          LastName: data.LastName || "",
-          Email: data.Email || "",
-          Bio: data.Bio || "",
-          ProfilePic: data.ProfilePic || "default.png",
-        });
-
+        setProfileData(data);
         setOriginalProfile(data);
+
+        // Update localStorage so it persists
+        localStorage.setItem("user_data", JSON.stringify({ ...data, id: userId }));
       } catch (err: any) {
         console.error("Error fetching profile:", err.message);
         setError(err.message);
@@ -68,20 +75,11 @@ const EditProfilePage: React.FC = () => {
   // Handle input changes
   const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
     const { id, value } = e.target;
-    console.log(`Updating field '${id}' to:`, value);
-    
-    setProfileData((prev) => ({
-      ...prev,
-      [id]: value, // Correct case-sensitive property update
-    }));
+    setProfileData((prev) => ({ ...prev, [id]: value }));
   };
 
   // Check if profile data has changed
-  const hasProfileChanged = () => {
-    const changed = JSON.stringify(profileData) !== JSON.stringify(originalProfile);
-    console.log("Profile changed?", changed);
-    return changed;
-  };
+  const hasProfileChanged = () => JSON.stringify(profileData) !== JSON.stringify(originalProfile);
 
   // Handle form submission
   const submitHandler = async (e: React.FormEvent<HTMLFormElement>) => {
@@ -91,11 +89,9 @@ const EditProfilePage: React.FC = () => {
 
     if (!hasProfileChanged()) {
       setError("No changes detected.");
-      console.log("No changes detected, submission blocked.");
       return;
     }
 
-    console.log("Submitting updated profile:", profileData);
     try {
       const response = await fetch(`/api/profile/${userId}/edit`, {
         method: "PUT",
@@ -107,13 +103,12 @@ const EditProfilePage: React.FC = () => {
 
       console.log("Profile updated successfully!");
 
+      // Update localStorage with new profile data
       localStorage.setItem("user_data", JSON.stringify({ ...profileData, id: userId }));
 
       setSuccessMessage("Profile updated successfully!");
       setOriginalProfile(profileData);
-      setTimeout(() => navigate("/profile", { state: { updated: true } }), 1000);
     } catch (err: any) {
-      console.error("Error updating profile:", err.message);
       setError(err.message);
     }
   };
