@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { useNavigate, useLocation } from "react-router-dom";
+import "../components/Profile.css";  // Import the Profile.css file
 
 const ProfilePage: React.FC = () => {
   const [userInfo, setUserInfo] = useState<any>(null);
@@ -36,12 +37,12 @@ const ProfilePage: React.FC = () => {
   };
 
   return (
-    <div className="profile-page container" style={{ padding: "20px" }}>
-      <h1 style={{ textAlign: "center", marginBottom: "20px" }}></h1>
-      {error && <div style={{ color: "red" }}>Error: {error}</div>}
+    <div className="profile-page container">
+      <h1 className="profile-heading">Profile</h1>
+      {error && <div className="error-message">Error: {error}</div>}
       {userInfo ? (
         <>
-          <div className="profile-header" style={{ textAlign: "left" }}>
+          <div className="profile-header">
             <h3>
               {userInfo.firstName} {userInfo.lastName}
             </h3>
@@ -53,32 +54,23 @@ const ProfilePage: React.FC = () => {
             </p>
           </div>
 
-          <div
-            className="followers-following"
-            style={{
-              display: "flex",
-              justifyContent: "center",
-              alignItems: "center",
-              marginTop: "50px",
-              gap: "50px",
-            }}
-          >
-            <div className="followers" style={{ textAlign: "center" }}>
+          <div className="followers-following">
+            <div className="followers">
               <h4>Followers</h4>
               <p>{userInfo.followers ? userInfo.followers.length : 0}</p>
               {userInfo.followers && userInfo.followers.length > 0 && (
-                <div style={{ display: "flex", gap: "10px", justifyContent: "center" }}>
+                <div className="followers-list">
                   {userInfo.followers.map((follower: string, index: number) => (
                     <span key={index}>{follower}</span>
                   ))}
                 </div>
               )}
             </div>
-            <div className="following" style={{ textAlign: "center" }}>
+            <div className="following">
               <h4>Following</h4>
               <p>{userInfo.following ? userInfo.following.length : 0}</p>
               {userInfo.following && userInfo.following.length > 0 && (
-                <div style={{ display: "flex", gap: "10px", justifyContent: "center" }}>
+                <div className="following-list">
                   {userInfo.following.map((following: string, index: number) => (
                     <span key={index}>{following}</span>
                   ))}
@@ -87,25 +79,17 @@ const ProfilePage: React.FC = () => {
             </div>
           </div>
 
-          <div style={{ marginTop: "20px", textAlign: "left" }}>
+          <div className="edit-profile-container">
             <button
               onClick={navigateToEdit}
-              style={{
-                padding: "10px 20px",
-                fontSize: "16px",
-                cursor: "pointer",
-                backgroundColor: "#007bff",
-                color: "#fff",
-                border: "none",
-                borderRadius: "4px",
-              }}
+              className="profile-edit-button"
             >
               Edit Profile
             </button>
           </div>
         </>
       ) : (
-        <div>No profile information available</div>
+        <div>Loading...</div>
       )}
     </div>
   );

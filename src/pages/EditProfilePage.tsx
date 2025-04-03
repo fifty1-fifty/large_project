@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
+import "../components/Profile.css";  // Import the Profile.css file
 
 interface ProfileData {
   FirstName: string;
@@ -91,51 +92,37 @@ const EditProfilePage: React.FC = () => {
   };
 
   return (
-    <div style={{ maxWidth: "600px", margin: "0 auto", padding: "20px" }}>
+    <div className="edit-profile-page">
       <h1>Edit Profile</h1>
-      {error && <div style={{ color: "red", marginBottom: "15px" }}>{error}</div>}
-      {successMessage && <div style={{ color: "green", marginBottom: "15px" }}>{successMessage}</div>}
+      {error && <div className="error-message">{error}</div>}
+      {successMessage && <div className="success-message">{successMessage}</div>}
 
-      <form onSubmit={submitHandler}>
-        {[
-          { label: "First Name", key: "FirstName" },
-          { label: "Last Name", key: "LastName" },
-          { label: "Email", key: "Email" },
-        ].map(({ label, key }) => (
-          <div key={key} className="form-group" style={{ marginBottom: "15px" }}>
+      <form onSubmit={submitHandler} className="profile-form">
+        {[{ label: "First Name", key: "FirstName" }, { label: "Last Name", key: "LastName" }, { label: "Email", key: "Email" }].map(({ label, key }) => (
+          <div key={key} className="form-group">
             <label htmlFor={key}>{label}</label>
             <input
               type={key === "Email" ? "email" : "text"}
               id={key}
               value={profileData[key as keyof ProfileData] || ""}
               onChange={handleChange}
-              style={{ width: "100%", padding: "8px" }}
             />
           </div>
         ))}
 
-        <div className="form-group" style={{ marginBottom: "15px" }}>
+        <div className="form-group">
           <label htmlFor="Bio">Bio</label>
           <textarea
             id="Bio"
             value={profileData.Bio}
             onChange={handleChange}
             rows={3}
-            style={{ width: "100%", padding: "8px" }}
           />
         </div>
 
         <button
           type="submit"
-          style={{
-            padding: "10px 20px",
-            fontSize: "16px",
-            cursor: "pointer",
-            backgroundColor: hasProfileChanged() ? "#007bff" : "#ccc",
-            color: "#fff",
-            border: "none",
-            borderRadius: "4px",
-          }}
+          className="update-profile-button"
           disabled={!hasProfileChanged()}
         >
           Update Profile
