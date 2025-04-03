@@ -4,7 +4,7 @@ import { useNavigate, useLocation } from "react-router-dom";
 const ProfilePage: React.FC = () => {
   const [userInfo, setUserInfo] = useState<any>(null);
   const [error, setError] = useState<string>("");
-  
+
   const storedUser = localStorage.getItem("user_data");
   const user = storedUser ? JSON.parse(storedUser) : {};
   const userId = user?.id;
@@ -13,7 +13,7 @@ const ProfilePage: React.FC = () => {
   const location = useLocation();
 
   useEffect(() => {
-    if (!userId) return; 
+    if (!userId) return;
 
     async function fetchProfile() {
       try {
@@ -41,20 +41,16 @@ const ProfilePage: React.FC = () => {
       {error && <div style={{ color: "red" }}>Error: {error}</div>}
       {userInfo ? (
         <>
-        
           <div className="profile-header" style={{ textAlign: "left" }}>
-            {userInfo.profilePic && (
-              <img
-                src={userInfo.profilePic}
-                alt="Profile"
-                style={{ width: "150px", height: "150px", borderRadius: "50%" }}
-              />
-            )}
             <h3>
               {userInfo.firstName} {userInfo.lastName}
             </h3>
-            <p><strong>Email:</strong> {userInfo.email}</p>
-            <p><strong>Bio:</strong> {userInfo.bio}</p>
+            <p>
+              <strong>Email:</strong> {userInfo.email}
+            </p>
+            <p>
+              <strong>Bio:</strong> {userInfo.bio}
+            </p>
           </div>
 
           <div
@@ -91,7 +87,6 @@ const ProfilePage: React.FC = () => {
             </div>
           </div>
 
-          
           <div style={{ marginTop: "20px", textAlign: "left" }}>
             <button
               onClick={navigateToEdit}
