@@ -39,7 +39,7 @@ const EditProfileForm: React.FC<EditProfileFormProps> = ({ userId }) => {
 
         const data: ProfileData = await response.json();
         setProfileData(data); 
-        setOriginalData(data);
+        setOriginalData(data); 
       } catch (err: any) {
         setError(err.message); 
       }
