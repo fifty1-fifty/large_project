@@ -19,7 +19,6 @@ const EditProfilePage: React.FC = () => {
     Email: "",
     Bio: "",
   });
-
   const [originalProfile, setOriginalProfile] = useState<ProfileData | null>(null);
   const [error, setError] = useState<string | null>(null);
   const [successMessage, setSuccessMessage] = useState<string | null>(null);

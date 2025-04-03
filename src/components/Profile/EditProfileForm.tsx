@@ -28,21 +28,40 @@ const EditProfileForm: React.FC<EditProfileFormProps> = ({
   return (
     <div className="edit-profile-page">
       <h1>Edit Profile</h1>
+
       {error && <div className="error-message">{error}</div>}
       {successMessage && <div className="success-message">{successMessage}</div>}
 
       <form onSubmit={submitHandler} className="profile-form">
-        {[{ label: "First Name", key: "FirstName" }, { label: "Last Name", key: "LastName" }, { label: "Email", key: "Email" }].map(({ label, key }) => (
-          <div key={key} className="form-group">
-            <label htmlFor={key}>{label}</label>
-            <input
-              type={key === "Email" ? "email" : "text"}
-              id={key}
-              value={profileData[key as keyof ProfileData] || ""}
-              onChange={handleChange}
-            />
-          </div>
-        ))}
+        <div className="form-group">
+          <label htmlFor="FirstName">First Name</label>
+          <input
+            type="text"
+            id="FirstName"
+            value={profileData.FirstName}
+            onChange={handleChange}
+          />
+        </div>
+
+        <div className="form-group">
+          <label htmlFor="LastName">Last Name</label>
+          <input
+            type="text"
+            id="LastName"
+            value={profileData.LastName}
+            onChange={handleChange}
+          />
+        </div>
+
+        <div className="form-group">
+          <label htmlFor="Email">Email</label>
+          <input
+            type="email"
+            id="Email"
+            value={profileData.Email}
+            onChange={handleChange}
+          />
+        </div>
 
         <div className="form-group">
           <label htmlFor="Bio">Bio</label>
