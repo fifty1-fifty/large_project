@@ -2,22 +2,22 @@ import React, { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 
 interface ProfileData {
-  firstName: string;
-  lastName: string;
-  email: string;
-  bio: string;
-  profilePic: string;
+  FirstName: string;
+  LastName: string;
+  Email: string;
+  Bio: string;
+  ProfilePic: string;
 }
 
 const EditProfilePage: React.FC = () => {
   const navigate = useNavigate();
   const [userId, setUserId] = useState<string | null>(null);
   const [profileData, setProfileData] = useState<ProfileData>({
-    firstName: "",
-    lastName: "",
-    email: "",
-    bio: "",
-    profilePic: "default.png",
+    FirstName: "",
+    LastName: "",
+    Email: "",
+    Bio: "",
+    ProfilePic: "default.png",
   });
 
   const [originalProfile, setOriginalProfile] = useState<ProfileData | null>(null);
@@ -47,8 +47,15 @@ const EditProfilePage: React.FC = () => {
         const data: ProfileData = await response.json();
         console.log("Fetched profile data:", data);
 
-        setProfileData(data);
-        setOriginalProfile(data); // Store original profile for change detection
+        setProfileData({
+          FirstName: data.FirstName || "",
+          LastName: data.LastName || "",
+          Email: data.Email || "",
+          Bio: data.Bio || "",
+          ProfilePic: data.ProfilePic || "default.png",
+        });
+
+        setOriginalProfile(data);
       } catch (err: any) {
         console.error("Error fetching profile:", err.message);
         setError(err.message);
@@ -58,11 +65,15 @@ const EditProfilePage: React.FC = () => {
     fetchProfile();
   }, [userId]);
 
-  // Handle input changes (updates state only)
+  // Handle input changes
   const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
     const { id, value } = e.target;
     console.log(`Updating field '${id}' to:`, value);
-    setProfileData((prev) => ({ ...prev, [id]: value }));
+    
+    setProfileData((prev) => ({
+      ...prev,
+      [id]: value, // Correct case-sensitive property update
+    }));
   };
 
   // Check if profile data has changed
@@ -78,7 +89,6 @@ const EditProfilePage: React.FC = () => {
     setError(null);
     setSuccessMessage(null);
 
-    // Prevent submission if nothing has changed
     if (!hasProfileChanged()) {
       setError("No changes detected.");
       console.log("No changes detected, submission blocked.");
@@ -97,11 +107,10 @@ const EditProfilePage: React.FC = () => {
 
       console.log("Profile updated successfully!");
 
-      // Update localStorage with new profile data
       localStorage.setItem("user_data", JSON.stringify({ ...profileData, id: userId }));
 
       setSuccessMessage("Profile updated successfully!");
-      setOriginalProfile(profileData); // Update original profile after saving
+      setOriginalProfile(profileData);
       setTimeout(() => navigate("/profile", { state: { updated: true } }), 1000);
     } catch (err: any) {
       console.error("Error updating profile:", err.message);
@@ -116,11 +125,11 @@ const EditProfilePage: React.FC = () => {
       {successMessage && <div style={{ color: "green", marginBottom: "15px" }}>{successMessage}</div>}
 
       <form onSubmit={submitHandler}>
-        {["firstName", "lastName", "email"].map((field) => (
+        {["FirstName", "LastName", "Email"].map((field) => (
           <div key={field} className="form-group" style={{ marginBottom: "15px" }}>
-            <label htmlFor={field}>{field.charAt(0).toUpperCase() + field.slice(1)}</label>
+            <label htmlFor={field}>{field}</label>
             <input
-              type={field === "email" ? "email" : "text"}
+              type={field === "Email" ? "email" : "text"}
               id={field}
               value={profileData[field as keyof ProfileData] || ""}
               onChange={handleChange}
@@ -130,10 +139,10 @@ const EditProfilePage: React.FC = () => {
         ))}
 
         <div className="form-group" style={{ marginBottom: "15px" }}>
-          <label htmlFor="bio">Bio</label>
+          <label htmlFor="Bio">Bio</label>
           <textarea
-            id="bio"
-            value={profileData.bio}
+            id="Bio"
+            value={profileData.Bio}
             onChange={handleChange}
             rows={3}
             style={{ width: "100%", padding: "8px" }}
