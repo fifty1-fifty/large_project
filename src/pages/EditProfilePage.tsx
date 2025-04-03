@@ -23,7 +23,6 @@ const EditProfilePage: React.FC = () => {
   const [originalProfile, setOriginalProfile] = useState<ProfileData | null>(null);
   const [error, setError] = useState<string | null>(null);
   const [successMessage, setSuccessMessage] = useState<string | null>(null);
-  const [imagePreview, setImagePreview] = useState<string | null>(null); 
 
   // Load user ID and profile from localStorage on mount
   useEffect(() => {
@@ -79,24 +78,6 @@ const EditProfilePage: React.FC = () => {
     setProfileData((prev) => ({ ...prev, [id]: value }));
   };
 
-  // Handle profile picture upload
-  const handleFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    const file = e.target.files?.[0];
-    if (file) {
-      const reader = new FileReader();
-      reader.onloadend = () => {
-        setImagePreview(reader.result as string); // Set preview of image
-      };
-      reader.readAsDataURL(file);
-
-      
-      setProfileData((prev) => ({
-        ...prev,
-        ProfilePic: file.name, // Store filename temporarily, can be used in the backend
-      }));
-    }
-  };
-
   // Check if profile data has changed
   const hasProfileChanged = () => JSON.stringify(profileData) !== JSON.stringify(originalProfile);
 
@@ -111,18 +92,11 @@ const EditProfilePage: React.FC = () => {
       return;
     }
 
-    const formData = new FormData();
-    // Append profile data
-    formData.append("FirstName", profileData.FirstName);
-    formData.append("LastName", profileData.LastName);
-    formData.append("Email", profileData.Email);
-    formData.append("Bio", profileData.Bio);
-    formData.append("ProfilePic", (e.target as any).ProfilePic.files[0]); // Append the file from input
-
     try {
       const response = await fetch(`/api/profile/${userId}/edit`, {
         method: "PUT",
-        body: formData, // Send form data which includes the profile pic
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(profileData),
       });
 
       if (!response.ok) throw new Error("Failed to update profile");
@@ -172,27 +146,6 @@ const EditProfilePage: React.FC = () => {
             style={{ width: "100%", padding: "8px" }}
           />
         </div>
-
-        <div className="form-group" style={{ marginBottom: "15px" }}>
-          <label htmlFor="ProfilePic">Profile Picture</label>
-          <input
-            type="file"
-            id="ProfilePic"
-            accept="image/*"
-            onChange={handleFileChange}
-            style={{ padding: "8px" }}
-          />
-        </div>
-
-        {imagePreview && (
-          <div style={{ marginBottom: "15px" }}>
-            <img
-              src={imagePreview}
-              alt="Profile Preview"
-              style={{ maxWidth: "100%", height: "auto", borderRadius: "8px" }}
-            />
-          </div>
-        )}
 
         <button
           type="submit"
