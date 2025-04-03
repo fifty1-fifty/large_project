@@ -13,12 +13,7 @@ interface ProfileData {
 const EditProfilePage: React.FC = () => {
   const navigate = useNavigate();
   const [userId, setUserId] = useState<string | null>(null);
-  const [profileData, setProfileData] = useState<ProfileData>({
-    FirstName: "",
-    LastName: "",
-    Email: "",
-    Bio: "",
-  });
+  const [profileData, setProfileData] = useState<ProfileData | null>(null);
   const [originalProfile, setOriginalProfile] = useState<ProfileData | null>(null);
   const [error, setError] = useState<string | null>(null);
   const [successMessage, setSuccessMessage] = useState<string | null>(null);
@@ -56,17 +51,18 @@ const EditProfilePage: React.FC = () => {
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
     const { id, value } = e.target;
-    setProfileData((prev) => ({ ...prev, [id]: value }));
+    setProfileData((prev) => (prev ? { ...prev, [id]: value } : prev));
   };
 
-  const hasProfileChanged = () => JSON.stringify(profileData) !== JSON.stringify(originalProfile);
+  const hasProfileChanged = () =>
+    profileData && originalProfile && JSON.stringify(profileData) !== JSON.stringify(originalProfile);
 
   const submitHandler = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     setError(null);
     setSuccessMessage(null);
 
-    if (!hasProfileChanged()) {
+    if (!profileData || !hasProfileChanged()) {
       setError("No changes detected.");
       return;
     }
@@ -92,14 +88,18 @@ const EditProfilePage: React.FC = () => {
   };
 
   return (
-    <EditProfileForm
-      profileData={profileData}
-      error={error}
-      successMessage={successMessage}
-      handleChange={handleChange}
-      submitHandler={submitHandler}
-      hasProfileChanged={hasProfileChanged}
-    />
+    profileData ? (
+      <EditProfileForm
+        profileData={profileData}
+        error={error}
+        successMessage={successMessage}
+        handleChange={handleChange}
+        submitHandler={submitHandler}
+        hasProfileChanged={hasProfileChanged}
+      />
+    ) : (
+      <p>Loading profile...</p>
+    )
   );
 };
 
