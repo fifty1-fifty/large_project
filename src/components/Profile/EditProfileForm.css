@@ -1,67 +1,91 @@
 /* Edit Profile Form Styles */
 .edit-profile-page {
-    margin: 40px auto;
-    max-width: 500px;
-    padding: 20px;
-    background-color: #f5f5f5;
-    border-radius: 8px;
-  }
-  
-  .edit-profile-page h1 {
-    text-align: center;
-    font-size: 2rem;
-    margin-bottom: 30px;
-    color: #333;
-  }
-  
-  .form-group {
-    margin-bottom: 20px;
-  }
-  
-  label {
-    display: block;
-    font-size: 1rem;
-    margin-bottom: 8px;
-    color: #333;
-  }
-  
-  input, textarea {
-    width: 100%;
-    padding: 10px;
-    border: 1px solid #ccc;
-    border-radius: 4px;
-    font-size: 1rem;
-    margin-top: 5px;
-  }
-  
-  input[type="email"] {
-    width: 100%;
-  }
-  
-  textarea {
-    resize: vertical;
-  }
-  
-  .update-profile-button {
-    padding: 12px 20px;
-    font-size: 16px;
-    cursor: pointer;
-    background-color: #c44646;
-    color: #fff;
-    border: none;
-    border-radius: 4px;
-    transition: background-color 0.3s, color 0.3s, border 0.3s;
-    width: 100%;
-    margin-top: 20px;
-  }
-  
-  .update-profile-button:disabled {
-    background-color: #ccc;
-    cursor: not-allowed;
-  }
-  
-  .update-profile-button:hover:enabled {
-    background-color: white;
-    color: #c44646;
-  }
-  
+  margin: 40px auto;
+  max-width: 500px;
+  padding: 20px;
+  background-color: #f5f5f5;
+  border-radius: 8px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+.edit-profile-page h1 {
+  text-align: center;
+  font-size: 2rem;
+  margin-bottom: 30px;
+  color: #333;
+}
+
+.form-group {
+  margin-bottom: 20px;
+}
+
+label {
+  display: block;
+  font-size: 1rem;
+  margin-bottom: 8px;
+  color: #333;
+}
+
+input, textarea {
+  width: 100%;
+  padding: 10px;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  font-size: 1rem;
+  margin-top: 5px;
+}
+
+input[type="email"] {
+  width: 100%;
+}
+
+textarea {
+  resize: vertical;
+}
+
+/* Success and Error Messages */
+.error-message, .success-message {
+  text-align: center;
+  font-size: 1rem;
+  font-weight: bold;
+  padding: 10px;
+  border-radius: 4px;
+  margin-bottom: 20px;
+}
+
+.error-message {
+  background-color: #ffdddd;
+  color: #a94442;
+  border: 1px solid #a94442;
+}
+
+.success-message {
+  background-color: #d4edda;
+  color: #155724;
+  border: 1px solid #155724;
+}
+
+/* Update Profile Button */
+.update-profile-button {
+  padding: 12px 20px;
+  font-size: 16px;
+  cursor: pointer;
+  background-color: #c44646;
+  color: #fff;
+  border: none;
+  border-radius: 4px;
+  transition: background-color 0.3s, color 0.3s, border 0.3s;
+  width: 100%;
+  margin-top: 20px;
+}
+
+.update-profile-button:disabled {
+  background-color: #ccc;
+  cursor: not-allowed;
+}
+
+.update-profile-button:hover:enabled {
+  background-color: white;
+  color: #c44646;
+  border: 1px solid #c44646;
+}
