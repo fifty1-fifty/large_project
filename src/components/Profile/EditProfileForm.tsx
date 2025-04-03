@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState, useEffect } from "react";
 import "./EditProfileForm.css";
 
 interface ProfileData {
@@ -9,22 +9,79 @@ interface ProfileData {
 }
 
 interface EditProfileFormProps {
-  profileData: ProfileData;
-  error: string | null;
-  successMessage: string | null;
-  handleChange: (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => void;
-  submitHandler: (e: React.FormEvent<HTMLFormElement>) => void;
-  hasProfileChanged: () => boolean;
+  userId: string;
 }
 
-const EditProfileForm: React.FC<EditProfileFormProps> = ({
-  profileData,
-  error,
-  successMessage,
-  handleChange,
-  submitHandler,
-  hasProfileChanged,
-}) => {
+const EditProfileForm: React.FC<EditProfileFormProps> = ({ userId }) => {
+  const [profileData, setProfileData] = useState<ProfileData>({
+    FirstName: "",
+    LastName: "",
+    Email: "",
+    Bio: "",
+  });
+  const [error, setError] = useState<string | null>(null);
+  const [successMessage, setSuccessMessage] = useState<string | null>(null);
+  const [loading, setLoading] = useState<boolean>(true); 
+
+  useEffect(() => {
+    const fetchProfile = async () => {
+      try {
+        const response = await fetch(`/api/profile/${userId}`);
+        if (!response.ok) throw new Error("Failed to fetch user profile");
+
+        const data: ProfileData = await response.json();
+        setProfileData(data);
+        setLoading(false);
+      } catch (err: any) {
+        setError(err.message);
+        setLoading(false);
+      }
+    };
+
+    fetchProfile();
+  }, [userId]);
+
+  const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
+    const { id, value } = e.target;
+    setProfileData((prev) => ({ ...prev, [id]: value }));
+  };
+
+  const hasProfileChanged = () => {
+    return (
+      profileData.FirstName !== "" ||
+      profileData.LastName !== "" ||
+      profileData.Email !== "" ||
+      profileData.Bio !== ""
+    );
+  };
+
+  const submitHandler = async (e: React.FormEvent<HTMLFormElement>) => {
+    e.preventDefault();
+    setError(null);
+    setSuccessMessage(null);
+
+    try {
+      const response = await fetch(`/api/profile/${userId}/edit`, {
+        method: "PUT",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(profileData),
+      });
+
+      if (!response.ok) throw new Error("Failed to update profile");
+
+      setSuccessMessage("Profile updated successfully!");
+      localStorage.setItem("user_data", JSON.stringify({ ...profileData, id: userId }));
+
+      setTimeout(() => window.location.href = "/profile", 1000);
+    } catch (err: any) {
+      setError(err.message);
+    }
+  };
+
+  if (loading) {
+    return <div>Loading...</div>; // Show loading message until data is fetched
+  }
+
   return (
     <div className="edit-profile-page">
       <h1>Edit Profile</h1>
