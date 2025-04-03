@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
-import "../components/Profile.css";  // Import the Profile.css file
+import "../components/Profile";
 
 interface ProfileData {
   FirstName: string;
