@@ -97,13 +97,17 @@ const EditProfilePage: React.FC = () => {
       {successMessage && <div style={{ color: "green", marginBottom: "15px" }}>{successMessage}</div>}
 
       <form onSubmit={submitHandler}>
-        {["First Name", "Last Name", "Email"].map((field) => (
-          <div key={field} className="form-group" style={{ marginBottom: "15px" }}>
-            <label htmlFor={field}>{field}</label>
+        {[
+          { label: "First Name", key: "FirstName" },
+          { label: "Last Name", key: "LastName" },
+          { label: "Email", key: "Email" },
+        ].map(({ label, key }) => (
+          <div key={key} className="form-group" style={{ marginBottom: "15px" }}>
+            <label htmlFor={key}>{label}</label>
             <input
-              type={field === "Email" ? "email" : "text"}
-              id={field}
-              value={profileData[field as keyof ProfileData] || ""}
+              type={key === "Email" ? "email" : "text"}
+              id={key}
+              value={profileData[key as keyof ProfileData] || ""}
               onChange={handleChange}
               style={{ width: "100%", padding: "8px" }}
             />
