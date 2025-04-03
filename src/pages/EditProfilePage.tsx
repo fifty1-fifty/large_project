@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
+import '../components/Navigation.css';
 
 interface ProfileData {
   FirstName: string;
@@ -127,16 +128,12 @@ const EditProfilePage: React.FC = () => {
 
         <button
           type="submit"
-          style={{
-            padding: "10px 20px",
-            fontSize: "16px",
-            cursor: "pointer",
-            backgroundColor: hasProfileChanged() ? "#007bff" : "#ccc",
-            color: "#fff",
-            border: "none",
-            borderRadius: "4px",
-          }}
+          id="linkButton"
           disabled={!hasProfileChanged()}
+          style={{
+            opacity: hasProfileChanged() ? "1" : "0.5",
+            cursor: hasProfileChanged() ? "pointer" : "not-allowed",
+          }}
         >
           Update Profile
         </button>
