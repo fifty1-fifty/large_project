@@ -10,7 +10,7 @@ interface ProfileData {
 }
 
 const EditProfilePage: React.FC = () => {
-  const navigate = useNavigate();
+  
   const [userId, setUserId] = useState<string | null>(null);
   const [profileData, setProfileData] = useState<ProfileData>({
     FirstName: "",
