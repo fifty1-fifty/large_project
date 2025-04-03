@@ -19,18 +19,28 @@ const EditProfileForm: React.FC<EditProfileFormProps> = ({ userId }) => {
     Email: "",
     Bio: "",
   });
+  const [originalData, setOriginalData] = useState<ProfileData>({
+    FirstName: "",
+    LastName: "",
+    Email: "",
+    Bio: "",
+  });
   const [error, setError] = useState<string | null>(null);
   const [successMessage, setSuccessMessage] = useState<string | null>(null);
-  const [loading, setLoading] = useState<boolean>(true); 
+  const [loading, setLoading] = useState<boolean>(true);
 
+  // Fetch profile data when component is mounted
   useEffect(() => {
     const fetchProfile = async () => {
       try {
         const response = await fetch(`/api/profile/${userId}`);
-        if (!response.ok) throw new Error("Failed to fetch user profile");
+        if (!response.ok) {
+          throw new Error("Failed to fetch user profile");
+        }
 
         const data: ProfileData = await response.json();
         setProfileData(data);
+        setOriginalData(data); // Store original data for comparison
         setLoading(false);
       } catch (err: any) {
         setError(err.message);
@@ -41,20 +51,23 @@ const EditProfileForm: React.FC<EditProfileFormProps> = ({ userId }) => {
     fetchProfile();
   }, [userId]);
 
+  // Handle form field changes
   const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
     const { id, value } = e.target;
     setProfileData((prev) => ({ ...prev, [id]: value }));
   };
 
+  // Check if any profile field has changed by comparing with the original data
   const hasProfileChanged = () => {
     return (
-      profileData.FirstName !== "" ||
-      profileData.LastName !== "" ||
-      profileData.Email !== "" ||
-      profileData.Bio !== ""
+      profileData.FirstName !== originalData.FirstName ||
+      profileData.LastName !== originalData.LastName ||
+      profileData.Email !== originalData.Email ||
+      profileData.Bio !== originalData.Bio
     );
   };
 
+  // Handle form submission (update the profile)
   const submitHandler = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     setError(null);
@@ -67,11 +80,16 @@ const EditProfileForm: React.FC<EditProfileFormProps> = ({ userId }) => {
         body: JSON.stringify(profileData),
       });
 
-      if (!response.ok) throw new Error("Failed to update profile");
+      if (!response.ok) {
+        throw new Error("Failed to update profile");
+      }
 
       setSuccessMessage("Profile updated successfully!");
+
+      // Optionally update the localStorage if you're storing user data
       localStorage.setItem("user_data", JSON.stringify({ ...profileData, id: userId }));
 
+      // After successful update, redirect or display a success message
       setTimeout(() => window.location.href = "/profile", 1000);
     } catch (err: any) {
       setError(err.message);
@@ -79,7 +97,7 @@ const EditProfileForm: React.FC<EditProfileFormProps> = ({ userId }) => {
   };
 
   if (loading) {
-    return <div>Loading...</div>; // Show loading message until data is fetched
+    return <div>Loading...</div>;
   }
 
   return (
@@ -133,7 +151,7 @@ const EditProfileForm: React.FC<EditProfileFormProps> = ({ userId }) => {
         <button
           type="submit"
           className="update-profile-button"
-          disabled={!hasProfileChanged()}
+          disabled={!hasProfileChanged()} // Disable if no changes
         >
           Update Profile
         </button>
