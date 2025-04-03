@@ -1,25 +1,15 @@
-import React, { useState } from "react";
-import EditProfileForm from "../components/Profile/EditProfileForm";
+import React from "react";
+import EditProfileForm from "./EditProfileForm"; // Importing the form component
 
-const EditProfilePage: React.FC = () => {
-  const [userId, setUserId] = useState<string | null>(null);
+interface EditProfilePageProps {
+  userId: string;
+}
 
-
-  React.useEffect(() => {
-    const storedUser = localStorage.getItem("user_data");
-    if (storedUser) {
-      const user = JSON.parse(storedUser);
-      setUserId(user?.id || null);
-    }
-  }, []);
-
+const EditProfilePage: React.FC<EditProfilePageProps> = ({ userId }) => {
   return (
-    <div>
-      {userId ? (
-        <EditProfileForm userId={userId} />
-      ) : (
-        <div>Loading...</div> 
-      )}
+    <div className="edit-profile-page-container">
+      <h1>Edit Your Profile</h1>
+      <EditProfileForm userId={userId} />
     </div>
   );
 };

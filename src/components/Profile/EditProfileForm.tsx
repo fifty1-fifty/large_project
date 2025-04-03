@@ -19,32 +19,29 @@ const EditProfileForm: React.FC<EditProfileFormProps> = ({ userId }) => {
     Email: "",
     Bio: "",
   });
+
   const [originalData, setOriginalData] = useState<ProfileData>({
     FirstName: "",
     LastName: "",
     Email: "",
     Bio: "",
   });
+
   const [error, setError] = useState<string | null>(null);
   const [successMessage, setSuccessMessage] = useState<string | null>(null);
-  const [loading, setLoading] = useState<boolean>(true);
 
-  // Fetch profile data when component is mounted
+  // Fetch user profile data when the component mounts
   useEffect(() => {
     const fetchProfile = async () => {
       try {
         const response = await fetch(`/api/profile/${userId}`);
-        if (!response.ok) {
-          throw new Error("Failed to fetch user profile");
-        }
+        if (!response.ok) throw new Error("Failed to fetch user profile");
 
         const data: ProfileData = await response.json();
-        setProfileData(data);
+        setProfileData(data); // Populate form with fetched data
         setOriginalData(data); // Store original data for comparison
-        setLoading(false);
       } catch (err: any) {
-        setError(err.message);
-        setLoading(false);
+        setError(err.message); // Handle errors (e.g., API issues)
       }
     };
 
@@ -85,20 +82,13 @@ const EditProfileForm: React.FC<EditProfileFormProps> = ({ userId }) => {
       }
 
       setSuccessMessage("Profile updated successfully!");
-
-      // Optionally update the localStorage if you're storing user data
       localStorage.setItem("user_data", JSON.stringify({ ...profileData, id: userId }));
 
-      // After successful update, redirect or display a success message
-      setTimeout(() => window.location.href = "/profile", 1000);
+      setTimeout(() => window.location.href = "/profile", 1000); // Redirect after success
     } catch (err: any) {
       setError(err.message);
     }
   };
-
-  if (loading) {
-    return <div>Loading...</div>;
-  }
 
   return (
     <div className="edit-profile-page">
@@ -113,7 +103,7 @@ const EditProfileForm: React.FC<EditProfileFormProps> = ({ userId }) => {
           <input
             type="text"
             id="FirstName"
-            value={profileData.FirstName}
+            value={profileData.FirstName} 
             onChange={handleChange}
           />
         </div>
@@ -123,7 +113,7 @@ const EditProfileForm: React.FC<EditProfileFormProps> = ({ userId }) => {
           <input
             type="text"
             id="LastName"
-            value={profileData.LastName}
+            value={profileData.LastName} 
             onChange={handleChange}
           />
         </div>
@@ -142,7 +132,7 @@ const EditProfileForm: React.FC<EditProfileFormProps> = ({ userId }) => {
           <label htmlFor="Bio">Bio</label>
           <textarea
             id="Bio"
-            value={profileData.Bio}
+            value={profileData.Bio} 
             onChange={handleChange}
             rows={3}
           />
@@ -151,7 +141,7 @@ const EditProfileForm: React.FC<EditProfileFormProps> = ({ userId }) => {
         <button
           type="submit"
           className="update-profile-button"
-          disabled={!hasProfileChanged()} // Disable if no changes
+          disabled={!hasProfileChanged()} 
         >
           Update Profile
         </button>
