@@ -1,17 +1,22 @@
-import React from "react";
-import EditProfileForm from "./EditProfileForm"; // Importing the form component
+import React, { useState, useEffect } from "react";
+import EditProfileForm from "../components/Profile/EditProfileForm";
 
-interface EditProfilePageProps {
-  userId: string;
-}
+const EditProfilePage: React.FC = () => {
+  const [userId, setUserId] = useState<string | null>(null);
 
-const EditProfilePage: React.FC<EditProfilePageProps> = ({ userId }) => {
-  return (
-    <div className="edit-profile-page-container">
-      <h1>Edit Your Profile</h1>
-      <EditProfileForm userId={userId} />
-    </div>
-  );
+  useEffect(() => {
+    const storedUser = localStorage.getItem("user_data");
+    if (storedUser) {
+      const user = JSON.parse(storedUser);
+      setUserId(user?.id || null); 
+    }
+  }, []);
+
+  if (!userId) {
+    return <div>User not found or not logged in.</div>;  
+  }
+
+  return <EditProfileForm userId={userId} />;
 };
 
 export default EditProfilePage;
