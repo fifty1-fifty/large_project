@@ -10,7 +10,7 @@ interface ProfileDetailsProps {
 const ProfileDetails: React.FC<ProfileDetailsProps> = ({ userInfo, error, navigateToEdit }) => {
   return (
     <div className="profile-page container">
-      <h1 className="profile-heading">Profile</h1>
+      <h1 className="profile-heading"></h1>
       {error && <div className="error-message">Error: {error}</div>}
       {userInfo ? (
         <>
