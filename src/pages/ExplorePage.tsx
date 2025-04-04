@@ -1,11 +1,13 @@
-import PageTitle from '../components/PageTitle.tsx';
+
+import Mediator from '../components/Explore/Mediator.tsx';
+import Background from '../components/Login/Background.tsx';
 
 
 const ExplorePage = () => {
     return(
         <div>
-            <PageTitle />
-            <h2>In progress</h2>
+            <Mediator />
+            <Background />
         </div>
     );
 };

@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import "./Register.css";
 import isEmail from 'isemail';
 import { buildPath } from '../../utils'; 
+import { register } from 'module';
 
 const Register: React.FC = () => {
     const [message, setMessage] = useState('');
@@ -96,7 +97,7 @@ const Register: React.FC = () => {
                     email: registerEmail,
                 }));
                 
-                window.location.href = '/home';
+                //window.location.href = '/home';
             } else {
                 setMessage(res.error);
             }
@@ -108,6 +109,10 @@ const Register: React.FC = () => {
     const backToLogin = () => {
         window.location.href = '/login';
     };
+
+    const registerComplete = () => {
+        window.location.href = '/registerComplete'
+    }
 
     return (
         <div className="row" id="background">
@@ -145,7 +150,7 @@ const Register: React.FC = () => {
                     </div>
                     
 
-                    <button type="submit" id="registerBut">Get Started</button>
+                    <button type="submit" id="registerBut" onClick={registerComplete}>Get Started</button>
                     <button type="button" id="loginButton" onClick={backToLogin}>Back to Login</button>
 
                     {message && <span id="loginResult">{message}</span>}

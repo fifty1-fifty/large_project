@@ -1,9 +1,14 @@
-import Mediator from '../components/Home/Mediator.tsx';
+import Background from '../components/Login/Background.tsx';
+import FriendsHome from '../components/Home/FriendsHome.tsx';
+
+
 const HomePage = () =>
 {
     return(
         <div>
-            <Mediator />
+            <FriendsHome />
+            <Background />
+            <h2>In progress</h2>
         </div>
         );
 }

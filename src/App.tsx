@@ -12,7 +12,9 @@ import Layout from "./components/Layout";
 import EditProfilePage from "./pages/EditProfilePage"; 
 /*  test  */
 import { Buffer } from 'buffer';
-window.Buffer = Buffer;
+if(!window.Buffer) {
+  window.Buffer = Buffer;
+}
 
 function App() {
   return (
