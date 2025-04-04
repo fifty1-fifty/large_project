@@ -139,9 +139,9 @@ const Register: React.FC = () => {
                     </div>
 
                     <div className="form-group" id="error-are">
-                        {emailError && <span className="error-message" id="err">{emailError}</span>}
-                        {usernameError && <span className="error-message" id="err">{usernameError}</span>}
-                        {passwordError && <span className="error-message" id="err">{passwordError}</span>}
+                        {emailError && <span className="error-mess" id="err">{emailError}</span>}
+                        {usernameError && <span className="error-mess" id="err">{usernameError}</span>}
+                        {passwordError && <span className="error-mess" id="err">{passwordError}</span>}
                     </div>
                     
 
