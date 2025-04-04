@@ -1,12 +1,11 @@
-import Background from "../Login/Background";
 import SearchFriends from "./SearchFriends";
 
 
 const FriendsHome = () => {
     return(
         <div className="FriendsHome">
-            <SearchFriends />
-            <Background />
+            {/* <SearchFriends /> */}
+            <h2>THIS IS A TEST</h2>
         </div>
     )
 }

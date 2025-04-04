@@ -8,7 +8,7 @@ const HomePage = () =>
         <div>
             <FriendsHome />
             <Background />
-            <h2>In progress</h2>
+            <h2>Friends posts in progress</h2>
         </div>
         );
 }
