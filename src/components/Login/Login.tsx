@@ -168,9 +168,9 @@ function Login()
                 <button className="loginButton" onClick={doLogin}>Login</button>
 
                 <div className="form-group" id="error-dv">
-                     {emailError && <span className="error-message" id="error" >{emailError}</span>}
-		              {usernameError && <span className="error-message" id="error" >{usernameError}</span>}
-		              {passwordError && <span className="error-message" id="error" >{passwordError}</span>}
+                     {emailError && <span className="error-mess" id="error" >{emailError}</span>}
+		              {usernameError && <span className="error-mess" id="error" >{usernameError}</span>}
+		              {passwordError && <span className="error-mess" id="error" >{passwordError}</span>}
                 </div>
 
 
