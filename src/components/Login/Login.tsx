@@ -65,7 +65,8 @@ function Login()
 
 
             console.log(res.id);
-    
+	    console.log(res.Token);
+		
             if( res.id <= 0 )
             {
                 return;
