@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import "./Register.css";
 import isEmail from 'isemail';
 import { buildPath } from '../../utils'; 
-import { register } from 'module';
+//import { register } from 'module';
 
 const Register: React.FC = () => {
     const [message, setMessage] = useState('');
