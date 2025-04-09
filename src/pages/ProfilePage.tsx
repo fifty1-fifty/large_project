@@ -20,9 +20,9 @@ const ProfilePage: React.FC = () => {
 
     async function fetchProfile() {
       try {
-        const response = await fetch(`/api/profile/${userId}`, 
+        const response = await fetch(`/api/profile/${userId}`, {
                                     headers: {
-                                    Authorization: token});
+                                    Authorization: token}});
         if (!response.ok) {
           throw new Error("Failed to fetch user profile");
         }
