@@ -4,7 +4,7 @@ import SearchFriends from "./SearchFriends";
 const FriendsHome = () => {
     return(
         <div className="FriendsHome">
-            {/* <SearchFriends /> */}
+            <SearchFriends />
             <h2>THIS IS A TEST</h2>
         </div>
     )
