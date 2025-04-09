@@ -1,9 +1,10 @@
 /* Center the form */
 .login-container {
   width: 60%;
-  height: 77%;
+  height: 75%;
   max-width: 350px;
   margin: 50px;
+  margin-top: 65px;
   padding: 12px;
   background: #EDf2f4;
   border-radius: 3px;
@@ -24,7 +25,7 @@
   display: flex;
   flex-direction: column;
   align-items: flex-start;
-  margin-bottom: 15px;
+  margin-bottom: 0px;
 }
 
 #signin
@@ -51,6 +52,7 @@
 /* Style input fields */
 #input
 {
+  margin-bottom: -15px;
   border: none;
   border-color: none;
   width: 95%;
@@ -89,7 +91,8 @@ button {
 #signupLabel
 {
  
-  margin-bottom: -10px;
+  margin-top: 5px;
+  margin-bottom: -12px;
   font-size: 13px;
   color: #5f5f5f;
   background-color: none;
@@ -123,8 +126,8 @@ button:hover {
 {
   background: none;
   margin-top: 10px;
-  min-height: 60px;
-  margin-bottom: 10px;
+  min-height: 80px;
+  margin-bottom: 15px;
   width: 100%;
 }
 
