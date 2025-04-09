@@ -2,22 +2,3 @@
 {
   padding: 100px;
 }
-
-.carousel-wrapper {
-  width: 100%;
-  padding: 0 1rem;
-}
-
-.post-card {
-  transition: transform 0.3s ease;
-  min-height: 300px;
-}
-
-.post-card img {
-  height: 100%;
-  object-fit: cover;
-}
-
-.post-card:hover img {
-  transform: scale(1.02);
-}

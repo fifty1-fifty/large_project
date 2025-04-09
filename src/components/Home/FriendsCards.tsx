@@ -1,4 +1,5 @@
 import { useState } from "react";
+import "./FriendsCards.css";
 
 interface FriendPostCardProps {
     movieTitle: string;
@@ -62,33 +63,35 @@ const FriendsPosts = () => {
     const { movieTitle, posterUrl, comment, username, rating, movieId } = dummyPosts[currentIndex];
 
     return (
-        <div className="carousel-wrapper flex flex-col items-center mt-10">
-        <div className="post-card flex bg-white rounded-2xl shadow-md overflow-hidden w-full max-w-3xl">
-            <img src={posterUrl} alt={movieTitle} className="w-1/3 object-cover h-full" />
+        <div className="carousel-wrapper">
+            <div className="post-card">
+                <img src={posterUrl} alt={movieTitle} className="poster-image" />
 
-            <div className="flex flex-col justify-between p-6 w-2/3">
-                <div>
-                    <h3 className="text-2xl font-semibold mb-2">{movieTitle}</h3>
-                    <p className="text-gray-500 text-sm mb-1">
-                        Posted by <span className="font-medium">{username}</span>
-                    </p>
-                    {renderStars(rating)}
-                    <p className="text-sm my-4">{comment}</p>
-                </div>
+                <div className="post-content">
+                <h3 className="movie-title">{movieTitle}</h3>
+                <p className="poster-user">
+                    Posted by <span className="username">{username}</span>
+                </p>
+                {renderStars(rating)}
+                <p className="movie-comment">{comment}</p>
                 <button
-                    onClick={() => window.location.href = `/movie/${movieId}`}
-                    className="bg-blue-500 hover:bg-blue-600 text-white px-4 py-2 rounded-full transition w-fit"
+                    onClick={() => (window.location.href = `/movie/${movieId}`)}
+                    className="movie-button"
                 >
                     View Movie Page
                 </button>
+                </div>
+            </div>
+
+            <div className="arrow-buttons">
+                <button onClick={goLeft} className="arrow-button">
+                &#8592;
+                </button>
+                <button onClick={goRight} className="arrow-button">
+                &#8594;
+                </button>
             </div>
         </div>
-
-        <div className="flex justify-center gap-6 mt-4">
-            <button onClick={goLeft} className="text-3xl px-4 py-2">&#8592;</button>
-            <button onClick={goRight} className="text-3xl px-4 py-2">&#8594;</button>
-        </div>
-    </div>
     );
 };
 

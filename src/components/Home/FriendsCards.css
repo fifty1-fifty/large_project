@@ -1,12 +1,92 @@
-.carousel-container {
+.carousel-wrapper {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    margin-top: 2rem;
     width: 100%;
-    max-width: 320px;
-}
-
-.post-card img {
+    padding: 0 1rem;
+  }
+  
+  .post-card {
+    display: flex;
+    flex-direction: row;
+    background-color: white;
+    border-radius: 1rem;
+    overflow: hidden;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+    max-width: 800px;
+    width: 100%;
+    min-height: 300px;
+  }
+  
+  .poster-image {
+    width: 35%;
+    height: 100%;
+    object-fit: cover;
     transition: transform 0.3s ease;
-}
-
-.post-card:hover img {
-    transform: scale(1.03);
-}
+  }
+  
+  .poster-image:hover {
+    transform: scale(1.02);
+  }
+  
+  .post-content {
+    width: 65%;
+    padding: 1.5rem;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+  }
+  
+  .movie-title {
+    font-size: 1.5rem;
+    font-weight: 600;
+    margin-bottom: 0.5rem;
+  }
+  
+  .poster-user {
+    font-size: 0.9rem;
+    color: #6b7280;
+    margin-bottom: 0.25rem;
+  }
+  
+  .username {
+    font-weight: 500;
+    color: #111827;
+  }
+  
+  .movie-comment {
+    font-size: 0.9rem;
+    margin: 1rem 0;
+    color: #374151;
+  }
+  
+  .movie-button {
+    background-color: #3b82f6;
+    color: white;
+    padding: 0.5rem 1rem;
+    border-radius: 9999px;
+    border: none;
+    cursor: pointer;
+    transition: background-color 0.2s ease;
+    width: fit-content;
+  }
+  
+  .movie-button:hover {
+    background-color: #2563eb;
+  }
+  
+  .arrow-buttons {
+    display: flex;
+    justify-content: center;
+    gap: 2rem;
+    margin-top: 1rem;
+  }
+  
+  .arrow-button {
+    font-size: 2rem;
+    background: none;
+    border: none;
+    cursor: pointer;
+  }
+  
