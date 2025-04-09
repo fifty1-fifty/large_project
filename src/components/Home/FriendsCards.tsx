@@ -1,4 +1,5 @@
 import { useState } from "react";
+import "./FriendsCards.css";
 
 interface FriendPostCardProps {
     movieTitle: string;
