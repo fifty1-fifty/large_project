@@ -1,11 +1,12 @@
 import SearchFriends from "./SearchFriends";
-
+import FriendsCards from "./FriendsCards"
 
 const FriendsHome = () => {
     return(
         <div className="FriendsHome">
+            <h2>TESTING CAROUSEL BEFORE API IMPLEMENTATION</h2>
             <SearchFriends />
-            <h2>THIS IS A TEST</h2>
+            <FriendsCards />
         </div>
     )
 }
