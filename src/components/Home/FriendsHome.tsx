@@ -1,4 +1,4 @@
-//import SearchFriends from "./SearchFriends";
+import SearchFriends from "./SearchFriends";
 
 
 const FriendsHome = () => {
