@@ -2,14 +2,39 @@ import { useLocation } from "react-router-dom";
 import { useEffect, useState } from "react";
 import "./MovieInfo.css";
 import { buildPath } from '../../utils'; 
+import StarRating from "./StarRating";
 
+
+/*
+this is a message from Carter, anything on this page and related to this page just dont fuck with
+or I will find the thickest rope and hang myself in the classroom with only you to blame. DONT TOUCHY THIS PAGE 
+*/
 
 const Info = () => {
 
+    // Initialize states for toggling the form view
+    const [showForm, setShowForm] = useState(false);
+    const toggleForm = () => setShowForm(!showForm);
+    const handleSubmit = (e: React.FormEvent) =>
+    {
+        e.preventDefault();
+        console.log("go fuyck yourself");
+    }
+
+
+    // Handling setting ratings and shit
+    const [movieSpecificComment, setMovieSpecificComment] = useState('');
+    const [movieSpecificRating, setMovieSpecificRating] = useState(Number);
+
+    // Get current movieID from the url
     const query = new URLSearchParams(useLocation().search);
     let movieId = query.get("movieId");
 
-
+    // Get userID from local storage
+    const storedUser = localStorage.getItem("user_data");
+    const use = storedUser ? JSON.parse(storedUser) : {};
+    const user = use?.id;
+    
     // Initialize constants for full info movie pull
     let genres: string[] = [];
     const [genre, setGenre] = useState('');
@@ -20,11 +45,9 @@ const Info = () => {
     const [releaseDate, setReleaseDate] = useState('');
     const [budget, setBudget] = useState('');
     const [revenue, setRevenue] = useState('');
-    const [rating, setRating] = useState('');
-    const [ratingCount, setRatingCount] = useState('');
     const [poster, setPoster] = useState('');
 
-
+    
     interface CastMember 
     {
         name: string;
@@ -32,75 +55,88 @@ const Info = () => {
         profile_path: string;
     }
 
+    // Initiliaze cast list, and two very important people
     const [castList, setCastList] = useState<CastMember[]>([]);
     const [importantPersonOne, setImportantPersonOne] = useState([""]);
-    //const [importantPersonTwo, setImportantPersonTwo] = useState([""]);
-    
+    const [importantPersonTwo, setImportantPersonTwo] = useState([""]);
 
+    
     useEffect(() => {
         fullMovieInfoPull();
         movieCreditsPull();
         },
         []); 
 
-        function convertReleaseDate(originalDate : string)
+    function convertReleaseDate(originalDate : string)
         {
             const tempArr = originalDate.split("-");
             let newDateFormat = tempArr[1] + '/' + tempArr[2] + '/' + tempArr[0];
             return newDateFormat;
-        }
+    }
 
-        function convertRuntime(originalRuntime : number)
+    function convertRuntime(originalRuntime : number)
         {
             const hours = ~~((originalRuntime) / 60);
             const minutes = ((originalRuntime) % 60);
             return (hours + "h " + minutes + "m");
+    }
+
+
+    function findDirectorAndProfessions(crewArray: any[]) {
+        const director = crewArray.find((person: any) => person.job === "Director");
+    
+        if (!director) return []; // Handle case where no director is found
+    
+        const directorName: string = director.name;
+        const professions: Set<string> = new Set();
+    
+        professions.add(directorName);
+    
+        crewArray.forEach((person: any) => {
+            if (person.name === directorName) {
+                professions.add(person.job);
+            }
+        });
+    
+        let professionArray = Array.from(professions);
+    
+        // If there are more than 2 elements, add a comma to the second element
+        if (professionArray.length > 2) {
+            professionArray[1] = professionArray[1] + ",";
         }
-
-
-        function findDirectorAndProfessions(crewArray: any[]) 
+    
+        return professionArray;
+    }    
+    
+    function findAnotherPerson(crewArray: any[]) 
         {
             const director = crewArray.find((person: any) => person.job === "Director");
-        
             const directorName: string = director.name;
-            const professions: Set<string> = new Set(); // Use Set to avoid duplicate jobs
-        
-            professions.add(directorName);
-            crewArray.forEach((person: any) => {
-                if (person.name === directorName) {
-                    professions.add(person.job);
+            const newman: Set<string> = new Set();
+            //console.log("hello there" + director.name);
+
+            for(let i = 0 ; i < crewArray.length ; i++)
+            {
+                if(crewArray[i].name !== directorName)
+                {
+                    newman.add(crewArray[i].name);
+                    newman.add(crewArray[i].job);
+                    break;
+                    //return Array.from(newman);
                 }
-            });
-        
-            //console.log(Array.from(professions)[0]);
+            }
 
-            //console.log(Array.from(professions).join(", "));
-            return Array.from(professions); // Convert Set to a comma-separated string
-        }
+            //console.log(Array.from(newman));
+            return Array.from(newman);
+            
+    } 
 
-        // COME BACK AND FINISH WRITING THIS FUNCTION
-       /* function findAnotherPerson(crewArray: JSON[]) 
-        {
-            const director = crewArray.find((person: JSON) => person.job === "Director");
-        
-            const directorName: string = director.name;
-            const professions: Set<string> = new Set(); // Use Set to avoid duplicate jobs
-        
-            professions.add(directorName);
-            crewArray.forEach((person: JSON) => {
-                if (person.name === directorName) {
-                    professions.add(person.job);
-                }
-            });
-        
-            //console.log(Array.from(professions)[0]);
+    function handleSetMovieSpecificComment( e: any ) : void
+    {
+        setMovieSpecificComment( e.target.value );
+    }
 
-            //console.log(Array.from(professions).join(", "));
-            return Array.from(professions); // Convert Set to a comma-separated string
-        } */
 
-        
-        
 
     async function fullMovieInfoPull()
     {
@@ -131,8 +167,8 @@ const Info = () => {
                 setReleaseDate(convertReleaseDate(res["movieData"].release_date));
                 setBudget(res["movieData"].budget);
                 setRevenue(res["movieData"].revenue);
-                setRating(res["movieData"].vote_average);
-                setRatingCount(res["movieData"].vote_count);
+                //setRating(res["movieData"].vote_average);
+                //setRatingCount(res["movieData"].vote_count);
                 setPoster (res["movieData"].poster_path);
         }
         catch(error:any)
@@ -141,10 +177,6 @@ const Info = () => {
             return;
         }
     }
-
-
-
-
 
 
     async function movieCreditsPull()
@@ -158,19 +190,10 @@ const Info = () => {
                 var res = JSON.parse(await response.text());
                 //console.log(res);
 
-
-                //console.log(castList);
                 setCastList(res["movieData"].cast.sort((a: any, b: any) => a.order - b.order));
-
-                
-                
                 setImportantPersonOne(findDirectorAndProfessions(res["movieData"].crew));
-                //setImportantPersonTwo(findAnotherPerson(res["movieData"].crew));
-                //console.log(importantPersonOne);                
-                
-
-                
-                 
+                setImportantPersonTwo(findAnotherPerson(res["movieData"].crew.sort((a: any, b: any) => b.popularity - a.popularity)));
+ 
         }
         catch(error:any)
         {
@@ -179,18 +202,45 @@ const Info = () => {
         }
     }
 
-    
-//https://static.vecteezy.com/system/resources/previews/009/292/244/non_2x/default-avatar-icon-of-social-media-user-vector.jpg
-//style={{ maxWidth: "150px", maxHeight: "200px", objectFit: "cover", borderRadius: "10px" }}
+    async function addMovie( ratingValue : any )
+    {
+        var obj = {userid:user, movieid:movieId, rating:ratingValue, comment:movieSpecificComment};
+        var js = JSON.stringify(obj);
+        
+        try{
+            const response = await fetch(buildPath('/api/addmovietoprofile'),
+            {method:'POST',body:js,headers:{'Content-Type': 'application/json'}})
+                var res = JSON.parse(await response.text());
+                console.log(res);
+        }
+        catch(error:any)
+        {
+            alert(error.toString());
+            return;
+        }
 
-    //console.log(importantPersonOne[0]);
+        try{
+            const response = await fetch(buildPath('/api/createpost'),
+            {method:'POST',body:js,headers:{'Content-Type': 'application/json'}})
+                var res = JSON.parse(await response.text());
+                console.log(res);
+        }
+        catch(error:any)
+        {
+            alert(error.toString());
+            return;
+        }
+
+    }
+
+    
     return ( 
         <div className="container" id="padding">
 
             <div className="row">
 
                 <div className="col-4">
-                    <div className="photo-card">
+                    <div className="photo-card" >
                          <img src={`https://image.tmdb.org/t/p/original${poster}`} id="poster" className="card-img-top img-fluid" alt={"No Movies"} style={{ maxWidth: "350px", maxHeight: "1000px", objectFit: "cover", borderRadius: "5px"}} />
                     </div>
                 </div>
@@ -207,13 +257,13 @@ const Info = () => {
 
                         <div className="col-5">
                             <div className="card" id="rating">
-                                <h1 className="card-title" id="rating-body">What do you think?</h1>
+                                <h1 className="card-title" id="rating-body">What did you think?</h1>
 
                                 <div id="vertical">
-                                    <button id="rating-button">ah</button>
-                                    <button id="rating-button">ah</button>
-                                    <button id="rating-button">ah</button>
+                                    <button id="rating-button" onClick={() => addMovie(null)}><i id="con" className="material-icons">library_add</i>Add to your Collection</button>
+                                    <button id="rating-button" onClick={toggleForm}><i id="con" className="material-icons">edit_note</i>Give your Thoughts</button>
                                 </div>
+
                             </div>
                         </div>
                     </div>
@@ -233,13 +283,13 @@ const Info = () => {
                         <div className="col">
                              <div className="card" id="important-person-div" >
                                  <h1 className="card-title" id="important-person">{importantPersonOne[0]}</h1>
-                                 <h1 className="card-text" id="important-person-jobs">{importantPersonOne[1]}, {importantPersonOne[2]}</h1>
+                                 <h1 className="card-text" id="important-person-jobs">{importantPersonOne[1]} {importantPersonOne[2]}</h1>
                              </div>
 
                         
                              <div className="card" id="important-person-two-div" >
-                                <h1 className="card-title" id="important-person">{importantPersonOne[0]}</h1>
-                                <h1 className="card-text" id="important-person-jobs">{importantPersonOne[1]}, {importantPersonOne[2]}</h1>
+                                <h1 className="card-title" id="important-person">{importantPersonTwo[0]}</h1>
+                                <h1 className="card-text" id="important-person-jobs">{importantPersonTwo[1]}</h1>
                              </div>
                         </div>
 
@@ -255,8 +305,6 @@ const Info = () => {
                                  <h1 className="card-title" id="revenue">Revenue</h1>
                                  <h1 className="card-text" id="revenue-value">${revenue}</h1>
                             </div>
-
-                        
                         </div>
 
                     </div>
@@ -350,11 +398,32 @@ const Info = () => {
 
 
 
-             
-                <h1>{rating} + {ratingCount}"</h1>
             
 
-            </div>
+
+
+
+
+    {showForm && (
+        <div className="popup-background" onClick={toggleForm}>
+          <div className="popup-formu" id="back" onClick={(e) => e.stopPropagation()}>
+            <h3>Give your take</h3>
+            <form onSubmit={handleSubmit}>
+              <StarRating onRatingChange={function (value: number): void {
+                                setMovieSpecificRating(value);
+                            } } />
+              <textarea id="comment-input" onChange={handleSetMovieSpecificComment} placeholder="What did you think...?" />
+                <div className="form-buttons"> 
+                    <button id="cancel-button" onClick={toggleForm}><i className="material-icons">close</i>Cancel</button>
+                    <button id="super-button" onClick={() => {addMovie(movieSpecificRating), toggleForm()}}><i className="material-icons">add</i>Add</button>
+                 </div>
+            </form>
+          </div>
+        </div>
+      )}
+
+
+    </div>
 
   
 

@@ -26,9 +26,11 @@
     
 }
 
+#poster
+{
+    box-shadow: white 0px 0px 0px 3px;
 
-
-
+}
 
 
 
@@ -76,21 +78,39 @@
 
 #rating
 {
-    font-size: 5px;
+    font-size: 7px;
     width:100%;
 
 }
 
-#vertical
-{
-    display: inline-block;
-}
 
 #rating-button
 {
-    width: 20%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 5px;
+  background-color: #c44747;
+  border-color: #edf2f4;
+  border-width: 5px;
+  color: #edf2f4;
+  border-radius: 5px;
+  padding: 3px;
+  height: 90%;
+  width: 64%;
 
+  font-size: 12px;
+  margin: auto;
+  margin-bottom: 8px;
     
+}
+
+#rating-button:hover
+{
+    background-color: #edf2f4;
+    color: #c44747;
+    transition: background-color 0.2s;
+    transition: color 0.2s;
 }
 
 
@@ -144,11 +164,13 @@
 /*gaygaygaygaygay budget revenue*/
 #budget-revenue-div
 {
+    margin-bottom: 20px;
     padding: 0px;
 }
 
 #budget
 {
+    font-weight: bold;
     text-align: right;
     padding: 0px;
     font-size: 20px;
@@ -157,6 +179,7 @@
 
 #budget-value
 {
+    font-weight: 400;
     text-align: right;
     padding: 0px;
     font-size: 25px;
@@ -164,12 +187,14 @@
 
 #revenue
 {
+    font-weight: bold;
     text-align: right;
     font-size: 20px;
 }
 
 #revenue-value
 {
+    font-weight: 400;
     text-align: right;
     font-size: 25px;
 
@@ -308,6 +333,134 @@ p
     font-size: 15px;
 }
 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+/* POPUP FORM FOR WRITING SOME SHIT */
+  
+  .popup-background 
+  {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.6);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    z-index: 1000;
+  }
+  
+  .popup-formu 
+  {
+    color: #edf2f4;
+    background-color: red;
+    padding: 2rem;
+    border-radius: 6px;
+    width: 325px;
+    z-index: 1001;
+    box-shadow: 0 5px 15px rgba(0,0,0,0.3);
+  }
+
+  #back
+  {
+    padding: 15px;
+    background-color: #1e1f27;
+  }
+
+  
+  .popup-formu form 
+  {
+    padding: 0px;
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+  }
+  
+  #comment-input
+  {
+    margin-top: -5px;
+    background-color: #2b2d42;
+    height: 100px;
+    word-wrap: break-word;
+    word-break: break-all;
+  }
+
+
+  .form-buttons
+  {
+    display: flex;
+    gap: 10px;
+    justify-content: center; /* Centers buttons horizontally */
+    align-items: center; /* Aligns them properly */
+  }
+
+
+  #super-button
+  {
+    width: 30%;
+    height: 30px;
+    padding: 10px;
+    gap: 2px;
+    border: none;
+    background-color: #c44747;
+    border-radius: 5px;
+    font-size: 12px;
+    font-weight: 600;
+    cursor: pointer;
+    margin: -2px;
+    display: flex;
+     align-items: center;
+     justify-content: center;
+  }
+
+  #cancel-button
+  {
+    width: 30%;
+    height: 30px;
+    padding: 10px;
+    gap: 2px;
+    border: none;
+    background: none;
+    border-radius: 5px;
+    box-shadow: #c44747 inset 0px 0px 0px 3px;
+    color: #c44747;
+    font-size: 12px;
+    font-weight: 600;
+    cursor: pointer;
+    margin: -2px;
+    display: flex;
+     align-items: center;
+     justify-content: center;
+
+  }
+
+  #super-button:hover
+  {
+    background-color: #edf2f4;
+    color: #c44747;
+  }
+
+  #cancel-button:hover
+  {
+    color: #edf2f4;
+    background-color: #ed4337;
+    box-shadow: none;
+
+  }
 
 
 
