@@ -7,6 +7,13 @@ import { buildPath } from '../../utils';
 const Register: React.FC = () => {
     const [message, setMessage] = useState('');
 
+    const storedUser = localStorage.getItem("user_data");
+    const user = storedUser ? JSON.parse(storedUser) : {};
+    if(user)
+    {
+        localStorage.clear();
+    }
+
     // States for attributes
     const [firstName, setFirstName] = useState('');
     const [lastName, setLastName] = useState('');
