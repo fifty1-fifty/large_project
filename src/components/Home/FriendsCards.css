@@ -1,0 +1,12 @@
+.carousel-container {
+    width: 100%;
+    max-width: 320px;
+}
+
+.post-card img {
+    transition: transform 0.3s ease;
+}
+
+.post-card:hover img {
+    transform: scale(1.03);
+}
