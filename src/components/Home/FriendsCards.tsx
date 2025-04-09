@@ -1,5 +1,4 @@
 import { useState } from "react";
-import "./FriendsCards.css";
 
 interface FriendPostCardProps {
     movieTitle: string;
@@ -63,25 +62,33 @@ const FriendsPosts = () => {
     const { movieTitle, posterUrl, comment, username, rating, movieId } = dummyPosts[currentIndex];
 
     return (
-        <div className="carousel-container relative flex items-center justify-center mt-10">
-            <button onClick={goLeft} className="absolute left-0 text-3xl px-4 py-2">&#8592;</button>
+        <div className="carousel-wrapper flex flex-col items-center mt-10">
+        <div className="post-card flex bg-white rounded-2xl shadow-md overflow-hidden w-full max-w-3xl">
+            <img src={posterUrl} alt={movieTitle} className="w-1/3 object-cover h-full" />
 
-            <div className="post-card w-80 p-4 bg-white rounded-2xl shadow-md text-center">
-                <img src={posterUrl} alt={movieTitle} className="w-full h-96 object-cover rounded-xl mb-4" />
-                <h3 className="text-xl font-semibold">{movieTitle}</h3>
-                <p className="text-gray-500 text-sm mb-1">Posted by <span className="font-medium">{username}</span></p>
-                {renderStars(rating)}
-                <p className="text-sm mb-4">{comment}</p>
+            <div className="flex flex-col justify-between p-6 w-2/3">
+                <div>
+                    <h3 className="text-2xl font-semibold mb-2">{movieTitle}</h3>
+                    <p className="text-gray-500 text-sm mb-1">
+                        Posted by <span className="font-medium">{username}</span>
+                    </p>
+                    {renderStars(rating)}
+                    <p className="text-sm my-4">{comment}</p>
+                </div>
                 <button
                     onClick={() => window.location.href = `/movie/${movieId}`}
-                    className="bg-blue-500 hover:bg-blue-600 text-white px-4 py-2 rounded-full transition"
+                    className="bg-blue-500 hover:bg-blue-600 text-white px-4 py-2 rounded-full transition w-fit"
                 >
                     View Movie Page
                 </button>
             </div>
-
-            <button onClick={goRight} className="absolute right-0 text-3xl px-4 py-2">&#8594;</button>
         </div>
+
+        <div className="flex justify-center gap-6 mt-4">
+            <button onClick={goLeft} className="text-3xl px-4 py-2">&#8592;</button>
+            <button onClick={goRight} className="text-3xl px-4 py-2">&#8594;</button>
+        </div>
+    </div>
     );
 };
 
