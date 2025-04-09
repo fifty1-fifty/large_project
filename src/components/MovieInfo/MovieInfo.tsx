@@ -34,6 +34,7 @@ const Info = () => {
     const storedUser = localStorage.getItem("user_data");
     const use = storedUser ? JSON.parse(storedUser) : {};
     const user = use?.id;
+    const token = use?.token;
     
     // Initialize constants for full info movie pull
     let genres: string[] = [];
@@ -145,7 +146,7 @@ const Info = () => {
         
         try{
             const response = await fetch(buildPath('/api/fullMovieInfo'),
-            {method:'POST',body:js,headers:{'Content-Type': 'application/json'}})
+            {method:'POST',body:js,headers:{'Content-Type': 'application/json', 'authorization' : token}})
                 var res = JSON.parse(await response.text());
 
                 let temp = "";
@@ -173,6 +174,11 @@ const Info = () => {
         }
         catch(error:any)
         {
+            if(res.message === "Invalid Token" || res.message === "Access Denied: No Token Provided")
+                {
+                    localStorage.clear();
+                    window.location.href = '/login';
+                }
             alert(error.toString());
             return;
         }
@@ -186,7 +192,7 @@ const Info = () => {
         
         try{
             const response = await fetch(buildPath('/api/movieCredit'),
-            {method:'POST',body:js,headers:{'Content-Type': 'application/json'}})
+            {method:'POST',body:js,headers:{'Content-Type': 'application/json', 'authorization' : token}})
                 var res = JSON.parse(await response.text());
                 //console.log(res);
 
@@ -197,6 +203,11 @@ const Info = () => {
         }
         catch(error:any)
         {
+            if(res.message === "Invalid Token" || res.message === "Access Denied: No Token Provided")
+                {
+                    localStorage.clear();
+                    window.location.href = '/login';
+                }
             alert(error.toString());
             return;
         }
@@ -209,24 +220,34 @@ const Info = () => {
         
         try{
             const response = await fetch(buildPath('/api/addmovietoprofile'),
-            {method:'POST',body:js,headers:{'Content-Type': 'application/json'}})
+            {method:'POST',body:js,headers:{'Content-Type': 'application/json', 'authorization' : token}})
                 var res = JSON.parse(await response.text());
                 console.log(res);
         }
         catch(error:any)
         {
+            if(res.message === "Invalid Token" || res.message === "Access Denied: No Token Provided")
+                {
+                    localStorage.clear();
+                    window.location.href = '/login';
+                }
             alert(error.toString());
             return;
         }
 
         try{
             const response = await fetch(buildPath('/api/createpost'),
-            {method:'POST',body:js,headers:{'Content-Type': 'application/json'}})
+            {method:'POST',body:js,headers:{'Content-Type': 'application/json', 'authorization' : token}})
                 var res = JSON.parse(await response.text());
                 console.log(res);
         }
         catch(error:any)
         {
+            if(res.message === "Invalid Token" || res.message === "Access Denied: No Token Provided")
+                {
+                    localStorage.clear();
+                    window.location.href = '/login';
+                }
             alert(error.toString());
             return;
         }
