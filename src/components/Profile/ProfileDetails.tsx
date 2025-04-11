@@ -29,25 +29,13 @@ const ProfileDetails: React.FC<ProfileDetailsProps> = ({ userInfo, error, naviga
           <div className="followers-following">
             <div className="followers">
               <h4>Followers</h4>
+              // If user followers exists, return the length of followers, if not, return 0
               <p>{userInfo.followers ? userInfo.followers.length : 0}</p>
-              {userInfo.followers && userInfo.followers.length > 0 && (
-                <div className="followers-list">
-                  {userInfo.followers.map((follower: string, index: number) => (
-                    <span key={index}>{follower}</span>
-                  ))}
-                </div>
-              )}
             </div>
             <div className="following">
               <h4>Following</h4>
+              // If user following exists, return the length of following, if not, return 0
               <p>{userInfo.following ? userInfo.following.length : 0}</p>
-              {userInfo.following && userInfo.following.length > 0 && (
-                <div className="following-list">
-                  {userInfo.following.map((following: string, index: number) => (
-                    <span key={index}>{following}</span>
-                  ))}
-                </div>
-              )}
             </div>
           </div>
 
