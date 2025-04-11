@@ -6,8 +6,10 @@ const EditProfilePage: React.FC = () => {
 
   useEffect(() => {
     const storedUser = localStorage.getItem("user_data");
+    console.log('Stored user data:', storedUser);
     if (storedUser) {
       const user = JSON.parse(storedUser);
+      console.log('Parsed user data:', user);
       setUserId(user?.id || null); 
     }
   }, []);

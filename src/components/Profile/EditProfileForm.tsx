@@ -2,10 +2,11 @@ import React, { useState, useEffect } from "react";
 import "./EditProfileForm.css";
 
 interface ProfileData {
-  FirstName: string;
-  LastName: string;
-  Email: string;
-  Bio: string;
+  firstName: string;
+  lastName: string;
+  email: string;
+  bio: string;
+  profilePic?: string;
 }
 
 interface EditProfileFormProps {
@@ -14,17 +15,17 @@ interface EditProfileFormProps {
 
 const EditProfileForm: React.FC<EditProfileFormProps> = ({ userId }) => {
   const [profileData, setProfileData] = useState<ProfileData>({
-    FirstName: "",
-    LastName: "",
-    Email: "",
-    Bio: "",
+    firstName: "",
+    lastName: "",
+    email: "",
+    bio: "",
   });
 
   const [originalData, setOriginalData] = useState<ProfileData>({
-    FirstName: "",
-    LastName: "",
-    Email: "",
-    Bio: "",
+    firstName: "",
+    lastName: "",
+    email: "",
+    bio: "",
   });
 
   const [error, setError] = useState<string | null>(null);
@@ -34,13 +35,17 @@ const EditProfileForm: React.FC<EditProfileFormProps> = ({ userId }) => {
   useEffect(() => {
     const fetchProfile = async () => {
       try {
+        console.log('Fetching profile for userId:', userId);
         const response = await fetch(`/api/profile/${userId}`);
         if (!response.ok) throw new Error("Failed to fetch user profile");
 
-        const data: ProfileData = await response.json();
+        const data = await response.json();
+        console.log('Profile data received:', data);
+        
         setProfileData(data); 
         setOriginalData(data); 
       } catch (err: any) {
+        console.error('Error fetching profile:', err);
         setError(err.message); 
       }
     };
@@ -57,10 +62,10 @@ const EditProfileForm: React.FC<EditProfileFormProps> = ({ userId }) => {
   // Check if any profile field has changed by comparing with the original data
   const hasProfileChanged = () => {
     return (
-      profileData.FirstName !== originalData.FirstName ||
-      profileData.LastName !== originalData.LastName ||
-      profileData.Email !== originalData.Email ||
-      profileData.Bio !== originalData.Bio
+      profileData.firstName !== originalData.firstName ||
+      profileData.lastName !== originalData.lastName ||
+      profileData.email !== originalData.email ||
+      profileData.bio !== originalData.bio
     );
   };
 
@@ -74,7 +79,12 @@ const EditProfileForm: React.FC<EditProfileFormProps> = ({ userId }) => {
       const response = await fetch(`/api/profile/${userId}/edit`, {
         method: "PUT",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify(profileData),
+        body: JSON.stringify({
+          FirstName: profileData.firstName,
+          LastName: profileData.lastName,
+          Email: profileData.email,
+          Bio: profileData.bio
+        }),
       });
 
       if (!response.ok) {
@@ -99,40 +109,40 @@ const EditProfileForm: React.FC<EditProfileFormProps> = ({ userId }) => {
 
       <form onSubmit={submitHandler} className="profile-form">
         <div className="form-group">
-          <label htmlFor="FirstName">First Name</label>
+          <label htmlFor="firstName">First Name</label>
           <input
             type="text"
-            id="FirstName"
-            value={profileData.FirstName} 
+            id="firstName"
+            value={profileData.firstName} 
             onChange={handleChange}
           />
         </div>
 
         <div className="form-group">
-          <label htmlFor="LastName">Last Name</label>
+          <label htmlFor="lastName">Last Name</label>
           <input
             type="text"
-            id="LastName"
-            value={profileData.LastName} 
+            id="lastName"
+            value={profileData.lastName} 
             onChange={handleChange}
           />
         </div>
 
         <div className="form-group">
-          <label htmlFor="Email">Email</label>
+          <label htmlFor="email">Email</label>
           <input
             type="email"
-            id="Email"
-            value={profileData.Email}
+            id="email"
+            value={profileData.email}
             onChange={handleChange}
           />
         </div>
 
         <div className="form-group">
-          <label htmlFor="Bio">Bio</label>
+          <label htmlFor="bio">Bio</label>
           <textarea
-            id="Bio"
-            value={profileData.Bio} 
+            id="bio"
+            value={profileData.bio} 
             onChange={handleChange}
             rows={3}
           />
