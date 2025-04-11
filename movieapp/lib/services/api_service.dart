@@ -44,6 +44,7 @@ class ApiService {
     return _handleResponse(response);
   }
 
+  //Get trending movies
   static Future<List<Movie>> trendingMovie({required int page}) async {
   final response = await http.post(
     Uri.parse('$_baseUrl/trendingMovie'),
