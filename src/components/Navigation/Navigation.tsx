@@ -1,12 +1,15 @@
 import React from "react";
-import { Link }  from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import './Navigation.css'
 
 const Navbar: React.FC = () => {
 
+  const navigate = useNavigate();
+
   const handleLogout = () => {
     localStorage.clear();
     console.log("User logged out");
+    navigate("/login");
   };
 
   return (
