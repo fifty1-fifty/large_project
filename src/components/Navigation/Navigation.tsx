@@ -4,7 +4,10 @@ import './Navigation.css'
 
 const Navbar: React.FC = () => {
 
-
+  const handleLogout = () => {
+    // Add your logout logic here, e.g., clearing tokens, redirecting, etc.
+    console.log("User logged out");
+  };
 
   return (
     <nav className="navbar navbar-expand-lg custom-navbar fixed-top">
@@ -24,6 +27,9 @@ const Navbar: React.FC = () => {
             </li>
             <li className="nav-item">
               <Link className="nav-link" id="linkButton" to="/profile"><i id="con" className="material-icons">people_alt</i>Profile</Link>
+            </li>
+            <li className="nav-item">
+              <button className="nav-link" id="linkButton" onClick={handleLogout}><i id="con" className="material-icons">exit_to_app</i>Logout</button>
             </li>
           </ul>
         </div>
