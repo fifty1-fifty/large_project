@@ -5,7 +5,7 @@ import './Navigation.css'
 const Navbar: React.FC = () => {
 
   const handleLogout = () => {
-    // Add your logout logic here, e.g., clearing tokens, redirecting, etc.
+    localStorage.clear();
     console.log("User logged out");
   };
 
