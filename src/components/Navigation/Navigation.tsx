@@ -32,7 +32,7 @@ const Navbar: React.FC = () => {
               <Link className="nav-link" id="linkButton" to="/profile"><i id="con" className="material-icons">people_alt</i>Profile</Link>
             </li>
             <li className="nav-item">
-              <button className="nav-link" id="linkButton" onClick={handleLogout}><i id="con" className="material-icons">exit_to_app</i>Logout</button>
+              <Link className="nav-link" id="linkButton" to="/" onClick={handleLogout}><i id="con" className="material-icons">exit_to_app</i>Logout</Link>
             </li>
           </ul>
         </div>
