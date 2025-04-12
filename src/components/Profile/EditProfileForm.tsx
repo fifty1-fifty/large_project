@@ -129,17 +129,6 @@ const EditProfileForm: React.FC<EditProfileFormProps> = ({ userId }) => {
         </div>
 
         <div className="form-group">
-          <label htmlFor="email">Email</label>
-          <input
-            type="email"
-            id="email"
-            value={profileData.email}
-            onChange={handleChange}
-            readOnly
-          />
-        </div>
-
-        <div className="form-group">
           <label htmlFor="bio">Bio</label>
           <textarea
             id="bio"
