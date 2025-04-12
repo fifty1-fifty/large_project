@@ -13,15 +13,14 @@
 
 #linkButton
 {
-  display: flex;
-  align-items: center;
-  gap: 3px;
+  display: inline-flex;
+  height: 100%;
+  vertical-align: middle;
   background-color: #c44747;
   border-color: #edf2f4;
   border-width: 5px;
   color: #edf2f4;
   border-radius: 5px;
-  height: auto;
   justify-content: center;
   padding: 5px 10px;
 }
