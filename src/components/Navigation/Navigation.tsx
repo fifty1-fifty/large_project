@@ -1,15 +1,14 @@
 import React from "react";
-import { Link, useNavigate } from "react-router-dom";
-import './Navigation.css'
+import { Link } from "react-router-dom";
+
 
 const Navbar: React.FC = () => {
 
-  const navigate = useNavigate();
 
   const handleLogout = () => {
     localStorage.clear();
     console.log("User logged out");
-    navigate("/login");
+    
   };
 
   return (
@@ -32,7 +31,7 @@ const Navbar: React.FC = () => {
               <Link className="nav-link" id="linkButton" to="/profile"><i id="con" className="material-icons">people_alt</i>Profile</Link>
             </li>
             <li className="nav-item">
-              <Link className="nav-link" id="linkButton" to="/" onClick={handleLogout}><i id="con" className="material-icons">exit_to_app</i>Logout</Link>
+              <Link className="nav-link" id="linkButton" to="/login" onClick={handleLogout}><i id="con" className="material-icons">exit_to_app</i>Logout</Link>
             </li>
           </ul>
         </div>
