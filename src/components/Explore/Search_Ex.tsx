@@ -6,6 +6,11 @@ import { buildPath } from '../../utils';
 let pageNumber = 1;
 const Search_Ex = () => 
 {
+    const storedUser = localStorage.getItem("user_data");
+    const user = storedUser ? JSON.parse(storedUser) : {};
+    const token = user?.token;
+
+
     const [message, setMessage] = useState([JSON]);
     const [search, setSearchQuery] = React.useState('');
     let posterPath: JSON[] = [];
@@ -23,11 +28,8 @@ const Search_Ex = () =>
             //console.log("page has loaded");
             try{
                 const response = await fetch(buildPath('/api/trendingMovie'),
-                {method:'POST',body:js,headers:{'Content-Type': 'application/json'}})
+                {method:'POST',body:js,headers:{'Content-Type': 'application/json', 'authorization' : token}})
                     var res = JSON.parse(await response.text());
-    
-
-
                     for (let i = 0; i < res["movieData"].results.length; i++) 
                         {
                             if (res["movieData"].results[i].poster_path !== null) 
@@ -37,9 +39,15 @@ const Search_Ex = () =>
                             }
                         }
                         setMessage(posterPath);
+                        
             }
             catch(error:any)
             {
+                if(res.message === "Invalid Token" || res.message === "Access Denied: No Token Provided")
+                {
+                    localStorage.clear();
+                    window.location.href = '/login';
+                }
                 alert(error.toString());
                 return;
             }
@@ -67,7 +75,7 @@ const Search_Ex = () =>
         try
         {
             const response = await fetch(buildPath('/api/searchMovie'),
-            {method:'POST',body:js,headers:{'Content-Type': 'application/json'}})
+            {method:'POST',body:js,headers:{'Content-Type': 'application/json', 'authorization' : token}})
                 var res = JSON.parse(await response.text());
 
 
@@ -85,6 +93,11 @@ const Search_Ex = () =>
         }
         catch(error:any)
         {
+            if(res.message === "Invalid Token" || res.message === "Access Denied: No Token Provided")
+                {
+                    localStorage.clear();
+                    window.location.href = '/login';
+                }
             alert(error.toString());
             return;
     }

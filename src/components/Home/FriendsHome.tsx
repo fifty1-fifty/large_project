@@ -1,11 +1,12 @@
 import SearchFriends from "./SearchFriends";
-
+import FriendsCards from "./FriendsCards"
+import "./FriendsHome.css";
 
 const FriendsHome = () => {
     return(
         <div className="FriendsHome">
-            {/* <SearchFriends /> */}
-            <h2>THIS IS A TEST</h2>
+            <SearchFriends />
+            <FriendsCards />
         </div>
     )
 }

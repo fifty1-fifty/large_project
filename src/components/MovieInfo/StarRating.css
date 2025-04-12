@@ -1,0 +1,21 @@
+.star-rating {
+    display: flex;
+    justify-content: center;
+    padding: -5px;
+  }
+  
+  .star {
+    margin-top: -1rem;
+    padding: 0px;
+    background: none;
+    border: none;
+    font-size: 3rem;
+    cursor: pointer;
+    color: #edf2f4;
+    transition: color 0.2s;
+  }
+  
+  .star.filled {
+    color: gold;
+  }
+  
