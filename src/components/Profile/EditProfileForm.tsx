@@ -135,6 +135,7 @@ const EditProfileForm: React.FC<EditProfileFormProps> = ({ userId }) => {
             id="email"
             value={profileData.email}
             onChange={handleChange}
+            readOnly
           />
         </div>
 
