@@ -21,8 +21,9 @@
   border-width: 5px;
   color: #edf2f4;
   border-radius: 5px;
-  height: 90%;
-
+  height: auto;
+  justify-content: center;
+  padding: 5px 10px;
 }
 
 #linkButton:hover
