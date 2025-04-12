@@ -32,16 +32,18 @@
 
 .followers-following {
   display: flex;
-  justify-content: center;
-  align-items: center;
+  justify-content: space-around;
   margin-top: 30px;
-  gap: 40px;
+  gap: 20px;
 }
 
 .followers, .following {
   text-align: center;
   padding: 15px;
-  width: auto;
+  width: 45%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
 }
 
 .followers h4, .following h4 {
