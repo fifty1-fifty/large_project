@@ -13,9 +13,11 @@
 
 #linkButton
 {
-  display: inline-flex;
-  height: 100%;
-  vertical-align: middle;
+  display: flex;
+  align-items: center;
+  gap: 3px;
+  height: auto;
+  vertical-align: unset;
   background-color: #c44747;
   border-color: #edf2f4;
   border-width: 5px;
