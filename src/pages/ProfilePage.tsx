@@ -44,7 +44,7 @@ const ProfilePage: React.FC = () => {
   }, [userId]);
 
   const navigateToEdit = () => {
-    navigate(`/edit-profile/${userId}`);
+    navigate(`/edit`);
   };
 
   if (loading) {
