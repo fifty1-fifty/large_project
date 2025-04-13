@@ -51,8 +51,8 @@
 
 .followers p, .following p {
   font-size: 1.5rem;
-  margin: 0;
   color: #c44646;
+  margin: 0;
 }
 
 .followers-list, .following-list {
@@ -84,4 +84,49 @@
 .profile-edit-button:hover {
   background-color: white;
   color: #c44646;
+}
+
+/* User Posts Section */
+.user-posts {
+  margin-top: 40px;
+}
+
+.user-posts h2 {
+  font-size: 1.8rem;
+  margin-bottom: 20px;
+  text-align: center;
+}
+
+.posts-list {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+
+.post {
+  padding: 20px;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.post h3 {
+  font-size: 1.2rem;
+  margin-bottom: 10px;
+  color: #c44646;
+}
+
+.post p {
+  font-size: 1rem;
+  margin-bottom: 10px;
+  line-height: 1.4;
+}
+
+.post-date {
+  font-size: 0.9rem;
+  color: #c44646;
+}
+
+.error-message {
+  color: #c44646;
+  text-align: center;
+  margin-top: 20px;
 }
