@@ -1,50 +1,62 @@
-import React, { useEffect, useState } from "react";
-import { useNavigate, useLocation } from "react-router-dom";
+import React, { useState, useEffect } from "react";
+import { useParams, useNavigate } from "react-router-dom";
 import ProfileDetails from "../components/Profile/ProfileDetails";
-import "../components/Profile/ProfileDetails.css";
+import { buildPath } from "../utils";
+
+interface Post {
+  _id: string;
+  title: string;
+  content: string;
+  dateCreated: string;
+}
 
 const ProfilePage: React.FC = () => {
+  const { userId } = useParams<{ userId: string }>();
+  const navigate = useNavigate();
   const [userInfo, setUserInfo] = useState<any>(null);
   const [error, setError] = useState<string>("");
-
-  const storedUser = localStorage.getItem("user_data");
-  const user = storedUser ? JSON.parse(storedUser) : {};
-  const userId = user?.id;
-  const token = user?.Token;
-
-  const navigate = useNavigate();
-  const location = useLocation();
+  const [posts, setPosts] = useState<Post[]>([]);
+  const [loading, setLoading] = useState(true);
 
   useEffect(() => {
-    if (!userId) return;
-
-    async function fetchProfile() {
+    const fetchUserData = async () => {
       try {
-        const response = await fetch(`/api/profile/${userId}`, {
-                                    headers: {
-                                    Authorization: token}});
-        if (!response.ok) {
-          throw new Error("Failed to fetch user profile");
-        }
-        const profileData = await response.json();
+        // Fetch user profile
+        const profileResponse = await fetch(buildPath(`/api/profile/${userId}`));
+        if (!profileResponse.ok) throw new Error("Failed to fetch profile");
+        const profileData = await profileResponse.json();
         setUserInfo(profileData);
-      } catch (err: any) {
-        setError(err.message);
-      }
-    }
 
-    fetchProfile();
-  }, [userId, location]);
+        // Fetch user posts
+        const postsResponse = await fetch(buildPath(`/apiposts/user/${userId}`));
+        if (!postsResponse.ok) throw new Error("Failed to fetch posts");
+        const postsData = await postsResponse.json();
+        setPosts(postsData);
+      } catch (err) {
+        console.error("Error fetching data:", err);
+        setError("Failed to load profile data");
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    fetchUserData();
+  }, [userId]);
 
   const navigateToEdit = () => {
-    navigate("/edit");
+    navigate(`/edit-profile/${userId}`);
   };
+
+  if (loading) {
+    return <div>Loading...</div>;
+  }
 
   return (
     <ProfileDetails
       userInfo={userInfo}
       error={error}
       navigateToEdit={navigateToEdit}
+      posts={posts}
     />
   );
 };

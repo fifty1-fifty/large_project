@@ -1,12 +1,5 @@
-import React, { useState, useEffect } from "react";
+import React from "react";
 import "./ProfileDetails.css";
-import { buildPath } from "../../utils";
-
-interface ProfileDetailsProps {
-  userInfo: any;
-  error: string;
-  navigateToEdit: () => void;
-}
 
 interface Post {
   _id: string;
@@ -15,32 +8,14 @@ interface Post {
   dateCreated: string;
 }
 
-const ProfileDetails: React.FC<ProfileDetailsProps> = ({ userInfo, error, navigateToEdit }) => {
-  const [posts, setPosts] = useState<Post[]>([]);
-  const [loading, setLoading] = useState(true);
-  const [postsError, setPostsError] = useState("");
+interface ProfileDetailsProps {
+  userInfo: any;
+  error: string;
+  navigateToEdit: () => void;
+  posts: Post[];
+}
 
-  useEffect(() => {
-    const fetchUserPosts = async () => {
-      if (!userInfo?.id) return;
-      
-      try {
-        const response = await fetch(buildPath(`/apiposts/user/${userInfo.id}`));
-        if (!response.ok) throw new Error('Failed to fetch posts');
-        
-        const userPosts = await response.json();
-        setPosts(userPosts);
-      } catch (err) {
-        console.error("Error fetching user posts:", err);
-        setPostsError("Failed to load posts");
-      } finally {
-        setLoading(false);
-      }
-    };
-
-    fetchUserPosts();
-  }, [userInfo?.id]);
-
+const ProfileDetails: React.FC<ProfileDetailsProps> = ({ userInfo, error, navigateToEdit, posts }) => {
   return (
     <div className="profile-page">
       <h1 className="profile-heading"></h1>
@@ -78,11 +53,7 @@ const ProfileDetails: React.FC<ProfileDetailsProps> = ({ userInfo, error, naviga
 
           <div className="user-posts">
             <h2>Posts</h2>
-            {loading ? (
-              <p>Loading posts...</p>
-            ) : postsError ? (
-              <p className="error-message">{postsError}</p>
-            ) : posts.length === 0 ? (
+            {posts.length === 0 ? (
               <p>No posts yet</p>
             ) : (
               <div className="posts-list">
