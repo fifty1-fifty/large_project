@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import { useParams, useNavigate } from "react-router-dom";
+import { useParams, useNavigate, useLocation } from "react-router-dom";
 import ProfileDetails from "../components/Profile/ProfileDetails";
 import { buildPath } from "../utils";
 
@@ -14,6 +14,7 @@ interface Post {
 const ProfilePage: React.FC = () => {
   const { userId } = useParams<{ userId: string }>();
   const navigate = useNavigate();
+  const location = useLocation();
   const [userInfo, setUserInfo] = useState<any>(null);
   const [error, setError] = useState<string>("");
   const [posts, setPosts] = useState<Post[]>([]);
@@ -21,17 +22,30 @@ const ProfilePage: React.FC = () => {
 
   useEffect(() => {
     const fetchUserData = async () => {
-      if (!userId) {
-        console.error("No userId found in URL params");
+      // Try to get userId from URL params first
+      let targetUserId = userId;
+      
+      // If no userId in URL, try to get it from localStorage
+      if (!targetUserId) {
+        const storedUser = localStorage.getItem("user_data");
+        if (storedUser) {
+          const user = JSON.parse(storedUser);
+          targetUserId = user.id;
+          console.log("Using userId from localStorage:", targetUserId);
+        }
+      }
+
+      if (!targetUserId) {
+        console.error("No userId found in URL params or localStorage");
         setError("User ID not found");
         setLoading(false);
         return;
       }
 
       try {
-        console.log("Fetching profile for userId:", userId);
+        console.log("Fetching profile for userId:", targetUserId);
         // Fetch user profile
-        const profileResponse = await fetch(buildPath(`/api/profile/${userId}`));
+        const profileResponse = await fetch(buildPath(`/api/profile/${targetUserId}`));
         if (!profileResponse.ok) {
           console.error("Profile fetch failed with status:", profileResponse.status);
           throw new Error(`Failed to fetch profile: ${profileResponse.status}`);
@@ -41,7 +55,7 @@ const ProfilePage: React.FC = () => {
         setUserInfo(profileData);
 
         // Fetch user posts
-        const postsUrl = buildPath(`/apiposts/user/${userId}`);
+        const postsUrl = buildPath(`/apiposts/user/${targetUserId}`);
         console.log("Attempting to fetch posts from:", postsUrl);
         const postsResponse = await fetch(postsUrl);
         console.log("Posts response status:", postsResponse.status);
@@ -69,7 +83,7 @@ const ProfilePage: React.FC = () => {
     };
 
     fetchUserData();
-  }, [userId]);
+  }, [userId, location]);
 
   const navigateToEdit = () => {
     navigate(`/edit`);
