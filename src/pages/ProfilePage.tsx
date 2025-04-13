@@ -8,6 +8,7 @@ interface Post {
   title: string;
   content: string;
   dateCreated: string;
+  UserId: string;
 }
 
 const ProfilePage: React.FC = () => {
@@ -20,21 +21,48 @@ const ProfilePage: React.FC = () => {
 
   useEffect(() => {
     const fetchUserData = async () => {
+      if (!userId) {
+        console.error("No userId found in URL params");
+        setError("User ID not found");
+        setLoading(false);
+        return;
+      }
+
       try {
+        console.log("Fetching profile for userId:", userId);
         // Fetch user profile
         const profileResponse = await fetch(buildPath(`/api/profile/${userId}`));
-        if (!profileResponse.ok) throw new Error("Failed to fetch profile");
+        if (!profileResponse.ok) {
+          console.error("Profile fetch failed with status:", profileResponse.status);
+          throw new Error(`Failed to fetch profile: ${profileResponse.status}`);
+        }
         const profileData = await profileResponse.json();
+        console.log("Profile data:", profileData);
         setUserInfo(profileData);
 
         // Fetch user posts
-        const postsResponse = await fetch(buildPath(`/apiposts/user/${userId}`));
-        if (!postsResponse.ok) throw new Error("Failed to fetch posts");
+        const postsUrl = buildPath(`/apiposts/user/${userId}`);
+        console.log("Attempting to fetch posts from:", postsUrl);
+        const postsResponse = await fetch(postsUrl);
+        console.log("Posts response status:", postsResponse.status);
+        
+        if (!postsResponse.ok) {
+          console.error("Posts fetch failed with status:", postsResponse.status);
+          throw new Error(`Failed to fetch posts: ${postsResponse.status}`);
+        }
+        
         const postsData = await postsResponse.json();
+        console.log("Posts data received:", postsData);
+        
+        if (!Array.isArray(postsData)) {
+          console.error("Posts data is not an array:", postsData);
+          throw new Error("Invalid posts data format");
+        }
+        
         setPosts(postsData);
       } catch (err) {
-        console.error("Error fetching data:", err);
-        setError("Failed to load profile data");
+        console.error("Error in fetchUserData:", err);
+        setError(err instanceof Error ? err.message : "Failed to load profile data");
       } finally {
         setLoading(false);
       }
