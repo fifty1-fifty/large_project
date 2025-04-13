@@ -15,7 +15,7 @@ const SearchFriends = () => {
         }
 
         try {
-            const response = await fetch(`/search-users?login=${query}`); // Change query param to login
+            const response = await fetch(`/api/search-users?Login=${query}`); // Change query param to login
             const data = await response.json();
             setResults(data);
         } catch (error) {
@@ -37,7 +37,7 @@ const SearchFriends = () => {
                 {results.length > 0 && (
                     <ul className="dropdown">
                         {results.map((user, index) => (
-                            <li key={index} onClick={() => window.location.href = `/profile/${user.Login}`}>
+                            <li key={index} onClick={() => window.location.href = `/userProfile/${user.Login}`}>
                                 {user.Login} {/* Update to use Login instead of username */}
                             </li>
                         ))}
