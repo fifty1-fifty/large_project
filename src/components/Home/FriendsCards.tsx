@@ -2,12 +2,13 @@ import { useEffect, useState } from "react";
 import "./FriendsCards.css";
 
 interface FriendPostCardProps {
-    movieTitle: string;
-    posterUrl: string;
-    comment: string;
+    movieId: string;
+    userId: number;
     username: string;
     rating: number;
-    movieId: string;
+    comment: string;
+    movieTitle: string;
+    posterUrl: string;
 }
 
 const renderStars = (rating: number) => {
@@ -41,7 +42,37 @@ const FriendsCards = () => {
             try {
                 const res = await fetch(`/api/friends-posts/${userId}`);
                 const data = await res.json();
-                setPosts(data);
+
+                const enrichedPosts: FriendPostCardProps[] = await Promise.all(
+                    data.map(async (post: any) => {
+                        try {
+                            const infoRes = await fetch("/api/fullMovieInfo", {
+                                method: "POST",
+                                headers: {
+                                    "Content-Type": "application/json",
+                                    Authorization: `Bearer ${localStorage.getItem("token")}`,
+                                },
+                                body: JSON.stringify({ id: post.movieId }),
+                            });
+
+                            const infoData = await infoRes.json();
+                            return {
+                                ...post,
+                                movieTitle: infoData.movieData.title,
+                                posterUrl: `https://image.tmdb.org/t/p/w500${infoData.movieData.poster_path}`,
+                            };
+                        } catch(err) {
+                            console.error("Error fetching movie info:", err);
+                            return {
+                                ...post,
+                                movieTitle: "Unknown Title",
+                                posterUrl: null,
+                            };
+                        }
+                    })
+                );
+
+                setPosts(enrichedPosts);
                 setLoading(false);
             } catch(err) {
                 console.error("Error fetching friend posts:", err);
@@ -65,6 +96,11 @@ const FriendsCards = () => {
 
     const { movieTitle, posterUrl, comment, username, rating, movieId } = posts[currentIndex];
 
+    function gotoInfoPage(movieId: string)
+    {
+        window.location.href = `/movie?movieId=${movieId}`;
+    }
+
     return (
         <div className="carousel-wrapper">
             <div className="post-card">
@@ -78,7 +114,7 @@ const FriendsCards = () => {
                 {renderStars(rating)}
                 <p className="movie-comment">{comment}</p>
                 <button
-                    onClick={() => (window.location.href = `/movie/${movieId}`)}
+                    onClick={() => (gotoInfoPage(movieId))}
                     className="movie-button"
                 >
                     View Movie Page
