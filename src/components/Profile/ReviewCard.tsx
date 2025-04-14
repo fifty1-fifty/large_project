@@ -18,13 +18,26 @@ const ReviewCard: React.FC<ReviewCardProps> = ({ post }) => {
   const navigate = useNavigate();
   const [movie, setMovie] = useState<MovieDetails | null>(null);
   const [loading, setLoading] = useState(true);
+  const [error, setError] = useState<string | null>(null);
 
   useEffect(() => {
     const fetchMovieDetails = async () => {
       try {
         const storedUser = localStorage.getItem("user_data");
-        const user = storedUser ? JSON.parse(storedUser) : {};
+        if (!storedUser) {
+          setError("User not logged in");
+          setLoading(false);
+          return;
+        }
+
+        const user = JSON.parse(storedUser);
         const token = user?.token;
+
+        if (!token) {
+          setError("No authentication token found");
+          setLoading(false);
+          return;
+        }
 
         const obj = { id: post.MovieId };
         const js = JSON.stringify(obj);
@@ -38,16 +51,23 @@ const ReviewCard: React.FC<ReviewCardProps> = ({ post }) => {
           }
         });
 
-        if (response.ok) {
-          const res = await response.json();
+        if (!response.ok) {
+          throw new Error(`Failed to fetch movie details: ${response.status}`);
+        }
+
+        const res = await response.json();
+        if (res.movieData) {
           setMovie({
             title: res.movieData.original_title,
             poster_path: res.movieData.poster_path,
             backdrop_path: res.movieData.backdrop_path
           });
+        } else {
+          setError("Movie data not found");
         }
       } catch (error) {
         console.error("Error fetching movie details:", error);
+        setError("Failed to load movie details");
       } finally {
         setLoading(false);
       }
@@ -72,6 +92,8 @@ const ReviewCard: React.FC<ReviewCardProps> = ({ post }) => {
     >
       {loading ? (
         <div className="loading">Loading movie info...</div>
+      ) : error ? (
+        <div className="error-message">{error}</div>
       ) : (
         <div className="review-content">
           {movie?.poster_path && (
