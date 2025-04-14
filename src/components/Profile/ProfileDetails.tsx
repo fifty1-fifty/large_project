@@ -1,21 +1,7 @@
 import React from "react";
 import "./ProfileDetails.css";
 
-interface Post {
-  _id: string;
-  title: string;
-  content: string;
-  dateCreated: string;
-}
-
-interface ProfileDetailsProps {
-  userInfo: any;
-  error: string;
-  navigateToEdit: () => void;
-  posts: Post[];
-}
-
-const ProfileDetails: React.FC<ProfileDetailsProps> = ({ userInfo, error, navigateToEdit, posts }) => {
+const ProfileDetails = ({ userInfo, error, navigateToEdit }) => {
   return (
     <div className="profile-page">
       <h1 className="profile-heading"></h1>
@@ -49,25 +35,6 @@ const ProfileDetails: React.FC<ProfileDetailsProps> = ({ userInfo, error, naviga
             <button onClick={navigateToEdit} className="profile-edit-button">
               Edit Profile
             </button>
-          </div>
-
-          <div className="user-posts">
-            <h2>Posts</h2>
-            {posts.length === 0 ? (
-              <p>No posts yet</p>
-            ) : (
-              <div className="posts-list">
-                {posts.map((post) => (
-                  <div key={post._id} className="post">
-                    <h3>{post.title}</h3>
-                    <p>{post.content}</p>
-                    <span className="post-date">
-                      {new Date(post.dateCreated).toLocaleDateString()}
-                    </span>
-                  </div>
-                ))}
-              </div>
-            )}
           </div>
         </>
       ) : (

@@ -4,13 +4,13 @@ import ProfileDetails from "../components/Profile/ProfileDetails";
 import { buildPath } from "../utils";
 import 'bootstrap/dist/css/bootstrap.min.css';
 
-const ProfilePage: React.FC = () => {
-  const { userId } = useParams<{ userId: string }>();
+const ProfilePage = () => {
+  const { userId } = useParams();
   const navigate = useNavigate();
   const location = useLocation();
-  const [userInfo, setUserInfo] = useState<any>(null);
-  const [error, setError] = useState<string>("");
-  const [posts, setPosts] = useState<any[]>([]);
+  const [userInfo, setUserInfo] = useState(null);
+  const [error, setError] = useState("");
+  const [posts, setPosts] = useState([]);
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
