@@ -2,6 +2,7 @@ import React, { useState, useEffect } from "react";
 import { useParams, useNavigate, useLocation } from "react-router-dom";
 import ProfileDetails from "../components/Profile/ProfileDetails";
 import ReviewCard from "../components/Profile/ReviewCard";
+import PostDetail from "../components/Profile/PostDetail";
 import { User, Post } from "../types";
 import "./ProfilePage.css";
 
@@ -13,6 +14,7 @@ const ProfilePage: React.FC = () => {
   const [error, setError] = useState("");
   const [posts, setPosts] = useState<Post[]>([]);
   const [loading, setLoading] = useState(true);
+  const [selectedPost, setSelectedPost] = useState<Post | null>(null);
 
   const handleDeletePost = async (postId: string) => {
     try {
@@ -26,6 +28,7 @@ const ProfilePage: React.FC = () => {
 
       // Update the posts state by filtering out the deleted post
       setPosts(prevPosts => prevPosts.filter(post => post._id !== postId));
+      setSelectedPost(null); // Close the post detail view
     } catch (err) {
       console.error('Error deleting post:', err);
       setError('Failed to delete post. Please try again.');
@@ -34,6 +37,14 @@ const ProfilePage: React.FC = () => {
 
   const handleEditPost = (postId: string) => {
     navigate(`/edit-post/${postId}`);
+  };
+
+  const handlePostClick = (post: Post) => {
+    setSelectedPost(post);
+  };
+
+  const handleClosePostDetail = () => {
+    setSelectedPost(null);
   };
 
   useEffect(() => {
@@ -132,14 +143,20 @@ const ProfilePage: React.FC = () => {
                 <ReviewCard 
                   key={post._id} 
                   post={post} 
-                  onDelete={handleDeletePost}
-                  onEdit={handleEditPost}
+                  onPostClick={handlePostClick}
                 />
               ))}
             </div>
           )}
         </div>
       </div>
+      {selectedPost && (
+        <PostDetail
+          post={selectedPost}
+          onClose={handleClosePostDetail}
+          onDelete={handleDeletePost}
+        />
+      )}
     </div>
   );
 };
