@@ -1,130 +1,100 @@
-import React, { useState, useEffect } from "react";
+import React, { useEffect, useState } from 'react';
+import { useNavigate } from 'react-router-dom';
+import './ReviewCard.css';
 
-import { Post } from "../../types";
-import { buildPath } from "../../utils";
-import PostDetail from "./PostDetail";
-import "./ReviewCard.css";
-
-interface ReviewCardProps {
-  post: Post;
+interface Post {
+    PostId: number;
+    MovieId: number;
+    UserId: number;
+    Rating: number;
+    Comment: string;
+    CreatedAt: string;
 }
 
 interface MovieDetails {
-  title: string;
-  poster_path: string;
-  backdrop_path: string;
+    backdrop_path: string;
+    poster_path: string;
+    title: string;
 }
 
-const ReviewCard: React.FC<ReviewCardProps> = ({ post }) => {
-  const [movie, setMovie] = useState<MovieDetails | null>(null);
-  const [loading, setLoading] = useState(true);
-  const [error, setError] = useState<string | null>(null);
-  const [showDetail, setShowDetail] = useState(false);
+interface ReviewCardProps {
+    post: Post;
+    onDelete: (postId: number) => void;
+}
 
-  useEffect(() => {
-    const fetchMovieDetails = async () => {
-      try {
-        const storedUser = localStorage.getItem("user_data");
-        if (!storedUser) {
-          setError("User not logged in");
-          setLoading(false);
-          return;
-        }
+const ReviewCard: React.FC<ReviewCardProps> = ({ post, onDelete }) => {
+    const [movieDetails, setMovieDetails] = useState<MovieDetails | null>(null);
+    const [isLoading, setIsLoading] = useState(true);
+    const [error, setError] = useState<string | null>(null);
+    const navigate = useNavigate();
 
-        const user = JSON.parse(storedUser);
-        const token = user?.token;
+    useEffect(() => {
+        const fetchMovieDetails = async () => {
+            try {
+                const response = await fetch(`/api/movies/${post.MovieId}`);
+                if (!response.ok) {
+                    throw new Error('Failed to fetch movie details');
+                }
+                const data = await response.json();
+                setMovieDetails(data);
+            } catch (err) {
+                setError('Failed to load movie details');
+            } finally {
+                setIsLoading(false);
+            }
+        };
 
-        if (!token) {
-          setError("No authentication token found");
-          setLoading(false);
-          return;
-        }
+        fetchMovieDetails();
+    }, [post.MovieId]);
 
-        const obj = { id: post.MovieId };
-        const js = JSON.stringify(obj);
-
-        const response = await fetch(buildPath('/api/fullMovieInfo'), {
-          method: 'POST',
-          body: js,
-          headers: {
-            'Content-Type': 'application/json',
-            'authorization': token
-          }
-        });
-
-        if (!response.ok) {
-          throw new Error(`Failed to fetch movie details: ${response.status}`);
-        }
-
-        const res = await response.json();
-        if (res.movieData) {
-          setMovie({
-            title: res.movieData.original_title,
-            poster_path: res.movieData.poster_path,
-            backdrop_path: res.movieData.backdrop_path
-          });
-        } else {
-          setError("Movie data not found");
-        }
-      } catch (error) {
-        console.error("Error fetching movie details:", error);
-        setError("Failed to load movie details");
-      } finally {
-        setLoading(false);
-      }
+    const handleEdit = () => {
+        navigate(`/edit-post/${post.PostId}`);
     };
 
-    fetchMovieDetails();
-  }, [post.MovieId]);
+    const handleDelete = () => {
+        if (window.confirm('Are you sure you want to delete this review?')) {
+            onDelete(post.PostId);
+        }
+    };
 
-  const handleClick = () => {
-    setShowDetail(true);
-  };
+    if (isLoading) {
+        return <div className="review-card loading">Loading...</div>;
+    }
 
-  return (
-    <>
-      <div 
-        className="review-card" 
-        onClick={handleClick}
-        style={{
-          backgroundImage: movie?.backdrop_path 
-            ? `linear-gradient(rgba(0, 0, 0, 0.7), rgba(0, 0, 0, 0.7)), url(https://image.tmdb.org/t/p/original${movie.backdrop_path})`
-            : 'linear-gradient(rgba(0, 0, 0, 0.7), rgba(0, 0, 0, 0.7))'
-        }}
-      >
-        {loading ? (
-          <div className="loading">Loading movie info...</div>
-        ) : error ? (
-          <div className="error-message">{error}</div>
-        ) : (
-          <div className="review-content">
-            {movie?.poster_path && (
-              <div className="movie-poster">
-                <img
-                  src={`https://image.tmdb.org/t/p/w200${movie.poster_path}`}
-                  alt={movie.title}
-                  className="poster-img"
-                />
-              </div>
-            )}
-            <div className="review-details">
-              <h3 className="movie-title">{movie?.title || `Movie ID: ${post.MovieId}`}</h3>
-              {post.Comment && <p className="review-comment">{post.Comment}</p>}
-              <div className="review-rating">
-                {post.Rating ? `Rating: ${post.Rating}/10` : "No rating"}
-              </div>
+    if (error) {
+        return <div className="review-card error">{error}</div>;
+    }
+
+    return (
+        <div 
+            className="review-card"
+            style={{
+                backgroundImage: movieDetails?.backdrop_path 
+                    ? `url(https://image.tmdb.org/t/p/original${movieDetails.backdrop_path})`
+                    : 'none'
+            }}
+        >
+            <div className="review-card-content">
+                <div className="movie-poster">
+                    {movieDetails?.poster_path && (
+                        <img 
+                            src={`https://image.tmdb.org/t/p/w500${movieDetails.poster_path}`}
+                            alt={movieDetails.title}
+                        />
+                    )}
+                </div>
+                <div className="review-details">
+                    <h3>{movieDetails?.title}</h3>
+                    <div className="rating">Rating: {post.Rating}/10</div>
+                    <p className="comment">{post.Comment}</p>
+                    <div className="review-actions">
+                        <button onClick={handleEdit} className="edit-button">Edit</button>
+                        <button onClick={handleDelete} className="delete-button">Delete</button>
+                    </div>
+                </div>
             </div>
-          </div>
-        )}
-      </div>
-      {showDetail && (
-        <PostDetail 
-          post={post} 
-          onClose={() => setShowDetail(false)} 
-        />
-      )}
-    </>
-  );
+        </div>
+    );
 };
 
 export default ReviewCard; 
