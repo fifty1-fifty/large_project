@@ -1,7 +1,6 @@
 import React, { useState, useEffect } from "react";
 import { useParams, useNavigate, useLocation } from "react-router-dom";
 import ProfileDetails from "../components/Profile/ProfileDetails";
-import ProfilePosts from "../components/Profile/ProfilePosts";
 import { User, Post } from "../types";
 import 'bootstrap/dist/css/bootstrap.min.css';
 
@@ -59,6 +58,7 @@ const ProfilePage: React.FC = () => {
         }
 
         const postsData = await postsResponse.json();
+        console.log("Fetched posts:", postsData); // Debug log
         setPosts(postsData);
       } catch (err) {
         console.error("Error fetching data:", err);
@@ -87,6 +87,9 @@ const ProfilePage: React.FC = () => {
     return <div className="alert alert-warning mt-5">User not found</div>;
   }
 
+  // Filter out posts with empty comments and no ratings
+  const validPosts = posts.filter(post => post.Comment || post.Rating);
+
   return (
     <div className="container mt-4">
       <div className="row">
@@ -98,7 +101,30 @@ const ProfilePage: React.FC = () => {
           />
         </div>
         <div className="col-md-8">
-          <ProfilePosts posts={posts} />
+          <div className="mt-4">
+            <h3 className="mb-3">User Reviews</h3>
+            {validPosts.length === 0 ? (
+              <div className="alert alert-info">No reviews yet.</div>
+            ) : (
+              <div className="row">
+                {validPosts.map((post) => (
+                  <div key={post._id} className="col-md-6 mb-4">
+                    <div className="card h-100">
+                      <div className="card-body">
+                        <h5 className="card-title">Movie ID: {post.MovieId}</h5>
+                        {post.Comment && <p className="card-text">{post.Comment}</p>}
+                        <div className="d-flex justify-content-between align-items-center">
+                          <div className="rating">
+                            {post.Rating ? `Rating: ${post.Rating}/10` : "No rating"}
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                ))}
+              </div>
+            )}
+          </div>
         </div>
       </div>
     </div>

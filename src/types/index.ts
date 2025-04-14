@@ -1,8 +1,9 @@
 export interface Post {
+  _id: string;
+  UserId: number;
   MovieId: string;
+  Rating: number | null;
   Comment: string;
-  Rating: number;
-  UserID: string;
 }
 
 export interface User {
