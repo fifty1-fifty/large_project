@@ -29,7 +29,8 @@ const FriendsCards = () => {
     const [posts, setPosts] = useState<FriendPostCardProps[]>([]);
     const [loading, setLoading] = useState(true);
 
-    const userId = localStorage.getItem("userId");
+    const userId = localStorage.getItem("UserId");
+    console.log(userId);
 
     useEffect(() => {
         const fetchPosts = async () => {
