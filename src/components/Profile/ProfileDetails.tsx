@@ -1,6 +1,14 @@
+import React from "react";
 import "./ProfileDetails.css";
+import { User } from "../../types";
 
-const ProfileDetails = ({ userInfo = null, error = "", navigateToEdit = () => {} }) => {
+interface ProfileDetailsProps {
+  userInfo: User | null;
+  error: string;
+  navigateToEdit: () => void;
+}
+
+const ProfileDetails: React.FC<ProfileDetailsProps> = ({ userInfo, error, navigateToEdit }) => {
   return (
     <div className="profile-page">
       <h1 className="profile-heading"></h1>

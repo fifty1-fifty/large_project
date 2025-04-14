@@ -1,16 +1,18 @@
-import { useState, useEffect } from "react";
+import React, { useState, useEffect } from "react";
 import { useParams, useNavigate, useLocation } from "react-router-dom";
 import ProfileDetails from "../components/Profile/ProfileDetails";
+import ProfilePosts from "../components/Profile/ProfilePosts";
 import { buildPath } from "../utils";
+import { User, Post } from "../types";
 import 'bootstrap/dist/css/bootstrap.min.css';
 
-const ProfilePage = () => {
-  const { userId } = useParams();
+const ProfilePage: React.FC = () => {
+  const { userId } = useParams<{ userId: string }>();
   const navigate = useNavigate();
   const location = useLocation();
-  const [userInfo, setUserInfo] = useState(null);
+  const [userInfo, setUserInfo] = useState<User | null>(null);
   const [error, setError] = useState("");
-  const [posts, setPosts] = useState([]);
+  const [posts, setPosts] = useState<Post[]>([]);
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
@@ -65,37 +67,23 @@ const ProfilePage = () => {
     return <div className="text-center mt-5">Loading...</div>;
   }
 
+  if (!userInfo) {
+    return <div>User not found</div>;
+  }
+
   return (
-    <div className="container mt-5">
-      <ProfileDetails
-        userInfo={userInfo}
-        error={error}
-        navigateToEdit={navigateToEdit}
-      />
-      
-      <div className="mt-4">
-        <h3 className="mb-3">User Posts</h3>
-        {posts.length === 0 ? (
-          <div className="alert alert-info">No posts yet.</div>
-        ) : (
-          <div className="row">
-            {posts.map((post) => (
-              <div key={post.MovieId} className="col-md-6 col-lg-4 mb-4">
-                <div className="card h-100">
-                  <div className="card-body">
-                    <h5 className="card-title">Movie ID: {post.MovieId}</h5>
-                    <p className="card-text">{post.Comment}</p>
-                    <div className="d-flex justify-content-between align-items-center">
-                      <div className="rating">
-                        Rating: {post.Rating}/10
-                      </div>
-                    </div>
-                  </div>
-                </div>
-              </div>
-            ))}
-          </div>
-        )}
+    <div className="container mt-4">
+      <div className="row">
+        <div className="col-md-4">
+          <ProfileDetails
+            userInfo={userInfo}
+            error={error}
+            navigateToEdit={navigateToEdit}
+          />
+        </div>
+        <div className="col-md-8">
+          <ProfilePosts posts={posts} />
+        </div>
       </div>
     </div>
   );
