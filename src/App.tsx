@@ -9,7 +9,8 @@ import HomePage from './pages/HomePage';
 import ExplorePage from './pages/ExplorePage';
 import ProfilePage from './pages/ProfilePage';
 import Layout from "./components/Layout"; 
-import EditProfilePage from "./pages/EditProfilePage"; 
+import EditProfilePage from "./pages/EditProfilePage";
+import EditPost from "./components/Profile/EditPost";
 /*  test  */
 import { Buffer } from 'buffer';
 if(!window.Buffer) {
@@ -28,6 +29,7 @@ function App() {
         <Route path="/home" element={<Layout><HomePage /></Layout>} />
         <Route path="/profile" element={<Layout><ProfilePage /></Layout>} />
         <Route path="/edit" element={<Layout><EditProfilePage /></Layout>} />
+        <Route path="/edit-post/:postId" element={<Layout><EditPost /></Layout>} />
 
         {/* don't require layout */}
         <Route path="/register" element={<RegisterPage />} />

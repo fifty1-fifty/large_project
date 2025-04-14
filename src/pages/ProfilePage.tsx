@@ -14,6 +14,28 @@ const ProfilePage: React.FC = () => {
   const [posts, setPosts] = useState<Post[]>([]);
   const [loading, setLoading] = useState(true);
 
+  const handleDeletePost = async (postId: string) => {
+    try {
+      const response = await fetch(`/api/posts/delete/${postId}`, {
+        method: 'DELETE',
+      });
+
+      if (!response.ok) {
+        throw new Error('Failed to delete post');
+      }
+
+      // Update the posts state by filtering out the deleted post
+      setPosts(prevPosts => prevPosts.filter(post => post._id !== postId));
+    } catch (err) {
+      console.error('Error deleting post:', err);
+      setError('Failed to delete post. Please try again.');
+    }
+  };
+
+  const handleEditPost = (postId: string) => {
+    navigate(`/edit-post/${postId}`);
+  };
+
   useEffect(() => {
     const fetchUserData = async () => {
       let targetUserId = userId;
@@ -107,7 +129,12 @@ const ProfilePage: React.FC = () => {
           ) : (
             <div className="reviews-grid">
               {validPosts.map((post) => (
-                <ReviewCard key={post._id} post={post} />
+                <ReviewCard 
+                  key={post._id} 
+                  post={post} 
+                  onDelete={handleDeletePost}
+                  onEdit={handleEditPost}
+                />
               ))}
             </div>
           )}
