@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from "react";
 import { useParams, useNavigate, useLocation } from "react-router-dom";
 import ProfileDetails from "../components/Profile/ProfileDetails";
+import ProfilePosts from "../components/Profile/ProfilePosts";
 import { buildPath } from "../utils";
 import 'bootstrap/dist/css/bootstrap.min.css';
 
@@ -80,31 +81,7 @@ const ProfilePage: React.FC = () => {
         error={error}
         navigateToEdit={navigateToEdit}
       />
-      
-      <div className="mt-4">
-        <h3 className="mb-3">User Posts</h3>
-        {posts.length === 0 ? (
-          <div className="alert alert-info">No posts yet.</div>
-        ) : (
-          <div className="row">
-            {posts.map((post) => (
-              <div key={post._id} className="col-md-6 col-lg-4 mb-4">
-                <div className="card h-100">
-                  <div className="card-body">
-                    <h5 className="card-title">Movie ID: {post.MovieId}</h5>
-                    <p className="card-text">{post.Comment}</p>
-                    <div className="d-flex justify-content-between align-items-center">
-                      <div className="rating">
-                        Rating: {post.Rating}/10
-                      </div>
-                    </div>
-                  </div>
-                </div>
-              </div>
-            ))}
-          </div>
-        )}
-      </div>
+      <ProfilePosts posts={posts} />
     </div>
   );
 };
