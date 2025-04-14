@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { Post } from '../../types';
+import { buildPath } from '../../utils';
 import './ReviewCard.css';
 
 interface MovieDetails {
@@ -22,14 +23,51 @@ const ReviewCard: React.FC<ReviewCardProps> = ({ post, onDelete, onEdit }) => {
     useEffect(() => {
         const fetchMovieDetails = async () => {
             try {
-                const response = await fetch(`/api/movies/${post.MovieId}`);
-                if (!response.ok) {
-                    throw new Error('Failed to fetch movie details');
+                const storedUser = localStorage.getItem("user_data");
+                if (!storedUser) {
+                    setError("User not logged in");
+                    setIsLoading(false);
+                    return;
                 }
-                const data = await response.json();
-                setMovieDetails(data);
+
+                const user = JSON.parse(storedUser);
+                const token = user?.token;
+
+                if (!token) {
+                    setError("No authentication token found");
+                    setIsLoading(false);
+                    return;
+                }
+
+                const obj = { id: post.MovieId };
+                const js = JSON.stringify(obj);
+
+                const response = await fetch(buildPath('/api/fullMovieInfo'), {
+                    method: 'POST',
+                    body: js,
+                    headers: {
+                        'Content-Type': 'application/json',
+                        'authorization': token
+                    }
+                });
+
+                if (!response.ok) {
+                    throw new Error(`Failed to fetch movie details: ${response.status}`);
+                }
+
+                const res = await response.json();
+                if (res.movieData) {
+                    setMovieDetails({
+                        title: res.movieData.original_title,
+                        poster_path: res.movieData.poster_path,
+                        backdrop_path: res.movieData.backdrop_path
+                    });
+                } else {
+                    setError("Movie data not found");
+                }
             } catch (err) {
-                setError('Failed to load movie details');
+                console.error("Error fetching movie details:", err);
+                setError("Failed to load movie details");
             } finally {
                 setIsLoading(false);
             }
