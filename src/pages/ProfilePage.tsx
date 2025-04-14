@@ -3,6 +3,7 @@ import { useParams, useNavigate, useLocation } from "react-router-dom";
 import ProfileDetails from "../components/Profile/ProfileDetails";
 import ReviewCard from "../components/Profile/ReviewCard";
 import { User, Post } from "../types";
+import "./ProfilePage.css";
 
 const ProfilePage: React.FC = () => {
   const { userId } = useParams<{ userId: string }>();
@@ -91,28 +92,26 @@ const ProfilePage: React.FC = () => {
   const validPosts = posts.filter(post => post.Comment || post.Rating);
 
   return (
-    <div className="container mt-4">
-      <div className="row">
-        <div className="col-md-4">
+    <div className="profile-page-container">
+      <div className="profile-content">
+        <div className="profile-section">
           <ProfileDetails
             userInfo={userInfo}
             error={error}
             navigateToEdit={navigateToEdit}
           />
         </div>
-        <div className="col-md-8">
-          <div className="mt-4">
-            <h3 className="mb-3">User Reviews</h3>
-            {validPosts.length === 0 ? (
-              <div className="alert alert-info">No reviews yet.</div>
-            ) : (
-              <div className="review-cards-container">
-                {validPosts.map((post) => (
-                  <ReviewCard key={post._id} post={post} />
-                ))}
-              </div>
-            )}
-          </div>
+        <div className="reviews-section">
+          <h3 className="reviews-title">User Reviews</h3>
+          {validPosts.length === 0 ? (
+            <div className="no-reviews">No reviews yet.</div>
+          ) : (
+            <div className="reviews-grid">
+              {validPosts.map((post) => (
+                <ReviewCard key={post._id} post={post} />
+              ))}
+            </div>
+          )}
         </div>
       </div>
     </div>
