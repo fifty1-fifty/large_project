@@ -110,7 +110,7 @@ const PostDetail: React.FC<PostDetailProps> = ({ post, onClose }) => {
                   <p className="review-comment">{post.Comment}</p>
                 )}
                 <div className="review-rating">
-                  {post.Rating ? `Rating: ${post.Rating}/10` : "No rating"}
+                  {post.Rating ? `Rating: ${post.Rating}/5` : "No rating"}
                 </div>
               </div>
               <button 
