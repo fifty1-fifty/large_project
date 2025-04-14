@@ -1,7 +1,6 @@
-import React from "react";
 import "./ProfileDetails.css";
 
-const ProfileDetails = ({ userInfo, error, navigateToEdit }) => {
+const ProfileDetails = ({ userInfo = null, error = "", navigateToEdit = () => {} }) => {
   return (
     <div className="profile-page">
       <h1 className="profile-heading"></h1>
