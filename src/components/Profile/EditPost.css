@@ -1,15 +1,15 @@
 .edit-post-container {
-    max-width: 800px;
-    margin: 0 auto;
+    max-width: 600px;
+    margin: 2rem auto;
     padding: 2rem;
-    background: #fff;
+    background-color: #1a1a1a;
     border-radius: 8px;
-    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
 }
 
 .edit-post-container h2 {
+    color: #fff;
     margin-bottom: 2rem;
-    color: #333;
     text-align: center;
 }
 
@@ -26,8 +26,8 @@
 }
 
 .form-group label {
+    color: #fff;
     font-weight: 500;
-    color: #333;
 }
 
 .form-group input,
@@ -41,19 +41,8 @@
 }
 
 .form-group textarea {
-    width: 100%;
     min-height: 150px;
-    padding: 1rem;
-    border: 1px solid #ddd;
-    border-radius: 4px;
-    font-size: 1rem;
     resize: vertical;
-}
-
-.form-group textarea:focus {
-    outline: none;
-    border-color: #007bff;
-    box-shadow: 0 0 0 2px rgba(0, 123, 255, 0.25);
 }
 
 .button-group {
@@ -74,12 +63,12 @@
 }
 
 .save-button {
-    background-color: #28a745;
+    background-color: #007bff;
     color: white;
 }
 
 .save-button:hover {
-    background-color: #218838;
+    background-color: #0056b3;
 }
 
 .cancel-button {

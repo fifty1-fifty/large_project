@@ -1,8 +1,6 @@
 import React, { useEffect, useState } from 'react';
-import { Link, useNavigate } from 'react-router-dom';
 import { Post } from '../../types';
 import { buildPath } from '../../utils';
-import StarRating from '../MovieInfo/StarRating';
 import './ReviewCard.css';
 
 interface MovieDetails {
@@ -14,18 +12,12 @@ interface MovieDetails {
 interface ReviewCardProps {
     post: Post;
     onPostClick: (post: Post) => void;
-    onDelete: (postId: string) => void;
-    onEdit: (post: Post) => void;
 }
 
-const ReviewCard: React.FC<ReviewCardProps> = ({ post, onPostClick, onDelete, onEdit }) => {
+const ReviewCard: React.FC<ReviewCardProps> = ({ post, onPostClick }) => {
     const [movieDetails, setMovieDetails] = useState<MovieDetails | null>(null);
     const [isLoading, setIsLoading] = useState(true);
     const [error, setError] = useState<string | null>(null);
-    const [isEditing, setIsEditing] = useState(false);
-    const [rating, setRating] = useState(post.Rating);
-    const [comment, setComment] = useState(post.Comment);
-    const navigate = useNavigate();
 
     useEffect(() => {
         const fetchMovieDetails = async () => {
@@ -83,57 +75,6 @@ const ReviewCard: React.FC<ReviewCardProps> = ({ post, onPostClick, onDelete, on
         fetchMovieDetails();
     }, [post.MovieId]);
 
-    const handleEdit = () => {
-        navigate(`/edit-post/${post._id}`, { state: { post } });
-    };
-
-    const handleSave = async () => {
-        try {
-            const response = await fetch(`/api/posts/edit/${post._id}`, {
-                method: 'PUT',
-                headers: {
-                    'Content-Type': 'application/json',
-                },
-                body: JSON.stringify({ rating, comment }),
-            });
-
-            if (!response.ok) throw new Error('Failed to update post');
-            
-            onEdit({ ...post, Rating: rating, Comment: comment });
-            setIsEditing(false);
-        } catch (err) {
-            console.error('Error updating post:', err);
-        }
-    };
-
-    const handleCancel = () => {
-        setRating(post.Rating);
-        setComment(post.Comment);
-        setIsEditing(false);
-    };
-
-    if (isEditing) {
-        return (
-            <div className="review-card edit-form">
-                <div className="form-group">
-                    <label>Rating:</label>
-                    <StarRating onRatingChange={setRating} />
-                </div>
-                <div className="form-group">
-                    <label>Comment:</label>
-                    <textarea
-                        value={comment}
-                        onChange={(e) => setComment(e.target.value)}
-                    />
-                </div>
-                <div className="button-group">
-                    <button onClick={handleSave} className="save-button">Save Changes</button>
-                    <button onClick={handleCancel} className="cancel-button">Cancel</button>
-                </div>
-            </div>
-        );
-    }
-
     if (isLoading) {
         return <div className="review-card loading">Loading...</div>;
     }
@@ -163,17 +104,8 @@ const ReviewCard: React.FC<ReviewCardProps> = ({ post, onPostClick, onDelete, on
                 </div>
                 <div className="review-details">
                     <h3>{movieDetails?.title}</h3>
-                    <div className="rating">
-                        <StarRating rating={post.Rating} readOnly />
-                    </div>
+                    <div className="rating">Rating: {post.Rating}/10</div>
                     <p className="comment">{post.Comment}</p>
-                </div>
-            </div>
-            <div className="review-footer">
-                <span className="date">{new Date(post.CreatedAt).toLocaleDateString()}</span>
-                <div className="button-group">
-                    <button onClick={handleEdit} className="edit-button">Edit</button>
-                    <button onClick={() => onDelete(post._id)} className="delete-button">Delete</button>
                 </div>
             </div>
         </div>

@@ -1,42 +1,53 @@
-import React, { useState, useEffect } from "react";
-import { useParams, useNavigate, useLocation } from "react-router-dom";
+import React, { useState } from "react";
+import { useParams, useNavigate } from "react-router-dom";
 import { Post } from "../../types";
+import { buildPath } from "../../utils";
 import StarRating from "../MovieInfo/StarRating";
 import "./EditPost.css";
 
-const EditPost: React.FC = () => {
+interface EditPostProps {
+  post: Post;
+}
+
+const EditPost: React.FC<EditPostProps> = ({ post }) => {
   const { postId } = useParams<{ postId: string }>();
   const navigate = useNavigate();
-  const location = useLocation();
-  const [post, setPost] = useState<Post | null>(null);
-  const [rating, setRating] = useState<number>(0);
-  const [comment, setComment] = useState<string>("");
+  const [rating, setRating] = useState<number>(post.Rating);
+  const [comment, setComment] = useState<string>(post.Comment);
   const [error, setError] = useState<string | null>(null);
 
-  useEffect(() => {
-    // Get the post from location state
-    const postFromState = location.state?.post;
-    if (postFromState) {
-      setPost(postFromState);
-      setRating(postFromState.Rating);
-      setComment(postFromState.Comment);
-    } else {
-      setError("Post data not found");
-    }
-  }, [location.state]);
-
-  const handleSubmit = async (e: React.FormEvent) => {
-    e.preventDefault();
+  const handleSave = async () => {
     try {
-      const response = await fetch(`/api/posts/edit/${postId}`, {
+      const storedUser = localStorage.getItem("user_data");
+      if (!storedUser) {
+        setError("User not logged in");
+        return;
+      }
+
+      const user = JSON.parse(storedUser);
+      const token = user?.token;
+
+      if (!token) {
+        setError("No authentication token found");
+        return;
+      }
+
+      const response = await fetch(buildPath(`/api/posts/edit/${postId}`), {
         method: 'PUT',
         headers: {
           'Content-Type': 'application/json',
+          'authorization': token
         },
-        body: JSON.stringify({ rating, comment }),
+        body: JSON.stringify({
+          Rating: rating,
+          Comment: comment
+        })
       });
 
-      if (!response.ok) throw new Error('Failed to update post');
+      if (!response.ok) {
+        throw new Error('Failed to update post');
+      }
+
       navigate('/profile');
     } catch (err) {
       setError('Failed to update post. Please try again.');
@@ -47,32 +58,26 @@ const EditPost: React.FC = () => {
     return <div className="edit-post-container">{error}</div>;
   }
 
-  if (!post) {
-    return <div className="edit-post-container">Post not found</div>;
-  }
-
   return (
     <div className="edit-post-container">
       <h2>Edit Review</h2>
-      <form onSubmit={handleSubmit} className="edit-post-form">
+      <div className="edit-form">
         <div className="form-group">
-          <label htmlFor="rating">Rating:</label>
+          <label>Rating:</label>
           <StarRating onRatingChange={setRating} />
         </div>
         <div className="form-group">
-          <label htmlFor="comment">Comment:</label>
+          <label>Comment:</label>
           <textarea
-            id="comment"
             value={comment}
             onChange={(e) => setComment(e.target.value)}
-            required
           />
         </div>
         <div className="button-group">
-          <button type="submit" className="save-button">Save Changes</button>
-          <button type="button" onClick={() => navigate('/profile')} className="cancel-button">Cancel</button>
+          <button onClick={handleSave} className="save-button">Save Changes</button>
+          <button onClick={() => navigate('/profile')} className="cancel-button">Cancel</button>
         </div>
-      </form>
+      </div>
     </div>
   );
 };
