@@ -2,25 +2,24 @@ import React, { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import { Post } from "../../types";
 import { buildPath } from "../../utils";
-import PostDetail from "./PostDetail";
-import "./ReviewCard.css";
+import "./PostDetail.css";
 
-interface ReviewCardProps {
+interface PostDetailProps {
   post: Post;
+  onClose: () => void;
 }
 
 interface MovieDetails {
   title: string;
   poster_path: string;
-  backdrop_path: string;
+  overview: string;
 }
 
-const ReviewCard: React.FC<ReviewCardProps> = ({ post }) => {
+const PostDetail: React.FC<PostDetailProps> = ({ post, onClose }) => {
   const navigate = useNavigate();
   const [movie, setMovie] = useState<MovieDetails | null>(null);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
-  const [showDetail, setShowDetail] = useState(false);
 
   useEffect(() => {
     const fetchMovieDetails = async () => {
@@ -62,7 +61,7 @@ const ReviewCard: React.FC<ReviewCardProps> = ({ post }) => {
           setMovie({
             title: res.movieData.original_title,
             poster_path: res.movieData.poster_path,
-            backdrop_path: res.movieData.backdrop_path
+            overview: res.movieData.overview
           });
         } else {
           setError("Movie data not found");
@@ -78,54 +77,57 @@ const ReviewCard: React.FC<ReviewCardProps> = ({ post }) => {
     fetchMovieDetails();
   }, [post.MovieId]);
 
-  const handleClick = () => {
-    setShowDetail(true);
+  const handleViewMovie = () => {
+    navigate(`/movie?movieId=${post.MovieId}`);
   };
 
   return (
-    <>
-      <div 
-        className="review-card" 
-        onClick={handleClick}
-        style={{
-          backgroundImage: movie?.backdrop_path 
-            ? `linear-gradient(rgba(0, 0, 0, 0.7), rgba(0, 0, 0, 0.7)), url(https://image.tmdb.org/t/p/original${movie.backdrop_path})`
-            : 'linear-gradient(rgba(0, 0, 0, 0.7), rgba(0, 0, 0, 0.7))'
-        }}
-      >
+    <div className="post-detail-overlay" onClick={onClose}>
+      <div className="post-detail-card" onClick={e => e.stopPropagation()}>
         {loading ? (
           <div className="loading">Loading movie info...</div>
         ) : error ? (
           <div className="error-message">{error}</div>
         ) : (
-          <div className="review-content">
+          <div className="post-detail-content">
             {movie?.poster_path && (
               <div className="movie-poster">
                 <img
-                  src={`https://image.tmdb.org/t/p/w200${movie.poster_path}`}
+                  src={`https://image.tmdb.org/t/p/w500${movie.poster_path}`}
                   alt={movie.title}
                   className="poster-img"
                 />
               </div>
             )}
-            <div className="review-details">
-              <h3 className="movie-title">{movie?.title || `Movie ID: ${post.MovieId}`}</h3>
-              {post.Comment && <p className="review-comment">{post.Comment}</p>}
-              <div className="review-rating">
-                {post.Rating ? `Rating: ${post.Rating}/10` : "No rating"}
+            <div className="post-details">
+              <h2 className="movie-title">{movie?.title}</h2>
+              {movie?.overview && (
+                <p className="movie-overview">{movie.overview}</p>
+              )}
+              <div className="review-section">
+                <h3>Your Review</h3>
+                {post.Comment && (
+                  <p className="review-comment">{post.Comment}</p>
+                )}
+                <div className="review-rating">
+                  {post.Rating ? `Rating: ${post.Rating}/10` : "No rating"}
+                </div>
               </div>
+              <button 
+                className="view-movie-button"
+                onClick={handleViewMovie}
+              >
+                View Movie Page
+              </button>
             </div>
           </div>
         )}
+        <button className="close-button" onClick={onClose}>
+          ×
+        </button>
       </div>
-      {showDetail && (
-        <PostDetail 
-          post={post} 
-          onClose={() => setShowDetail(false)} 
-        />
-      )}
-    </>
+    </div>
   );
 };
 
-export default ReviewCard; 
+export default PostDetail; 

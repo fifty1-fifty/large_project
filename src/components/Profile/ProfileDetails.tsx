@@ -10,42 +10,34 @@ interface ProfileDetailsProps {
 
 const ProfileDetails: React.FC<ProfileDetailsProps> = ({ userInfo, error, navigateToEdit }) => {
   return (
-    <div className="profile-page">
-      <h1 className="profile-heading"></h1>
+    <div className="profile-details">
       {error && <div className="error-message">Error: {error}</div>}
       {userInfo ? (
-        <>
+        <div className="profile-content">
           <div className="profile-header">
-            <h3>
+            <h2 className="profile-name">
               {userInfo.firstName} {userInfo.lastName}
-            </h3>
-            <p>
-              {userInfo.email}
-            </p>
-            <p>
-              {userInfo.bio}
-            </p>
+            </h2>
+            {userInfo.bio && <p className="profile-bio">{userInfo.bio}</p>}
           </div>
 
-          <div className="followers-following">
-            <div className="followers">
-              <h4>Followers</h4>
-              <p>{userInfo.followers ? userInfo.followers.length : 0}</p>
+          <div className="profile-stats">
+            <div className="stat-item">
+              <span className="stat-value">{userInfo.followers ? userInfo.followers.length : 0}</span>
+              <span className="stat-label">Followers</span>
             </div>
-            <div className="following">
-              <h4>Following</h4>
-              <p>{userInfo.following ? userInfo.following.length : 0}</p>
+            <div className="stat-item">
+              <span className="stat-value">{userInfo.following ? userInfo.following.length : 0}</span>
+              <span className="stat-label">Following</span>
             </div>
           </div>
 
-          <div className="edit-profile-container">
-            <button onClick={navigateToEdit} className="profile-edit-button">
-              Edit Profile
-            </button>
-          </div>
-        </>
+          <button onClick={navigateToEdit} className="edit-profile-button">
+            Edit Profile
+          </button>
+        </div>
       ) : (
-        <div>Loading...</div>
+        <div className="loading">Loading...</div>
       )}
     </div>
   );
