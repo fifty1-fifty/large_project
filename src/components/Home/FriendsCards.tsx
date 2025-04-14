@@ -29,8 +29,16 @@ const FriendsCards = () => {
     const [posts, setPosts] = useState<FriendPostCardProps[]>([]);
     const [loading, setLoading] = useState(true);
 
-    const userId = localStorage.getItem("UserId");
-    console.log(userId);
+    const user = localStorage.getItem("user_data");
+    let userId: number | null = null;
+    if(user) {
+        try {
+            const userData = JSON.parse(user);
+            userId = userData.id;
+        } catch(err) {
+            console.error("Failed to parse user_data from localStorage:", err);
+        }
+    }
 
     useEffect(() => {
         const fetchPosts = async () => {

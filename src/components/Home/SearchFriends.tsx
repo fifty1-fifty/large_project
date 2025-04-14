@@ -26,13 +26,14 @@ const SearchFriends = () => {
 
     return (
         <div className="move-down">
-            <div className="form-group">
+            <div className="form-group search-container">
                 <input 
                     type="text" 
                     id="searchbar" 
                     placeholder="Find Friends" 
                     value={searchQuery} 
                     onChange={handleSearch} 
+                    className="search-input"
                 />
                 {/* Dropdown menu for search results */}
                 {results.length > 0 && (
