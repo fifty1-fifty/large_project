@@ -9,7 +9,7 @@ import MoviePage from './pages/MoviePage';
 import HomePage from './pages/HomePage';
 import ExplorePage from './pages/ExplorePage';
 import ProfilePage from './pages/ProfilePage';
-import Layout from "./components/Layout/Layout"; 
+import Layout from "./components/Layout"; 
 import EditProfilePage from "./pages/EditProfilePage";
 import EditPost from "./components/Profile/EditPost";
 /*  test  */
