@@ -145,11 +145,12 @@
   flex-direction: column;
   align-items: center;
   gap: 1.5rem;
+  width: 100%;
 }
 
 .profile-header {
   text-align: center;
-  margin-bottom: 1rem;
+  margin-bottom: 0;
   width: 100%;
 }
 
@@ -166,6 +167,9 @@
   max-width: 600px;
   line-height: 1.5;
   font-weight: 500;
+  text-align: center;
+  margin: 1rem auto;
+  padding: 0 1rem;
 }
 
 .profile-stats {
