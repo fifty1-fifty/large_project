@@ -1,5 +1,4 @@
 // This file is dedicated to setting up the routing between pages
-import React from 'react';
 import { BrowserRouter as Router, Route, Navigate, Routes } from 'react-router-dom';
 import './App.css';
 import LoginPage from './pages/LoginPage';
@@ -9,7 +8,7 @@ import MoviePage from './pages/MoviePage';
 import HomePage from './pages/HomePage';
 import ExplorePage from './pages/ExplorePage';
 import ProfilePage from './pages/ProfilePage';
-import Layout from "./components/Layout/Layout"; 
+import Layout from "./components/Layout"; 
 import EditProfilePage from "./pages/EditProfilePage";
 import EditPost from "./components/Profile/EditPost";
 /*  test  */
@@ -18,7 +17,7 @@ if(!window.Buffer) {
   window.Buffer = Buffer;
 }
 
-const App: React.FC = () => {
+function App() {
   return (
     <Router>
       <Routes>
@@ -33,8 +32,8 @@ const App: React.FC = () => {
         <Route path="/edit-post/:postId" element={<Layout><EditPost /></Layout>} />
 
         {/* don't require layout */}
-        <Route path="/register" element={<Layout><RegisterPage /></Layout>} />
-        <Route path="/login" element={<Layout><LoginPage /></Layout>} />
+        <Route path="/register" element={<RegisterPage />} />
+        <Route path="/login" element={<LoginPage />}/>
 
         {/* redirects */}
         <Route path="/" element={<Navigate to="/home" />} /> 
@@ -43,6 +42,6 @@ const App: React.FC = () => {
       </Routes>
     </Router>
   );
-};
+}
 
 export default App;
