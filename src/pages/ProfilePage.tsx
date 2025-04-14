@@ -1,8 +1,8 @@
 import React, { useState, useEffect } from "react";
 import { useParams, useNavigate, useLocation } from "react-router-dom";
 import ProfileDetails from "../components/Profile/ProfileDetails";
+import ReviewCard from "../components/Profile/ReviewCard";
 import { User, Post } from "../types";
-
 
 const ProfilePage: React.FC = () => {
   const { userId } = useParams<{ userId: string }>();
@@ -106,21 +106,9 @@ const ProfilePage: React.FC = () => {
             {validPosts.length === 0 ? (
               <div className="alert alert-info">No reviews yet.</div>
             ) : (
-              <div className="row">
+              <div className="review-cards-container">
                 {validPosts.map((post) => (
-                  <div key={post._id} className="col-md-6 mb-4">
-                    <div className="card h-100">
-                      <div className="card-body">
-                        <h5 className="card-title">Movie ID: {post.MovieId}</h5>
-                        {post.Comment && <p className="card-text">{post.Comment}</p>}
-                        <div className="d-flex justify-content-between align-items-center">
-                          <div className="rating">
-                            {post.Rating ? `Rating: ${post.Rating}/10` : "No rating"}
-                          </div>
-                        </div>
-                      </div>
-                    </div>
-                  </div>
+                  <ReviewCard key={post._id} post={post} />
                 ))}
               </div>
             )}
