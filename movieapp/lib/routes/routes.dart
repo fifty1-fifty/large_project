@@ -17,7 +17,6 @@ class Routes {
     //ADD SCREENS HERE:
     login: (context) => const LoginScreen(),
     register: (context) => const RegisterScreen(),
-    // Updated route definition
     home:
         (context) => FutureBuilder(
           future: SecureStorage.getToken(),

@@ -161,7 +161,7 @@ class _HomeScreenState extends State<HomeScreen> {
     Navigator.pushNamed(
       context,
       '/movie-detail',
-      arguments: {'movie': movie, 'token': widget.token},
+      arguments: {'movie': movie},
     );
   }
 }
