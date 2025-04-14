@@ -14,7 +14,7 @@ const FriendProfilePage: React.FC = () => {
     const token = currentUser?.Token;
 
     const location = useLocation();
-    const friendId = location. state?.friendId; //or use route param if needed
+    const friendId = location.state?.friendId; //or use route param if needed
 
     useEffect(() => {
         if(!friendId || !currentUserId)   return;

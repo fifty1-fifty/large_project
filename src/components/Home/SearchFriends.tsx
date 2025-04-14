@@ -2,7 +2,7 @@ import React, { useState } from "react";
 
 const SearchFriends = () => {
     const [searchQuery, setSearchQuery] = useState("");
-    const [results, setResults] = useState<{ Login: string }[]>([]); // Update to match Login field
+    const [results, setResults] = useState<{ UserId: number, Login: string }[]>([]); // Update to match Login field
 
     // Fetch results as the user types
     const handleSearch = async (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -37,7 +37,7 @@ const SearchFriends = () => {
                 {results.length > 0 && (
                     <ul className="dropdown">
                         {results.map((user, index) => (
-                            <li key={index} onClick={() => window.location.href = `/userProfile/${user.Login}`}>
+                            <li key={index} onClick={() => window.location.href = `/userProfile/${user.UserId}`}>
                                 {user.Login} {/* Update to use Login instead of username */}
                             </li>
                         ))}
