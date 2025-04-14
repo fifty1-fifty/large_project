@@ -76,9 +76,24 @@ const EditProfileForm: React.FC<EditProfileFormProps> = ({ userId }) => {
     setSuccessMessage(null);
 
     try {
+      const storedUser = localStorage.getItem("user_data");
+      if (!storedUser) {
+        throw new Error("User not logged in");
+      }
+
+      const user = JSON.parse(storedUser);
+      const token = user?.token;
+
+      if (!token) {
+        throw new Error("No authentication token found");
+      }
+
       const response = await fetch(`/api/profile/${userId}/edit`, {
         method: "PUT",
-        headers: { "Content-Type": "application/json" },
+        headers: { 
+          "Content-Type": "application/json",
+          "authorization": token
+        },
         body: JSON.stringify({
           FirstName: profileData.firstName,
           LastName: profileData.lastName,
@@ -92,7 +107,12 @@ const EditProfileForm: React.FC<EditProfileFormProps> = ({ userId }) => {
       }
 
       setSuccessMessage("Profile updated successfully!");
-      localStorage.setItem("user_data", JSON.stringify({ ...profileData, id: userId }));
+      // Preserve the token when updating user data
+      localStorage.setItem("user_data", JSON.stringify({ 
+        ...profileData, 
+        id: userId,
+        token: token // Preserve the token
+      }));
 
       setTimeout(() => window.location.href = "/profile", 1000); // Redirect after success
     } catch (err: any) {
