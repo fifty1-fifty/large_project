@@ -13,6 +13,7 @@ import EditProfilePage from "./pages/EditProfilePage";
 import EditPost from "./components/Profile/EditPost";
 /*  test  */
 import { Buffer } from 'buffer';
+import FriendProfilePage from './pages/FriendProfilePage';
 if(!window.Buffer) {
   window.Buffer = Buffer;
 }
@@ -30,6 +31,7 @@ function App() {
         <Route path="/profile" element={<Layout><ProfilePage /></Layout>} />
         <Route path="/edit" element={<Layout><EditProfilePage /></Layout>} />
         <Route path="/edit-post/:postId" element={<Layout><EditPost /></Layout>} />
+        <Route path="/userProfile" element={<Layout><FriendProfilePage /></Layout>}/>
 
         {/* don't require layout */}
         <Route path="/register" element={<RegisterPage />} />
