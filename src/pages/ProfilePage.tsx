@@ -2,7 +2,7 @@ import React, { useState, useEffect } from "react";
 import { useParams, useNavigate, useLocation } from "react-router-dom";
 import ProfileDetails from "../components/Profile/ProfileDetails";
 import { User, Post } from "../types";
-import 'bootstrap/dist/css/bootstrap.min.css';
+
 
 const ProfilePage: React.FC = () => {
   const { userId } = useParams<{ userId: string }>();
