@@ -21,6 +21,9 @@ const PostDetail: React.FC<PostDetailProps> = ({ post, onClose, onDelete }) => {
   const [movie, setMovie] = useState<MovieDetails | null>(null);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
+  const [isEditing, setIsEditing] = useState(false);
+  const [editedRating, setEditedRating] = useState(post.Rating);
+  const [editedComment, setEditedComment] = useState(post.Comment);
 
   useEffect(() => {
     const fetchMovieDetails = async () => {
@@ -83,7 +86,15 @@ const PostDetail: React.FC<PostDetailProps> = ({ post, onClose, onDelete }) => {
   };
 
   const handleEdit = () => {
-    navigate(`/edit-post/${post._id}`);
+    setIsEditing(true);
+  };
+
+  const handleSave = () => {
+    // Update the post object with edited values
+    post.Rating = editedRating;
+    post.Comment = editedComment;
+    setIsEditing(false);
+    onClose(); // Close the detail view to show updated values
   };
 
   const handleDelete = () => {
@@ -118,12 +129,40 @@ const PostDetail: React.FC<PostDetailProps> = ({ post, onClose, onDelete }) => {
               )}
               <div className="review-section">
                 <h3>Your Review</h3>
-                {post.Comment && (
-                  <p className="review-comment">{post.Comment}</p>
+                {isEditing ? (
+                  <div className="edit-form">
+                    <div className="rating-input">
+                      <label>Rating:</label>
+                      <input
+                        type="number"
+                        min="1"
+                        max="10"
+                        value={editedRating}
+                        onChange={(e) => setEditedRating(parseInt(e.target.value))}
+                      />
+                    </div>
+                    <div className="comment-input">
+                      <label>Comment:</label>
+                      <textarea
+                        value={editedComment}
+                        onChange={(e) => setEditedComment(e.target.value)}
+                      />
+                    </div>
+                    <div className="edit-actions">
+                      <button onClick={handleSave} className="save-button">Save</button>
+                      <button onClick={() => setIsEditing(false)} className="cancel-button">Cancel</button>
+                    </div>
+                  </div>
+                ) : (
+                  <>
+                    {post.Comment && (
+                      <p className="review-comment">{post.Comment}</p>
+                    )}
+                    <div className="review-rating">
+                      {post.Rating ? `Rating: ${post.Rating}/10` : "No rating"}
+                    </div>
+                  </>
                 )}
-                <div className="review-rating">
-                  {post.Rating ? `Rating: ${post.Rating}/5` : "No rating"}
-                </div>
               </div>
               <div className="action-buttons">
                 <button 
@@ -132,18 +171,22 @@ const PostDetail: React.FC<PostDetailProps> = ({ post, onClose, onDelete }) => {
                 >
                   View Movie Page
                 </button>
-                <button 
-                  className="edit-button"
-                  onClick={handleEdit}
-                >
-                  Edit Review
-                </button>
-                <button 
-                  className="delete-button"
-                  onClick={handleDelete}
-                >
-                  Delete Review
-                </button>
+                {!isEditing && (
+                  <button 
+                    className="edit-button"
+                    onClick={handleEdit}
+                  >
+                    Edit Review
+                  </button>
+                )}
+                {!isEditing && (
+                  <button 
+                    className="delete-button"
+                    onClick={handleDelete}
+                  >
+                    Delete Review
+                  </button>
+                )}
               </div>
             </div>
           </div>
