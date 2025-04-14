@@ -1,9 +1,7 @@
 import React, { useState, useEffect } from "react";
 import { useParams, useNavigate, useLocation } from "react-router-dom";
 import ProfileDetails from "../components/Profile/ProfileDetails";
-import ProfilePosts from "../components/Profile/ProfilePosts";
 import { buildPath } from "../utils";
-import { Post } from "../types/Post";
 import 'bootstrap/dist/css/bootstrap.min.css';
 
 const ProfilePage: React.FC = () => {
@@ -12,7 +10,7 @@ const ProfilePage: React.FC = () => {
   const location = useLocation();
   const [userInfo, setUserInfo] = useState<any>(null);
   const [error, setError] = useState<string>("");
-  const [posts, setPosts] = useState<Post[]>([]);
+  const [posts, setPosts] = useState<any[]>([]);
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
@@ -73,9 +71,32 @@ const ProfilePage: React.FC = () => {
         userInfo={userInfo}
         error={error}
         navigateToEdit={navigateToEdit}
-        posts={posts}
       />
-      <ProfilePosts posts={posts} />
+      
+      <div className="mt-4">
+        <h3 className="mb-3">User Posts</h3>
+        {posts.length === 0 ? (
+          <div className="alert alert-info">No posts yet.</div>
+        ) : (
+          <div className="row">
+            {posts.map((post) => (
+              <div key={post.MovieId} className="col-md-6 col-lg-4 mb-4">
+                <div className="card h-100">
+                  <div className="card-body">
+                    <h5 className="card-title">Movie ID: {post.MovieId}</h5>
+                    <p className="card-text">{post.Comment}</p>
+                    <div className="d-flex justify-content-between align-items-center">
+                      <div className="rating">
+                        Rating: {post.Rating}/10
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            ))}
+          </div>
+        )}
+      </div>
     </div>
   );
 };
