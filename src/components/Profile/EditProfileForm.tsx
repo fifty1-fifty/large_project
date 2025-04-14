@@ -111,7 +111,7 @@ const EditProfileForm: React.FC<EditProfileFormProps> = ({ userId }) => {
       localStorage.setItem("user_data", JSON.stringify({ 
         ...profileData, 
         id: userId,
-        token: token // Preserve the token
+        token: token 
       }));
 
       setTimeout(() => window.location.href = "/profile", 1000); // Redirect after success
