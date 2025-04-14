@@ -2,7 +2,6 @@ import React, { useState, useEffect } from "react";
 import { useParams, useNavigate, useLocation } from "react-router-dom";
 import ProfileDetails from "../components/Profile/ProfileDetails";
 import ReviewCard from "../components/Profile/ReviewCard";
-import CollectionList from "../components/Profile/CollectionList";
 import { User, Post } from "../types";
 import "./ProfilePage.css";
 
@@ -103,7 +102,6 @@ const ProfilePage: React.FC = () => {
           />
         </div>
         <div className="reviews-section">
-          <h2 className="section-title">My Reviews</h2>
           {validPosts.length === 0 ? (
             <div className="no-reviews">No reviews yet.</div>
           ) : (
@@ -113,10 +111,6 @@ const ProfilePage: React.FC = () => {
               ))}
             </div>
           )}
-        </div>
-        <div className="collection-section">
-          <h2 className="section-title">My Collection</h2>
-          <CollectionList userId={userInfo.id} />
         </div>
       </div>
     </div>

@@ -6,8 +6,6 @@ export interface User {
   bio?: string;
   followers?: string[];
   following?: string[];
-  Collection?: string[];
-  id: string;
 }
 
 export interface Post {
