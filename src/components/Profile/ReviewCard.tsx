@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import { useNavigate } from "react-router-dom";
+
 import { Post } from "../../types";
 import { buildPath } from "../../utils";
 import PostDetail from "./PostDetail";
