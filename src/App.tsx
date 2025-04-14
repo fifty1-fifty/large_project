@@ -10,7 +10,7 @@ import ExplorePage from './pages/ExplorePage';
 import ProfilePage from './pages/ProfilePage';
 import Layout from "./components/Layout"; 
 import EditProfilePage from "./pages/EditProfilePage";
-import EditPost from "./components/Profile/EditPost";
+// import EditPost from "./components/Profile/EditPost";
 /*  test  */
 import { Buffer } from 'buffer';
 import FriendProfilePage from './pages/FriendProfilePage';
@@ -30,7 +30,7 @@ function App() {
         <Route path="/home" element={<Layout><HomePage /></Layout>} />
         <Route path="/profile" element={<Layout><ProfilePage /></Layout>} />
         <Route path="/edit" element={<Layout><EditProfilePage /></Layout>} />
-        <Route path="/edit-post/:postId" element={<Layout><EditPost /></Layout>} />
+        {/* <Route path="/edit-post/:postId" element={<Layout><EditPost post={undefined} /></Layout>} /> */}
         <Route path="/userProfile" element={<Layout><FriendProfilePage /></Layout>}/>
 
         {/* don't require layout */}
