@@ -35,10 +35,6 @@ const ProfilePage: React.FC = () => {
     }
   };
 
-  const handleEditPost = (postId: string) => {
-    navigate(`/edit-post/${postId}`);
-  };
-
   const handlePostClick = (post: Post) => {
     setSelectedPost(post);
   };
