@@ -43,6 +43,12 @@ const ProfilePage: React.FC = () => {
     setSelectedPost(null);
   };
 
+  const handleEditPost = (updatedPost: Post) => {
+    setPosts(posts.map(post => 
+      post._id === updatedPost._id ? updatedPost : post
+    ));
+  };
+
   useEffect(() => {
     const fetchUserData = async () => {
       let targetUserId = userId;
@@ -131,19 +137,17 @@ const ProfilePage: React.FC = () => {
           />
         </div>
         <div className="reviews-section">
-          {validPosts.length === 0 ? (
-            <div className="no-reviews">No reviews yet.</div>
-          ) : (
-            <div className="reviews-grid">
-              {validPosts.map((post) => (
-                <ReviewCard 
-                  key={post._id} 
-                  post={post} 
-                  onPostClick={handlePostClick}
-                />
-              ))}
-            </div>
-          )}
+          <h2>Your Reviews</h2>
+          <div className="reviews-grid">
+            {posts.map((post) => (
+              <ReviewCard
+                key={post._id}
+                post={post}
+                onDelete={handleDeletePost}
+                onEdit={handleEditPost}
+              />
+            ))}
+          </div>
         </div>
       </div>
       {selectedPost && (
