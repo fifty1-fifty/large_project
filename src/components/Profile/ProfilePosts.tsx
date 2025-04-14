@@ -1,12 +1,5 @@
 import React from 'react';
-
-interface Post {
-  _id: string;
-  UserId: number;
-  MovieId: number;
-  Rating: number;
-  Comment: string;
-}
+import { Post } from '../../types/Post';
 
 interface ProfilePostsProps {
   posts: Post[];

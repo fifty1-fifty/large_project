@@ -3,15 +3,8 @@ import { useParams, useNavigate, useLocation } from "react-router-dom";
 import ProfileDetails from "../components/Profile/ProfileDetails";
 import ProfilePosts from "../components/Profile/ProfilePosts";
 import { buildPath } from "../utils";
+import { Post } from "../types/Post";
 import 'bootstrap/dist/css/bootstrap.min.css';
-
-interface Post {
-  _id: string;
-  UserId: number;
-  MovieId: number;
-  Rating: number;
-  Comment: string;
-}
 
 const ProfilePage: React.FC = () => {
   const { userId } = useParams<{ userId: string }>();
