@@ -2,7 +2,6 @@ import React, { useState, useEffect } from "react";
 import { useParams, useNavigate, useLocation } from "react-router-dom";
 import ProfileDetails from "../components/Profile/ProfileDetails";
 import ProfilePosts from "../components/Profile/ProfilePosts";
-import { buildPath } from "../utils";
 import { User, Post } from "../types";
 import 'bootstrap/dist/css/bootstrap.min.css';
 
@@ -35,7 +34,7 @@ const ProfilePage: React.FC = () => {
 
       try {
         // Fetch user profile
-        const profileResponse = await fetch(buildPath(`/api/profile/${targetUserId}`));
+        const profileResponse = await fetch(`http://group22cop4331c.xyz/api/profile/${targetUserId}`);
         if (!profileResponse.ok) {
           throw new Error(`Failed to fetch profile: ${profileResponse.status}`);
         }
@@ -49,7 +48,7 @@ const ProfilePage: React.FC = () => {
         setUserInfo(profileData);
 
         // Fetch user posts
-        const postsResponse = await fetch(buildPath(`/api/posts/user/${targetUserId}`));
+        const postsResponse = await fetch(`http://group22cop4331c.xyz/api/posts/user/${targetUserId}`);
         if (!postsResponse.ok) {
           throw new Error(`Failed to fetch posts: ${postsResponse.status}`);
         }
