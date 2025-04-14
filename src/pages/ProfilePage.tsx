@@ -39,6 +39,12 @@ const ProfilePage: React.FC = () => {
         if (!profileResponse.ok) {
           throw new Error(`Failed to fetch profile: ${profileResponse.status}`);
         }
+        
+        const contentType = profileResponse.headers.get("content-type");
+        if (!contentType || !contentType.includes("application/json")) {
+          throw new Error("Server did not return JSON");
+        }
+
         const profileData = await profileResponse.json();
         setUserInfo(profileData);
 
@@ -47,9 +53,16 @@ const ProfilePage: React.FC = () => {
         if (!postsResponse.ok) {
           throw new Error(`Failed to fetch posts: ${postsResponse.status}`);
         }
+
+        const postsContentType = postsResponse.headers.get("content-type");
+        if (!postsContentType || !postsContentType.includes("application/json")) {
+          throw new Error("Server did not return JSON for posts");
+        }
+
         const postsData = await postsResponse.json();
         setPosts(postsData);
       } catch (err) {
+        console.error("Error fetching data:", err);
         setError(err instanceof Error ? err.message : "Failed to load profile data");
       } finally {
         setLoading(false);
@@ -67,8 +80,12 @@ const ProfilePage: React.FC = () => {
     return <div className="text-center mt-5">Loading...</div>;
   }
 
+  if (error) {
+    return <div className="alert alert-danger mt-5">{error}</div>;
+  }
+
   if (!userInfo) {
-    return <div>User not found</div>;
+    return <div className="alert alert-warning mt-5">User not found</div>;
   }
 
   return (

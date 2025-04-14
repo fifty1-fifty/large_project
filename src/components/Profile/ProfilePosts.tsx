@@ -1,12 +1,23 @@
-import React from "react";
+import React, { useEffect } from "react";
 import { Post } from "../../types";
 import "./ProfilePosts.css";
+import 'bootstrap/dist/js/bootstrap.bundle.min.js';
 
 interface ProfilePostsProps {
   posts: Post[];
 }
 
 const ProfilePosts: React.FC<ProfilePostsProps> = ({ posts }) => {
+  useEffect(() => {
+    const carouselElement = document.getElementById('postsCarousel');
+    if (carouselElement) {
+      new (window as any).bootstrap.Carousel(carouselElement, {
+        interval: 5000,
+        wrap: true
+      });
+    }
+  }, [posts]);
+
   return (
     <div className="profile-posts">
       <h3>Recent Posts</h3>
