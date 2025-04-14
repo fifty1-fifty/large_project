@@ -11,11 +11,10 @@ interface MovieDetails {
 
 interface ReviewCardProps {
     post: Post;
-    onDelete: (postId: string) => void;
-    onEdit: (postId: string) => void;
+    onPostClick: (post: Post) => void;
 }
 
-const ReviewCard: React.FC<ReviewCardProps> = ({ post, onDelete, onEdit }) => {
+const ReviewCard: React.FC<ReviewCardProps> = ({ post, onPostClick }) => {
     const [movieDetails, setMovieDetails] = useState<MovieDetails | null>(null);
     const [isLoading, setIsLoading] = useState(true);
     const [error, setError] = useState<string | null>(null);
@@ -76,16 +75,6 @@ const ReviewCard: React.FC<ReviewCardProps> = ({ post, onDelete, onEdit }) => {
         fetchMovieDetails();
     }, [post.MovieId]);
 
-    const handleEdit = () => {
-        onEdit(post._id);
-    };
-
-    const handleDelete = () => {
-        if (window.confirm('Are you sure you want to delete this review?')) {
-            onDelete(post._id);
-        }
-    };
-
     if (isLoading) {
         return <div className="review-card loading">Loading...</div>;
     }
@@ -97,6 +86,7 @@ const ReviewCard: React.FC<ReviewCardProps> = ({ post, onDelete, onEdit }) => {
     return (
         <div 
             className="review-card"
+            onClick={() => onPostClick(post)}
             style={{
                 backgroundImage: movieDetails?.backdrop_path 
                     ? `url(https://image.tmdb.org/t/p/original${movieDetails.backdrop_path})`
@@ -116,10 +106,6 @@ const ReviewCard: React.FC<ReviewCardProps> = ({ post, onDelete, onEdit }) => {
                     <h3>{movieDetails?.title}</h3>
                     <div className="rating">Rating: {post.Rating}/10</div>
                     <p className="comment">{post.Comment}</p>
-                    <div className="review-actions">
-                        <button onClick={handleEdit} className="edit-button">Edit</button>
-                        <button onClick={handleDelete} className="delete-button">Delete</button>
-                    </div>
                 </div>
             </div>
         </div>

@@ -7,6 +7,7 @@ import "./PostDetail.css";
 interface PostDetailProps {
   post: Post;
   onClose: () => void;
+  onDelete: (postId: string) => void;
 }
 
 interface MovieDetails {
@@ -15,7 +16,7 @@ interface MovieDetails {
   overview: string;
 }
 
-const PostDetail: React.FC<PostDetailProps> = ({ post, onClose }) => {
+const PostDetail: React.FC<PostDetailProps> = ({ post, onClose, onDelete }) => {
   const navigate = useNavigate();
   const [movie, setMovie] = useState<MovieDetails | null>(null);
   const [loading, setLoading] = useState(true);
@@ -81,6 +82,17 @@ const PostDetail: React.FC<PostDetailProps> = ({ post, onClose }) => {
     navigate(`/movie?movieId=${post.MovieId}`);
   };
 
+  const handleEdit = () => {
+    navigate(`/edit-post/${post._id}`);
+  };
+
+  const handleDelete = () => {
+    if (window.confirm('Are you sure you want to delete this review?')) {
+      onDelete(post._id);
+      onClose();
+    }
+  };
+
   return (
     <div className="post-detail-overlay" onClick={onClose}>
       <div className="post-detail-card" onClick={e => e.stopPropagation()}>
@@ -113,12 +125,26 @@ const PostDetail: React.FC<PostDetailProps> = ({ post, onClose }) => {
                   {post.Rating ? `Rating: ${post.Rating}/5` : "No rating"}
                 </div>
               </div>
-              <button 
-                className="view-movie-button"
-                onClick={handleViewMovie}
-              >
-                View Movie Page
-              </button>
+              <div className="action-buttons">
+                <button 
+                  className="view-movie-button"
+                  onClick={handleViewMovie}
+                >
+                  View Movie Page
+                </button>
+                <button 
+                  className="edit-button"
+                  onClick={handleEdit}
+                >
+                  Edit Review
+                </button>
+                <button 
+                  className="delete-button"
+                  onClick={handleDelete}
+                >
+                  Delete Review
+                </button>
+              </div>
             </div>
           </div>
         )}
