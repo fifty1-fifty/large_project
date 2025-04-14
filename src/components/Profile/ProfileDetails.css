@@ -150,26 +150,30 @@
 .profile-header {
   text-align: center;
   margin-bottom: 1rem;
+  width: 100%;
 }
 
 .profile-name {
   font-size: 2rem;
   font-weight: bold;
-  color: #333;
+  color: white;
   margin-bottom: 0.5rem;
 }
 
 .profile-bio {
   font-size: 1.1rem;
-  color: #666;
+  color: white;
   max-width: 600px;
   line-height: 1.5;
+  font-weight: 500;
 }
 
 .profile-stats {
   display: flex;
+  justify-content: center;
   gap: 3rem;
   margin: 1rem 0;
+  width: 100%;
 }
 
 .stat-item {
@@ -182,23 +186,25 @@
 .stat-value {
   font-size: 1.5rem;
   font-weight: bold;
-  color: #333;
+  color: white;
 }
 
 .stat-label {
   font-size: 1rem;
-  color: #666;
+  color: white;
+  font-weight: 500;
 }
 
 .edit-profile-button {
   background-color: #c44747;
   color: white;
   border: none;
-  padding: 0.75rem 1.5rem;
+  padding: 0.5rem 1rem;
   border-radius: 6px;
-  font-size: 1rem;
+  font-size: 0.9rem;
   cursor: pointer;
   transition: background-color 0.2s;
+  margin-top: 1rem;
 }
 
 .edit-profile-button:hover {
