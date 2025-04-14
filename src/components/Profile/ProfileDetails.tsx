@@ -20,10 +20,10 @@ const ProfileDetails: React.FC<ProfileDetailsProps> = ({ userInfo, error, naviga
               {userInfo.firstName} {userInfo.lastName}
             </h3>
             <p>
-              <strong>Email:</strong> {userInfo.email}
+              {userInfo.email}
             </p>
             <p>
-              <strong>Bio:</strong> {userInfo.bio}
+              {userInfo.bio}
             </p>
           </div>
 
