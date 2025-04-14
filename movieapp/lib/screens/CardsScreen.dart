@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 
 class CardsScreen extends StatefulWidget {
+  const CardsScreen({super.key});
+
   @override
   _CardsScreenState createState() => _CardsScreenState();
 }
@@ -18,6 +20,8 @@ class _CardsScreenState extends State<CardsScreen> {
 }
 
 class MainPage extends StatefulWidget {
+  const MainPage({super.key});
+
   @override
   _MainPageState createState() => _MainPageState();
 }
@@ -31,7 +35,7 @@ class _MainPageState extends State<MainPage> {
   @override
   Widget build(BuildContext context) {
     return Center(
-      child: Container(
+      child: SizedBox(
         width: 400,
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
