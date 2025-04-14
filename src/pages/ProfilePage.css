@@ -121,4 +121,29 @@
   .reviews-grid {
     grid-template-columns: repeat(auto-fill, minmax(240px, 1fr));
   }
+}
+
+.section-title {
+  font-size: 2rem;
+  color: white;
+  text-align: center;
+  margin-bottom: 2rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+}
+
+.collection-section {
+  width: 100%;
+  max-width: 1200px;
+  margin-bottom: 3rem;
+}
+
+.no-collection {
+  text-align: center;
+  padding: 2rem;
+  background-color: rgba(255, 255, 255, 0.1);
+  border-radius: 8px;
+  color: white;
+  font-style: italic;
 } 
