@@ -43,3 +43,9 @@ app.*.map.json
 /android/app/debug
 /android/app/profile
 /android/app/release
+
+# Ignore generated CocoaPods and iOS/macOS build config files
+**/Podfile
+**/Podfile.lock
+**/*.xcconfig
+
