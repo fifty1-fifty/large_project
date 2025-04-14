@@ -80,6 +80,7 @@ const ProfilePage: React.FC = () => {
         userInfo={userInfo}
         error={error}
         navigateToEdit={navigateToEdit}
+        posts={posts}
       />
       <ProfilePosts posts={posts} />
     </div>
