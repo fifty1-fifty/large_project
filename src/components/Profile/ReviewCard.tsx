@@ -16,7 +16,6 @@ interface MovieDetails {
 }
 
 const ReviewCard: React.FC<ReviewCardProps> = ({ post }) => {
-  const navigate = useNavigate();
   const [movie, setMovie] = useState<MovieDetails | null>(null);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
