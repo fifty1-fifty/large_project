@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 import '../services/api_service.dart';
+import 'package:movieapp/routes/routes.dart';
+
 
 class RegisterScreen extends StatefulWidget {
   const RegisterScreen({super.key});
@@ -20,54 +22,54 @@ class _RegisterScreenState extends State<RegisterScreen> {
   String message = 'Please enter your details';
 
   Future<void> _handleRegister() async {
-  setState(() {
-    _errorMessage = null;
-    message = 'Please enter your details';
-  });
-
-  // Basic validation
-  if (_firstNameController.text.isEmpty ||
-      _lastNameController.text.isEmpty ||
-      _emailController.text.isEmpty ||
-      _usernameController.text.isEmpty ||
-      _passwordController.text.isEmpty ||
-      _confirmPasswordController.text.isEmpty) {
     setState(() {
-      _errorMessage = 'All fields are required.';
-    });
-    return;
-  }
-
-  if (_passwordController.text != _confirmPasswordController.text) {
-    setState(() {
-      _errorMessage = 'Passwords do not match.';
-    });
-    return;
-  }
-
-  setState(() => _isLoading = true);
-
-  try {
-    await ApiService.register(
-      _emailController.text,
-      _passwordController.text,
-      _firstNameController.text,
-      _lastNameController.text,
-      _usernameController.text,
-    );
-    setState(() {
-      message = 'Registration successful! Please check your email to verify.';
       _errorMessage = null;
+      message = 'Please enter your details';
     });
-  } catch (e) {
-    setState(() {
-      _errorMessage = 'Registration failed: ${e.toString().replaceAll('Exception: ', '')}';
-    });
-  } finally {
-    setState(() => _isLoading = false);
-  }
-}
 
+    // Basic validation
+    if (_firstNameController.text.isEmpty ||
+        _lastNameController.text.isEmpty ||
+        _emailController.text.isEmpty ||
+        _usernameController.text.isEmpty ||
+        _passwordController.text.isEmpty ||
+        _confirmPasswordController.text.isEmpty) {
+      setState(() {
+        _errorMessage = 'All fields are required.';
+      });
+      return;
+    }
+
+    if (_passwordController.text != _confirmPasswordController.text) {
+      setState(() {
+        _errorMessage = 'Passwords do not match.';
+      });
+      return;
+    }
+
+    setState(() => _isLoading = true);
+
+    try {
+      await ApiService.register(
+        email: _emailController.text,
+        password: _passwordController.text,
+        firstName: _firstNameController.text,
+        lastName: _lastNameController.text,
+        username: _usernameController.text,
+      );
+      setState(() {
+        message = 'Registration successful! Please check your email to verify.';
+        _errorMessage = null;
+      });
+    } catch (e) {
+      setState(() {
+        _errorMessage =
+            'Registration failed: ${e.toString().replaceAll('Exception: ', '')}';
+      });
+    } finally {
+      setState(() => _isLoading = false);
+    }
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -118,8 +120,9 @@ class _RegisterScreenState extends State<RegisterScreen> {
                     Text(
                       _errorMessage ?? message,
                       style: TextStyle(
-                        fontSize: 14, 
-                        color: _errorMessage != null ? Colors.red : Colors.white,
+                        fontSize: 14,
+                        color:
+                            _errorMessage != null ? Colors.red : Colors.white,
                       ),
                     ),
                     const SizedBox(height: 16),
@@ -149,7 +152,20 @@ class _RegisterScreenState extends State<RegisterScreen> {
                       ),
                     ),
                     const SizedBox(height: 16),
-
+                    
+                    // Username Field
+                    TextField(
+                      controller: _usernameController,
+                      decoration: InputDecoration(
+                        filled: true,
+                        fillColor: Colors.white,
+                        border: const OutlineInputBorder(),
+                        labelText: 'Username',
+                        hintText: 'Choose a username',
+                      ),
+                    ),
+                    const SizedBox(height: 16),
+                    
                     // Email Field
                     TextField(
                       controller: _emailController,
@@ -201,28 +217,33 @@ class _RegisterScreenState extends State<RegisterScreen> {
                         minimumSize: const Size(double.infinity, 40),
                       ),
                       onPressed: _isLoading ? null : _handleRegister,
-                      child: _isLoading
-                          ? SizedBox(
-                              width: 20,
-                              height: 20,
-                              child: CircularProgressIndicator(
-                                strokeWidth: 2,
-                                color: Colors.black,
+                      child:
+                          _isLoading
+                              ? SizedBox(
+                                width: 20,
+                                height: 20,
+                                child: CircularProgressIndicator(
+                                  strokeWidth: 2,
+                                  color: Colors.black,
+                                ),
+                              )
+                              : const Text(
+                                'Register',
+                                style: TextStyle(fontSize: 14),
                               ),
-                            )
-                          : const Text('Register', style: TextStyle(fontSize: 14)),
                     ),
 
                     const SizedBox(height: 16),
 
                     // Login Link
                     TextButton(
-                      onPressed: _isLoading
-                          ? null
-                          : () {
-                              Navigator.pushReplacementNamed(context, '/login');
-                            },
-                      child:  const Text(
+                      onPressed:
+                          _isLoading
+                              ? null
+                              : () {
+                                Navigator.pushNamed(context, Routes.LOGINSCREEN);
+                              },
+                      child: const Text(
                         'Already have an account? Log in',
                         style: TextStyle(fontSize: 16, color: Colors.white),
                       ),

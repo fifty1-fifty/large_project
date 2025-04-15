@@ -15,22 +15,20 @@ class Routes {
     switch (settings.name) {
       case '/':
       case LOGINSCREEN:
-        return MaterialPageRoute(builder: (_) => const LoginScreen());
+        return MaterialPageRoute(builder: (_) => const LoginScreen(), settings: settings);
 
       case REGISTERSCREEN:
-        return MaterialPageRoute(builder: (_) => const RegisterScreen());
+        return MaterialPageRoute(builder: (_) => const RegisterScreen(), settings: settings);
 
       case EXPLORESCREEN:
         final token = settings.arguments as String;
         return MaterialPageRoute(
-          builder: (_) => ExploreScreen(token: token),
-        );
+          builder: (_) => ExploreScreen(token: token), settings: settings);
 
       case movieDetail:
         final movie = settings.arguments as Movie;
         return MaterialPageRoute(
-          builder: (_) => MovieDetailScreen(movie: movie),
-        );
+          builder: (_) => MovieDetailScreen(movie: movie), settings: settings);
 
       default:
         return MaterialPageRoute(

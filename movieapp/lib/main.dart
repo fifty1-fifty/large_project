@@ -2,7 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:movieapp/routes/routes.dart';
 
 void main() {
-  runApp(const MyApp());}
+  runApp(const MyApp());
+}
 
 class MyApp extends StatelessWidget {
   const MyApp({super.key});
@@ -23,7 +24,7 @@ class MyApp extends StatelessWidget {
           border: OutlineInputBorder(),
         ),
       ),
-      initialRoute: '/login',
+      initialRoute: Routes.LOGINSCREEN,
       onGenerateRoute: Routes.onGenerateRoute,
     );
   }

@@ -1,5 +1,4 @@
 import 'dart:convert';
-import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
 import '../models/movie.dart';
 import '../services/secure_storage.dart';
@@ -35,26 +34,35 @@ class ApiService {
   }
 
   //Register
-  static Future<Map<String, dynamic>> register(
-    String email,
-    String password,
-    String firstName,
-    String lastName,
-    String username,
-  ) async {
-    final response = await http.post(
-      Uri.parse('$_baseUrl/register'),
-      headers: {'Content-Type': 'application/json'},
-      body: jsonEncode({
-        'regemail': email,
-        'regpassword': password,
-        'first': firstName,
-        'last': lastName,
-        'reglogin': username,
-      }),
-    );
-    return _handleResponse(response);
+  static Future<Map<String, dynamic>> register({
+  required String email,
+  required String password,
+  required String firstName,
+  required String lastName,
+  required String username,
+}) async {
+  final response = await http.post(
+    Uri.parse('$_baseUrl/register'),
+    headers: {'Content-Type': 'application/json'},
+    body: jsonEncode({
+      'regemail': email,
+      'regpassword': password,
+      'first': firstName,
+      'last': lastName,
+      'reglogin': username,
+    }),
+  );
+
+  final data = _handleResponse(response);
+
+  // The response should include: { error: "", login: ..., password: ... }
+  if (data is Map<String, dynamic>) {
+    return data;
+  } else {
+    throw Exception('Unexpected response format during registration.');
   }
+}
+
 
   //Get trending movies
   static Future<List<Movie>> trendingMovie({
