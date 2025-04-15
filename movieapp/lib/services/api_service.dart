@@ -17,11 +17,7 @@ class ApiService {
       final response = await http.post(
         Uri.parse('$_baseUrl/login'),
         headers: {'Content-Type': 'application/json'},
-        body: jsonEncode({
-          'email': email,
-          'password': password,
-          'login': " ", 
-        }),
+        body: jsonEncode({'email': email, 'password': password, 'login': " "}),
       );
 
       final responseData = jsonDecode(response.body);
@@ -68,13 +64,9 @@ class ApiService {
     final rawToken = token.replaceFirst('Bearer ', '');
     final response = await http.post(
       Uri.parse('$_baseUrl/trendingMovie'),
-      headers: {
-        'Content-Type': 'application/json',
-        'Authorization': rawToken,
-      },
+      headers: {'Content-Type': 'application/json', 'Authorization': rawToken},
       body: jsonEncode({'page': page}),
     );
-
 
     if (response.statusCode == 401) {
       throw Exception('Invalid token - please login again');
@@ -86,25 +78,23 @@ class ApiService {
         .toList();
   }
 
-  //search movies
+  // search movies
   static Future<List<Movie>> searchMovie({
-  required String query,
-  required String token,
-}) async {
-  final rawToken = token.replaceFirst('Bearer ', '');
-  final response = await http.get(
-    Uri.parse('$_baseUrl/searchMovie?query=$query'),
-    headers: {'Authorization': rawToken},
-  );
+    required String query,
+    required String token,
+    int page = 1,
+  }) async {
+    final rawToken = token.replaceFirst('Bearer ', '');
+    final response = await http.post(
+      Uri.parse('$_baseUrl/searchMovie'),
+      headers: {'Authorization': rawToken, 'Content-Type': 'application/json'},
+      body: jsonEncode({'searchQuery': query, 'page': page}),
+    );
 
-  if (response.statusCode == 200) {
-    final data = jsonDecode(response.body);
-    return (data as List).map((item) => Movie.fromJson(item)).toList();
-  } else {
-    throw Exception('Failed to search movies');
+    final data = _handleResponse(response);
+    final movieList = data['movieData']['results'];
+    return (movieList as List).map((item) => Movie.fromJson(item)).toList();
   }
-}
-
 
   //handle tokens for each route
   static Future<Map<String, dynamic>> getProtectedData() async {
