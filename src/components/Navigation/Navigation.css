@@ -1,0 +1,14 @@
+/* css for top navigation bar (any style not seen customized here is defaulted from bootstrap library) */
+.custom-navbar 
+{
+  background-color: #191a24;
+  box-shadow: 2px 2px 5px -5px gray;
+}
+
+
+.navbar-brand
+{
+  font-family: "Syncopate", sans-serif;
+  font-weight: 400;
+  color: #edf2f4;
+}
