@@ -38,8 +38,8 @@ class Routes {
           },
         ),
     movieDetail: (context) {
-      final movie = ModalRoute.of(context)!.settings.arguments as Movie;
-      return MovieDetailScreen(movie: movie);
+      final MOVIE = ModalRoute.of(context)!.settings.arguments as Movie;
+      return MovieDetailScreen(movie : MOVIE);
     },
   };
 }
