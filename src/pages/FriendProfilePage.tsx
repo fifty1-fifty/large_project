@@ -22,7 +22,7 @@ const FriendProfilePage: React.FC = () => {
 
         async function fetchProfile() {
             try {
-                const response = await fetch(`/api/friend_profile/${friendId}`, {
+                const response = await fetch(`/api/profile/${friendId}`, {
                     headers: {
                         Authorization: token,
                     },
