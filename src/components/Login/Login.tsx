@@ -67,6 +67,7 @@ function Login()
             {method:'POST',body:js,headers:{'Content-Type': 'application/json'}})
             var res = JSON.parse(await response.text());
 
+            console.log(res);
             console.log(res.id);
 	        console.log(res.token);
 		
@@ -74,6 +75,13 @@ function Login()
             {
                 setPasswordError('No account found with that information');
                 setPasswordResetButton("Forgot my Password")
+                return;
+            }
+            else if (res.verified == false)
+            {
+                setEmailError('Your account has not been verified');
+                setPasswordResetButton('');
+                setPasswordError('');
                 return;
             }
             else
@@ -138,7 +146,7 @@ function Login()
 
     function goToPasswordResetPage()
     {	
-	    window.location.href = '/passwordreset';
+	    window.location.href = '/passwordReset';
     }
 
 	
