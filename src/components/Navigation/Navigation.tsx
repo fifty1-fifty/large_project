@@ -36,7 +36,7 @@ const Navbar: React.FC = () => {
             {/* Profile link updated dynamically */}
             <li className="nav-item">
               {currentUser ? (
-                <Link className="nav-link" id="linkButton" to={`/profile/${currentUser._id}`}><i id="con" className="material-icons">people_alt</i>Profile</Link>
+                <Link className="nav-link" id="linkButton" to={`/profile/${currentUser.id}`}><i id="con" className="material-icons">people_alt</i>Profile</Link>
               ) : (
                 <Link className="nav-link" id="linkButton" to="/login"><i id="con" className="material-icons">people_alt</i>Login</Link>
               )}
