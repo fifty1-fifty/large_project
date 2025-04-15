@@ -136,7 +136,7 @@ const PostDetail: React.FC<PostDetailProps> = ({ post, onClose, onDelete }) => {
                       <input
                         type="number"
                         min="1"
-                        max="10"
+                        max="5"
                         value={editedRating}
                         onChange={(e) => setEditedRating(parseInt(e.target.value))}
                       />
@@ -159,7 +159,7 @@ const PostDetail: React.FC<PostDetailProps> = ({ post, onClose, onDelete }) => {
                       <p className="review-comment">{post.Comment}</p>
                     )}
                     <div className="review-rating">
-                      {post.Rating ? `Rating: ${post.Rating}/10` : "No rating"}
+                      {post.Rating ? `Rating: ${post.Rating}/5` : "No rating"}
                     </div>
                   </>
                 )}
