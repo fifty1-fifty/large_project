@@ -4,42 +4,40 @@ import 'package:movieapp/screens/RegisterScreen.dart';
 import 'package:movieapp/screens/HomeScreen.dart';
 import 'package:movieapp/screens/MovieDetailScreen.dart';
 import 'package:movieapp/models/movie.dart';
-import 'package:movieapp/services/secure_storage.dart';
 
 class Routes {
-  //ADD SCREEN EXTENSIONS HERE:
   static const String LOGINSCREEN = '/login';
   static const String REGISTERSCREEN = '/register';
-  static const String home = '/home';
+  static const String HOMESCREEN = '/home';
   static const String movieDetail = '/movie-detail';
 
-   // routes of pages in the app
-   static Map<String, Widget Function(BuildContext)> getroutes() => {
-     '/': (context) => LoginScreen(),
-     LOGINSCREEN: (context) => LoginScreen(),
-     REGISTERSCREEN: (context) => RegisterScreen(),
+  static Route<dynamic>? onGenerateRoute(RouteSettings settings) {
+    switch (settings.name) {
+      case '/':
+      case LOGINSCREEN:
+        return MaterialPageRoute(builder: (_) => const LoginScreen());
 
-    home:
-        (context) => FutureBuilder(
-          future: SecureStorage.getToken(),
-          builder: (context, snapshot) {
-            if (snapshot.connectionState == ConnectionState.waiting) {
-              return const Scaffold(
-                body: Center(child: CircularProgressIndicator()),
-              );
-            }
+      case REGISTERSCREEN:
+        return MaterialPageRoute(builder: (_) => const RegisterScreen());
 
-            final token = snapshot.data;
-            if (token == null || token.isEmpty) {
-              return const LoginScreen(); // Redirect to login if no token
-            }
+      case HOMESCREEN:
+        final token = settings.arguments as String;
+        return MaterialPageRoute(
+          builder: (_) => HomeScreen(token: token),
+        );
 
-            return HomeScreen(token: token);
-          },
-        ),
-    movieDetail: (context) {
-      final MOVIE = ModalRoute.of(context)!.settings.arguments as Movie;
-      return MovieDetailScreen(movie : MOVIE);
-    },
-  };
+      case movieDetail:
+        final movie = settings.arguments as Movie;
+        return MaterialPageRoute(
+          builder: (_) => MovieDetailScreen(movie: movie),
+        );
+
+      default:
+        return MaterialPageRoute(
+          builder: (_) => const Scaffold(
+            body: Center(child: Text('No route defined')),
+          ),
+        );
+    }
+  }
 }

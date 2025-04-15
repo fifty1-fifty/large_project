@@ -152,36 +152,33 @@ class _HomeScreenState extends State<HomeScreen> {
               ),
             ),
           ),
-
-          Padding(
-            padding: const EdgeInsets.only(top: 20.0, left: 500, right: 500),
-            child: TextField(
-              controller: _searchController,
-              style: const TextStyle(color: Colors.white),
-              decoration: InputDecoration(
-                hintText: 'Search movies...',
-                hintStyle: TextStyle(color: Colors.grey[600]),
-                prefixIcon: const Icon(Icons.search, color: Colors.white),
-                filled: true,
-                fillColor: Colors.grey[900],
-                contentPadding: const EdgeInsets.symmetric(vertical: 10),
-                border: OutlineInputBorder(
-                  borderRadius: BorderRadius.circular(8),
-                  borderSide: BorderSide.none,
+          if (_errorMessage != null)
+            Padding(
+              padding: const EdgeInsets.only(top: 20.0, left: 500, right: 500),
+              child: TextField(
+                controller: _searchController,
+                onChanged: (value) {
+                  if (_debounce?.isActive ?? false) _debounce!.cancel();
+                  _debounce = Timer(const Duration(milliseconds: 500), () {
+                    _searchMovies(value);
+                  });
+                },
+                style: const TextStyle(color: Colors.white),
+                decoration: InputDecoration(
+                  hintText: 'Search movies...',
+                  hintStyle: TextStyle(color: Colors.grey[600]),
+                  // TODO: ICON ISSUE: Re-enable the prefix icon once the custom icon font is working
+                  // prefixIcon: const Icon(Icons.search, color: Colors.white),
+                  filled: true,
+                  fillColor: Colors.grey[900],
+                  contentPadding: const EdgeInsets.symmetric(vertical: 10),
+                  border: OutlineInputBorder(
+                    borderRadius: BorderRadius.circular(8),
+                    borderSide: BorderSide.none,
+                  ),
                 ),
               ),
             ),
-          ),
-
-          if (_errorMessage != null)
-            Padding(
-              padding: const EdgeInsets.all(8.0),
-              child: Text(
-                _errorMessage!,
-                style: const TextStyle(color: Colors.red),
-              ),
-            ),
-
           Expanded(
             child:
                 _isLoading
