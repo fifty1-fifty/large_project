@@ -218,6 +218,7 @@ const Info = () => {
         if(ratingValue === null)
         {
             ratingValue = 5;
+            console.log(ratingValue);
         }
 
         if(movieSpecificComment === "")
