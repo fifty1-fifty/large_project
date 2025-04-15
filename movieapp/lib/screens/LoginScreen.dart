@@ -163,7 +163,7 @@ class _LoginScreenState extends State<LoginScreen> {
                           _isLoading
                               ? null
                               : () {
-                                Navigator.pushNamed(context, '/register');
+                                Navigator.pushNamed(context, Routes.REGISTERSCREEN);
                               },
                       child: const Text(
                         'Create an account',

@@ -5,6 +5,8 @@ import '../models/movie.dart';
 import '../services/api_service.dart';
 import '../services/secure_storage.dart';
 import '../widgets/movie_card.dart';
+import 'package:movieapp/routes/routes.dart';
+
 
 class ExploreScreen extends StatefulWidget {
   const ExploreScreen({super.key, required this.token});
@@ -107,7 +109,7 @@ class _ExploreScreenState extends State<ExploreScreen> {
   Future<void> _forceLogout() async {
     await SecureStorage.deleteToken();
     if (mounted) {
-      Navigator.pushNamedAndRemoveUntil(context, '/login', (route) => false);
+      Navigator.pushNamedAndRemoveUntil(context, Routes.LOGINSCREEN, (route) => false);
     }
   }
 
@@ -217,6 +219,6 @@ class _ExploreScreenState extends State<ExploreScreen> {
   }
 
   void _navigateToDetail(Movie movie) {
-    Navigator.pushNamed(context, '/movie-detail', arguments: movie);
+    Navigator.pushNamed(context, Routes.movieDetail, arguments: movie);
   }
 }
