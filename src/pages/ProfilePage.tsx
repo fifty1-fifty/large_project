@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import { useParams, useNavigate, useLocation } from "react-router-dom";
+import { useParams, useNavigate } from "react-router-dom";
 import ProfileDetails from "../components/Profile/ProfileDetails";
 import ReviewCard from "../components/Profile/ReviewCard";
 import PostDetail from "../components/Profile/PostDetail";
@@ -9,15 +9,13 @@ import "./ProfilePage.css";
 const ProfilePage: React.FC = () => {
   const { userId } = useParams<{ userId: string }>();
   const navigate = useNavigate();
-  const location = useLocation();
-
   const [user, setUser] = useState<User | null>(null);
   const [currentUser, setCurrentUser] = useState<User | null>(null);
   const [posts, setPosts] = useState<Post[]>([]);
   const [selectedPost, setSelectedPost] = useState<Post | null>(null);
   const [isFollowing, setIsFollowing] = useState<boolean>(false);
   const [isLoading, setIsLoading] = useState(true);
-  const [error, setError] = useState<string | null>(null);
+  const [error, setError] = useState<string>("");
   const [isOwnProfile, setIsOwnProfile] = useState(false);
 
   // Load current user from localStorage
@@ -35,10 +33,10 @@ const ProfilePage: React.FC = () => {
     const fetchProfile = async () => {
       try {
         setIsLoading(true);
-        setError(null);
+        setError("");
         
         // If no userId is provided, use the current user's ID
-        const targetUserId = userId || currentUser?.id;
+        const targetUserId = userId || currentUser?._id;
         
         if (!targetUserId) {
           setError('No user ID provided');
@@ -47,7 +45,7 @@ const ProfilePage: React.FC = () => {
         }
 
         // Check if this is the current user's profile
-        setIsOwnProfile(targetUserId === currentUser?.id);
+        setIsOwnProfile(targetUserId === currentUser?._id);
 
         const response = await fetch(`/api/profile/${targetUserId}`);
         if (!response.ok) {
