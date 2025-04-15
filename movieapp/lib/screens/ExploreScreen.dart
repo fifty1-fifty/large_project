@@ -195,7 +195,7 @@ class _ExploreScreenState extends State<ExploreScreen> {
                           ),
                           gridDelegate:
                               SliverGridDelegateWithMaxCrossAxisExtent(
-                                maxCrossAxisExtent: 200,
+                                maxCrossAxisExtent: 150,
                                 crossAxisSpacing: 20,
                                 mainAxisSpacing: 20,
                                 childAspectRatio: 131.0 / 196.50,
