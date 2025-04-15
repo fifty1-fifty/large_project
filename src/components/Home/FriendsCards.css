@@ -42,7 +42,7 @@
   font-size: 1.5rem;
   font-weight: 600;
   margin-bottom: 0.5rem;
-  color:black;
+  color:#1f2937 !important;
 }
 
 .poster-user {
@@ -92,14 +92,17 @@
   cursor: pointer;
 }
 
-/* 🌟 Add this section to make stars visible */
 .star-rating {
   display: flex;
   gap: 4px;
-  font-size: 1.25rem;
+  font-size: 1.5rem;
   margin: 0.5rem 0;
 }
 
-h3 {
-  color:black;
+.star-filled {
+  color: #facc15; /* yellow-400 */
+}
+
+.star-empty {
+  color: #d1d5db; /* gray-300 */
 }

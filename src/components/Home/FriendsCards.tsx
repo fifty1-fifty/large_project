@@ -15,7 +15,7 @@ const renderStars = (rating: number) => {
     return (
         <div className="star-rating">
             {Array.from({ length: 5 }, (_, i) => (
-                <span key={i} className={`text-xl ${i < rating ? 'text-yellow-400' : 'text-gray-300'}`}>
+                <span key={i} className={i < rating ? "star-filled" : "star-empty"}>
                     ★
                 </span>
             ))}
@@ -86,35 +86,6 @@ const FriendsCards = () => {
             try {
                 const res = await fetch(`/api/friends-posts/${userId}`);
                 const data = await res.json();
-
-                // const enrichedPosts: FriendPostCardProps[] = await Promise.all(
-                //     data.map(async (post: any) => {
-                //         try {
-                //             const infoRes = await fetch("/api/fullMovieInfo", {
-                //                 method: "POST",
-                //                 headers: {
-                //                     "Content-Type": "application/json",
-                //                     Authorization: `Bearer ${token}`,
-                //                 },
-                //                 body: JSON.stringify({ id: post.movieId }),
-                //             });
-
-                //             const infoData = await infoRes.json();
-                //             return {
-                //                 ...post,
-                //                 movieTitle: infoData.movieData.title,
-                //                 posterUrl: `https://image.tmdb.org/t/p/w500${infoData.movieData.poster_path}`,
-                //             };
-                //         } catch(err) {
-                //             console.error("Error fetching movie info:", err);
-                //             return {
-                //                 ...post,
-                //                 movieTitle: "Unknown Title",
-                //                 posterUrl: null,
-                //             };
-                //         }
-                //     })
-                // );
 
                 const enrichedPosts: FriendPostCardProps[] = await Promise.all(
                     data.map(async (post: any) => {
