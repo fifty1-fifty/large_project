@@ -26,7 +26,7 @@ const ProfilePage: React.FC = () => {
     }
   }, []);
 
-  const isOwnProfile = !userId || (currentUser && userId === currentUser.id);
+  const isOwnProfile = Boolean(!userId || (currentUser?.id === userId));
 
   const handleFollowToggle = async () => {
     if (!currentUser || !userInfo) return;
