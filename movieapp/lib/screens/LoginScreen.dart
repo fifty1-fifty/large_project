@@ -45,7 +45,8 @@ class _LoginScreenState extends State<LoginScreen> {
       );
     } catch (e) {
       setState(() {
-        _errorMessage = 'Login failed: ${e.toString().replaceAll('Exception: ', '')}';
+        _errorMessage =
+            'Login failed: ${e.toString().replaceAll('Exception: ', '')}';
       });
     } finally {
       setState(() => _isLoading = false);
@@ -73,9 +74,9 @@ class _LoginScreenState extends State<LoginScreen> {
                 child: Row(
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
-                    Image.asset('images/popcorn.png', height: 50),
+                    Image.asset('assets/images/popcorn.png', height: 50),
                     SizedBox(width: 10),
-                    Image.asset('images/clapperboard.png', height: 50),
+                    Image.asset('assets/images/clapperboard.png', height: 50),
                   ],
                 ),
               ),
@@ -104,8 +105,9 @@ class _LoginScreenState extends State<LoginScreen> {
                     Text(
                       _errorMessage ?? message,
                       style: TextStyle(
-                        fontSize: 14, 
-                        color: _errorMessage != null ? Colors.red : Colors.white,
+                        fontSize: 14,
+                        color:
+                            _errorMessage != null ? Colors.red : Colors.white,
                       ),
                     ),
                     SizedBox(height: 16),
@@ -145,27 +147,29 @@ class _LoginScreenState extends State<LoginScreen> {
                         minimumSize: Size(double.infinity, 40),
                       ),
                       onPressed: _isLoading ? null : _handleLogin,
-                      child: _isLoading
-                          ? SizedBox(
-                              width: 20,
-                              height: 20,
-                              child: CircularProgressIndicator(
-                                strokeWidth: 2,
-                                color: Colors.black,
-                              ),
-                            )
-                          : Text('Login', style: TextStyle(fontSize: 14)),
+                      child:
+                          _isLoading
+                              ? SizedBox(
+                                width: 20,
+                                height: 20,
+                                child: CircularProgressIndicator(
+                                  strokeWidth: 2,
+                                  color: Colors.black,
+                                ),
+                              )
+                              : Text('Login', style: TextStyle(fontSize: 14)),
                     ),
 
                     const SizedBox(height: 16),
 
                     // Registration Button
                     TextButton(
-                      onPressed: _isLoading
-                          ? null
-                          : () {
-                              Navigator.pushNamed(context, '/register');
-                            },
+                      onPressed:
+                          _isLoading
+                              ? null
+                              : () {
+                                Navigator.pushNamed(context, '/register');
+                              },
                       child: const Text(
                         'Create an account',
                         style: TextStyle(fontSize: 16, color: Colors.white),
