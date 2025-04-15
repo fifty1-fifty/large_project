@@ -5,11 +5,6 @@ import { buildPath } from '../../utils';
 import StarRating from "./StarRating";
 
 
-/*
-this is a message from Carter, anything on this page and related to this page just dont fuck with
-or I will find the thickest rope and hang myself in the classroom with only you to blame. DONT TOUCHY THIS PAGE 
-*/
-
 const Info = () => {
 
     // Initialize states for toggling the form view
@@ -18,7 +13,6 @@ const Info = () => {
     const handleSubmit = (e: React.FormEvent) =>
     {
         e.preventDefault();
-        console.log("go fuyck yourself");
     }
 
 
@@ -215,6 +209,18 @@ const Info = () => {
 
     async function addMovie( ratingValue : any )
     {
+         if(ratingValue ===  null)
+        {
+            ratingValue = 5;
+            console.log(ratingValue);
+        }
+
+        if(movieSpecificComment == "")
+        {
+            setMovieSpecificComment("Added to collection");
+            console.log(movieSpecificComment);
+        }
+        
         var obj = {userid:user, movieid:movieId, rating:ratingValue, comment:movieSpecificComment};
         var js = JSON.stringify(obj);
         

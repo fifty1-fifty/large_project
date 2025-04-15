@@ -41,14 +41,10 @@ const ProfilePage: React.FC = () => {
         setError("");
         
         // If no userId is provided, use the current user's ID
-        const targetUserId = userId || currentUser?.UserId;
+        const targetUserId = userId || currentUser?._id;
         
-        console.log('Debug - ProfilePage:', {
-          isOwn: !!targetUserId,
-          currentUser: currentUser?.UserId,
-          userId,
-          targetUserId
-        });
+        console.log('Debug - targetUserId:', targetUserId);
+        console.log('Debug - currentUser._id:', currentUser?._id);
         
         if (!targetUserId) {
           setError('No user ID provided');
@@ -57,7 +53,7 @@ const ProfilePage: React.FC = () => {
         }
 
         // Check if this is the current user's profile
-        const isOwn = targetUserId === currentUser?.UserId;
+        const isOwn = targetUserId === currentUser?._id;
         console.log('Debug - isOwnProfile:', isOwn);
         setIsOwnProfile(isOwn);
 
@@ -106,7 +102,7 @@ const ProfilePage: React.FC = () => {
         ? `/api/profile/${currentUser.UserId}/unfollow/${user.UserId}`
         : `/api/profile/${currentUser.UserId}/follow/${user.UserId}`;
 
-      const response = await fetch(endpoint, {
+      const response = await fetch(`http://group22cop4331c.xyz${endpoint}`, {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
@@ -118,7 +114,7 @@ const ProfilePage: React.FC = () => {
         throw new Error(errorData.error || "Failed to update follow status");
       }
 
-      // Simply toggle the follow state and update UI
+      // Update local state
       setIsFollowing(!isFollowing);
       
       // Update the user object to reflect the change
@@ -134,7 +130,7 @@ const ProfilePage: React.FC = () => {
 
     } catch (err) {
       console.error("Follow error:", err);
-      setError(err instanceof Error ? err.message : "Failed to update follow status");
+      setError("Failed to update follow status");
     }
   };
 

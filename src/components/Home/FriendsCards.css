@@ -51,6 +51,11 @@
   margin-bottom: 0.25rem;
 }
 
+.poster-user:hover {
+  cursor: grab;
+  
+}
+
 .username {
   font-weight: 500;
   color: #111827;
