@@ -31,7 +31,7 @@ function App() {
         <Route path="/profile" element={<Layout><ProfilePage /></Layout>} />
         <Route path="/edit" element={<Layout><EditProfilePage /></Layout>} />
         {/* <Route path="/edit-post/:postId" element={<Layout><EditPost post={undefined} /></Layout>} /> */}
-        <Route path="/userProfile" element={<Layout><FriendProfilePage /></Layout>}/>
+        <Route path="/userProfile/:friendId" element={<Layout><FriendProfilePage /></Layout>}/>
 
         {/* don't require layout */}
         <Route path="/register" element={<RegisterPage />} />

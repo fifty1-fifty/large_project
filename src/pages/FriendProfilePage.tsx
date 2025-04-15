@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { useLocation } from 'react-router-dom';
+import { useParams } from 'react-router-dom';
 import FriendProfile from '../components/FriendProfile/FriendProfile';
 import "../components/FriendProfile/FriendProfile.css";
 
@@ -13,8 +13,9 @@ const FriendProfilePage: React.FC = () => {
     const currentUserId = currentUser?.id;
     const token = currentUser?.Token;
 
-    const location = useLocation();
-    const friendId = location.state?.friendId; //or use route param if needed
+    // const location = useLocation();
+    // const friendId = location.state?.friendId; //or use route param if needed
+    const { friendId } = useParams<{ friendId: string}>();
 
     useEffect(() => {
         if(!friendId || !currentUserId)   return;
