@@ -136,6 +136,7 @@
   max-width: 1200px;
   padding: 1rem 0;
   margin-bottom: 2rem;
+  background-color: transparent;
 }
 
 .profile-content {
@@ -146,6 +147,7 @@
   width: 100%;
   padding: 1rem 0;
   min-height: 200px;
+  background-color: transparent;
 }
 
 .profile-header {
@@ -155,6 +157,7 @@
   display: flex;
   flex-direction: column;
   align-items: center;
+  background-color: transparent;
 }
 
 .profile-name {
@@ -162,6 +165,7 @@
   font-weight: bold;
   color: white;
   margin-bottom: 0.5rem;
+  background-color: transparent;
 }
 
 .profile-bio {

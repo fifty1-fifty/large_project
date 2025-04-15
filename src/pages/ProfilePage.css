@@ -14,12 +14,14 @@
   display: flex;
   flex-direction: column;
   gap: 2rem;
+  background-color: transparent;
 }
 
 .profile-section {
   width: 100%;
   max-width: 1200px;
   margin-bottom: 2rem;
+  background-color: transparent;
 }
 
 .reviews-section {
