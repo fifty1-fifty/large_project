@@ -1,3 +1,4 @@
+import 'dart:async';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import '../models/movie.dart';
@@ -7,7 +8,6 @@ import '../widgets/movie_card.dart';
 
 class HomeScreen extends StatefulWidget {
   const HomeScreen({super.key, required this.token});
-
   final String token;
 
   @override
@@ -19,22 +19,37 @@ class _HomeScreenState extends State<HomeScreen> {
   int _currentPage = 1;
   bool _isLoading = false;
   String? _errorMessage;
+  TextEditingController _searchController = TextEditingController();
+  Timer? _debounce;
 
   @override
   void initState() {
     super.initState();
     _verifyTokenAndLoadMovies();
+    _searchController.addListener(_onSearchChanged);
+  }
+
+  @override
+  void dispose() {
+    _debounce?.cancel();
+    _searchController.removeListener(_onSearchChanged);
+    _searchController.dispose();
+    super.dispose();
+  }
+
+  void _onSearchChanged() {
+    if (_debounce?.isActive ?? false) _debounce!.cancel();
+    _debounce = Timer(const Duration(milliseconds: 500), () {
+      _searchMovies(_searchController.text);
+    });
   }
 
   Future<void> _verifyTokenAndLoadMovies() async {
-    // Verify token is still valid
     final storedToken = await SecureStorage.getToken();
-    // When retrieving for API calls
     if (storedToken == null || storedToken != widget.token) {
       _forceLogout();
       return;
     }
-
     _fetchTrendingMovies();
   }
 
@@ -55,10 +70,35 @@ class _HomeScreenState extends State<HomeScreen> {
         _errorMessage = e.toString().replaceAll('Exception: ', '');
       });
 
-      // If unauthorized, force logout
       if (e.toString().contains('Unauthorized')) {
         _forceLogout();
       }
+    } finally {
+      setState(() => _isLoading = false);
+    }
+  }
+
+  Future<void> _searchMovies(String query) async {
+    if (query.isEmpty) {
+      _fetchTrendingMovies();
+      return;
+    }
+
+    setState(() {
+      _isLoading = true;
+      _errorMessage = null;
+    });
+
+    try {
+      final response = await ApiService.searchMovie(
+        query: query,
+        token: widget.token,
+      );
+      setState(() => _movies = response);
+    } catch (e) {
+      setState(() {
+        _errorMessage = e.toString().replaceAll('Exception: ', '');
+      });
     } finally {
       setState(() => _isLoading = false);
     }
@@ -113,6 +153,26 @@ class _HomeScreenState extends State<HomeScreen> {
             ),
           ),
 
+          Padding(
+            padding: const EdgeInsets.only(top: 20.0, left: 500, right: 500),
+            child: TextField(
+              controller: _searchController,
+              style: const TextStyle(color: Colors.white),
+              decoration: InputDecoration(
+                hintText: 'Search movies...',
+                hintStyle: TextStyle(color: Colors.grey[600]),
+                prefixIcon: const Icon(Icons.search, color: Colors.white),
+                filled: true,
+                fillColor: Colors.grey[900],
+                contentPadding: const EdgeInsets.symmetric(vertical: 10),
+                border: OutlineInputBorder(
+                  borderRadius: BorderRadius.circular(8),
+                  borderSide: BorderSide.none,
+                ),
+              ),
+            ),
+          ),
+
           if (_errorMessage != null)
             Padding(
               padding: const EdgeInsets.all(8.0),
@@ -128,7 +188,7 @@ class _HomeScreenState extends State<HomeScreen> {
                     ? const Center(child: CircularProgressIndicator())
                     : Center(
                       child: Container(
-                        constraints: BoxConstraints(maxWidth: 210.0 * 6),
+                        constraints: const BoxConstraints(maxWidth: 210.0 * 6),
                         child: GridView.builder(
                           padding: const EdgeInsets.symmetric(
                             horizontal: 30,
@@ -158,10 +218,6 @@ class _HomeScreenState extends State<HomeScreen> {
   }
 
   void _navigateToDetail(Movie movie) {
-    Navigator.pushNamed(
-      context,
-      '/movie-detail',
-      arguments: movie,
-    );
+    Navigator.pushNamed(context, '/movie-detail', arguments: movie);
   }
 }

@@ -65,13 +65,12 @@ class ApiService {
     required int page,
     required String token,
   }) async {
-    final storedToken = await SecureStorage.getToken();
-    final rawToken = storedToken?.replaceFirst('Bearer ', '');
+    final rawToken = token.replaceFirst('Bearer ', '');
     final response = await http.post(
       Uri.parse('$_baseUrl/trendingMovie'),
       headers: {
         'Content-Type': 'application/json',
-        'Authorization': '$rawToken',
+        'Authorization': rawToken,
       },
       body: jsonEncode({'page': page}),
     );
@@ -86,6 +85,26 @@ class ApiService {
         .map((json) => Movie.fromJson(json))
         .toList();
   }
+
+  //search movies
+  static Future<List<Movie>> searchMovie({
+  required String query,
+  required String token,
+}) async {
+  final rawToken = token.replaceFirst('Bearer ', '');
+  final response = await http.get(
+    Uri.parse('$_baseUrl/searchMovie?query=$query'),
+    headers: {'Authorization': rawToken},
+  );
+
+  if (response.statusCode == 200) {
+    final data = jsonDecode(response.body);
+    return (data as List).map((item) => Movie.fromJson(item)).toList();
+  } else {
+    throw Exception('Failed to search movies');
+  }
+}
+
 
   //handle tokens for each route
   static Future<Map<String, dynamic>> getProtectedData() async {
