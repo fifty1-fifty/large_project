@@ -13,7 +13,7 @@ interface FriendPostCardProps {
 
 const renderStars = (rating: number) => {
     return (
-        <div className="flex justify-center mb-2">
+        <div className="star-rating">
             {Array.from({ length: 5 }, (_, i) => (
                 <span key={i} className={`text-xl ${i < rating ? 'text-yellow-400' : 'text-gray-300'}`}>
                     ★
