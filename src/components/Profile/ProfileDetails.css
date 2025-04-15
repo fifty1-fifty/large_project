@@ -210,7 +210,14 @@
   font-weight: 500;
 }
 
-.edit-profile-button {
+.profile-actions {
+  display: flex;
+  justify-content: center;
+  gap: 1rem;
+  margin-top: 1rem;
+}
+
+.edit-profile-button, .follow-button {
   background-color: #c44747;
   color: white;
   border: none;
@@ -219,10 +226,13 @@
   font-size: 0.9rem;
   cursor: pointer;
   transition: background-color 0.2s;
-  margin-top: 1rem;
 }
 
-.edit-profile-button:hover {
+.edit-profile-button:hover, .follow-button:hover {
+  background-color: #a33a3a;
+}
+
+.follow-button.following {
   background-color: #a33a3a;
 }
 
