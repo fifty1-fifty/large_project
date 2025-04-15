@@ -10,6 +10,8 @@ import ExplorePage from './pages/ExplorePage';
 import ProfilePage from './pages/ProfilePage';
 import Layout from "./components/Layout"; 
 import EditProfilePage from "./pages/EditProfilePage";
+
+import ResetPassword from "./components/Login/ResetPassword"
 import ResetPasswordPage from "./pages/ResetPasswordPage";
 
 // import EditPost from "./components/Profile/EditPost";
@@ -30,6 +32,7 @@ function App() {
 
         <Route path="/registerComplete" element={<Layout><RegisterComplete /></Layout>} />
         <Route path="/passwordReset" element={<ResetPasswordPage />}/>
+        <Route path="/reset-password" element={<ResetPassword />} />
 
         <Route path="/movie" element={<Layout><MoviePage /></Layout>} />
         <Route path="/home" element={<Layout><HomePage /></Layout>} />
