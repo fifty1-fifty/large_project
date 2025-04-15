@@ -39,6 +39,9 @@ const ProfilePage: React.FC = () => {
         // If no userId is provided, use the current user's ID
         const targetUserId = userId || currentUser?._id;
         
+        console.log('Debug - targetUserId:', targetUserId);
+        console.log('Debug - currentUser._id:', currentUser?._id);
+        
         if (!targetUserId) {
           setError('No user ID provided');
           setIsLoading(false);
@@ -46,7 +49,9 @@ const ProfilePage: React.FC = () => {
         }
 
         // Check if this is the current user's profile
-        setIsOwnProfile(targetUserId === currentUser?._id);
+        const isOwn = targetUserId === currentUser?._id;
+        console.log('Debug - isOwnProfile:', isOwn);
+        setIsOwnProfile(isOwn);
 
         const response = await fetch(`/api/profile/${targetUserId}`);
         if (!response.ok) {
@@ -69,11 +74,20 @@ const ProfilePage: React.FC = () => {
       }
     };
 
-    fetchProfile();
+    if (currentUser) {
+      fetchProfile();
+    }
   }, [userId, currentUser]);
 
+  // Add debug log for isOwnProfile changes
+  useEffect(() => {
+    console.log('isOwnProfile changed:', isOwnProfile);
+  }, [isOwnProfile]);
+
   const navigateToEdit = () => {
-    navigate("/edit");
+    if (isOwnProfile) {
+      navigate("/edit");
+    }
   };
 
   const handleFollowToggle = async () => {
@@ -113,6 +127,8 @@ const ProfilePage: React.FC = () => {
   };
 
   const handleDeletePost = async (postId: string) => {
+    if (!isOwnProfile) return;
+    
     try {
       const response = await fetch(`/api/posts/deletepost/${postId}`, {
         method: "DELETE",
@@ -175,6 +191,7 @@ const ProfilePage: React.FC = () => {
             post={selectedPost}
             onClose={handleClosePostDetail}
             onDelete={isOwnProfile ? handleDeletePost : undefined}
+            showEditButton={isOwnProfile}
           />
         )}
       </div>
