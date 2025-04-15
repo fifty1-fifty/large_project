@@ -1,41 +1,32 @@
-import 'package:movieapp/routes/routes.dart';
 import 'package:flutter/material.dart';
+import 'package:movieapp/routes/routes.dart';
 
 void main() {
-  runApp(MyApp());
+  runApp(const MyApp());
 }
-
-// class MyApp extends StatelessWidget {
-//   const MyApp({super.key});
-
-//   @override
-//   Widget build(BuildContext context) {
-//     return MaterialApp(
-//       home: Scaffold(
-//         appBar: AppBar(
-//           titleTextStyle: TextStyle(
-//             package: "Movie App",
-//           color: Colors.grey
-
-//           ),
-//           backgroundColor: Colors.black,
-//           title: Center(child: const Text("Movie App")),
-//         ),
-//       ),
-//     );
-//   }
-// }
 
 class MyApp extends StatelessWidget {
   const MyApp({super.key});
 
-  // This widget is the root of your application.
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      title: '',
+      title: 'Movie App',
       debugShowCheckedModeBanner: false,
-      theme: ThemeData(),
+      theme: ThemeData(
+        primarySwatch: Colors.deepPurple,
+        scaffoldBackgroundColor: Colors.white,
+        appBarTheme: const AppBarTheme(
+          backgroundColor: Colors.deepPurple,
+          centerTitle: true,
+        ),
+        inputDecorationTheme: const InputDecorationTheme(
+          border: OutlineInputBorder(),
+        ),
+      ),
+      // Set the initial route to the desired screen.
+      // For example, if you want to start at the login screen:
+      initialRoute: '/login',
       routes: Routes.getroutes,
     );
   }
