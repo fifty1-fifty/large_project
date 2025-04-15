@@ -209,14 +209,16 @@ const Info = () => {
 
     async function addMovie( ratingValue : any )
     {
-        if(ratingValue === null)
+         if(ratingValue ===  null)
         {
             ratingValue = 5;
+            console.log(ratingValue);
         }
 
         if(movieSpecificComment == "")
         {
-            handleSetMovieSpecificComment("Added this to their collection."); 
+            setMovieSpecificComment("Added to collection");
+            console.log(movieSpecificComment);
         }
         
         var obj = {userid:user, movieid:movieId, rating:ratingValue, comment:movieSpecificComment};
