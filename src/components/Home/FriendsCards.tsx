@@ -129,6 +129,11 @@ const FriendsCards = () => {
         window.location.href = `/movie?movieId=${movieId}`;
     }
 
+    function gotoUserProfile(userId: number)
+    {
+        window.location.href = `/profile/${userId}`;
+    }
+
     return (
         <div className="carousel-wrapper">
             <div className="post-card">
@@ -137,7 +142,7 @@ const FriendsCards = () => {
                 <div className="post-content">
                 <h3 className="movie-title">{movieTitle}</h3>
                 <p className="poster-user">
-                    Posted by <span className="username">{username}</span>
+                    Posted by <span className="username clickable" onClick={() => gotoUserProfile(posts[currentIndex].userId)}>{username}</span>
                 </p>
                 {renderStars(rating)}
                 <p className="movie-comment">{comment}</p>

@@ -191,7 +191,6 @@ const ProfilePage: React.FC = () => {
             post={selectedPost}
             onClose={handleClosePostDetail}
             onDelete={isOwnProfile ? handleDeletePost : undefined}
-            showEditButton={isOwnProfile}
           />
         )}
       </div>
