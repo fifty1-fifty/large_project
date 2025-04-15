@@ -3,6 +3,7 @@ import { useParams, useNavigate, useLocation } from "react-router-dom";
 import ProfileDetails from "../components/Profile/ProfileDetails";
 import ReviewCard from "../components/Profile/ReviewCard";
 import PostDetail from "../components/Profile/PostDetail";
+import MovieCollection from "../components/Profile/MovieCollection";
 import { User, Post } from "../types";
 import "./ProfilePage.css";
 
@@ -15,6 +16,7 @@ const ProfilePage: React.FC = () => {
   const [posts, setPosts] = useState<Post[]>([]);
   const [loading, setLoading] = useState(true);
   const [selectedPost, setSelectedPost] = useState<Post | null>(null);
+  const [isCollectionOpen, setIsCollectionOpen] = useState(false);
 
   const handleDeletePost = async (postId: string) => {
     try {
@@ -88,8 +90,9 @@ const ProfilePage: React.FC = () => {
         }
 
         const postsData = await postsResponse.json();
-        console.log("Fetched posts:", postsData); // Debug log
+        console.log("Fetched posts:", postsData);
         setPosts(postsData);
+
       } catch (err) {
         console.error("Error fetching data:", err);
         setError(err instanceof Error ? err.message : "Failed to load profile data");
@@ -128,6 +131,7 @@ const ProfilePage: React.FC = () => {
             userInfo={userInfo}
             error={error}
             navigateToEdit={navigateToEdit}
+            onCollectionClick={() => setIsCollectionOpen(!isCollectionOpen)}
           />
         </div>
         <div className="reviews-section">
@@ -151,6 +155,12 @@ const ProfilePage: React.FC = () => {
           post={selectedPost}
           onClose={handleClosePostDetail}
           onDelete={handleDeletePost}
+        />
+      )}
+      {isCollectionOpen && (
+        <MovieCollection
+          movieIds={userInfo.Collection || []}
+          onClose={() => setIsCollectionOpen(false)}
         />
       )}
     </div>
