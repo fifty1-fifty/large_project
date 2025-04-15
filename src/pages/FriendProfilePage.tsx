@@ -1,49 +1,38 @@
 import React, { useEffect, useState } from 'react';
-import { useLocation } from 'react-router-dom';
+import { useLocation, useNavigate } from 'react-router-dom';
 import FriendProfile from '../components/FriendProfile/FriendProfile';
+import FriendProfilePosts from '../components/FriendProfile/FriendProfilePosts';
 import "../components/FriendProfile/FriendProfile.css";
 
 const FriendProfilePage: React.FC = () => {
     const [friendInfo, setFriendInfo] = useState<any>(null);
     const [isFollowing, setIsFollowing] = useState<boolean>(false);
     const [error, setError] = useState<string>("");
+    const navigate = useNavigate();
 
     const storedUser = localStorage.getItem("user_data");
     const currentUser = storedUser ? JSON.parse(storedUser) : {};
     const currentUserId = currentUser?.id;
-    const token = currentUser?.Token;
 
     const location = useLocation();
-    const friendId = location.state?.friendId; //or use route param if needed
+    const friendId = location.state?.friendId;
 
     useEffect(() => {
-        if(!friendId || !currentUserId)   return;
+        if(!friendId || !currentUserId) {
+            navigate('/home');
+            return;
+        }
 
         async function fetchProfile() {
             try {
-                const response = await fetch(`/api/friend_profile/${friendId}`, {
-                    headers: {
-                        Authorization: token,
-                    },
-                });
+                const response = await fetch(`http://group22cop4331c.xyz/api/profile/${friendId}`);
                 if(!response.ok) {
                     throw new Error("Failed to fetch friend profile");
                 }
                 const profileData = await response.json();
                 setFriendInfo(profileData);
 
-                // check if current user is following this friend
-                // const followRes = await fetch(`/api/users/${currentUserId}/is-following/${friendId}`, {
-                //     headers: {
-                //         Authorization: token,
-                //     },
-                // });
-                // if(!followRes.ok) {
-                //     throw new Error("Failed to check follow status");
-                // }
-                // const { isFollowing } = await followRes.json();
-
-                // determine if current user is following friend
+                // Check if current user is following this friend
                 const followingStatus = profileData.followers?.includes(currentUserId);
                 setIsFollowing(followingStatus);
             } catch (err: any) {
@@ -52,46 +41,67 @@ const FriendProfilePage: React.FC = () => {
         }
 
         fetchProfile();
-    }, [friendId, currentUserId, token]);
+    }, [friendId, currentUserId, navigate]);
 
-    const followButton = async () => {
+    const handleFollow = async () => {
         try {
-            const endpoint = isFollowing ? `/api/users/${currentUserId}/unfollow/${friendId}` : `/api/users/${currentUserId}/follow${friendId}`;
-
-            const response = await fetch(endpoint, {
-                method: "POST",
+            const response = await fetch(`http://group22cop4331c.xyz/api/profile/${currentUserId}/follow/${friendId}`, {
+                method: 'POST',
                 headers: {
-                    Authorization: token,
-                },
+                    'Content-Type': 'application/json',
+                }
             });
-
-            if(!response.ok) {
-                throw new Error("Failed to update follow status");
+            
+            if (!response.ok) {
+                const errorData = await response.json();
+                throw new Error(errorData.error || 'Failed to follow user');
             }
             
-            // update local state
-            setIsFollowing((prev) => !prev);
-            setFriendInfo((prev: any) => {
-                const updatedFollowers = isFollowing ? prev.followers.filter((id: number) => id !== currentUserId)
-                : [...(prev.followers || []), currentUserId];
+            setIsFollowing(true);
+            setFriendInfo(prev => prev ? {
+                ...prev,
+                followers: [...prev.followers, currentUserId]
+            } : null);
+        } catch (err: any) {
+            setError(err.message);
+        }
+    };
 
-                return {
-                    ...prev,
-                    followers: updatedFollowers,
-                };
+    const handleUnfollow = async () => {
+        try {
+            const response = await fetch(`http://group22cop4331c.xyz/api/profile/${currentUserId}/unfollow/${friendId}`, {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                }
             });
+            
+            if (!response.ok) {
+                const errorData = await response.json();
+                throw new Error(errorData.error || 'Failed to unfollow user');
+            }
+            
+            setIsFollowing(false);
+            setFriendInfo(prev => prev ? {
+                ...prev,
+                followers: prev.followers.filter(id => id !== currentUserId)
+            } : null);
         } catch (err: any) {
             setError(err.message);
         }
     };
 
     return (
-        <FriendProfile 
-            friendInfo={friendInfo}
-            error={error}
-            isFollowing={isFollowing}
-            followButton={followButton}
-        />
+        <div className="profile-page">
+            <FriendProfile 
+                friendInfo={friendInfo}
+                error={error}
+                isFollowing={isFollowing}
+                onFollow={handleFollow}
+                onUnfollow={handleUnfollow}
+            />
+            {friendInfo && <FriendProfilePosts friendId={friendId} />}
+        </div>
     );
 };
 
