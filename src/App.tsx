@@ -10,6 +10,8 @@ import ExplorePage from './pages/ExplorePage';
 import ProfilePage from './pages/ProfilePage';
 import Layout from "./components/Layout"; 
 import EditProfilePage from "./pages/EditProfilePage";
+import ResetPasswordPage from "./pages/ResetPasswordPage";
+
 // import EditPost from "./components/Profile/EditPost";
 /*  test  */
 import { Buffer } from 'buffer';
@@ -25,7 +27,10 @@ function App() {
 
         {/* require layout */}
         <Route path="/explore" element={<Layout><ExplorePage /></Layout>} />
+
         <Route path="/registerComplete" element={<Layout><RegisterComplete /></Layout>} />
+        <Route path="/passwordReset" element={<ResetPasswordPage />}/>
+
         <Route path="/movie" element={<Layout><MoviePage /></Layout>} />
         <Route path="/home" element={<Layout><HomePage /></Layout>} />
         <Route path="/profile" element={<ProfilePage />} />
