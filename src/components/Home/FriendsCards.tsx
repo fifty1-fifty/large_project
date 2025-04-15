@@ -23,6 +23,38 @@ const renderStars = (rating: number) => {
     );
 };
 
+const movieTitleAndPosterPull = async (movieId: string, token: string | null) => {
+    const body = JSON.stringify({ id: movieId });
+
+    try {
+        const response = await fetch("/api/fullMovieInfo", {
+            method: "POST",
+            body,
+            headers: {
+                "Content-Type": "application/json",
+                authorization: token ?? "",
+            },
+        });
+
+        const res = await response.json();
+
+        // handle token error and redirect
+        if(res.message === "Invalid Token" || res.message === "Access Denied: No Token Provided") {
+            localStorage.clear();
+            window.location.href = "/login";
+            return { title: "Unknown Title", posterPath: null };
+        }
+
+        return {
+            title: res.movieData?.original_title ?? "Unknown Title",
+            posterPath: res.movieData?.poster_path ?? null,
+        };
+    } catch(err) {
+        console.error("Failed: ", err);
+        return { title: "Unknown Title", posterPath: null };
+    }
+}
+
 const FriendsCards = () => {
     const [currentIndex, setCurrentIndex] = useState(0);
 
@@ -31,14 +63,17 @@ const FriendsCards = () => {
 
     const user = localStorage.getItem("user_data");
     let userId: number | null = null;
+    let token: string | null = null;
     if(user) {
         try {
             const userData = JSON.parse(user);
             userId = userData.id;
+            token = userData.token;
         } catch(err) {
             console.error("Failed to parse user_data from localStorage:", err);
         }
     }
+
 
     useEffect(() => {
         const fetchPosts = async () => {
@@ -52,32 +87,45 @@ const FriendsCards = () => {
                 const res = await fetch(`/api/friends-posts/${userId}`);
                 const data = await res.json();
 
+                // const enrichedPosts: FriendPostCardProps[] = await Promise.all(
+                //     data.map(async (post: any) => {
+                //         try {
+                //             const infoRes = await fetch("/api/fullMovieInfo", {
+                //                 method: "POST",
+                //                 headers: {
+                //                     "Content-Type": "application/json",
+                //                     Authorization: `Bearer ${token}`,
+                //                 },
+                //                 body: JSON.stringify({ id: post.movieId }),
+                //             });
+
+                //             const infoData = await infoRes.json();
+                //             return {
+                //                 ...post,
+                //                 movieTitle: infoData.movieData.title,
+                //                 posterUrl: `https://image.tmdb.org/t/p/w500${infoData.movieData.poster_path}`,
+                //             };
+                //         } catch(err) {
+                //             console.error("Error fetching movie info:", err);
+                //             return {
+                //                 ...post,
+                //                 movieTitle: "Unknown Title",
+                //                 posterUrl: null,
+                //             };
+                //         }
+                //     })
+                // );
+
                 const enrichedPosts: FriendPostCardProps[] = await Promise.all(
                     data.map(async (post: any) => {
-                        try {
-                            const infoRes = await fetch("/api/fullMovieInfo", {
-                                method: "POST",
-                                headers: {
-                                    "Content-Type": "application/json",
-                                    Authorization: `Bearer ${localStorage.getItem("token")}`,
-                                },
-                                body: JSON.stringify({ id: post.movieId }),
-                            });
-
-                            const infoData = await infoRes.json();
-                            return {
-                                ...post,
-                                movieTitle: infoData.movieData.title,
-                                posterUrl: `https://image.tmdb.org/t/p/w500${infoData.movieData.poster_path}`,
-                            };
-                        } catch(err) {
-                            console.error("Error fetching movie info:", err);
-                            return {
-                                ...post,
-                                movieTitle: "Unknown Title",
-                                posterUrl: null,
-                            };
-                        }
+                        const movieInfo = await movieTitleAndPosterPull(post.movieId, token);
+                        return {
+                            ...post,
+                            movieTitle: movieInfo.title,
+                            posterUrl: movieInfo.posterPath
+                                ? `https://image.tmdb.org/t/p/w500${movieInfo.posterPath}`
+                                : null,
+                        };
                     })
                 );
 
