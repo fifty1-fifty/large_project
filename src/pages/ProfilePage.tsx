@@ -24,9 +24,10 @@ const ProfilePage: React.FC = () => {
     const storedUser = localStorage.getItem("user_data");
     if (storedUser) {
       const userData = JSON.parse(storedUser);
+      // Add _id property to match User interface
       setCurrentUser({
         ...userData,
-        _id: userData.id.toString() 
+        _id: userData.id.toString() // Convert to string to match User interface
       });
     } else {
       setError("Not logged in");
@@ -41,14 +42,10 @@ const ProfilePage: React.FC = () => {
         setError("");
         
         // If no userId is provided, use the current user's ID
-        const targetUserId = userId || currentUser?.UserId;
+        const targetUserId = userId || currentUser?.id;
         
-        console.log('Debug - ProfilePage:', {
-          isOwn: !!targetUserId,
-          currentUser: currentUser?.UserId,
-          userId,
-          targetUserId
-        });
+        console.log('Debug - targetUserId:', targetUserId);
+        console.log('Debug - currentUser.id:', currentUser?.id);
         
         if (!targetUserId) {
           setError('No user ID provided');
@@ -57,7 +54,7 @@ const ProfilePage: React.FC = () => {
         }
 
         // Check if this is the current user's profile
-        const isOwn = targetUserId === currentUser?.UserId;
+        const isOwn = targetUserId === currentUser?.id;
         console.log('Debug - isOwnProfile:', isOwn);
         setIsOwnProfile(isOwn);
 
