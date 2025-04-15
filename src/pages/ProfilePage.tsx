@@ -27,12 +27,10 @@ const ProfilePage: React.FC = () => {
       setCurrentUser({
         ...userData,
         _id: userData.id.toString(),
-        UserId: userData.id.toString(), // ✅ Ensure UserId is available
       });
       console.log("Loaded current user from localStorage:", {
         id: userData.id,
         _id: userData.id.toString(),
-        UserId: userData.id.toString(),
       });
     } else {
       setError("Not logged in");
@@ -46,10 +44,10 @@ const ProfilePage: React.FC = () => {
         setIsLoading(true);
         setError("");
 
-        const targetUserId = userId || currentUser?.UserId;
+        const targetUserId = userId || currentUser?._id;
 
         console.log("Debug - ProfilePage:", {
-          currentUser: currentUser?.UserId,
+          currentUser: currentUser?._id,
           targetUserId,
         });
 
@@ -59,7 +57,7 @@ const ProfilePage: React.FC = () => {
           return;
         }
 
-        const isOwn = targetUserId === currentUser?.UserId;
+        const isOwn = targetUserId === currentUser?._id;
         console.log("Debug - isOwnProfile:", isOwn);
         setIsOwnProfile(isOwn);
 
@@ -87,10 +85,6 @@ const ProfilePage: React.FC = () => {
       fetchProfile();
     }
   }, [userId, currentUser]);
-
-  useEffect(() => {
-    console.log("isOwnProfile changed:", isOwnProfile);
-  }, [isOwnProfile]);
 
   const navigateToEdit = () => {
     if (isOwnProfile) {
