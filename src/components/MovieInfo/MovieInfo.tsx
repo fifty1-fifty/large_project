@@ -215,6 +215,16 @@ const Info = () => {
 
     async function addMovie( ratingValue : any )
     {
+        if(ratingValue === undefined)
+        {
+            ratingValue = 5;
+        }
+
+        if(movieSpecificComment === undefined)
+        {
+            movieSpecificComment = "Added this to their collection."
+        }
+        
         var obj = {userid:user, movieid:movieId, rating:ratingValue, comment:movieSpecificComment};
         var js = JSON.stringify(obj);
         
