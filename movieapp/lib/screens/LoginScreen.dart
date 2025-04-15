@@ -15,8 +15,9 @@ class _LoginScreenState extends State<LoginScreen> {
   final _passwordController = TextEditingController();
   bool _isLoading = false;
   String? _errorMessage;
+  String message = 'Please enter your credentials';
 
-  Future<void> _login() async {
+  Future<void> _handleLogin() async {
     setState(() {
       _errorMessage = null;
       _isLoading = true;
@@ -24,7 +25,7 @@ class _LoginScreenState extends State<LoginScreen> {
 
     try {
       final response = await ApiService.login(
-        _emailController.text.trim(),
+        _emailController.text.trim(), // This will be used as email
         _passwordController.text,
         " ",
       );
@@ -33,11 +34,9 @@ class _LoginScreenState extends State<LoginScreen> {
         throw Exception('No token received from server');
       }
 
-      // Save token and verify it was stored
       final rawToken = response['token']?.replaceFirst('Bearer ', '');
       await SecureStorage.saveToken(rawToken);
 
-      // Proceed to home screen. Consider passing rawToken if you don't want the "Bearer " prefix
       Navigator.pushReplacement(
         context,
         MaterialPageRoute(
@@ -46,8 +45,7 @@ class _LoginScreenState extends State<LoginScreen> {
       );
     } catch (e) {
       setState(() {
-        _errorMessage =
-            'Login failed: ${e.toString().replaceAll('Exception: ', '')}';
+        _errorMessage = 'Login failed: ${e.toString().replaceAll('Exception: ', '')}';
       });
     } finally {
       setState(() => _isLoading = false);
@@ -56,7 +54,6 @@ class _LoginScreenState extends State<LoginScreen> {
 
   @override
   void dispose() {
-    // Dispose controllers to free up resources
     _emailController.dispose();
     _passwordController.dispose();
     super.dispose();
@@ -65,53 +62,120 @@ class _LoginScreenState extends State<LoginScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(title: const Text('Login')),
-      body: Padding(
-        padding: const EdgeInsets.all(16.0),
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: [
-            TextField(
-              controller: _emailController,
-              decoration: const InputDecoration(
-                labelText: 'Email',
-                border: OutlineInputBorder(),
+      backgroundColor: Colors.black,
+      body: Center(
+        child: SingleChildScrollView(
+          child: Column(
+            children: [
+              // 🍿 Top row of movie-themed stickers
+              Padding(
+                padding: const EdgeInsets.only(top: 24.0),
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    Image.asset('images/popcorn.png', height: 50),
+                    SizedBox(width: 10),
+                    Image.asset('images/clapperboard.png', height: 50),
+                  ],
+                ),
               ),
-              keyboardType: TextInputType.emailAddress,
-            ),
-            const SizedBox(height: 16),
-            TextField(
-              controller: _passwordController,
-              decoration: const InputDecoration(
-                labelText: 'Password',
-                border: OutlineInputBorder(),
-              ),
-              obscureText: true,
-            ),
-            if (_errorMessage != null) ...[
-              const SizedBox(height: 16),
+              SizedBox(height: 16),
+
+              // 🎬 App Title
               Text(
-                _errorMessage!,
-                style: TextStyle(color: Theme.of(context).colorScheme.error),
+                'Welcome to Flicks',
+                style: TextStyle(
+                  fontSize: 24,
+                  fontWeight: FontWeight.bold,
+                  color: Colors.white,
+                ),
+              ),
+              SizedBox(height: 32),
+
+              // 🧾 Login form section
+              Container(
+                width: 250,
+                padding: EdgeInsets.all(16),
+                child: Column(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  crossAxisAlignment: CrossAxisAlignment.center,
+                  children: <Widget>[
+                    // Message display (shows error if exists)
+                    Text(
+                      _errorMessage ?? message,
+                      style: TextStyle(
+                        fontSize: 14, 
+                        color: _errorMessage != null ? Colors.red : Colors.white,
+                      ),
+                    ),
+                    SizedBox(height: 16),
+
+                    TextField(
+                      controller: _emailController,
+                      decoration: InputDecoration(
+                        filled: true,
+                        fillColor: Colors.white,
+                        border: OutlineInputBorder(),
+                        labelText: 'Email',
+                        hintText: 'Enter your email',
+                      ),
+                    ),
+                    SizedBox(height: 16),
+
+                    // Password Field
+                    TextField(
+                      controller: _passwordController,
+                      obscureText: true,
+                      decoration: InputDecoration(
+                        filled: true,
+                        fillColor: Colors.white,
+                        border: OutlineInputBorder(),
+                        labelText: 'Password',
+                        hintText: 'Enter your password',
+                      ),
+                    ),
+                    SizedBox(height: 16),
+
+                    // Login Button
+                    ElevatedButton(
+                      style: ElevatedButton.styleFrom(
+                        backgroundColor: Colors.brown[50],
+                        foregroundColor: Colors.black,
+                        padding: EdgeInsets.all(12.0),
+                        minimumSize: Size(double.infinity, 40),
+                      ),
+                      onPressed: _isLoading ? null : _handleLogin,
+                      child: _isLoading
+                          ? SizedBox(
+                              width: 20,
+                              height: 20,
+                              child: CircularProgressIndicator(
+                                strokeWidth: 2,
+                                color: Colors.black,
+                              ),
+                            )
+                          : Text('Login', style: TextStyle(fontSize: 14)),
+                    ),
+
+                    const SizedBox(height: 16),
+
+                    // Registration Button
+                    TextButton(
+                      onPressed: _isLoading
+                          ? null
+                          : () {
+                              Navigator.pushNamed(context, '/register');
+                            },
+                      child: const Text(
+                        'Create an account',
+                        style: TextStyle(fontSize: 16, color: Colors.white),
+                      ),
+                    ),
+                  ],
+                ),
               ),
             ],
-            const SizedBox(height: 24),
-            SizedBox(
-              width: double.infinity,
-              child:
-                  _isLoading
-                      ? const Center(child: CircularProgressIndicator())
-                      : ElevatedButton(
-                        onPressed: _login,
-                        child: const Text('Login'),
-                      ),
-            ),
-            const SizedBox(height: 16),
-            TextButton(
-              onPressed: () => Navigator.pushNamed(context, '/register'),
-              child: const Text('Create an account'),
-            ),
-          ],
+          ),
         ),
       ),
     );

@@ -8,15 +8,17 @@ import 'package:movieapp/services/secure_storage.dart';
 
 class Routes {
   //ADD SCREEN EXTENSIONS HERE:
-  static const String login = '/login';
-  static const String register = '/register';
+  static const String LOGINSCREEN = '/login';
+  static const String REGISTERSCREEN = '/register';
   static const String home = '/home';
   static const String movieDetail = '/movie-detail';
 
-  static Map<String, WidgetBuilder> get routes => {
-    //ADD SCREENS HERE:
-    login: (context) => const LoginScreen(),
-    register: (context) => const RegisterScreen(),
+   // routes of pages in the app
+   static Map<String, Widget Function(BuildContext)> getroutes() => {
+     '/': (context) => LoginScreen(),
+     LOGINSCREEN: (context) => LoginScreen(),
+     REGISTERSCREEN: (context) => RegisterScreen(),
+
     home:
         (context) => FutureBuilder(
           future: SecureStorage.getToken(),

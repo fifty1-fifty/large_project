@@ -1,6 +1,5 @@
-import '../services/api_service.dart';
 import 'package:flutter/material.dart';
-
+import '../services/api_service.dart';
 
 class RegisterScreen extends StatefulWidget {
   const RegisterScreen({super.key});
@@ -15,67 +14,237 @@ class _RegisterScreenState extends State<RegisterScreen> {
   final _firstNameController = TextEditingController();
   final _lastNameController = TextEditingController();
   final _usernameController = TextEditingController();
+  final _confirmPasswordController = TextEditingController();
   bool _isLoading = false;
+  String? _errorMessage;
+  String message = 'Please enter your details';
 
-  Future<void> _register() async {
-    setState(() => _isLoading = true);
-    try {
-      await ApiService.register(
-        _emailController.text,
-        _passwordController.text,
-        _firstNameController.text,
-        _lastNameController.text,
-        _usernameController.text,
-      );
-      Navigator.pushReplacementNamed(context, '/login');
-    } catch (e) {
-      ScaffoldMessenger.of(context).showSnackBar(
-        SnackBar(content: Text(e.toString())),
-      );
-    } finally {
-      setState(() => _isLoading = false);
-    }
+  Future<void> _handleRegister() async {
+  setState(() {
+    _errorMessage = null;
+    message = 'Please enter your details';
+  });
+
+  // Basic validation
+  if (_firstNameController.text.isEmpty ||
+      _lastNameController.text.isEmpty ||
+      _emailController.text.isEmpty ||
+      _usernameController.text.isEmpty ||
+      _passwordController.text.isEmpty ||
+      _confirmPasswordController.text.isEmpty) {
+    setState(() {
+      _errorMessage = 'All fields are required.';
+    });
+    return;
   }
+
+  if (_passwordController.text != _confirmPasswordController.text) {
+    setState(() {
+      _errorMessage = 'Passwords do not match.';
+    });
+    return;
+  }
+
+  setState(() => _isLoading = true);
+
+  try {
+    await ApiService.register(
+      _emailController.text,
+      _passwordController.text,
+      _firstNameController.text,
+      _lastNameController.text,
+      _usernameController.text,
+    );
+    setState(() {
+      message = 'Registration successful! Please check your email to verify.';
+      _errorMessage = null;
+    });
+  } catch (e) {
+    setState(() {
+      _errorMessage = 'Registration failed: ${e.toString().replaceAll('Exception: ', '')}';
+    });
+  } finally {
+    setState(() => _isLoading = false);
+  }
+}
+
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(title: const Text('Register')),
-      body: Padding(
-        padding: const EdgeInsets.all(16.0),
-        child: Column(
-          children: [
-            TextField(
-              controller: _firstNameController,
-              decoration: const InputDecoration(labelText: 'First Name'),
-            ),
-            TextField(
-              controller: _lastNameController,
-              decoration: const InputDecoration(labelText: 'Last Name'),
-            ),
-            TextField(
-              controller: _emailController,
-              decoration: const InputDecoration(labelText: 'Email'),
-            ),
-            TextField(
-              controller: _usernameController,
-              decoration: const InputDecoration(labelText: 'Username'),
-            ),
-            TextField(
-              controller: _passwordController,
-              decoration: const InputDecoration(labelText: 'Password'),
-              obscureText: true,
-            ),
-            const SizedBox(height: 20),
-            _isLoading
-                ? const CircularProgressIndicator()
-                : ElevatedButton(
-                    onPressed: _register,
-                    child: const Text('Register'),
-                  ),
-          ],
+      backgroundColor: Colors.black, // Black background
+      appBar: AppBar(
+        title: const Text("Register"),
+        backgroundColor: Colors.deepPurple, // Purple app bar
+      ),
+      body: Center(
+        child: SingleChildScrollView(
+          child: Column(
+            children: [
+              // 🍿 Top row of movie-themed stickers
+              Padding(
+                padding: const EdgeInsets.only(top: 24.0),
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    Image.asset('images/popcorn.png', height: 50),
+                    const SizedBox(width: 10),
+                    Image.asset('images/clapperboard.png', height: 50),
+                  ],
+                ),
+              ),
+              const SizedBox(height: 16),
+
+              // 🎬 Screen Title
+              const Text(
+                'Create an Account',
+                style: TextStyle(
+                  fontSize: 24,
+                  fontWeight: FontWeight.bold,
+                  color: Colors.white,
+                ),
+              ),
+              const SizedBox(height: 32),
+
+              // 🧾 Registration form section
+              Container(
+                width: 250,
+                padding: const EdgeInsets.all(16),
+                child: Column(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  crossAxisAlignment: CrossAxisAlignment.center,
+                  children: <Widget>[
+                    // Message display (shows error if exists)
+                    Text(
+                      _errorMessage ?? message,
+                      style: TextStyle(
+                        fontSize: 14, 
+                        color: _errorMessage != null ? Colors.red : Colors.white,
+                      ),
+                    ),
+                    const SizedBox(height: 16),
+
+                    // First Name Field
+                    TextField(
+                      controller: _firstNameController,
+                      decoration: InputDecoration(
+                        filled: true,
+                        fillColor: Colors.white,
+                        border: const OutlineInputBorder(),
+                        labelText: 'First Name',
+                        hintText: 'Enter your first name',
+                      ),
+                    ),
+                    const SizedBox(height: 16),
+
+                    // Last Name Field
+                    TextField(
+                      controller: _lastNameController,
+                      decoration: InputDecoration(
+                        filled: true,
+                        fillColor: Colors.white,
+                        border: const OutlineInputBorder(),
+                        labelText: 'Last Name',
+                        hintText: 'Enter your last name',
+                      ),
+                    ),
+                    const SizedBox(height: 16),
+
+                    // Email Field
+                    TextField(
+                      controller: _emailController,
+                      decoration: InputDecoration(
+                        filled: true,
+                        fillColor: Colors.white,
+                        border: const OutlineInputBorder(),
+                        labelText: 'Email',
+                        hintText: 'Enter your email',
+                      ),
+                      keyboardType: TextInputType.emailAddress,
+                    ),
+                    const SizedBox(height: 16),
+
+                    // Password Field
+                    TextField(
+                      controller: _passwordController,
+                      obscureText: true,
+                      decoration: InputDecoration(
+                        filled: true,
+                        fillColor: Colors.white,
+                        border: const OutlineInputBorder(),
+                        labelText: 'Password',
+                        hintText: 'Enter your password',
+                      ),
+                    ),
+                    const SizedBox(height: 16),
+
+                    // Confirm Password Field
+                    TextField(
+                      controller: _confirmPasswordController,
+                      obscureText: true,
+                      decoration: InputDecoration(
+                        filled: true,
+                        fillColor: Colors.white,
+                        border: const OutlineInputBorder(),
+                        labelText: 'Confirm Password',
+                        hintText: 'Re-enter your password',
+                      ),
+                    ),
+                    const SizedBox(height: 16),
+
+                    // Register Button
+                    ElevatedButton(
+                      style: ElevatedButton.styleFrom(
+                        backgroundColor: Colors.brown[50],
+                        foregroundColor: Colors.black,
+                        padding: const EdgeInsets.all(12.0),
+                        minimumSize: const Size(double.infinity, 40),
+                      ),
+                      onPressed: _isLoading ? null : _handleRegister,
+                      child: _isLoading
+                          ? SizedBox(
+                              width: 20,
+                              height: 20,
+                              child: CircularProgressIndicator(
+                                strokeWidth: 2,
+                                color: Colors.black,
+                              ),
+                            )
+                          : const Text('Register', style: TextStyle(fontSize: 14)),
+                    ),
+
+                    const SizedBox(height: 16),
+
+                    // Login Link
+                    TextButton(
+                      onPressed: _isLoading
+                          ? null
+                          : () {
+                              Navigator.pushReplacementNamed(context, '/login');
+                            },
+                      child:  const Text(
+                        'Already have an account? Log in',
+                        style: TextStyle(fontSize: 16, color: Colors.white),
+                      ),
+                    ),
+                  ],
+                ),
+              ),
+            ],
+          ),
         ),
       ),
     );
+  }
+
+  @override
+  void dispose() {
+    _emailController.dispose();
+    _passwordController.dispose();
+    _firstNameController.dispose();
+    _lastNameController.dispose();
+    _usernameController.dispose();
+    _confirmPasswordController.dispose();
+    super.dispose();
   }
 }
