@@ -7,7 +7,7 @@ import "./PostDetail.css";
 interface PostDetailProps {
   post: Post;
   onClose: () => void;
-  onDelete: (postId: string) => void;
+  onDelete?: (postId: string) => void;
 }
 
 interface MovieDetails {
@@ -135,7 +135,7 @@ const PostDetail: React.FC<PostDetailProps> = ({ post, onClose, onDelete }) => {
 
   const handleDelete = () => {
     if (window.confirm('Are you sure you want to delete this review?')) {
-      onDelete(post._id);
+      onDelete?.(post._id);
       onClose();
     }
   };
@@ -164,7 +164,7 @@ const PostDetail: React.FC<PostDetailProps> = ({ post, onClose, onDelete }) => {
                 <p className="movie-overview">{movie.overview}</p>
               )}
               <div className="review-section">
-                <h3>Your Review</h3>
+                <h3>Review</h3>
                 {isEditing ? (
                   <div className="edit-form">
                     <div className="rating-input">
@@ -207,7 +207,7 @@ const PostDetail: React.FC<PostDetailProps> = ({ post, onClose, onDelete }) => {
                 >
                   View Movie Page
                 </button>
-                {!isEditing && (
+                {onDelete && !isEditing && (
                   <button 
                     className="edit-button"
                     onClick={handleEdit}
@@ -215,7 +215,7 @@ const PostDetail: React.FC<PostDetailProps> = ({ post, onClose, onDelete }) => {
                     Edit Review
                   </button>
                 )}
-                {!isEditing && (
+                {onDelete && !isEditing && (
                   <button 
                     className="delete-button"
                     onClick={handleDelete}

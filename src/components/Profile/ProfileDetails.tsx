@@ -5,10 +5,20 @@ import { User } from "../../types";
 interface ProfileDetailsProps {
   userInfo: User | null;
   error: string;
-  navigateToEdit: () => void;
+  navigateToEdit?: () => void;
+  showFollowButton?: boolean;
+  isFollowing?: boolean;
+  onFollowToggle?: () => void;
 }
 
-const ProfileDetails: React.FC<ProfileDetailsProps> = ({ userInfo, error, navigateToEdit }) => {
+const ProfileDetails: React.FC<ProfileDetailsProps> = ({ 
+  userInfo, 
+  error, 
+  navigateToEdit,
+  showFollowButton,
+  isFollowing,
+  onFollowToggle
+}) => {
   return (
     <div className="profile-details">
       {error && <div className="error-message">Error: {error}</div>}
@@ -32,9 +42,21 @@ const ProfileDetails: React.FC<ProfileDetailsProps> = ({ userInfo, error, naviga
             </div>
           </div>
 
-          <button onClick={navigateToEdit} className="edit-profile-button">
-            Edit Profile
-          </button>
+          <div className="profile-actions">
+            {navigateToEdit && (
+              <button onClick={navigateToEdit} className="edit-profile-button">
+                Edit Profile
+              </button>
+            )}
+            {showFollowButton && onFollowToggle && (
+              <button 
+                onClick={onFollowToggle} 
+                className={`follow-button ${isFollowing ? 'following' : ''}`}
+              >
+                {isFollowing ? 'Following' : 'Follow'}
+              </button>
+            )}
+          </div>
         </div>
       ) : (
         <div className="loading">Loading...</div>

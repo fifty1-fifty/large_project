@@ -11,10 +11,62 @@ const ProfilePage: React.FC = () => {
   const navigate = useNavigate();
   const location = useLocation();
   const [userInfo, setUserInfo] = useState<User | null>(null);
+  const [currentUser, setCurrentUser] = useState<User | null>(null);
   const [error, setError] = useState("");
   const [posts, setPosts] = useState<Post[]>([]);
   const [loading, setLoading] = useState(true);
   const [selectedPost, setSelectedPost] = useState<Post | null>(null);
+  const [isFollowing, setIsFollowing] = useState(false);
+
+  // Get current user from localStorage
+  useEffect(() => {
+    const storedUser = localStorage.getItem("user_data");
+    if (storedUser) {
+      setCurrentUser(JSON.parse(storedUser));
+    }
+  }, []);
+
+  const isOwnProfile = !userId || (currentUser && userId === currentUser.id);
+
+  const handleFollowToggle = async () => {
+    if (!currentUser || !userInfo) return;
+
+    try {
+      const endpoint = isFollowing 
+        ? `/api/profile/${currentUser.id}/unfollow/${userInfo.id}`
+        : `/api/profile/${currentUser.id}/follow/${userInfo.id}`;
+
+      const response = await fetch(`http://group22cop4331c.xyz${endpoint}`, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        }
+      });
+
+      if (!response.ok) {
+        const errorData = await response.json();
+        throw new Error(errorData.error || 'Failed to update follow status');
+      }
+
+      // Update the local state
+      setIsFollowing(!isFollowing);
+      
+      // Update the userInfo followers list
+      if (userInfo.followers) {
+        if (isFollowing) {
+          // Remove current user from followers
+          userInfo.followers = userInfo.followers.filter((id: string) => id !== currentUser.id);
+        } else {
+          // Add current user to followers
+          userInfo.followers.push(currentUser.id);
+        }
+        setUserInfo({...userInfo});
+      }
+    } catch (err) {
+      console.error('Error updating follow status:', err);
+      setError(err instanceof Error ? err.message : 'Failed to update follow status. Please try again.');
+    }
+  };
 
   const handleDeletePost = async (postId: string) => {
     try {
@@ -26,8 +78,7 @@ const ProfilePage: React.FC = () => {
         throw new Error('Failed to delete post');
       }
 
-      // Update the posts state by filtering out the deleted post
-      setPosts(prevPosts => prevPosts.filter(post => post._id !== postId));
+      setPosts((prevPosts: Post[]) => prevPosts.filter(post => post._id !== postId));
       setSelectedPost(null); 
     } catch (err) {
       console.error('Error deleting post:', err);
@@ -76,6 +127,11 @@ const ProfilePage: React.FC = () => {
         const profileData = await profileResponse.json();
         setUserInfo(profileData);
 
+        // Check if current user is following this profile
+        if (currentUser && currentUser.id !== targetUserId && profileData.followers) {
+          setIsFollowing(profileData.followers.includes(currentUser.id));
+        }
+
         // Fetch user posts
         const postsResponse = await fetch(`http://group22cop4331c.xyz/api/posts/user/${targetUserId}`);
         if (!postsResponse.ok) {
@@ -88,7 +144,6 @@ const ProfilePage: React.FC = () => {
         }
 
         const postsData = await postsResponse.json();
-        console.log("Fetched posts:", postsData); // Debug log
         setPosts(postsData);
       } catch (err) {
         console.error("Error fetching data:", err);
@@ -99,7 +154,7 @@ const ProfilePage: React.FC = () => {
     };
 
     fetchUserData();
-  }, [userId, location]);
+  }, [userId, location, currentUser]);
 
   const navigateToEdit = () => {
     navigate(`/edit`);
@@ -118,7 +173,7 @@ const ProfilePage: React.FC = () => {
   }
 
   // Filter out posts with empty comments and no ratings
-  const validPosts = posts.filter(post => post.Comment || post.Rating);
+  const validPosts = posts.filter((post: Post) => post.Comment || post.Rating);
 
   return (
     <div className="profile-page-container">
@@ -127,7 +182,10 @@ const ProfilePage: React.FC = () => {
           <ProfileDetails
             userInfo={userInfo}
             error={error}
-            navigateToEdit={navigateToEdit}
+            navigateToEdit={isOwnProfile ? navigateToEdit : undefined}
+            showFollowButton={!isOwnProfile}
+            isFollowing={isFollowing}
+            onFollowToggle={handleFollowToggle}
           />
         </div>
         <div className="reviews-section">
@@ -135,11 +193,12 @@ const ProfilePage: React.FC = () => {
             <div className="no-reviews">No reviews yet.</div>
           ) : (
             <div className="reviews-grid">
-              {validPosts.map((post) => (
+              {validPosts.map((post: Post) => (
                 <ReviewCard 
                   key={post._id} 
                   post={post} 
                   onPostClick={handlePostClick}
+                  showDeleteButton={isOwnProfile}
                 />
               ))}
             </div>
@@ -150,7 +209,7 @@ const ProfilePage: React.FC = () => {
         <PostDetail
           post={selectedPost}
           onClose={handleClosePostDetail}
-          onDelete={handleDeletePost}
+          onDelete={isOwnProfile ? handleDeletePost : undefined}
         />
       )}
     </div>

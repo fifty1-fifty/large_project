@@ -12,9 +12,10 @@ interface MovieDetails {
 interface ReviewCardProps {
     post: Post;
     onPostClick: (post: Post) => void;
+    showDeleteButton?: boolean;
 }
 
-const ReviewCard: React.FC<ReviewCardProps> = ({ post, onPostClick }) => {
+const ReviewCard: React.FC<ReviewCardProps> = ({ post, onPostClick, showDeleteButton }) => {
     const [movieDetails, setMovieDetails] = useState<MovieDetails | null>(null);
     const [isLoading, setIsLoading] = useState(true);
     const [error, setError] = useState<string | null>(null);
@@ -106,6 +107,17 @@ const ReviewCard: React.FC<ReviewCardProps> = ({ post, onPostClick }) => {
                     <h3>{movieDetails?.title}</h3>
                     <div className="rating">Rating: {post.Rating}/5</div>
                     <p className="comment">{post.Comment}</p>
+                    {showDeleteButton && (
+                        <button 
+                            className="delete-review-button"
+                            onClick={(e) => {
+                                e.stopPropagation();
+                                onPostClick(post);
+                            }}
+                        >
+                            Delete Review
+                        </button>
+                    )}
                 </div>
             </div>
         </div>
