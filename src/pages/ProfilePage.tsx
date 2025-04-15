@@ -27,6 +27,7 @@ const ProfilePage: React.FC = () => {
       setCurrentUser({
         ...userData,
         _id: userData.id.toString(),
+        UserId: userData.id,
       });
       console.log("Loaded current user from localStorage:", {
         id: userData.id,
@@ -44,7 +45,8 @@ const ProfilePage: React.FC = () => {
         setIsLoading(true);
         setError("");
 
-        const targetUserId = userId || currentUser?._id;
+        //const targetUserId = userId || currentUser?._id;
+        const targetUserId = userId || currentUser?.UserId?.toString();
 
         if (!targetUserId) {
           setError("No user ID provided");
@@ -122,9 +124,13 @@ const ProfilePage: React.FC = () => {
         return;
       }
 
+      // const endpoint = isFollowing
+      //   ? `/api/profile/${currentUser._id}/unfollow/${user._id}`
+      //   : `/api/profile/${currentUser._id}/follow/${user._id}`;
       const endpoint = isFollowing
-        ? `/api/profile/${currentUser._id}/unfollow/${user._id}`
-        : `/api/profile/${currentUser._id}/follow/${user._id}`;
+        ? `/api/profile/${currentUser.UserId}/unfollow/${user.UserId}`
+        : `/api/profile/${currentUser.UserId}/follow/${user.UserId}`;
+
 
       const response = await fetch(endpoint, {
         method: "POST",
