@@ -63,7 +63,7 @@ class _MainPageState extends State<MainPage> {
         'password': password.trim(),
       });
 
-      final url = ' group22cop4331c.xyz/api/login';
+      final url = 'group22cop4331c.xyz/api/login';
       final response = await CardsData.getJson(url, payload);
       final jsonObject = json.decode(response);
 
@@ -181,6 +181,19 @@ class _MainPageState extends State<MainPage> {
                     ),
                     onPressed: _handleLogin,
                     child: Text('Do Login', style: TextStyle(fontSize: 14)),
+                  ),
+
+                  const SizedBox(height: 16),
+
+                  // Registration Button
+                  TextButton(
+                    onPressed: () {
+                      Navigator.pushNamed(context, '/register');
+                    },
+                    child: const Text(
+                      'Create an account',
+                      style: TextStyle(fontSize: 16, color: Colors.white),
+                    ),
                   ),
                 ],
               ),
