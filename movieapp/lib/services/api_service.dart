@@ -96,6 +96,110 @@ class ApiService {
     return (movieList as List).map((item) => Movie.fromJson(item)).toList();
   }
 
+  //verify email
+  static Future<String> verifyEmail(String token) async {
+    final response = await http.get(
+      Uri.parse('$_baseUrl/verifyEmail?token=$token'),
+    );
+
+    final data = _handleResponse(response);
+
+    // If the server sends just a plain string, cast to String. Adjust as needed.
+    return data is String ? data : data.toString();
+  }
+
+  //send email
+  static Future<void> sendEmail({
+    required String to,
+    required String subject,
+    required String html,
+    required String token,
+  }) async {
+    final rawToken = token.replaceFirst('Bearer ', '');
+
+    final response = await http.post(
+      Uri.parse('$_baseUrl/sendEmail'),
+      headers: {'Authorization': rawToken, 'Content-Type': 'application/json'},
+      body: jsonEncode({'to': to, 'subject': subject, 'html': html}),
+    );
+
+    _handleResponse(response);
+  }
+
+  //get full movie info
+  static Future<Map<String, dynamic>> getFullMovieInfo({
+    required int id,
+    required String token,
+  }) async {
+    final rawToken = token.replaceFirst('Bearer ', '');
+
+    final response = await http.post(
+      Uri.parse('$_baseUrl/fullMovieInfo'),
+      headers: {'Authorization': rawToken, 'Content-Type': 'application/json'},
+      body: jsonEncode({'id': id}),
+    );
+
+    final data = _handleResponse(response);
+    return data['movieData'];
+  }
+
+  //movie credit
+  static Future<Map<String, dynamic>> getMovieCredits({
+    required int id,
+    required String token,
+  }) async {
+    final rawToken = token.replaceFirst('Bearer ', '');
+
+    final response = await http.post(
+      Uri.parse('$_baseUrl/movieCredit'),
+      headers: {'Authorization': rawToken, 'Content-Type': 'application/json'},
+      body: jsonEncode({'id': id}),
+    );
+
+    final data = _handleResponse(response);
+    return data['movieData'];
+  }
+
+  //delete post
+  static Future<String> deletePost({required String postId}) async {
+    final response = await http.delete(
+      Uri.parse('$_baseUrl/posts/deletepost/$postId'),
+      headers: {'Content-Type': 'application/json'},
+    );
+
+    final data = _handleResponse(response);
+    return data['message'];
+  }
+
+  //edit post
+  static Future<Map<String, dynamic>> editPost({
+    required String postId,
+    required int rating,
+    required String comment,
+  }) async {
+    final response = await http.put(
+      Uri.parse('$_baseUrl/posts/edit/$postId'),
+      headers: {'Content-Type': 'application/json'},
+      body: jsonEncode({'rating': rating, 'comment': comment}),
+    );
+
+    final data = _handleResponse(response);
+    return {'message': data['message'], 'post': data['post']};
+  }
+
+  //fetch user's posts
+  static Future<List<dynamic>> fetchUserPosts({required String userId}) async {
+    final response = await http.get(Uri.parse('$_baseUrl/posts/user/$userId'));
+
+    final data = _handleResponse(response);
+
+    if (data is List) {
+      return data;
+    } else {
+      throw Exception('Unexpected response format for user posts');
+    }
+  }
+
   //handle tokens for each route
   static Future<Map<String, dynamic>> getProtectedData() async {
     final token = await SecureStorage.getToken();

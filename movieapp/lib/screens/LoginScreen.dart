@@ -37,7 +37,7 @@ class _LoginScreenState extends State<LoginScreen> {
       final rawToken = response['token']?.replaceFirst('Bearer ', '');
       await SecureStorage.saveToken(rawToken);
 
-      Navigator.pushNamed(context, Routes.HOMESCREEN, arguments: rawToken);
+      Navigator.pushNamed(context, Routes.EXPLORESCREEN, arguments: rawToken);
     } catch (e) {
       setState(() {
         _errorMessage =

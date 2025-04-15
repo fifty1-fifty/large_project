@@ -6,15 +6,15 @@ import '../services/api_service.dart';
 import '../services/secure_storage.dart';
 import '../widgets/movie_card.dart';
 
-class HomeScreen extends StatefulWidget {
-  const HomeScreen({super.key, required this.token});
+class ExploreScreen extends StatefulWidget {
+  const ExploreScreen({super.key, required this.token});
   final String token;
 
   @override
-  State<HomeScreen> createState() => _HomeScreenState();
+  State<ExploreScreen> createState() => _ExploreScreenState();
 }
 
-class _HomeScreenState extends State<HomeScreen> {
+class _ExploreScreenState extends State<ExploreScreen> {
   List<Movie> _movies = [];
   int _currentPage = 1;
   bool _isLoading = false;
