@@ -23,27 +23,35 @@ const ProfilePage: React.FC = () => {
   useEffect(() => {
     const storedUser = localStorage.getItem("user_data");
     if (storedUser) {
-      const userData = JSON.parse(storedUser);
-      setCurrentUser({
-        ...userData,
-      });
+      try {
+        const userData = JSON.parse(storedUser);
+        if (userData._id) {
+          setCurrentUser(userData); // Assuming userData contains the _id field
+        } else {
+          throw new Error("Invalid user data in localStorage");
+        }
+      } catch (err) {
+        setError("Error parsing user data from localStorage");
+      }
     } else {
       setError("Not logged in");
-      setIsLoading(false);
     }
+    setIsLoading(false);
   }, []);
 
   useEffect(() => {
     const fetchProfile = async () => {
+      if (!currentUser?._id) {
+        setError("No valid current user available.");
+        return;
+      }
+
       try {
         setIsLoading(true);
         setError("");
-        
+
         // If no userId is provided, use the current user's ID
-        const targetUserId = userId || currentUser?._id;
-        
-        console.log('Debug - targetUserId:', targetUserId);
-        console.log('Debug - currentUser._id:', currentUser?._id);
+        const targetUserId = userId || currentUser._id;
         
         if (!targetUserId) {
           setError('No user ID provided');
@@ -52,8 +60,7 @@ const ProfilePage: React.FC = () => {
         }
 
         // Check if this is the current user's profile
-        const isOwn = targetUserId === currentUser?._id;
-        console.log('Debug - isOwnProfile:', isOwn);
+        const isOwn = targetUserId === currentUser._id;
         setIsOwnProfile(isOwn);
 
         const response = await fetch(`/api/profile/${targetUserId}`);
@@ -62,7 +69,7 @@ const ProfilePage: React.FC = () => {
         }
         const data = await response.json();
         setUser(data);
-        
+
         // Fetch user's posts
         const postsResponse = await fetch(`/api/posts/user/${targetUserId}`);
         if (!postsResponse.ok) {
@@ -81,11 +88,6 @@ const ProfilePage: React.FC = () => {
       fetchProfile();
     }
   }, [userId, currentUser]);
-
-  // Add debug log for isOwnProfile changes
-  useEffect(() => {
-    console.log('isOwnProfile changed:', isOwnProfile);
-  }, [isOwnProfile]);
 
   const navigateToEdit = () => {
     if (isOwnProfile) {
@@ -135,7 +137,7 @@ const ProfilePage: React.FC = () => {
 
   const handleDeletePost = async (postId: string) => {
     if (!isOwnProfile) return;
-    
+
     try {
       const response = await fetch(`/api/posts/deletepost/${postId}`, {
         method: "DELETE",
