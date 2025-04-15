@@ -215,12 +215,12 @@ const Info = () => {
 
     async function addMovie( ratingValue : any )
     {
-        if(ratingValue === undefined)
+        if(ratingValue === null)
         {
             ratingValue = 5;
         }
 
-        if(movieSpecificComment === undefined)
+        if(movieSpecificComment === "")
         {
             movieSpecificComment = "Added this to their collection."
         }
