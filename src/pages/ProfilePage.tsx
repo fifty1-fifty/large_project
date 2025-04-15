@@ -27,7 +27,7 @@ const ProfilePage: React.FC = () => {
       setCurrentUser({
         ...userData,
         _id: userData.id.toString(),
-        UserId: userData.id,
+        UserId: parseInt(userData.id),
       });
       console.log("Loaded current user from localStorage:", {
         id: userData.id,
@@ -76,7 +76,12 @@ const ProfilePage: React.FC = () => {
           throw new Error("Failed to fetch profile");
         }
         const data = await response.json();
-        setUser(data);
+        //setUser(data);
+        setUser({
+          ...data,
+          UserId: parseInt(userId || "0")  // ensure it's a number
+        });
+        
 
         // Check if current user is following this profile by looking at the followers array
         if (!isOwn && currentUser?._id) {
