@@ -104,7 +104,7 @@ const ReviewCard: React.FC<ReviewCardProps> = ({ post, onPostClick }) => {
                 </div>
                 <div className="review-details">
                     <h3>{movieDetails?.title}</h3>
-                    <div className="rating">Rating: {post.Rating}/10</div>
+                    <div className="rating">Rating: {post.Rating}/5</div>
                     <p className="comment">{post.Comment}</p>
                 </div>
             </div>
