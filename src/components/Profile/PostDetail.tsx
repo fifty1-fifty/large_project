@@ -89,12 +89,48 @@ const PostDetail: React.FC<PostDetailProps> = ({ post, onClose, onDelete }) => {
     setIsEditing(true);
   };
 
-  const handleSave = () => {
-    // Update the post object with edited values
-    post.Rating = editedRating;
-    post.Comment = editedComment;
-    setIsEditing(false);
-    onClose(); // Close the detail view to show updated values
+  const handleSave = async () => {
+    try {
+      const storedUser = localStorage.getItem("user_data");
+      if (!storedUser) {
+        setError("User not logged in");
+        return;
+      }
+
+      const user = JSON.parse(storedUser);
+      const token = user?.token;
+
+      if (!token) {
+        setError("No authentication token found");
+        return;
+      }
+
+      const response = await fetch(`/api/posts/edit/${post._id}`, {
+        method: 'PUT',
+        headers: {
+          'Content-Type': 'application/json',
+          'authorization': token
+        },
+        body: JSON.stringify({
+          rating: editedRating,
+          comment: editedComment
+        })
+      });
+
+      if (!response.ok) {
+        throw new Error('Failed to update post');
+      }
+
+      const updatedPost = await response.json();
+      // Update the post object with the server response
+      post.Rating = updatedPost.post.Rating;
+      post.Comment = updatedPost.post.Comment;
+      
+      setIsEditing(false);
+      onClose(); // Close the detail view to show updated values
+    } catch (err) {
+      setError('Failed to update post. Please try again.');
+    }
   };
 
   const handleDelete = () => {
