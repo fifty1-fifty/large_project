@@ -172,7 +172,7 @@
 
 .profile-bio {
   font-size: 1.1rem;
-  color: white;
+  color: white !important;
   max-width: 600px;
   line-height: 1.5;
   font-weight: 500;
