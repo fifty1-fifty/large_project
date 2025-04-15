@@ -3,17 +3,16 @@ import { useParams, useNavigate } from "react-router-dom";
 import ProfileDetails from "../components/Profile/ProfileDetails";
 import ReviewCard from "../components/Profile/ReviewCard";
 import PostDetail from "../components/Profile/PostDetail";
-import { User, Post } from "../types";
 import Navigation from "../components/Navigation/Navigation";
 import "./ProfilePage.css";
 
 const ProfilePage: React.FC = () => {
   const { userId } = useParams<{ userId: string }>();
   const navigate = useNavigate();
-  const [user, setUser] = useState<User | null>(null);
-  const [currentUser, setCurrentUser] = useState<User | null>(null);
-  const [posts, setPosts] = useState<Post[]>([]);
-  const [selectedPost, setSelectedPost] = useState<Post | null>(null);
+  const [user, setUser] = useState<any | null>(null); 
+  const [currentUser, setCurrentUser] = useState<any | null>(null); 
+  const [posts, setPosts] = useState<any[]>([]); 
+  const [selectedPost, setSelectedPost] = useState<any | null>(null); 
   const [isFollowing, setIsFollowing] = useState<boolean>(false);
   const [isLoading, setIsLoading] = useState(true);
   const [error, setError] = useState<string>("");
@@ -25,34 +24,38 @@ const ProfilePage: React.FC = () => {
     if (storedUser) {
       try {
         const userData = JSON.parse(storedUser);
-        if (userData._id) {
-          setCurrentUser(userData); // Assuming userData contains the _id field
+        console.log("Stored user data:", storedUser);  
+        console.log("Parsed user data:", userData); 
+
+        if (userData.id) {
+          setCurrentUser({
+            ...userData,
+            UserId: userData.id.toString()  
+          });
         } else {
-          throw new Error("Invalid user data in localStorage");
+          throw new Error("Invalid user data in localStorage: Missing id");
         }
       } catch (err) {
-        setError("Error parsing user data from localStorage");
+        setError(`Error parsing user data from localStorage: ${err.message}`);
       }
     } else {
-      setError("Not logged in");
+      setError("Not logged in: No user data found in localStorage");
     }
     setIsLoading(false);
   }, []);
 
   useEffect(() => {
     const fetchProfile = async () => {
-      if (!currentUser?._id) {
-        setError("No valid current user available.");
-        return;
-      }
-
       try {
         setIsLoading(true);
         setError("");
-
-        // If no userId is provided, use the current user's ID
-        const targetUserId = userId || currentUser._id;
         
+        // If no userId is provided, use the current user's ID
+        const targetUserId = userId || currentUser?._id;  
+
+        console.log('Debug - targetUserId:', targetUserId);
+        console.log('Debug - currentUser._id:', currentUser?._id);
+
         if (!targetUserId) {
           setError('No user ID provided');
           setIsLoading(false);
@@ -60,7 +63,8 @@ const ProfilePage: React.FC = () => {
         }
 
         // Check if this is the current user's profile
-        const isOwn = targetUserId === currentUser._id;
+        const isOwn = targetUserId === currentUser?.UserId;
+        console.log('Debug - isOwnProfile:', isOwn);
         setIsOwnProfile(isOwn);
 
         const response = await fetch(`/api/profile/${targetUserId}`);
@@ -89,6 +93,11 @@ const ProfilePage: React.FC = () => {
     }
   }, [userId, currentUser]);
 
+  // Add debug log for isOwnProfile changes
+  useEffect(() => {
+    console.log('isOwnProfile changed:', isOwnProfile);
+  }, [isOwnProfile]);
+
   const navigateToEdit = () => {
     if (isOwnProfile) {
       navigate("/edit");
@@ -100,8 +109,8 @@ const ProfilePage: React.FC = () => {
 
     try {
       const endpoint = isFollowing
-        ? `/api/profile/${currentUser._id}/unfollow/${user._id}`
-        : `/api/profile/${currentUser._id}/follow/${user._id}`;
+        ? `/api/profile/${currentUser.UserId}/unfollow/${user.UserId}`
+        : `/api/profile/${currentUser.UserId}/follow/${user.UserId}`;
 
       const response = await fetch(`http://group22cop4331c.xyz${endpoint}`, {
         method: "POST",
@@ -117,15 +126,15 @@ const ProfilePage: React.FC = () => {
 
       // Update local state
       setIsFollowing(!isFollowing);
-      
+
       // Update the user object to reflect the change
       setUser(prevUser => {
         if (!prevUser) return null;
         return {
           ...prevUser,
           followers: isFollowing 
-            ? prevUser.followers?.filter(id => id !== currentUser._id)
-            : [...(prevUser.followers || []), currentUser._id]
+            ? prevUser.followers?.filter(id => id !== currentUser.UserId)
+            : [...(prevUser.followers || []), currentUser.UserId]
         };
       });
 
@@ -137,7 +146,7 @@ const ProfilePage: React.FC = () => {
 
   const handleDeletePost = async (postId: string) => {
     if (!isOwnProfile) return;
-
+    
     try {
       const response = await fetch(`/api/posts/deletepost/${postId}`, {
         method: "DELETE",
@@ -145,7 +154,7 @@ const ProfilePage: React.FC = () => {
 
       if (!response.ok) throw new Error("Failed to delete post");
 
-      setPosts((prev: Post[]) => prev.filter(post => post._id !== postId));
+      setPosts((prev: any[]) => prev.filter(post => post._id !== postId));  // Use 'any[]' for posts
       setSelectedPost(null);
     } catch (err) {
       console.error("Delete error:", err);
@@ -153,14 +162,14 @@ const ProfilePage: React.FC = () => {
     }
   };
 
-  const handlePostClick = (post: Post) => setSelectedPost(post);
+  const handlePostClick = (post: any) => setSelectedPost(post); // Use 'any' for post
   const handleClosePostDetail = () => setSelectedPost(null);
 
   if (isLoading) return <div className="text-center mt-5">Loading...</div>;
   if (error) return <div className="alert alert-danger mt-5">{error}</div>;
   if (!user) return <div className="alert alert-warning mt-5">User not found</div>;
 
-  const validPosts = posts.filter((post: Post) => post.Comment || post.Rating);
+  const validPosts = posts.filter((post: any) => post.Comment || post.Rating); // Use 'any' for post
 
   return (
     <div>
@@ -182,7 +191,7 @@ const ProfilePage: React.FC = () => {
               <div className="no-reviews">No reviews yet.</div>
             ) : (
               <div className="reviews-grid">
-                {validPosts.map((post: Post) => (
+                {validPosts.map((post: any) => (
                   <ReviewCard
                     key={post._id}
                     post={post}
