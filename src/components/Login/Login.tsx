@@ -138,7 +138,7 @@ function Login()
 
     function goToPasswordResetPage()
     {	
-	    window.location.href = '/reset';
+	    window.location.href = '/passwordreset';
     }
 
 	
