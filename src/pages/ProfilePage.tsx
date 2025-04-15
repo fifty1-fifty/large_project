@@ -85,7 +85,7 @@ const ProfilePage: React.FC = () => {
 
         // Check if current user is following this profile by looking at the followers array
         if (!isOwn && currentUser?._id) {
-          const isFollowing = data.followers?.includes(currentUser._id) || false;
+          const isFollowing = data.followers?.includes(currentUser.UserId) || false;
           setIsFollowing(isFollowing);
         }
 
