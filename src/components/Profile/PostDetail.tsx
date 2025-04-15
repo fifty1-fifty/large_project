@@ -8,6 +8,7 @@ interface PostDetailProps {
   post: Post;
   onClose: () => void;
   onDelete?: (postId: string) => void;
+  isOwnProfile: boolean;
 }
 
 interface MovieDetails {
@@ -16,7 +17,7 @@ interface MovieDetails {
   overview: string;
 }
 
-const PostDetail: React.FC<PostDetailProps> = ({ post, onClose, onDelete }) => {
+const PostDetail: React.FC<PostDetailProps> = ({ post, onClose, onDelete, isOwnProfile }) => {
   const navigate = useNavigate();
   const [movie, setMovie] = useState<MovieDetails | null>(null);
   const [loading, setLoading] = useState(true);
@@ -25,20 +26,19 @@ const PostDetail: React.FC<PostDetailProps> = ({ post, onClose, onDelete }) => {
   const [editedRating, setEditedRating] = useState(post.Rating);
   const [editedComment, setEditedComment] = useState(post.Comment);
 
-  // Get the current logged-in user from localStorage
-  const storedUser = localStorage.getItem("user_data");
-  const currentUser = storedUser ? JSON.parse(storedUser) : null;
-
   useEffect(() => {
     const fetchMovieDetails = async () => {
       try {
-        if (!currentUser) {
+        const storedUser = localStorage.getItem("user_data");
+        if (!storedUser) {
           setError("User not logged in");
           setLoading(false);
           return;
         }
 
-        const token = currentUser?.token;
+        const user = JSON.parse(storedUser);
+        const token = user?.token;
+
         if (!token) {
           setError("No authentication token found");
           setLoading(false);
@@ -80,7 +80,7 @@ const PostDetail: React.FC<PostDetailProps> = ({ post, onClose, onDelete }) => {
     };
 
     fetchMovieDetails();
-  }, [post.MovieId, currentUser]);
+  }, [post.MovieId]);
 
   const handleViewMovie = () => {
     navigate(`/movie?movieId=${post.MovieId}`);
@@ -92,12 +92,15 @@ const PostDetail: React.FC<PostDetailProps> = ({ post, onClose, onDelete }) => {
 
   const handleSave = async () => {
     try {
-      if (!currentUser) {
+      const storedUser = localStorage.getItem("user_data");
+      if (!storedUser) {
         setError("User not logged in");
         return;
       }
 
-      const token = currentUser?.token;
+      const user = JSON.parse(storedUser);
+      const token = user?.token;
+
       if (!token) {
         setError("No authentication token found");
         return;
@@ -120,12 +123,11 @@ const PostDetail: React.FC<PostDetailProps> = ({ post, onClose, onDelete }) => {
       }
 
       const updatedPost = await response.json();
-      // Update the post object with the server response
       post.Rating = updatedPost.post.Rating;
       post.Comment = updatedPost.post.Comment;
       
       setIsEditing(false);
-      onClose(); // Close the detail view to show updated values
+      onClose();
     } catch (err) {
       setError('Failed to update post. Please try again.');
     }
@@ -137,9 +139,6 @@ const PostDetail: React.FC<PostDetailProps> = ({ post, onClose, onDelete }) => {
       onClose();
     }
   };
-
-  // Check if the logged-in user is the owner of the post
-  const isPostOwner = currentUser?.UserId === post.UserId;
 
   return (
     <div className="post-detail-overlay" onClick={onClose}>
@@ -208,7 +207,7 @@ const PostDetail: React.FC<PostDetailProps> = ({ post, onClose, onDelete }) => {
                 >
                   View Movie Page
                 </button>
-                {isPostOwner && !isEditing && (
+                {isOwnProfile && !isEditing && (
                   <button 
                     className="edit-button"
                     onClick={handleEdit}
@@ -216,7 +215,7 @@ const PostDetail: React.FC<PostDetailProps> = ({ post, onClose, onDelete }) => {
                     Edit Review
                   </button>
                 )}
-                {isPostOwner && !isEditing && (
+                {isOwnProfile && !isEditing && (
                   <button 
                     className="delete-button"
                     onClick={handleDelete}

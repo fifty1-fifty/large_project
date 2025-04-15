@@ -196,6 +196,7 @@ const ProfilePage: React.FC = () => {
             post={selectedPost}
             onClose={handleClosePostDetail}
             onDelete={isOwnProfile ? handleDeletePost : undefined}
+            isOwnProfile={isOwnProfile}
           />
         )}
       </div>
