@@ -7,7 +7,7 @@ interface ProfileDetailsProps {
   error: string;
   navigateToEdit?: () => void;
   showFollowButton?: boolean;
-  isFollowing?: boolean;
+  isFollowing: boolean;
   onFollowToggle?: () => void;
 }
 
