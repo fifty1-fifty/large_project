@@ -30,7 +30,7 @@ function App() {
         {/* require layout */}
         <Route path="/explore" element={<Layout><ExplorePage /></Layout>} />
 
-        <Route path="/registerComplete" element={<Layout><RegisterComplete /></Layout>} />
+        <Route path="/registerComplete" element={<RegisterComplete />} />
         <Route path="/passwordReset" element={<ResetPasswordPage />}/>
         <Route path="/reset-password" element={<ResetPassword />} />
 
