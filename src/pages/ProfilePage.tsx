@@ -3,7 +3,6 @@ import { useParams, useNavigate, useLocation } from "react-router-dom";
 import ProfileDetails from "../components/Profile/ProfileDetails";
 import ReviewCard from "../components/Profile/ReviewCard";
 import PostDetail from "../components/Profile/PostDetail";
-import EditPost from "../components/Profile/EditPost";
 import MovieCollection from "../components/Profile/MovieCollection";
 import { User, Post } from "../types";
 import "./ProfilePage.css";
@@ -17,9 +16,7 @@ const ProfilePage: React.FC = () => {
   const [posts, setPosts] = useState<Post[]>([]);
   const [loading, setLoading] = useState(true);
   const [selectedPost, setSelectedPost] = useState<Post | null>(null);
-  const [isEditing, setIsEditing] = useState(false);
   const [isCollectionOpen, setIsCollectionOpen] = useState(false);
-  const [collection, setCollection] = useState<string[]>([]);
 
   const handleDeletePost = async (postId: string) => {
     try {
@@ -46,29 +43,6 @@ const ProfilePage: React.FC = () => {
 
   const handleClosePostDetail = () => {
     setSelectedPost(null);
-  };
-
-  const handleEditProfile = () => {
-    setIsEditing(true);
-  };
-
-  const handleSaveProfile = async (updatedUser: any) => {
-    try {
-      const response = await fetch(`http://group22cop4331c.xyz/api/users/${userInfo?.id}`, {
-        method: 'PUT',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify(updatedUser),
-      });
-
-      if (response.ok) {
-        setUserInfo(updatedUser);
-        setIsEditing(false);
-      }
-    } catch (error) {
-      console.error('Error updating profile:', error);
-    }
   };
 
   useEffect(() => {
@@ -116,22 +90,9 @@ const ProfilePage: React.FC = () => {
         }
 
         const postsData = await postsResponse.json();
-        console.log("Fetched posts:", postsData); // Debug log
+        console.log("Fetched posts:", postsData);
         setPosts(postsData);
 
-        // Fetch user collection
-        const collectionResponse = await fetch(`http://group22cop4331c.xyz/api/users/${targetUserId}/collection`);
-        if (!collectionResponse.ok) {
-          throw new Error(`Failed to fetch collection: ${collectionResponse.status}`);
-        }
-
-        const collectionContentType = collectionResponse.headers.get("content-type");
-        if (!collectionContentType || !collectionContentType.includes("application/json")) {
-          throw new Error("Server did not return JSON for collection");
-        }
-
-        const collectionData = await collectionResponse.json();
-        setCollection(collectionData.collection || []);
       } catch (err) {
         console.error("Error fetching data:", err);
         setError(err instanceof Error ? err.message : "Failed to load profile data");
@@ -169,7 +130,7 @@ const ProfilePage: React.FC = () => {
           <ProfileDetails
             userInfo={userInfo}
             error={error}
-            navigateToEdit={handleEditProfile}
+            navigateToEdit={navigateToEdit}
             onCollectionClick={() => setIsCollectionOpen(!isCollectionOpen)}
           />
         </div>
@@ -196,16 +157,9 @@ const ProfilePage: React.FC = () => {
           onDelete={handleDeletePost}
         />
       )}
-      {isEditing && (
-        <EditPost
-          post={userInfo}
-          onSave={handleSaveProfile}
-          onCancel={() => setIsEditing(false)}
-        />
-      )}
       {isCollectionOpen && (
         <MovieCollection
-          movieIds={collection}
+          movieIds={userInfo.Collection || []}
           onClose={() => setIsCollectionOpen(false)}
         />
       )}
