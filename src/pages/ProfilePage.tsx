@@ -9,10 +9,10 @@ import "./ProfilePage.css";
 const ProfilePage: React.FC = () => {
   const { userId } = useParams<{ userId: string }>();
   const navigate = useNavigate();
-  const [user, setUser] = useState<any | null>(null); 
-  const [currentUser, setCurrentUser] = useState<any | null>(null); 
-  const [posts, setPosts] = useState<any[]>([]); 
-  const [selectedPost, setSelectedPost] = useState<any | null>(null); 
+  const [user, setUser] = useState<any | null>(null); // Use 'any' instead of User interface
+  const [currentUser, setCurrentUser] = useState<any | null>(null); // Use 'any' instead of User interface
+  const [posts, setPosts] = useState<any[]>([]); // Use 'any' instead of Post interface
+  const [selectedPost, setSelectedPost] = useState<any | null>(null); // Use 'any' instead of Post interface
   const [isFollowing, setIsFollowing] = useState<boolean>(false);
   const [isLoading, setIsLoading] = useState(true);
   const [error, setError] = useState<string>("");
@@ -36,7 +36,7 @@ const ProfilePage: React.FC = () => {
           throw new Error("Invalid user data in localStorage: Missing id");
         }
       } catch (err) {
-        setError(`Error parsing user data from localStorage: ${err.message}`);
+        setError(`Error parsing user data from localStorage: ${err instanceof Error ? err.message : 'Unknown error'}`);
       }
     } else {
       setError("Not logged in: No user data found in localStorage");
@@ -128,12 +128,12 @@ const ProfilePage: React.FC = () => {
       setIsFollowing(!isFollowing);
 
       // Update the user object to reflect the change
-      setUser(prevUser => {
+      setUser((prevUser: any) => {  
         if (!prevUser) return null;
         return {
           ...prevUser,
           followers: isFollowing 
-            ? prevUser.followers?.filter(id => id !== currentUser.UserId)
+            ? prevUser.followers?.filter((id: string) => id !== currentUser.UserId)  
             : [...(prevUser.followers || []), currentUser.UserId]
         };
       });
@@ -154,7 +154,7 @@ const ProfilePage: React.FC = () => {
 
       if (!response.ok) throw new Error("Failed to delete post");
 
-      setPosts((prev: any[]) => prev.filter(post => post._id !== postId));  // Use 'any[]' for posts
+      setPosts((prev: any[]) => prev.filter((post: any) => post._id !== postId));  /
       setSelectedPost(null);
     } catch (err) {
       console.error("Delete error:", err);
@@ -162,14 +162,14 @@ const ProfilePage: React.FC = () => {
     }
   };
 
-  const handlePostClick = (post: any) => setSelectedPost(post); // Use 'any' for post
+  const handlePostClick = (post: any) => setSelectedPost(post); 
   const handleClosePostDetail = () => setSelectedPost(null);
 
   if (isLoading) return <div className="text-center mt-5">Loading...</div>;
   if (error) return <div className="alert alert-danger mt-5">{error}</div>;
   if (!user) return <div className="alert alert-warning mt-5">User not found</div>;
 
-  const validPosts = posts.filter((post: any) => post.Comment || post.Rating); // Use 'any' for post
+  const validPosts = posts.filter((post: any) => post.Comment || post.Rating); 
 
   return (
     <div>
