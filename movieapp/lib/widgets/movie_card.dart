@@ -1,6 +1,5 @@
 // lib/widgets/movie_card.dart
 import 'package:flutter/material.dart';
-import '../widgets/bootstrap_card.dart';
 
 class MovieCard extends StatelessWidget {
   final String imageUrl;
