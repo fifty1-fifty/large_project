@@ -46,11 +46,6 @@ const ProfilePage: React.FC = () => {
 
         const targetUserId = userId || currentUser?._id;
 
-        console.log("Debug - ProfilePage:", {
-          currentUser: currentUser?._id,
-          targetUserId,
-        });
-
         if (!targetUserId) {
           setError("No user ID provided");
           setIsLoading(false);
@@ -58,17 +53,40 @@ const ProfilePage: React.FC = () => {
         }
 
         const isOwn = targetUserId === currentUser?._id;
-        console.log("Debug - isOwnProfile:", isOwn);
         setIsOwnProfile(isOwn);
 
-        const response = await fetch(`/api/profile/${targetUserId}`);
+        // Get the current user's token
+        const storedUser = localStorage.getItem("user_data");
+        const token = storedUser ? JSON.parse(storedUser).token : null;
+
+        if (!token) {
+          setError("Not logged in");
+          setIsLoading(false);
+          return;
+        }
+
+        const response = await fetch(`/api/profile/${targetUserId}`, {
+          headers: {
+            'authorization': token
+          }
+        });
         if (!response.ok) {
           throw new Error("Failed to fetch profile");
         }
         const data = await response.json();
         setUser(data);
 
-        const postsResponse = await fetch(`/api/posts/user/${targetUserId}`);
+        // Check if current user is following this profile by looking at the followers array
+        if (!isOwn && currentUser?._id) {
+          const isFollowing = data.followers?.includes(currentUser._id) || false;
+          setIsFollowing(isFollowing);
+        }
+
+        const postsResponse = await fetch(`/api/posts/user/${targetUserId}`, {
+          headers: {
+            'authorization': token
+          }
+        });
         if (!postsResponse.ok) {
           throw new Error("Failed to fetch posts");
         }
@@ -96,6 +114,14 @@ const ProfilePage: React.FC = () => {
     if (!currentUser || !user) return;
 
     try {
+      const storedUser = localStorage.getItem("user_data");
+      const token = storedUser ? JSON.parse(storedUser).token : null;
+
+      if (!token) {
+        setError("Not logged in");
+        return;
+      }
+
       const endpoint = isFollowing
         ? `/api/profile/${currentUser._id}/unfollow/${user._id}`
         : `/api/profile/${currentUser._id}/follow/${user._id}`;
@@ -104,7 +130,8 @@ const ProfilePage: React.FC = () => {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
-        },
+          "authorization": token
+        }
       });
 
       if (!response.ok) {
