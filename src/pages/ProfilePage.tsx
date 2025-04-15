@@ -4,6 +4,7 @@ import ProfileDetails from "../components/Profile/ProfileDetails";
 import ReviewCard from "../components/Profile/ReviewCard";
 import PostDetail from "../components/Profile/PostDetail";
 import { User, Post } from "../types";
+import Navigation from "../components/Navigation/Navigation";
 import "./ProfilePage.css";
 
 const ProfilePage: React.FC = () => {
@@ -99,7 +100,7 @@ const ProfilePage: React.FC = () => {
       setIsFollowing(!isFollowing);
       if (user.followers) {
         if (isFollowing) {
-          user.followers = user.followers.filter(id => id !== currentUser._id);
+          user.followers = user.followers.filter((id: string) => id !== currentUser._id);
         } else {
           user.followers.push(currentUser._id);
         }
@@ -119,7 +120,7 @@ const ProfilePage: React.FC = () => {
 
       if (!response.ok) throw new Error("Failed to delete post");
 
-      setPosts(prev => prev.filter(post => post._id !== postId));
+      setPosts((prev: Post[]) => prev.filter(post => post._id !== postId));
       setSelectedPost(null);
     } catch (err) {
       console.error("Delete error:", err);
@@ -134,45 +135,49 @@ const ProfilePage: React.FC = () => {
   if (error) return <div className="alert alert-danger mt-5">{error}</div>;
   if (!user) return <div className="alert alert-warning mt-5">User not found</div>;
 
-  const validPosts = posts.filter(post => post.Comment || post.Rating);
+  const validPosts = posts.filter((post: Post) => post.Comment || post.Rating);
 
   return (
-    <div className="profile-page-container">
-      <div className="profile-content">
-        <div className="profile-section">
-          <ProfileDetails
-            userInfo={user}
-            error={error}
-            navigateToEdit={isOwnProfile ? navigateToEdit : undefined}
-            showFollowButton={!isOwnProfile}
-            isFollowing={isFollowing}
-            onFollowToggle={handleFollowToggle}
+    <div>
+      <Navigation />
+      <div className="profile-page-container">
+        <div className="profile-content">
+          <div className="profile-section">
+            <ProfileDetails
+              userInfo={user}
+              error={error}
+              navigateToEdit={isOwnProfile ? navigateToEdit : undefined}
+              showFollowButton={!isOwnProfile}
+              isFollowing={isFollowing}
+              onFollowToggle={handleFollowToggle}
+            />
+          </div>
+          <div className="reviews-section">
+            {validPosts.length === 0 ? (
+              <div className="no-reviews">No reviews yet.</div>
+            ) : (
+              <div className="reviews-grid">
+                {validPosts.map((post: Post) => (
+                  <ReviewCard
+                    key={post._id}
+                    post={post}
+                    onPostClick={handlePostClick}
+                    showDeleteButton={isOwnProfile}
+                    onDelete={isOwnProfile ? handleDeletePost : undefined}
+                  />
+                ))}
+              </div>
+            )}
+          </div>
+        </div>
+        {selectedPost && (
+          <PostDetail
+            post={selectedPost}
+            onClose={handleClosePostDetail}
+            onDelete={isOwnProfile ? handleDeletePost : undefined}
           />
-        </div>
-        <div className="reviews-section">
-          {validPosts.length === 0 ? (
-            <div className="no-reviews">No reviews yet.</div>
-          ) : (
-            <div className="reviews-grid">
-              {validPosts.map(post => (
-                <ReviewCard
-                  key={post._id}
-                  post={post}
-                  onPostClick={handlePostClick}
-                  showDeleteButton={isOwnProfile}
-                />
-              ))}
-            </div>
-          )}
-        </div>
+        )}
       </div>
-      {selectedPost && (
-        <PostDetail
-          post={selectedPost}
-          onClose={handleClosePostDetail}
-          onDelete={isOwnProfile ? handleDeletePost : undefined}
-        />
-      )}
     </div>
   );
 };
