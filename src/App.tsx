@@ -28,8 +28,8 @@ function App() {
         <Route path="/registerComplete" element={<Layout><RegisterComplete /></Layout>} />
         <Route path="/movie" element={<Layout><MoviePage /></Layout>} />
         <Route path="/home" element={<Layout><HomePage /></Layout>} />
-        <Route path="/profile/" element={<ProfilePage />} />
-        <Route path="/profile/:userId?" element={<ProfilePage />} />
+        <Route path="/profile" element={<ProfilePage />} />
+        <Route path="/profile/:userId" element={<ProfilePage />} />
         <Route path="/edit" element={<Layout><EditProfilePage /></Layout>} />
         {/* <Route path="/edit-post/:postId" element={<Layout><EditPost post={undefined} /></Layout>} /> */}
         <Route path="/userProfile/:friendId" element={<Layout><FriendProfilePage /></Layout>}/>

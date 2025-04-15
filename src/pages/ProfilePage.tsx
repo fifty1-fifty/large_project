@@ -11,13 +11,14 @@ const ProfilePage: React.FC = () => {
   const navigate = useNavigate();
   const location = useLocation();
 
-  const [userInfo, setUserInfo] = useState<User | null>(null);
+  const [user, setUser] = useState<User | null>(null);
   const [currentUser, setCurrentUser] = useState<User | null>(null);
   const [posts, setPosts] = useState<Post[]>([]);
   const [selectedPost, setSelectedPost] = useState<Post | null>(null);
   const [isFollowing, setIsFollowing] = useState<boolean>(false);
-  const [loading, setLoading] = useState(true);
-  const [error, setError] = useState<string>("");
+  const [isLoading, setIsLoading] = useState(true);
+  const [error, setError] = useState<string | null>(null);
+  const [isOwnProfile, setIsOwnProfile] = useState(false);
 
   // Load current user from localStorage
   useEffect(() => {
@@ -26,68 +27,63 @@ const ProfilePage: React.FC = () => {
       setCurrentUser(JSON.parse(storedUser));
     } else {
       setError("Not logged in");
-      setLoading(false);
+      setIsLoading(false);
     }
   }, []);
 
-  // Determine if it's the current user's own profile
-  const isOwnProfile = !userId || userId === currentUser?._id;
-  const targetUserId = userId || currentUser?._id;
-
-  // Fetch profile + posts
   useEffect(() => {
-    const fetchUserData = async () => {
-      if (!targetUserId) {
-        setError("User ID not found");
-        setLoading(false);
-        return;
-      }
-
+    const fetchProfile = async () => {
       try {
-        // Fetch profile
-        const profileRes = await fetch(`http://group22cop4331c.xyz/api/profile/${targetUserId}`);
-        if (!profileRes.ok) throw new Error("Failed to fetch profile");
-        const profileData = await profileRes.json();
-        setUserInfo(profileData);
-
-        // Check follow status
-        if (
-          currentUser &&
-          targetUserId !== currentUser._id &&
-          profileData.followers?.includes(currentUser._id)
-        ) {
-          setIsFollowing(true);
+        setIsLoading(true);
+        setError(null);
+        
+        // If no userId is provided, use the current user's ID
+        const targetUserId = userId || currentUser?.id;
+        
+        if (!targetUserId) {
+          setError('No user ID provided');
+          setIsLoading(false);
+          return;
         }
 
-        // Fetch posts
-        const postsRes = await fetch(`http://group22cop4331c.xyz/api/posts/user/${targetUserId}`);
-        if (!postsRes.ok) throw new Error("Failed to fetch posts");
-        const postsData = await postsRes.json();
+        // Check if this is the current user's profile
+        setIsOwnProfile(targetUserId === currentUser?.id);
+
+        const response = await fetch(`/api/profile/${targetUserId}`);
+        if (!response.ok) {
+          throw new Error('Failed to fetch profile');
+        }
+        const data = await response.json();
+        setUser(data);
+        
+        // Fetch user's posts
+        const postsResponse = await fetch(`/api/posts/user/${targetUserId}`);
+        if (!postsResponse.ok) {
+          throw new Error('Failed to fetch posts');
+        }
+        const postsData = await postsResponse.json();
         setPosts(postsData);
       } catch (err) {
-        console.error("Fetch error:", err);
-        setError(err instanceof Error ? err.message : "Unknown error occurred");
+        setError(err instanceof Error ? err.message : 'An error occurred');
       } finally {
-        setLoading(false);
+        setIsLoading(false);
       }
     };
 
-    if (currentUser) {
-      fetchUserData();
-    }
-  }, [targetUserId, location, currentUser]);
+    fetchProfile();
+  }, [userId, currentUser]);
 
   const navigateToEdit = () => {
     navigate("/edit");
   };
 
   const handleFollowToggle = async () => {
-    if (!currentUser || !userInfo) return;
+    if (!currentUser || !user) return;
 
     try {
       const endpoint = isFollowing
-        ? `/api/profile/${currentUser._id}/unfollow/${userInfo._id}`
-        : `/api/profile/${currentUser._id}/follow/${userInfo._id}`;
+        ? `/api/profile/${currentUser._id}/unfollow/${user._id}`
+        : `/api/profile/${currentUser._id}/follow/${user._id}`;
 
       const response = await fetch(`http://group22cop4331c.xyz${endpoint}`, {
         method: "POST",
@@ -103,13 +99,13 @@ const ProfilePage: React.FC = () => {
 
       // Update local state
       setIsFollowing(!isFollowing);
-      if (userInfo.followers) {
+      if (user.followers) {
         if (isFollowing) {
-          userInfo.followers = userInfo.followers.filter(id => id !== currentUser._id);
+          user.followers = user.followers.filter(id => id !== currentUser._id);
         } else {
-          userInfo.followers.push(currentUser._id);
+          user.followers.push(currentUser._id);
         }
-        setUserInfo({ ...userInfo });
+        setUser({ ...user });
       }
     } catch (err) {
       console.error("Follow error:", err);
@@ -136,9 +132,9 @@ const ProfilePage: React.FC = () => {
   const handlePostClick = (post: Post) => setSelectedPost(post);
   const handleClosePostDetail = () => setSelectedPost(null);
 
-  if (loading) return <div className="text-center mt-5">Loading...</div>;
+  if (isLoading) return <div className="text-center mt-5">Loading...</div>;
   if (error) return <div className="alert alert-danger mt-5">{error}</div>;
-  if (!userInfo) return <div className="alert alert-warning mt-5">User not found</div>;
+  if (!user) return <div className="alert alert-warning mt-5">User not found</div>;
 
   const validPosts = posts.filter(post => post.Comment || post.Rating);
 
@@ -147,7 +143,7 @@ const ProfilePage: React.FC = () => {
       <div className="profile-content">
         <div className="profile-section">
           <ProfileDetails
-            userInfo={userInfo}
+            userInfo={user}
             error={error}
             navigateToEdit={isOwnProfile ? navigateToEdit : undefined}
             showFollowButton={!isOwnProfile}
