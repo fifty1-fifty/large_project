@@ -23,7 +23,12 @@ const ProfilePage: React.FC = () => {
   useEffect(() => {
     const storedUser = localStorage.getItem("user_data");
     if (storedUser) {
-      setCurrentUser(JSON.parse(storedUser));
+      const userData = JSON.parse(storedUser);
+      // Add _id property to match User interface
+      setCurrentUser({
+        ...userData,
+        _id: userData.id.toString() // Convert to string to match User interface
+      });
     } else {
       setError("Not logged in");
       setIsLoading(false);
@@ -37,10 +42,10 @@ const ProfilePage: React.FC = () => {
         setError("");
         
         // If no userId is provided, use the current user's ID
-        const targetUserId = userId || currentUser?._id;
+        const targetUserId = userId || currentUser?.id;
         
         console.log('Debug - targetUserId:', targetUserId);
-        console.log('Debug - currentUser._id:', currentUser?._id);
+        console.log('Debug - currentUser.id:', currentUser?.id);
         
         if (!targetUserId) {
           setError('No user ID provided');
@@ -49,7 +54,7 @@ const ProfilePage: React.FC = () => {
         }
 
         // Check if this is the current user's profile
-        const isOwn = targetUserId === currentUser?._id;
+        const isOwn = targetUserId === currentUser?.id;
         console.log('Debug - isOwnProfile:', isOwn);
         setIsOwnProfile(isOwn);
 
@@ -98,7 +103,7 @@ const ProfilePage: React.FC = () => {
         ? `/api/profile/${currentUser._id}/unfollow/${user._id}`
         : `/api/profile/${currentUser._id}/follow/${user._id}`;
 
-      const response = await fetch(`http://group22cop4331c.xyz${endpoint}`, {
+      const response = await fetch(endpoint, {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
@@ -110,19 +115,23 @@ const ProfilePage: React.FC = () => {
         throw new Error(errorData.error || "Failed to update follow status");
       }
 
-      // Update local state
+      // Simply toggle the follow state and update UI
       setIsFollowing(!isFollowing);
-      if (user.followers) {
-        if (isFollowing) {
-          user.followers = user.followers.filter((id: string) => id !== currentUser._id);
-        } else {
-          user.followers.push(currentUser._id);
-        }
-        setUser({ ...user });
-      }
+      
+      // Update the user object to reflect the change
+      setUser(prevUser => {
+        if (!prevUser) return null;
+        return {
+          ...prevUser,
+          followers: isFollowing 
+            ? prevUser.followers?.filter(id => id !== currentUser._id)
+            : [...(prevUser.followers || []), currentUser._id]
+        };
+      });
+
     } catch (err) {
       console.error("Follow error:", err);
-      setError("Failed to update follow status");
+      setError(err instanceof Error ? err.message : "Failed to update follow status");
     }
   };
 
