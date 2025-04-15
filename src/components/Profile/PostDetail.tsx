@@ -25,19 +25,20 @@ const PostDetail: React.FC<PostDetailProps> = ({ post, onClose, onDelete }) => {
   const [editedRating, setEditedRating] = useState(post.Rating);
   const [editedComment, setEditedComment] = useState(post.Comment);
 
+  // Get the current logged-in user from localStorage
+  const storedUser = localStorage.getItem("user_data");
+  const currentUser = storedUser ? JSON.parse(storedUser) : null;
+
   useEffect(() => {
     const fetchMovieDetails = async () => {
       try {
-        const storedUser = localStorage.getItem("user_data");
-        if (!storedUser) {
+        if (!currentUser) {
           setError("User not logged in");
           setLoading(false);
           return;
         }
 
-        const user = JSON.parse(storedUser);
-        const token = user?.token;
-
+        const token = currentUser?.token;
         if (!token) {
           setError("No authentication token found");
           setLoading(false);
@@ -79,7 +80,7 @@ const PostDetail: React.FC<PostDetailProps> = ({ post, onClose, onDelete }) => {
     };
 
     fetchMovieDetails();
-  }, [post.MovieId]);
+  }, [post.MovieId, currentUser]);
 
   const handleViewMovie = () => {
     navigate(`/movie?movieId=${post.MovieId}`);
@@ -91,15 +92,12 @@ const PostDetail: React.FC<PostDetailProps> = ({ post, onClose, onDelete }) => {
 
   const handleSave = async () => {
     try {
-      const storedUser = localStorage.getItem("user_data");
-      if (!storedUser) {
+      if (!currentUser) {
         setError("User not logged in");
         return;
       }
 
-      const user = JSON.parse(storedUser);
-      const token = user?.token;
-
+      const token = currentUser?.token;
       if (!token) {
         setError("No authentication token found");
         return;
@@ -139,6 +137,9 @@ const PostDetail: React.FC<PostDetailProps> = ({ post, onClose, onDelete }) => {
       onClose();
     }
   };
+
+  // Check if the logged-in user is the owner of the post
+  const isPostOwner = currentUser?.UserId === post.UserId;
 
   return (
     <div className="post-detail-overlay" onClick={onClose}>
@@ -207,7 +208,7 @@ const PostDetail: React.FC<PostDetailProps> = ({ post, onClose, onDelete }) => {
                 >
                   View Movie Page
                 </button>
-                {onDelete && !isEditing && (
+                {isPostOwner && !isEditing && (
                   <button 
                     className="edit-button"
                     onClick={handleEdit}
@@ -215,7 +216,7 @@ const PostDetail: React.FC<PostDetailProps> = ({ post, onClose, onDelete }) => {
                     Edit Review
                   </button>
                 )}
-                {onDelete && !isEditing && (
+                {isPostOwner && !isEditing && (
                   <button 
                     className="delete-button"
                     onClick={handleDelete}
@@ -235,4 +236,4 @@ const PostDetail: React.FC<PostDetailProps> = ({ post, onClose, onDelete }) => {
   );
 };
 
-export default PostDetail; 
+export default PostDetail;

@@ -10,102 +10,33 @@ const ProfilePage: React.FC = () => {
   const { userId } = useParams<{ userId: string }>();
   const navigate = useNavigate();
   const location = useLocation();
+
   const [userInfo, setUserInfo] = useState<User | null>(null);
   const [currentUser, setCurrentUser] = useState<User | null>(null);
-  const [error, setError] = useState("");
   const [posts, setPosts] = useState<Post[]>([]);
-  const [loading, setLoading] = useState(true);
   const [selectedPost, setSelectedPost] = useState<Post | null>(null);
   const [isFollowing, setIsFollowing] = useState<boolean>(false);
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState<string>("");
 
-  // Get current user from localStorage
+  // Load current user from localStorage
   useEffect(() => {
     const storedUser = localStorage.getItem("user_data");
     if (storedUser) {
       setCurrentUser(JSON.parse(storedUser));
+    } else {
+      setError("Not logged in");
+      setLoading(false);
     }
   }, []);
 
-  const isOwnProfile = Boolean(!userId || (currentUser?.id === userId));
+  // Determine if it's the current user's own profile
+  const isOwnProfile = !userId || userId === currentUser?._id;
+  const targetUserId = userId || currentUser?._id;
 
-  const handleFollowToggle = async () => {
-    if (!currentUser || !userInfo) return;
-
-    try {
-      const endpoint = isFollowing 
-        ? `/api/profile/${currentUser.id}/unfollow/${userInfo.id}`
-        : `/api/profile/${currentUser.id}/follow/${userInfo.id}`;
-
-      const response = await fetch(`http://group22cop4331c.xyz${endpoint}`, {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-        }
-      });
-
-      if (!response.ok) {
-        const errorData = await response.json();
-        throw new Error(errorData.error || 'Failed to update follow status');
-      }
-
-      // Update the local state
-      setIsFollowing(!isFollowing);
-      
-      // Update the userInfo followers list
-      if (userInfo.followers) {
-        if (isFollowing) {
-          // Remove current user from followers
-          userInfo.followers = userInfo.followers.filter((id: string) => id !== currentUser.id);
-        } else {
-          // Add current user to followers
-          userInfo.followers.push(currentUser.id);
-        }
-        setUserInfo({...userInfo});
-      }
-    } catch (err) {
-      console.error('Error updating follow status:', err);
-      setError(err instanceof Error ? err.message : 'Failed to update follow status. Please try again.');
-    }
-  };
-
-  const handleDeletePost = async (postId: string) => {
-    try {
-      const response = await fetch(`/api/posts/deletepost/${postId}`, {
-        method: 'DELETE',
-      });
-
-      if (!response.ok) {
-        throw new Error('Failed to delete post');
-      }
-
-      setPosts((prevPosts: Post[]) => prevPosts.filter(post => post._id !== postId));
-      setSelectedPost(null); 
-    } catch (err) {
-      console.error('Error deleting post:', err);
-      setError('Failed to delete post. Please try again.');
-    }
-  };
-
-  const handlePostClick = (post: Post) => {
-    setSelectedPost(post);
-  };
-
-  const handleClosePostDetail = () => {
-    setSelectedPost(null);
-  };
-
+  // Fetch profile + posts
   useEffect(() => {
     const fetchUserData = async () => {
-      let targetUserId = userId;
-      
-      if (!targetUserId) {
-        const storedUser = localStorage.getItem("user_data");
-        if (storedUser) {
-          const user = JSON.parse(storedUser);
-          targetUserId = user.id;
-        }
-      }
-
       if (!targetUserId) {
         setError("User ID not found");
         setLoading(false);
@@ -113,67 +44,103 @@ const ProfilePage: React.FC = () => {
       }
 
       try {
-        // Fetch user profile
-        const profileResponse = await fetch(`http://group22cop4331c.xyz/api/profile/${targetUserId}`);
-        if (!profileResponse.ok) {
-          throw new Error(`Failed to fetch profile: ${profileResponse.status}`);
-        }
-        
-        const contentType = profileResponse.headers.get("content-type");
-        if (!contentType || !contentType.includes("application/json")) {
-          throw new Error("Server did not return JSON");
-        }
-
-        const profileData = await profileResponse.json();
+        // Fetch profile
+        const profileRes = await fetch(`http://group22cop4331c.xyz/api/profile/${targetUserId}`);
+        if (!profileRes.ok) throw new Error("Failed to fetch profile");
+        const profileData = await profileRes.json();
         setUserInfo(profileData);
 
-        // Check if current user is following this profile
-        if (currentUser && currentUser.id !== targetUserId && profileData.followers) {
-          setIsFollowing(profileData.followers.includes(currentUser.id));
+        // Check follow status
+        if (
+          currentUser &&
+          targetUserId !== currentUser._id &&
+          profileData.followers?.includes(currentUser._id)
+        ) {
+          setIsFollowing(true);
         }
 
-        // Fetch user posts
-        const postsResponse = await fetch(`http://group22cop4331c.xyz/api/posts/user/${targetUserId}`);
-        if (!postsResponse.ok) {
-          throw new Error(`Failed to fetch posts: ${postsResponse.status}`);
-        }
-
-        const postsContentType = postsResponse.headers.get("content-type");
-        if (!postsContentType || !postsContentType.includes("application/json")) {
-          throw new Error("Server did not return JSON for posts");
-        }
-
-        const postsData = await postsResponse.json();
+        // Fetch posts
+        const postsRes = await fetch(`http://group22cop4331c.xyz/api/posts/user/${targetUserId}`);
+        if (!postsRes.ok) throw new Error("Failed to fetch posts");
+        const postsData = await postsRes.json();
         setPosts(postsData);
       } catch (err) {
-        console.error("Error fetching data:", err);
-        setError(err instanceof Error ? err.message : "Failed to load profile data");
+        console.error("Fetch error:", err);
+        setError(err instanceof Error ? err.message : "Unknown error occurred");
       } finally {
         setLoading(false);
       }
     };
 
-    fetchUserData();
-  }, [userId, location, currentUser]);
+    if (currentUser) {
+      fetchUserData();
+    }
+  }, [targetUserId, location, currentUser]);
 
   const navigateToEdit = () => {
-    navigate(`/edit`);
+    navigate("/edit");
   };
 
-  if (loading) {
-    return <div className="text-center mt-5">Loading...</div>;
-  }
+  const handleFollowToggle = async () => {
+    if (!currentUser || !userInfo) return;
 
-  if (error) {
-    return <div className="alert alert-danger mt-5">{error}</div>;
-  }
+    try {
+      const endpoint = isFollowing
+        ? `/api/profile/${currentUser._id}/unfollow/${userInfo._id}`
+        : `/api/profile/${currentUser._id}/follow/${userInfo._id}`;
 
-  if (!userInfo) {
-    return <div className="alert alert-warning mt-5">User not found</div>;
-  }
+      const response = await fetch(`http://group22cop4331c.xyz${endpoint}`, {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+      });
 
-  // Filter out posts with empty comments and no ratings
-  const validPosts = posts.filter((post: Post) => post.Comment || post.Rating);
+      if (!response.ok) {
+        const errorData = await response.json();
+        throw new Error(errorData.error || "Failed to update follow status");
+      }
+
+      // Update local state
+      setIsFollowing(!isFollowing);
+      if (userInfo.followers) {
+        if (isFollowing) {
+          userInfo.followers = userInfo.followers.filter(id => id !== currentUser._id);
+        } else {
+          userInfo.followers.push(currentUser._id);
+        }
+        setUserInfo({ ...userInfo });
+      }
+    } catch (err) {
+      console.error("Follow error:", err);
+      setError("Failed to update follow status");
+    }
+  };
+
+  const handleDeletePost = async (postId: string) => {
+    try {
+      const response = await fetch(`/api/posts/deletepost/${postId}`, {
+        method: "DELETE",
+      });
+
+      if (!response.ok) throw new Error("Failed to delete post");
+
+      setPosts(prev => prev.filter(post => post._id !== postId));
+      setSelectedPost(null);
+    } catch (err) {
+      console.error("Delete error:", err);
+      setError("Failed to delete post");
+    }
+  };
+
+  const handlePostClick = (post: Post) => setSelectedPost(post);
+  const handleClosePostDetail = () => setSelectedPost(null);
+
+  if (loading) return <div className="text-center mt-5">Loading...</div>;
+  if (error) return <div className="alert alert-danger mt-5">{error}</div>;
+  if (!userInfo) return <div className="alert alert-warning mt-5">User not found</div>;
+
+  const validPosts = posts.filter(post => post.Comment || post.Rating);
 
   return (
     <div className="profile-page-container">
@@ -193,10 +160,10 @@ const ProfilePage: React.FC = () => {
             <div className="no-reviews">No reviews yet.</div>
           ) : (
             <div className="reviews-grid">
-              {validPosts.map((post: Post) => (
-                <ReviewCard 
-                  key={post._id} 
-                  post={post} 
+              {validPosts.map(post => (
+                <ReviewCard
+                  key={post._id}
+                  post={post}
                   onPostClick={handlePostClick}
                   showDeleteButton={isOwnProfile}
                 />
