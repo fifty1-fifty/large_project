@@ -222,7 +222,7 @@ const Info = () => {
 
         if(movieSpecificComment === "")
         {
-            movieSpecificComment = "Added this to their collection."
+            handleSetMovieSpecificComment("Added this to their collection."); 
         }
         
         var obj = {userid:user, movieid:movieId, rating:ratingValue, comment:movieSpecificComment};
