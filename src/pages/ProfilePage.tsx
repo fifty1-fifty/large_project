@@ -18,7 +18,7 @@ const ProfilePage: React.FC = () => {
 
   const handleDeletePost = async (postId: string) => {
     try {
-      const response = await fetch(`/api/posts/delete/${postId}`, {
+      const response = await fetch(`/api/posts/deletepost/${postId}`, {
         method: 'DELETE',
       });
 
@@ -28,7 +28,7 @@ const ProfilePage: React.FC = () => {
 
       // Update the posts state by filtering out the deleted post
       setPosts(prevPosts => prevPosts.filter(post => post._id !== postId));
-      setSelectedPost(null); // Close the post detail view
+      setSelectedPost(null); 
     } catch (err) {
       console.error('Error deleting post:', err);
       setError('Failed to delete post. Please try again.');
