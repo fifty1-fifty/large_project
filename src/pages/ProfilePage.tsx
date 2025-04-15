@@ -26,7 +26,6 @@ const ProfilePage: React.FC = () => {
       const userData = JSON.parse(storedUser);
       setCurrentUser({
         ...userData,
-        UserId: userData.id.toString() 
       });
     } else {
       setError("Not logged in");
@@ -99,8 +98,8 @@ const ProfilePage: React.FC = () => {
 
     try {
       const endpoint = isFollowing
-        ? `/api/profile/${currentUser.UserId}/unfollow/${user.UserId}`
-        : `/api/profile/${currentUser.UserId}/follow/${user.UserId}`;
+        ? `/api/profile/${currentUser._id}/unfollow/${user._id}`
+        : `/api/profile/${currentUser._id}/follow/${user._id}`;
 
       const response = await fetch(`http://group22cop4331c.xyz${endpoint}`, {
         method: "POST",
@@ -123,8 +122,8 @@ const ProfilePage: React.FC = () => {
         return {
           ...prevUser,
           followers: isFollowing 
-            ? prevUser.followers?.filter(id => id !== currentUser.UserId)
-            : [...(prevUser.followers || []), currentUser.UserId]
+            ? prevUser.followers?.filter(id => id !== currentUser._id)
+            : [...(prevUser.followers || []), currentUser._id]
         };
       });
 
