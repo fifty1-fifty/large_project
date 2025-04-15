@@ -80,21 +80,20 @@ const Register: React.FC = () => {
         // If valid registration, then create and append to formData
         if (!(await validateRegister())) return;
 
-        const formData = new FormData();
-        formData.append('firstName', firstName);
-        formData.append('lastName', lastName);
-        formData.append('email', registerEmail);
-        formData.append('username', registerUserName);
-        formData.append('password', registerPassword);
-
-        // Call registration endpoint with formData
+        var obj = {first:firstName, last:lastName, reglogin:registerUserName, regpassword:registerPassword, regemail:registerEmail}
+        var js = JSON.stringify(obj)
         try {
             const response = await fetch(buildPath('/api/register'), {
                 method: 'POST',
-                body: formData,
-            });
+                headers: {
+                  'Content-Type': 'application/json'
+                },
+                body: js
+              });
+              
 
             const res = await response.json();
+            console.log(res);
 
             if (!res.error) {
                 localStorage.setItem('user_data', JSON.stringify({
@@ -104,12 +103,15 @@ const Register: React.FC = () => {
                     email: registerEmail,
                 }));
                 
+                registerComplete();
                 //window.location.href = '/home';
             } else {
                 setMessage(res.error);
+                console.log(res.error);
             }
         } catch (error: any) {
             setMessage(error.toString());
+            console.log(error);
         }
     };
 
@@ -118,13 +120,13 @@ const Register: React.FC = () => {
     };
 
     const registerComplete = () => {
-        window.location.href = '/registerComplete'
-    }
+        window.location.href = '/registerComplete' 
+    } 
 
     return (
         <div className="row" id="background">
             <div className="signup-container" id="fade-in">
-                <form onSubmit={doRegister}>
+                <form>
                     <div className="form-group" id="getridofttheannoyingbackgroun">
                         <input type="text" id="input" placeholder="Enter Email" value={registerEmail}
                             onChange={(e) => setEmail(e.target.value)} />
@@ -157,7 +159,7 @@ const Register: React.FC = () => {
                     </div>
                     
 
-                    <button type="submit" id="registerBut" onClick={registerComplete}>Get Started</button>
+                    <button type="submit" id="registerBut" onClick={doRegister}>Get Started</button>
                     <button type="button" id="loginButton" onClick={backToLogin}>Back to Login</button>
 
                     {message && <span id="loginResult">{message}</span>}
