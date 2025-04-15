@@ -5,11 +5,6 @@ import { buildPath } from '../../utils';
 import StarRating from "./StarRating";
 
 
-/*
-this is a message from Carter, anything on this page and related to this page just dont fuck with
-or I will find the thickest rope and hang myself in the classroom with only you to blame. DONT TOUCHY THIS PAGE 
-*/
-
 const Info = () => {
 
     // Initialize states for toggling the form view
