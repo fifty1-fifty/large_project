@@ -13,7 +13,6 @@ const Info = () => {
     const handleSubmit = (e: React.FormEvent) =>
     {
         e.preventDefault();
-        console.log("go fuyck yourself");
     }
 
 
