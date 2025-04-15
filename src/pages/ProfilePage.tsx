@@ -23,7 +23,11 @@ const ProfilePage: React.FC = () => {
   useEffect(() => {
     const storedUser = localStorage.getItem("user_data");
     if (storedUser) {
-      setCurrentUser(JSON.parse(storedUser));
+      const userData = JSON.parse(storedUser);
+      setCurrentUser({
+        ...userData,
+        UserId: userData.id.toString() 
+      });
     } else {
       setError("Not logged in");
       setIsLoading(false);
@@ -95,8 +99,8 @@ const ProfilePage: React.FC = () => {
 
     try {
       const endpoint = isFollowing
-        ? `/api/profile/${currentUser._id}/unfollow/${user._id}`
-        : `/api/profile/${currentUser._id}/follow/${user._id}`;
+        ? `/api/profile/${currentUser.UserId}/unfollow/${user.UserId}`
+        : `/api/profile/${currentUser.UserId}/follow/${user.UserId}`;
 
       const response = await fetch(`http://group22cop4331c.xyz${endpoint}`, {
         method: "POST",
@@ -112,14 +116,18 @@ const ProfilePage: React.FC = () => {
 
       // Update local state
       setIsFollowing(!isFollowing);
-      if (user.followers) {
-        if (isFollowing) {
-          user.followers = user.followers.filter((id: string) => id !== currentUser._id);
-        } else {
-          user.followers.push(currentUser._id);
-        }
-        setUser({ ...user });
-      }
+      
+      // Update the user object to reflect the change
+      setUser(prevUser => {
+        if (!prevUser) return null;
+        return {
+          ...prevUser,
+          followers: isFollowing 
+            ? prevUser.followers?.filter(id => id !== currentUser.UserId)
+            : [...(prevUser.followers || []), currentUser.UserId]
+        };
+      });
+
     } catch (err) {
       console.error("Follow error:", err);
       setError("Failed to update follow status");
