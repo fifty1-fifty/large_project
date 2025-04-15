@@ -22,6 +22,7 @@ function Login()
     //login credentials validator
     const [emailError, setEmailError] = useState(' ');
     const [passwordError, setPasswordError] = useState(' ');
+    const [passwordResetButton, setPasswordResetButton] = useState(' ');
 
 
 	function validateInputs(): boolean {
@@ -38,9 +39,12 @@ function Login()
 
         if (loginPassword.length < 6) {
             setPasswordError('Password must be at least 6 characters.');
+            setPasswordResetButton("Forgot my Password")
+            
             valid = false;
         } else {
             setPasswordError('');
+            
         }
 
         return valid;
@@ -68,6 +72,8 @@ function Login()
 		
             if( res.id <= 0 )
             {
+                setPasswordError('No account found with that information');
+                setPasswordResetButton("Forgot my Password")
                 return;
             }
             else
@@ -130,6 +136,11 @@ function Login()
 	    window.location.href = '/register';
     }
 
+    function goToPasswordResetPage()
+    {	
+	    window.location.href = '/reset';
+    }
+
 	
     return(
         <div className="row" id="background">
@@ -158,6 +169,7 @@ function Login()
                 <div className="form-group" id="error-dv">
                      {emailError && <span className="error-mess" id="error" >{emailError}</span>}
 		              {passwordError && <span className="error-mess" id="error" >{passwordError}</span>}
+                      {passwordError && <span className="error-mess" id="forgot" onClick={goToPasswordResetPage} >{passwordResetButton}</span>}
                 </div>
 
 

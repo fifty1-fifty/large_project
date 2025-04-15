@@ -84,7 +84,7 @@ button {
   padding: 5px;
   margin-top: 0px;
   width: 75%;
-  background-color: #ef233c;
+  background-color: #d82f2f;
   color: rgb(255, 255, 255);
 }
 
@@ -104,7 +104,7 @@ button {
 
   width: 50%;
   background: none;
-  color: #d80032;
+  color: #c44747;
   padding: 0px;
 }
 
@@ -140,6 +140,24 @@ button:hover {
 
 }
 
+
+
+
+#forgot
+{
+  background: none;
+  display: block;
+  font-size: 12px;
+  color: #0000EE;
+  padding: 0px;
+
+}
+
+#forgot:hover
+{
+  text-decoration: underline;
+
+}
 
 
 
