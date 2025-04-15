@@ -196,17 +196,18 @@ class _ExploreScreenState extends State<ExploreScreen> {
                             vertical: 30,
                           ),
                           gridDelegate:
-                              const SliverGridDelegateWithFixedCrossAxisCount(
-                                crossAxisCount: 6,
-                                crossAxisSpacing: 30,
-                                mainAxisSpacing: 30,
+                              SliverGridDelegateWithMaxCrossAxisExtent(
+                                maxCrossAxisExtent: 200,
+                                crossAxisSpacing: 20,
+                                mainAxisSpacing: 20,
                                 childAspectRatio: 131.0 / 196.50,
                               ),
                           itemCount: _movies.length,
                           itemBuilder:
                               (context, index) => MovieCard(
                                 imageUrl: _movies[index].posterUrl,
-                                title: " ",
+                                title:
+                                    " ", // You can update the title if needed.
                                 onTap: () => _navigateToDetail(_movies[index]),
                               ),
                         ),
