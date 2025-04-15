@@ -6,10 +6,9 @@ interface ProfileDetailsProps {
   userInfo: User | null;
   error: string;
   navigateToEdit: () => void;
-  onCollectionClick: () => void;
 }
 
-const ProfileDetails: React.FC<ProfileDetailsProps> = ({ userInfo, error, navigateToEdit, onCollectionClick }) => {
+const ProfileDetails: React.FC<ProfileDetailsProps> = ({ userInfo, error, navigateToEdit }) => {
   return (
     <div className="profile-details">
       {error && <div className="error-message">Error: {error}</div>}
@@ -33,14 +32,9 @@ const ProfileDetails: React.FC<ProfileDetailsProps> = ({ userInfo, error, naviga
             </div>
           </div>
 
-          <div className="profile-actions">
-            <button onClick={navigateToEdit} className="edit-profile-button">
-              Edit Profile
-            </button>
-            <button onClick={onCollectionClick} className="collection-button">
-              My Collection
-            </button>
-          </div>
+          <button onClick={navigateToEdit} className="edit-profile-button">
+            Edit Profile
+          </button>
         </div>
       ) : (
         <div className="loading">Loading...</div>
