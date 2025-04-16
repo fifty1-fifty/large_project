@@ -199,6 +199,15 @@
   gap: 0.5rem;
 }
 
+.stat-item.clickable {
+  cursor: pointer;
+  transition: transform 0.2s;
+}
+
+.stat-item.clickable:hover {
+  transform: scale(1.05);
+}
+
 .stat-value {
   font-size: 1.5rem;
   font-weight: bold;
