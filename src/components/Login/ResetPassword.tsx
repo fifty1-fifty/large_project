@@ -33,12 +33,12 @@ const ResetPasswordFlow = () => {
 
       const data = await response.json();
       if (response.ok) {
-        setMessage('✅ Password reset link sent! Check your inbox.');
+        setMessage('Password reset link sent! Check your inbox.');
       } else {
-        setMessage(data.error || '❌ Something went wrong.');
+        setMessage(data.error || 'Something went wrong.');
       }
     } catch (err) {
-      setMessage('❌ Failed to send request.');
+      setMessage('Failed to send request.');
     }
   };
 
@@ -56,9 +56,9 @@ const ResetPasswordFlow = () => {
 
       const data = await response.json();
       if (response.ok) {
-        setMessage('✅ Password has been reset successfully!');
+        setMessage('Password has been reset successfully!');
       } else {
-        setMessage(data.error || '❌ Reset failed.');
+        setMessage(data.error || 'Reset failed.');
       }
     } catch (err) {
       setMessage('❌ Failed to reset password.');
@@ -69,7 +69,6 @@ const ResetPasswordFlow = () => {
     <div className="reset-password-container">
       {step === 'email' && (
         <>
-          <h2>Request Password Reset</h2>
           <form onSubmit={handleEmailSubmit}>
             <input
               type="email"
@@ -85,7 +84,6 @@ const ResetPasswordFlow = () => {
 
       {step === 'reset' && (
         <>
-          <h2>Reset Your Password</h2>
           <form onSubmit={handlePasswordReset}>
             <input
               type="password"
