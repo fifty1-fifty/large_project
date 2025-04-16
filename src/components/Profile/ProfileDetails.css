@@ -134,10 +134,11 @@
 }
 
 .profile-details {
+  margin-top: -50px;
   width: 100%;
   max-width: 1200px;
   padding: 2rem;
-  margin-bottom: 2rem;
+  margin-bottom: 0rem;
   background: none !important;
 }
 
@@ -163,7 +164,7 @@
 }
 
 .profile-name {
-  font-size: 2rem;
+  font-size: 3rem;
   font-weight: bold;
   color: white;
   margin-bottom: 0.5rem;
@@ -171,15 +172,15 @@
 }
 
 .profile-bio {
-  font-size: 1.1rem;
+  font-size: 1.5rem;
   color: white !important;
   max-width: 600px;
   line-height: 1.5;
   font-weight: 500;
   text-align: center;
-  margin: 2rem auto;
   padding: 0 1rem;
   width: 100%;
+  margin-bottom: 0.5rem;
   background: none !important;
 }
 
@@ -187,8 +188,8 @@
   display: flex;
   justify-content: center;
   gap: 3rem;
-  margin: 1rem 0;
   width: 100%;
+  margin-top: -50px;
 }
 
 .stat-item {
@@ -221,14 +222,11 @@
   background-color: #c44747;
   color: white;
   border: none;
-  padding: 0.5rem 2rem;
+  padding: 0.5rem 1rem;
   border-radius: 6px;
   font-size: 0.9rem;
   cursor: pointer;
   transition: background-color 0.2s;
-  min-width: 120px;
-  text-align: center;
-  white-space: nowrap;
 }
 
 .edit-profile-button:hover, .follow-button:hover {
@@ -237,9 +235,6 @@
 
 .follow-button.following {
   background-color: #a33a3a;
-  min-width: 120px;
-  text-align: center;
-  white-space: nowrap;
 }
 
 .error-message {
