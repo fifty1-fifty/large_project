@@ -25,7 +25,7 @@ const ProfileDetails: React.FC<ProfileDetailsProps> = ({
   const [showFollowingModal, setShowFollowingModal] = useState(false);
   const navigate = useNavigate();
 
-  const handleUserClick = (userId: string) => {
+  const handleUserClick = (userId: number) => {
     navigate(`/profile/${userId}`);
   };
 
