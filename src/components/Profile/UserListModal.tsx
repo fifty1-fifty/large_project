@@ -1,5 +1,4 @@
 import React from 'react';
-import { User } from '../../types';
 import './UserListModal.css';
 import { useNavigate } from 'react-router-dom';
 
