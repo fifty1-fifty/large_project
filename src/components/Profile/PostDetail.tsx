@@ -168,7 +168,7 @@ const PostDetail: React.FC<PostDetailProps> = ({ post, onClose, onDelete, isOwnP
                 {isEditing ? (
                   <div className="edit-form">
                     <div className="rating-input">
-                      <label>Rating:</label>
+                      <label>Rating</label>
                       <input
                         type="number"
                         min="1"
@@ -178,7 +178,7 @@ const PostDetail: React.FC<PostDetailProps> = ({ post, onClose, onDelete, isOwnP
                       />
                     </div>
                     <div className="comment-input">
-                      <label>Comment:</label>
+                      <label>Comment</label>
                       <textarea
                         value={editedComment}
                         onChange={(e) => setEditedComment(e.target.value)}
