@@ -19,29 +19,35 @@ class _LoginScreenState extends State<LoginScreen> {
 
   Future<void> _handleLogin() async {
     setState(() {
-      _errorMessage = null;
       _isLoading = true;
+      _errorMessage = null;
     });
 
     try {
-      final response = await ApiService.login(
-        _emailController.text.trim(), // This will be used as email
-        _passwordController.text,
-        " ",
+      final result = await ApiService.login(
+        email: _emailController.text.trim(),
+        password: _passwordController.text.trim(),
       );
 
-      if (response['token'] == null || response['token'].isEmpty) {
-        throw Exception('No token received from server');
+      if (result['verified'] != true) {
+        setState(() {
+          _isLoading = false;
+          _errorMessage = 'Please verify your email before logging in.';
+        });
+        return;
       }
 
-      final rawToken = response['token']?.replaceFirst('Bearer ', '');
-      await SecureStorage.saveToken(rawToken);
+      await SecureStorage.saveToken(result['token']);
 
-      Navigator.pushNamed(context, Routes.EXPLORESCREEN, arguments: rawToken);
+      if (!mounted) return;
+      Navigator.pushNamed(
+        context,
+        Routes.EXPLORESCREEN,
+        arguments: result['token'],
+      );
     } catch (e) {
       setState(() {
-        _errorMessage =
-            'Login failed: ${e.toString().replaceAll('Exception: ', '')}';
+        _errorMessage = e.toString().replaceAll('Exception: ', '');
       });
     } finally {
       setState(() => _isLoading = false);
@@ -163,7 +169,10 @@ class _LoginScreenState extends State<LoginScreen> {
                           _isLoading
                               ? null
                               : () {
-                                Navigator.pushNamed(context, Routes.REGISTERSCREEN);
+                                Navigator.pushNamed(
+                                  context,
+                                  Routes.REGISTERSCREEN,
+                                );
                               },
                       child: const Text(
                         'Create an account',
