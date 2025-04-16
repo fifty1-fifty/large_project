@@ -25,11 +25,12 @@
     gap: 8px;
 }
 
-.edit-form-label {
+.edit-post-container .edit-form .form-group .edit-form-label {
     color: #fff !important;
-    font-weight: normal;
-    text-transform: none;
-    margin-bottom: 5px;
+    font-weight: normal !important;
+    text-transform: none !important;
+    margin-bottom: 5px !important;
+    display: block !important;
 }
 
 .form-group label {
