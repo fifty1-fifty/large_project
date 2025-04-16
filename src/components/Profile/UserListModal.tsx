@@ -30,13 +30,9 @@ const UserListModal: React.FC<UserListModalProps> = ({ userIds, title, onClose }
           return;
         }
 
-        console.log("Fetching users with IDs:", userIds);
         const userPromises = userIds.map(async (id) => {
           try {
-            // Convert ID to string for the API call
             const userId = typeof id === 'number' ? id.toString() : id;
-            console.log("Fetching user with ID:", userId);
-            
             const response = await fetch(`/api/profile/${userId}`, {
               headers: {
                 'authorization': token
@@ -45,29 +41,20 @@ const UserListModal: React.FC<UserListModalProps> = ({ userIds, title, onClose }
             
             if (!response.ok) {
               console.error(`Failed to fetch user ${userId}:`, response.status);
-              return null; // Return null for failed fetches
+              return null;
             }
             
             const data = await response.json();
-            console.log("Fetched user data:", data);
             return data;
           } catch (error) {
             console.error(`Error fetching user ${id}:`, error);
-            return null; // Return null for any errors
+            return null;
           }
         });
 
         const userData = await Promise.all(userPromises);
-        // Filter out null values (failed fetches)
         const validUsers = userData.filter(user => user !== null);
-        console.log("All users fetched:", validUsers);
-        
-        // Transform the user data to ensure UserId is a number
-        const transformedUsers = validUsers.map(user => ({
-          ...user,
-          UserId: parseInt(user.id || "0")
-        }));
-        setUsers(transformedUsers);
+        setUsers(validUsers);
       } catch (error) {
         console.error('Error fetching users:', error);
       } finally {
@@ -79,9 +66,9 @@ const UserListModal: React.FC<UserListModalProps> = ({ userIds, title, onClose }
   }, [userIds]);
 
   const handleUserClick = (user: User) => {
-    console.log("User clicked:", user);
-    // Navigate to the profile page with the correct path
-    navigate(`/profile/${user.UserId}`);
+    if (user.UserId) {
+      navigate(`/profile/${user.UserId}`);
+    }
   };
 
   return (
