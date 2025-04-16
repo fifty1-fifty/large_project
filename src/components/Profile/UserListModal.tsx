@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { User } from '../../types';
+import { useParams } from 'react-router-dom';
 import './UserListModal.css';
 
 interface UserListModalProps {
@@ -10,6 +11,7 @@ interface UserListModalProps {
 }
 
 const UserListModal: React.FC<UserListModalProps> = ({ userIds, title, onClose, onUserClick }) => {
+  const { userId } = useParams<{ userId: string }>();
   const [users, setUsers] = useState<User[]>([]);
   const [loading, setLoading] = useState(true);
 
@@ -35,34 +37,27 @@ const UserListModal: React.FC<UserListModalProps> = ({ userIds, title, onClose, 
           const userId = typeof id === 'number' ? id.toString() : id;
           console.log("Fetching user with ID:", userId);
           
-          try {
-            const response = await fetch(`/api/profile/${userId}`, {
-              headers: {
-                'authorization': token
-              }
-            });
-            
-            if (!response.ok) {
-              console.error(`Failed to fetch user ${userId}:`, response.status);
-              return null; // Return null for failed fetches
+          const response = await fetch(`/api/profile/${userId}`, {
+            headers: {
+              'authorization': token
             }
-            
-            const data = await response.json();
-            console.log("Fetched user data:", data);
-            return data;
-          } catch (error) {
-            console.error(`Error fetching user ${userId}:`, error);
-            return null; // Return null for failed fetches
+          });
+          
+          if (!response.ok) {
+            console.error(`Failed to fetch user ${userId}:`, response.status);
+            throw new Error('Failed to fetch user');
           }
+          
+          const data = await response.json();
+          console.log("Fetched user data:", data);
+          return data;
         });
 
         const userData = await Promise.all(userPromises);
-        // Filter out null values (failed fetches)
-        const validUsers = userData.filter(user => user !== null);
-        console.log("Valid users fetched:", validUsers);
-        setUsers(validUsers);
+        console.log("All users fetched:", userData);
+        setUsers(userData);
       } catch (error) {
-        console.error('Error in fetchUsers:', error);
+        console.error('Error fetching users:', error);
       } finally {
         setLoading(false);
       }
@@ -73,8 +68,8 @@ const UserListModal: React.FC<UserListModalProps> = ({ userIds, title, onClose, 
 
   const handleUserClick = (user: User) => {
     console.log("User clicked:", user);
-    // Use _id if UserId is not available
-    const userId = user.UserId ? user.UserId.toString() : user._id;
+    // Use the user ID from the user object
+    const userId = user._id;
     console.log("Navigating to user ID:", userId);
     onUserClick(userId);
   };
