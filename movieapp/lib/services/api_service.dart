@@ -203,7 +203,56 @@ class ApiService {
     if (data is List) {
       return data;
     } else {
-      throw Exception('Unexpected response format for user posts');
+      throw Exception('Unexpected response format for user posts, not a list of posts');
+    }
+  }
+
+  // Get friend posts for feed
+  static Future<List<PostCard>> fetchFriendsPosts(int userId) async {
+    final url = Uri.parse('$_baseUrl/api/friends-posts/$userId');
+    final response = await http.get(url);
+    final data = _handleResponse(response);
+
+    return (data as List)
+        .map((postJson) => PostCard.fromJson(postJson))
+        .toList();
+  }
+
+  static Future<List<PostCard>> getUserPosts(String userId) async {
+    try {
+      final response = await http.get(
+        Uri.parse('$_baseUrl/api/posts/user/$userId'));
+
+      final responseBody = _handleResponse(response);
+
+      // If the response is a list of posts, convert them into PostCard objects
+      if (responseBody is List) {
+        return responseBody.map<PostCard>((postData) {
+          return PostCard.fromJson(postData);
+        }).toList();
+      } else {
+        throw Exception("Response from the API was not a list of posts!");
+      }
+    } catch (e) {
+      throw Exception("Failed to load user posts.");
+    }
+  }
+
+  //request password reset
+  static Future<void> requestPasswordReset(String email) async {
+    final url = Uri.parse('$_baseUrl/api/requestReset');
+    final headers = {'Content-Type': 'application/json'};
+    
+    final body = jsonEncode({'email': email,});
+
+    try {
+      final response = await http.post(url, headers: headers, body: body);
+
+      final result = _handleResponse(response);
+
+      return result['message'];
+    } catch (error) {
+      throw Exception("Error during password reset request: $error");
     }
   }
 
@@ -306,5 +355,32 @@ class ApiService {
       default:
         throw Exception('Error: ${response.body}');
     }
+  }
+}
+
+//define what postcards are
+class PostCard {
+  final int movieId;
+  final int userId;
+  final String username; // optional for user-specific posts
+  final double rating;
+  final String comment;
+
+  PostCard({
+    required this.movieId,
+    required this.userId,
+    required this.rating,
+    required this.comment,
+    this.username = 'Unknown', // default if not provided
+  });
+
+  factory PostCard.fromJson(Map<String, dynamic> json) {
+    return PostCard(
+      movieId: json['movieId'] ?? json['MovieId'],
+      userId: json['userId'] ?? json['UserId'],
+      username: json['username'] ?? 'Unknown', // fallback if not present
+      rating: (json['rating'] ?? json['Rating']).toDouble(),
+      comment: json['comment'] ?? json['Comment'] ?? '',
+    );
   }
 }
