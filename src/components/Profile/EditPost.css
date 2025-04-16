@@ -26,17 +26,21 @@
 }
 
 .edit-post-container .edit-form .form-group .edit-form-label {
-    color: #fff !important;
+    color: #ffffff !important;
+    opacity: 1 !important;
     font-weight: normal !important;
     text-transform: none !important;
     margin-bottom: 5px !important;
     display: block !important;
+    mix-blend-mode: normal !important;
+    filter: none !important;
 }
 
 .form-group label {
     font-weight: normal;
-    color: #fff;
+    color: #ffffff;
     text-transform: none;
+    opacity: 1;
 }
 
 .comment-textarea {
