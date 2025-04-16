@@ -1,10 +1,10 @@
 .edit-post-container {
     max-width: 600px;
-    margin: 2rem auto;
-    padding: 2rem;
-    background-color: #1a1a1a;
+    margin: 20px auto;
+    padding: 20px;
+    background: #1a1a1a;
     border-radius: 8px;
-    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
 }
 
 .edit-post-container h2 {
@@ -13,71 +13,68 @@
     text-align: center;
 }
 
-.edit-post-form {
+.edit-form {
     display: flex;
     flex-direction: column;
-    gap: 1.5rem;
+    gap: 20px;
 }
 
 .form-group {
     display: flex;
     flex-direction: column;
-    gap: 0.5rem;
+    gap: 8px;
 }
 
 .form-group label {
+    font-weight: normal;
     color: #fff;
-    font-weight: 500;
+    text-transform: none;
 }
 
-.form-group input,
-.form-group textarea {
-    padding: 0.75rem;
+.comment-textarea {
+    width: 100%;
+    min-height: 100px;
+    padding: 10px;
     border: 1px solid #333;
     border-radius: 4px;
     background-color: #2a2a2a;
     color: #fff;
-    font-size: 1rem;
-}
-
-.form-group textarea {
-    min-height: 150px;
     resize: vertical;
 }
 
 .button-group {
     display: flex;
-    gap: 1rem;
+    gap: 10px;
     justify-content: flex-end;
-    margin-top: 1rem;
+    margin-top: 20px;
 }
 
 .save-button,
 .cancel-button {
-    padding: 0.75rem 1.5rem;
+    padding: 8px 16px;
     border: none;
     border-radius: 4px;
-    font-weight: 500;
     cursor: pointer;
+    font-weight: bold;
     transition: background-color 0.2s;
 }
 
 .save-button {
-    background-color: #007bff;
+    background-color: #4CAF50;
     color: white;
 }
 
 .save-button:hover {
-    background-color: #0056b3;
+    background-color: #45a049;
 }
 
 .cancel-button {
-    background-color: #6c757d;
+    background-color: #f44336;
     color: white;
 }
 
 .cancel-button:hover {
-    background-color: #5a6268;
+    background-color: #da190b;
 }
 
 .loading,
