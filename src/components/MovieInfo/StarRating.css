@@ -1,10 +1,10 @@
-.star-rating {
+.starRating {
     display: flex;
     justify-content: center;
     padding: -5px;
   }
   
-  .star {
+  .Star {
     margin-top: -1rem;
     padding: 0px;
     background: none;
@@ -15,7 +15,7 @@
     transition: color 0.2s;
   }
   
-  .star.filled {
+  .Star.filled {
     color: gold;
   }
   
