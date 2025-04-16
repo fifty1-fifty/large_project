@@ -1,6 +1,8 @@
-import React from "react";
+import React, { useState } from "react";
 import "./ProfileDetails.css";
 import { User } from "../../types";
+import UserListModal from "./UserListModal";
+import { useNavigate } from "react-router-dom";
 
 interface ProfileDetailsProps {
   userInfo: User | null;
@@ -19,6 +21,14 @@ const ProfileDetails: React.FC<ProfileDetailsProps> = ({
   isFollowing,
   onFollowToggle
 }) => {
+  const [showFollowersModal, setShowFollowersModal] = useState(false);
+  const [showFollowingModal, setShowFollowingModal] = useState(false);
+  const navigate = useNavigate();
+
+  const handleUserClick = (userId: string) => {
+    navigate(`/profile/${userId}`);
+  };
+
   return (
     <div className="profile-details">
       {error && <div className="error-message">Error: {error}</div>}
@@ -32,11 +42,17 @@ const ProfileDetails: React.FC<ProfileDetailsProps> = ({
           </div>
 
           <div className="profile-stats">
-            <div className="stat-item">
+            <div 
+              className="stat-item clickable" 
+              onClick={() => setShowFollowersModal(true)}
+            >
               <span className="stat-value">{userInfo.followers ? userInfo.followers.length : 0}</span>
               <span className="stat-label">Followers</span>
             </div>
-            <div className="stat-item">
+            <div 
+              className="stat-item clickable" 
+              onClick={() => setShowFollowingModal(true)}
+            >
               <span className="stat-value">{userInfo.following ? userInfo.following.length : 0}</span>
               <span className="stat-label">Following</span>
             </div>
@@ -60,6 +76,24 @@ const ProfileDetails: React.FC<ProfileDetailsProps> = ({
         </div>
       ) : (
         <div className="loading">Loading...</div>
+      )}
+
+      {showFollowersModal && (
+        <UserListModal
+          users={userInfo?.followers}
+          title="Followers"
+          onClose={() => setShowFollowersModal(false)}
+          onUserClick={handleUserClick}
+        />
+      )}
+
+      {showFollowingModal && (
+        <UserListModal
+          users={userInfo?.following}
+          title="Following"
+          onClose={() => setShowFollowingModal(false)}
+          onUserClick={handleUserClick}
+        />
       )}
     </div>
   );
