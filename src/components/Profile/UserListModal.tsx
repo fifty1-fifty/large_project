@@ -24,19 +24,35 @@ const UserListModal: React.FC<UserListModalProps> = ({ userIds, title, onClose, 
         const storedUser = localStorage.getItem("user_data");
         const token = storedUser ? JSON.parse(storedUser).token : null;
 
+        if (!token) {
+          console.error("No token found");
+          return;
+        }
+
+        console.log("Fetching users with IDs:", userIds);
         const userPromises = userIds.map(async (id) => {
           // Convert ID to string for the API call
           const userId = typeof id === 'number' ? id.toString() : id;
+          console.log("Fetching user with ID:", userId);
+          
           const response = await fetch(`/api/profile/${userId}`, {
             headers: {
               'authorization': token
             }
           });
-          if (!response.ok) throw new Error('Failed to fetch user');
-          return response.json();
+          
+          if (!response.ok) {
+            console.error(`Failed to fetch user ${userId}:`, response.status);
+            throw new Error('Failed to fetch user');
+          }
+          
+          const data = await response.json();
+          console.log("Fetched user data:", data);
+          return data;
         });
 
         const userData = await Promise.all(userPromises);
+        console.log("All users fetched:", userData);
         setUsers(userData);
       } catch (error) {
         console.error('Error fetching users:', error);
@@ -49,8 +65,11 @@ const UserListModal: React.FC<UserListModalProps> = ({ userIds, title, onClose, 
   }, [userIds]);
 
   const handleUserClick = (user: User) => {
-    // Use UserId for navigation to match ProfilePage's usage
-    onUserClick(user.UserId.toString());
+    console.log("User clicked:", user);
+    // Use _id if UserId is not available
+    const userId = user.UserId ? user.UserId.toString() : user._id;
+    console.log("Navigating to user ID:", userId);
+    onUserClick(userId);
   };
 
   return (
