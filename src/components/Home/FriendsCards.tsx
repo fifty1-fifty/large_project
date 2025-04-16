@@ -1,5 +1,6 @@
 import { useEffect, useState } from "react";
 import "./FriendsCards.css";
+import { buildPath } from "../../utils";
 
 interface FriendPostCardProps {
     movieId: string;
@@ -27,7 +28,7 @@ const movieTitleAndPosterPull = async (movieId: string, token: string | null) =>
     const body = JSON.stringify({ id: movieId });
 
     try {
-        const response = await fetch("/api/fullMovieInfo", {
+        const response = await fetch(buildPath("/api/fullMovieInfo"), {
             method: "POST",
             body,
             headers: {
@@ -82,10 +83,12 @@ const FriendsCards = () => {
                 setLoading(false);
                 return;
             }
-
+            var res;
             try {
-                const res = await fetch(`/api/friends-posts/${userId}`);
+                res = await fetch(buildPath(`/api/friends-posts/${userId}`));
                 const data = await res.json();
+                console.log(res);
+                console.log(data);
 
                 const enrichedPosts: FriendPostCardProps[] = await Promise.all(
                     data.map(async (post: any) => {
@@ -103,6 +106,8 @@ const FriendsCards = () => {
                 setPosts(enrichedPosts);
                 setLoading(false);
             } catch(err) {
+                console.log(res);
+                console.log(err);
                 console.error("Error fetching friend posts:", err);
                 setLoading(false);
             }
@@ -135,12 +140,12 @@ const FriendsCards = () => {
     }
 
     return (
-        <div className="carousel-wrapper">
-            <div className="post-card">
+        <div id="carousel-wrapper">
+            <div className="post-card animate-slide-in" >
                 <img src={posterUrl} alt={movieTitle} className="poster-image" />
 
                 <div className="post-content">
-                <h3 className="movie-title">{movieTitle}</h3>
+                <h3 id="movie-title">{movieTitle}</h3>
                 <p className="poster-user">
                     Posted by <span className="username clickable" onClick={() => gotoUserProfile(posts[currentIndex].userId)}>{username}</span>
                 </p>
@@ -150,7 +155,7 @@ const FriendsCards = () => {
                     onClick={() => (gotoInfoPage(movieId))}
                     className="movie-button"
                 >
-                    View Movie Page
+                    More Info
                 </button>
                 </div>
             </div>
