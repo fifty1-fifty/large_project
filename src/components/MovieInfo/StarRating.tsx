@@ -15,14 +15,14 @@ const StarRating = ({ onRatingChange }: { onRatingChange: (value: number) => voi
   }
 
   return (
-    <div className="star-rating">
+    <div className="starRating">
       {[...Array(5)].map((_, index) => {
         const starValue = index + 1;
         return (
           <button
             key={index}
             type="button"
-            className={`star ${starValue <= (hover || rating) ? 'filled' : ''}`}
+            className={`Star ${starValue <= (hover || rating) ? 'filled' : ''}`}
             onClick={() => handleSetRating(starValue)}
             onMouseEnter={() => setHover(starValue)}
             onMouseLeave={() => setHover(0)}
