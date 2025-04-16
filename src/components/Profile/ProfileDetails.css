@@ -227,6 +227,11 @@
   font-size: 0.9rem;
   cursor: pointer;
   transition: background-color 0.2s;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  min-width: 100px;
+  max-width: 120px;
 }
 
 .edit-profile-button:hover, .follow-button:hover {
