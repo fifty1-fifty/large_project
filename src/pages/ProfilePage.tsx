@@ -159,8 +159,8 @@ const ProfilePage: React.FC = () => {
         return {
           ...prevUser,
           followers: isFollowing
-            ? prevUser.followers?.filter((id) => id !== currentUser.UserId)
-            : [...(prevUser.followers || []), currentUser.UserId],
+            ? prevUser.followers?.filter((id) => id !== currentUser.UserId.toString())
+            : [...(prevUser.followers || []), currentUser.UserId.toString()],
         };
       });
 
@@ -170,8 +170,8 @@ const ProfilePage: React.FC = () => {
         return {
           ...prevUser,
           following: isFollowing
-            ? prevUser.following?.filter((id) => id !== user.UserId)
-            : [...(prevUser.following || []), user.UserId],
+            ? prevUser.following?.filter((id) => id !== user.UserId.toString())
+            : [...(prevUser.following || []), user.UserId.toString()],
         };
       });
     } catch (err) {
