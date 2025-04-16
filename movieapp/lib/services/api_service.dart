@@ -207,6 +207,80 @@ class ApiService {
     }
   }
 
+  //fetch user data
+  static Future<Map<String, dynamic>> fetchUserProfile({
+    required int userId,
+  }) async {
+    final response = await http.get(
+      Uri.parse('$_baseUrl/profile/$userId'),
+      headers: {'Content-Type': 'application/json'},
+    );
+
+    final data = _handleResponse(response);
+
+    return {
+      'firstName': data['firstName'],
+      'lastName': data['lastName'],
+      'email': data['email'],
+      'profilePic': data['profilePic'],
+      'bio': data['bio'],
+      'followers': List<String>.from(data['followers'] ?? []),
+      'following': List<String>.from(data['following'] ?? []),
+    };
+  }
+
+  //edit user profile
+  static Future<Map<String, dynamic>> updateUserProfile({
+    required int userId,
+    required Map<String, dynamic> updateData,
+  }) async {
+    final response = await http.put(
+      Uri.parse('$_baseUrl/profile/$userId/edit'),
+      headers: {'Content-Type': 'application/json'},
+      body: jsonEncode(updateData),
+    );
+
+    final data = _handleResponse(response);
+
+    return {
+      'message': data['message'],
+      'firstName': data['user']['firstName'],
+      'lastName': data['user']['lastName'],
+      'email': data['user']['Email'],
+      'bio': data['user']['bio'],
+      'profilePic': data['user']['profilePic'],
+      'password': data['user']['password'],
+    };
+  }
+
+  /// Follow a user
+  static Future<String> followUser({
+    required int userId,
+    required int targetId,
+  }) async {
+    final response = await http.post(
+      Uri.parse('$_baseUrl/profile/$userId/follow/$targetId'),
+      headers: {'Content-Type': 'application/json'},
+    );
+
+    final data = _handleResponse(response);
+    return data['message'];
+  }
+
+  /// Unfollow a user
+  static Future<String> unfollowUser({
+    required int userId,
+    required int targetId,
+  }) async {
+    final response = await http.post(
+      Uri.parse('$_baseUrl/profile/$userId/unfollow/$targetId'),
+      headers: {'Content-Type': 'application/json'},
+    );
+
+    final data = _handleResponse(response);
+    return data['message'];
+  }
+
   //handle tokens for each route
   static Future<Map<String, dynamic>> getProtectedData() async {
     final token = await SecureStorage.getToken();
