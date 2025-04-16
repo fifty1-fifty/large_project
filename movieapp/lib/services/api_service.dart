@@ -244,6 +244,26 @@ class ApiService {
     }
   }
 
+  // Method to add a movie to the user's collection
+  static Future<Map<String, dynamic>> addMovieToProfile({
+    required int userId,
+    required String movieId,
+  }) async {
+    final response = await http.post(
+      Uri.parse('$_baseUrl/addmovietoprofile'),
+      headers: {'Content-Type': 'application/json'},
+      body: jsonEncode({
+        'userid': userId,
+        'movieid': movieId,
+      }),
+    );
+
+    // Handle the response
+    final data = _handleResponse(response);
+
+    return data;
+  }
+
   // Reset Password
   static Future<String> resetPassword(String token, String newPassword) async {
     final url = Uri.parse('$_baseUrl/api/resetPassword');
