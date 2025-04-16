@@ -152,10 +152,10 @@ const Register: React.FC = () => {
                             onChange={(e) => setLastName(e.target.value)} />
                     </div>
 
-                    <div className="form-group" id="error-are">
-                        {emailError && <span className="error-message" id="err">{emailError}</span>}
-                        {usernameError && <span className="error-message" id="err">{usernameError}</span>}
-                        {passwordError && <span className="error-message" id="err">{passwordError}</span>}
+                    <div className="form-group" id="error-areas">
+                        {emailError && <span className="error-message" id="errr">{emailError}</span>}
+                        {usernameError && <span className="error-message" id="errr">{usernameError}</span>}
+                        {passwordError && <span className="error-message" id="errr">{passwordError}</span>}
                     </div>
                     
 
