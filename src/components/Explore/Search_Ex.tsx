@@ -14,6 +14,9 @@ const Search_Ex = () =>
     const [message, setMessage] = useState([JSON]);
     const [search, setSearchQuery] = React.useState('');
     let posterPath: JSON[] = [];
+
+    const [loading, setLoading] = useState(false);
+    //const [LOADmessage, setLOADMessage] = useState([]);
     
 
     useEffect(() => {
@@ -110,14 +113,18 @@ function handleSetSearchQuery( e: any ) : void
     doSearch();
 }
 
-function nextPage(e: any): void
+async function nextPage(e: any): Promise<void>
 {
+    setLoading(true);
+
     e.preventDefault();
     pageNumber = pageNumber + 1;
-    doSearch();
+
+    await doSearch();
+    setLoading(false);
 }
 
-function prevPage(e: any): void
+async function prevPage(e: any): Promise<void>
 {
     if(pageNumber <= 1)
     {
@@ -125,24 +132,40 @@ function prevPage(e: any): void
         console.log("Already on the first page");
         return;
     }
+    setLoading(true);
     pageNumber = pageNumber - 1;
-    doSearch();
+    await doSearch();
+    setLoading(false);
 }
 
 
    return (
-        <div className ="move-down">
-            <div className="form-group">
-                <input type="text" id="searchbar" placeholder="Discover your favorites" onChange={handleSetSearchQuery}/>
-            </div>
-            <Gallery_Ex movies = {message}/>
-
-           <div className="page-navigation-button">
-            <button id="theButton"onClick={prevPage} ><i className="material-icons" id="iconnon">arrow_back</i></button>
-            <button id="theButton"onClick={nextPage}><i className="material-icons" id="iconnon">arrow_forward</i></button>
-            </div>
-
-        </div>
+    <div className="move-down">
+    <div className="form-group">
+      <input
+        type="text"
+        id="searchbar"
+        placeholder="Discover your favorites"
+        onChange={handleSetSearchQuery}
+      />
+    </div>
+  
+    {loading ? (
+      <div className="loading-message">Loading...</div>
+    ) : (
+      <Gallery_Ex movies={message} />
+    )}
+  
+    <div className="page-navigation-button">
+      <button id="theButton" onClick={prevPage}>
+        <i className="material-icons" id="iconnon">arrow_back</i>
+      </button>
+      <button id="theButton" onClick={nextPage}>
+        <i className="material-icons" id="iconnon">arrow_forward</i>
+      </button>
+    </div>
+  </div>
+  
     );
 };
 
