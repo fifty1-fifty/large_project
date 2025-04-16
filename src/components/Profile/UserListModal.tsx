@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { User } from '../../types';
 import './UserListModal.css';
+import { useNavigate } from 'react-router-dom';
 
 interface UserListModalProps {
   userIds: (string | number)[] | undefined;
@@ -12,6 +13,7 @@ interface UserListModalProps {
 const UserListModal: React.FC<UserListModalProps> = ({ userIds, title, onClose, onUserClick }) => {
   const [users, setUsers] = useState<User[]>([]);
   const [loading, setLoading] = useState(true);
+  const navigate = useNavigate();
 
   useEffect(() => {
     const fetchUsers = async () => {
@@ -79,12 +81,8 @@ const UserListModal: React.FC<UserListModalProps> = ({ userIds, title, onClose, 
 
   const handleUserClick = (user: User) => {
     console.log("User clicked:", user);
-    // Get the user ID from the user object
-    const userId = user.UserId;
-    console.log("Navigating to user ID:", userId);
-    
-    // Navigate to the profile page
-    onUserClick(userId);
+    // Navigate to the profile page with the correct path
+    navigate(`/profile/${user.UserId}`);
   };
 
   return (
