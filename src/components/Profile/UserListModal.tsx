@@ -35,27 +35,34 @@ const UserListModal: React.FC<UserListModalProps> = ({ userIds, title, onClose, 
           const userId = typeof id === 'number' ? id.toString() : id;
           console.log("Fetching user with ID:", userId);
           
-          const response = await fetch(`/api/profile/${userId}`, {
-            headers: {
-              'authorization': token
+          try {
+            const response = await fetch(`/api/profile/${userId}`, {
+              headers: {
+                'authorization': token
+              }
+            });
+            
+            if (!response.ok) {
+              console.error(`Failed to fetch user ${userId}:`, response.status);
+              return null; // Return null for failed fetches
             }
-          });
-          
-          if (!response.ok) {
-            console.error(`Failed to fetch user ${userId}:`, response.status);
-            throw new Error('Failed to fetch user');
+            
+            const data = await response.json();
+            console.log("Fetched user data:", data);
+            return data;
+          } catch (error) {
+            console.error(`Error fetching user ${userId}:`, error);
+            return null; // Return null for failed fetches
           }
-          
-          const data = await response.json();
-          console.log("Fetched user data:", data);
-          return data;
         });
 
         const userData = await Promise.all(userPromises);
-        console.log("All users fetched:", userData);
-        setUsers(userData);
+        // Filter out null values (failed fetches)
+        const validUsers = userData.filter(user => user !== null);
+        console.log("Valid users fetched:", validUsers);
+        setUsers(validUsers);
       } catch (error) {
-        console.error('Error fetching users:', error);
+        console.error('Error in fetchUsers:', error);
       } finally {
         setLoading(false);
       }
@@ -66,40 +73,10 @@ const UserListModal: React.FC<UserListModalProps> = ({ userIds, title, onClose, 
 
   const handleUserClick = (user: User) => {
     console.log("User clicked:", user);
-    // Get the user ID from the user object
-    const userId = user._id;
+    // Use _id if UserId is not available
+    const userId = user.UserId ? user.UserId.toString() : user._id;
     console.log("Navigating to user ID:", userId);
-    
-    // Get the current user's token
-    const storedUser = localStorage.getItem("user_data");
-    const token = storedUser ? JSON.parse(storedUser).token : null;
-
-    if (!token) {
-      console.error("No token found");
-      return;
-    }
-
-    // Fetch the user's profile data
-    fetch(`/api/profile/${userId}`, {
-      headers: {
-        'authorization': token
-      }
-    })
-      .then(response => {
-        if (!response.ok) {
-          throw new Error("Failed to fetch profile");
-        }
-        return response.json();
-      })
-      .then(data => {
-        // Store the fetched profile data in localStorage
-        localStorage.setItem(`profile_${userId}`, JSON.stringify(data));
-        // Navigate to the profile page
-        onUserClick(userId);
-      })
-      .catch(error => {
-        console.error("Error fetching profile:", error);
-      });
+    onUserClick(userId);
   };
 
   return (
