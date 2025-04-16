@@ -73,7 +73,7 @@ function Login()
 		
             if( res.id <= 0 )
             {
-                setPasswordError('No account found with that information');
+                setPasswordError('email or password is incorrect');
                 setPasswordResetButton("Forgot my Password")
                 return;
             }
