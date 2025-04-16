@@ -62,11 +62,11 @@ const EditPost: React.FC<EditPostProps> = ({ post }) => {
     <div className="edit-post-container">
       <div className="edit-form">
         <div className="form-group">
-          <label>rating:</label>
+          <label>Rating:</label>
           <StarRating onRatingChange={setRating} />
         </div>
         <div className="form-group">
-          <label>comment:</label>
+          <label>Comment:</label>
           <textarea
             value={comment}
             onChange={(e) => setComment(e.target.value)}
