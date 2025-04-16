@@ -66,6 +66,7 @@
   margin-top: 1rem;
   padding-top: 1rem;
   border-top: 1px solid #333;
+  color: white !important;
 }
 
 .review-section h3 {
@@ -80,6 +81,9 @@
   color: #ccc;
   margin-bottom: 1rem;
 }
+
+
+
 
 .review-rating {
   font-size: 1.2rem;
