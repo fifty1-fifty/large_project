@@ -67,7 +67,7 @@ const UserListModal: React.FC<UserListModalProps> = ({ userIds, title, onClose, 
   const handleUserClick = (user: User) => {
     console.log("User clicked:", user);
     // Get the user ID from the user object
-    const userId = user.UserId;
+    const userId = parseInt(user.UserId.toString());
     console.log("Navigating to user ID:", userId);
     
     // Navigate to the profile page
