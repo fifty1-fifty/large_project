@@ -1,7 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import './UserListModal.css';
 import { useNavigate } from 'react-router-dom';
-import { User } from '../../types';
 
 interface UserListModalProps {
   userIds: (string | number)[] | undefined;
