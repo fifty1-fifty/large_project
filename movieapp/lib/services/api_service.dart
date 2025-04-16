@@ -205,24 +205,17 @@ class ApiService {
   }
 
   //get a specific user's posts
-  static Future<List<PostCard>> getUserPosts(String userId) async {
-    try {
-      final response = await http.get(
-        Uri.parse('$_baseUrl/api/posts/user/$userId'),
-      );
+  // Fetch posts for a specific user by userId
+  static Future<List<dynamic>> getUserPosts({required String userId}) async {
+    final url = Uri.parse('$_baseUrl/posts/user/$userId');
 
-      final responseBody = _handleResponse(response);
+    final response = await http.get(url);
 
-      // If the response is a list of posts, convert them into PostCard objects
-      if (responseBody is List) {
-        return responseBody.map<PostCard>((postData) {
-          return PostCard.fromJson(postData);
-        }).toList();
-      } else {
-        throw Exception("Response from the API was not a list of posts!");
-      }
-    } catch (e) {
-      throw Exception("Failed to load user posts.");
+    if (response.statusCode == 200) {
+      final List<dynamic> data = json.decode(response.body);
+      return data;
+    } else {
+      throw Exception('Failed to load user posts: ${response.reasonPhrase}');
     }
   }
 

@@ -45,9 +45,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
       final profile = await ApiService.fetchUserProfile(userId: _userId);
       // Fetch the user's reviews/posts
       // Note: fetchUserPosts expects a String, so convert _userId accordingly.
-      final reviews = await ApiService.fetchUserPosts(
-        userId: _userId.toString(),
-      );
+      final reviews = await ApiService.getUserPosts(_userId.toString());
 
       setState(() {
         _profileData = profile;
