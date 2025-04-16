@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React from 'react';
 import { User } from '../../types';
 import './UserListModal.css';
 import { useNavigate } from 'react-router-dom';
@@ -10,65 +10,10 @@ interface UserListModalProps {
 }
 
 const UserListModal: React.FC<UserListModalProps> = ({ userIds, title, onClose }) => {
-  const [users, setUsers] = useState<User[]>([]);
-  const [loading, setLoading] = useState(true);
   const navigate = useNavigate();
 
-  useEffect(() => {
-    const fetchUsers = async () => {
-      if (!userIds || userIds.length === 0) {
-        setLoading(false);
-        return;
-      }
-
-      try {
-        const storedUser = localStorage.getItem("user_data");
-        const token = storedUser ? JSON.parse(storedUser).token : null;
-
-        if (!token) {
-          console.error("No token found");
-          return;
-        }
-
-        const userPromises = userIds.map(async (id) => {
-          try {
-            const userId = typeof id === 'number' ? id.toString() : id;
-            const response = await fetch(`/api/profile/${userId}`, {
-              headers: {
-                'authorization': token
-              }
-            });
-            
-            if (!response.ok) {
-              console.error(`Failed to fetch user ${userId}:`, response.status);
-              return null;
-            }
-            
-            const data = await response.json();
-            return data;
-          } catch (error) {
-            console.error(`Error fetching user ${id}:`, error);
-            return null;
-          }
-        });
-
-        const userData = await Promise.all(userPromises);
-        const validUsers = userData.filter(user => user !== null);
-        setUsers(validUsers);
-      } catch (error) {
-        console.error('Error fetching users:', error);
-      } finally {
-        setLoading(false);
-      }
-    };
-
-    fetchUsers();
-  }, [userIds]);
-
-  const handleUserClick = (user: User) => {
-    if (user.UserId) {
-      navigate(`/profile/${user.UserId}`);
-    }
+  const handleUserClick = (userId: string | number) => {
+    navigate(`/profile/${userId}`);
   };
 
   return (
@@ -79,16 +24,14 @@ const UserListModal: React.FC<UserListModalProps> = ({ userIds, title, onClose }
           <button className="close-button" onClick={onClose}>×</button>
         </div>
         <div className="user-list">
-          {loading ? (
-            <div className="loading">Loading...</div>
-          ) : users.length > 0 ? (
-            users.map((user) => (
+          {userIds && userIds.length > 0 ? (
+            userIds.map((userId) => (
               <div 
-                key={user._id} 
+                key={userId} 
                 className="user-item"
-                onClick={() => handleUserClick(user)}
+                onClick={() => handleUserClick(userId)}
               >
-                <span className="user-name">{user.firstName} {user.lastName}</span>
+                <span className="user-name">User {userId}</span>
               </div>
             ))
           ) : (
