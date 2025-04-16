@@ -221,11 +221,14 @@
   background-color: #c44747;
   color: white;
   border: none;
-  padding: 0.5rem 1rem;
+  padding: 0.5rem 2rem;
   border-radius: 6px;
   font-size: 0.9rem;
   cursor: pointer;
   transition: background-color 0.2s;
+  min-width: 120px;
+  text-align: center;
+  white-space: nowrap;
 }
 
 .edit-profile-button:hover, .follow-button:hover {
@@ -234,6 +237,9 @@
 
 .follow-button.following {
   background-color: #a33a3a;
+  min-width: 120px;
+  text-align: center;
+  white-space: nowrap;
 }
 
 .error-message {
