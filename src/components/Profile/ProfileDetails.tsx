@@ -2,7 +2,6 @@ import React, { useState } from "react";
 import "./ProfileDetails.css";
 import { User } from "../../types";
 import UserListModal from "./UserListModal";
-import { useNavigate } from "react-router-dom";
 
 interface ProfileDetailsProps {
   userInfo: User | null;
