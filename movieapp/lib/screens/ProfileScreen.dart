@@ -14,6 +14,7 @@ class ProfileScreen extends StatefulWidget {
 }
 
 class _ProfileScreenState extends State<ProfileScreen> {
+  late final int _userId;
   Map<String, dynamic>? _profileData;
   List<dynamic>? _reviews;
   bool _isLoading = true;
@@ -22,17 +23,30 @@ class _ProfileScreenState extends State<ProfileScreen> {
   @override
   void initState() {
     super.initState();
+    _loadUserIdThenFetch();
+  }
+
+  Future<void> _loadUserIdThenFetch() async {
+    final id = await SecureStorage.getUserId();
+    if (id == null) {
+      setState(() {
+        _errorMessage = 'No logged‑in user found.';
+        _isLoading = false;
+      });
+      return;
+    }
+    _userId = id;
     _loadProfileAndReviews();
   }
 
   Future<void> _loadProfileAndReviews() async {
     try {
       // Fetch the profile data from the API
-      final profile = await ApiService.fetchUserProfile(userId: widget.userId);
+      final profile = await ApiService.fetchUserProfile(userId: _userId);
       // Fetch the user's reviews/posts
-      // Note: fetchUserPosts expects a String, so convert widget.userId accordingly.
+      // Note: fetchUserPosts expects a String, so convert _userId accordingly.
       final reviews = await ApiService.fetchUserPosts(
-        userId: widget.userId.toString(),
+        userId: _userId.toString(),
       );
 
       setState(() {

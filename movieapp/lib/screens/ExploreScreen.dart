@@ -144,9 +144,6 @@ class _ExploreScreenState extends State<ExploreScreen> {
                 '/profile',
                 arguments: GlobalData.userId,
               );
-              print(
-                "DEBUG: userId = ${GlobalData.userId} before navigating to /profile",
-              );
             },
           ),
           IconButton(icon: const Icon(Icons.logout), onPressed: _forceLogout),

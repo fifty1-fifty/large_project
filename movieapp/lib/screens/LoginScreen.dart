@@ -39,6 +39,19 @@ class _LoginScreenState extends State<LoginScreen> {
 
       await SecureStorage.saveToken(result['token']);
 
+      // Save the logged-in user's ID for later retrieval
+      // Safely extract and validate the returned user ID
+      final dynamic rawId = result['userId'] ?? result['id'];
+      if (rawId == null) {
+        setState(() {
+          _isLoading = false;
+          _errorMessage = 'Login failed: no user ID returned.';
+        });
+        return;
+      }
+      final int userId = rawId is int ? rawId : int.tryParse(rawId.toString())!;
+      await SecureStorage.saveUserId(userId);
+
       if (!mounted) return;
       Navigator.pushNamed(
         context,

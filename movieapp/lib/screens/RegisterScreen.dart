@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import '../services/api_service.dart';
 import 'package:movieapp/routes/routes.dart';
 
-
 class RegisterScreen extends StatefulWidget {
   const RegisterScreen({super.key});
 
@@ -83,18 +82,6 @@ class _RegisterScreenState extends State<RegisterScreen> {
         child: SingleChildScrollView(
           child: Column(
             children: [
-              // 🍿 Top row of movie-themed stickers
-              Padding(
-                padding: const EdgeInsets.only(top: 24.0),
-                child: Row(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: [
-                    Image.asset('images/popcorn.png', height: 50),
-                    const SizedBox(width: 10),
-                    Image.asset('images/clapperboard.png', height: 50),
-                  ],
-                ),
-              ),
               const SizedBox(height: 16),
 
               // 🎬 Screen Title
@@ -152,7 +139,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
                       ),
                     ),
                     const SizedBox(height: 16),
-                    
+
                     // Username Field
                     TextField(
                       controller: _usernameController,
@@ -165,7 +152,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
                       ),
                     ),
                     const SizedBox(height: 16),
-                    
+
                     // Email Field
                     TextField(
                       controller: _emailController,
@@ -241,7 +228,10 @@ class _RegisterScreenState extends State<RegisterScreen> {
                           _isLoading
                               ? null
                               : () {
-                                Navigator.pushNamed(context, Routes.LOGINSCREEN);
+                                Navigator.pushNamed(
+                                  context,
+                                  Routes.LOGINSCREEN,
+                                );
                               },
                       child: const Text(
                         'Have an account? Log in',
