@@ -133,6 +133,26 @@
   background-color: #da190b;
 }
 
+.delete-post-btn {
+  position: absolute;
+  top: 5px;
+  right: 5px;
+  background-color: rgba(244, 67, 54, 0.8);
+  color: white;
+  border: none;
+  border-radius: 4px;
+  padding: 4px 8px;
+  font-size: 0.8rem;
+  cursor: pointer;
+  z-index: 3;
+  opacity: 0.7;
+  transition: opacity 0.2s ease;
+}
+
+.delete-post-btn:hover {
+  opacity: 1;
+}
+
 .loading,
 .error {
   display: flex;
