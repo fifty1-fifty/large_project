@@ -1,6 +1,7 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import './UserListModal.css';
 import { useNavigate } from 'react-router-dom';
+import { User } from '../../types';
 
 interface UserListModalProps {
   userIds: (string | number)[] | undefined;
@@ -8,8 +9,50 @@ interface UserListModalProps {
   onClose: () => void;
 }
 
+interface UserInfo {
+  [key: string]: {
+    firstName: string;
+    lastName: string;
+  };
+}
+
 const UserListModal: React.FC<UserListModalProps> = ({ userIds, title, onClose }) => {
   const navigate = useNavigate();
+  const [userInfo, setUserInfo] = useState<UserInfo>({});
+
+  useEffect(() => {
+    const fetchUserNames = async () => {
+      if (!userIds || userIds.length === 0) return;
+
+      const storedUser = localStorage.getItem("user_data");
+      const token = storedUser ? JSON.parse(storedUser).token : null;
+
+      if (!token) return;
+
+      const userInfoMap: UserInfo = {};
+      for (const userId of userIds) {
+        try {
+          const response = await fetch(`/api/profile/${userId}`, {
+            headers: {
+              'authorization': token
+            }
+          });
+          if (response.ok) {
+            const data = await response.json();
+            userInfoMap[userId] = {
+              firstName: data.firstName,
+              lastName: data.lastName
+            };
+          }
+        } catch (error) {
+          console.error(`Error fetching user info for ${userId}:`, error);
+        }
+      }
+      setUserInfo(userInfoMap);
+    };
+
+    fetchUserNames();
+  }, [userIds]);
 
   const handleUserClick = (userId: string | number) => {
     navigate(`/profile/${userId}`);
@@ -30,7 +73,9 @@ const UserListModal: React.FC<UserListModalProps> = ({ userIds, title, onClose }
                 className="user-item"
                 onClick={() => handleUserClick(userId)}
               >
-                <span className="user-name">User {userId}</span>
+                <span className="user-name">
+                  {userInfo[userId] ? `${userInfo[userId].firstName} ${userInfo[userId].lastName}` : 'Loading...'}
+                </span>
               </div>
             ))
           ) : (
