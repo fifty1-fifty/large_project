@@ -244,7 +244,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
                                 Navigator.pushNamed(context, Routes.LOGINSCREEN);
                               },
                       child: const Text(
-                        'Already have an account? Log in',
+                        'Have an account? Log in',
                         style: TextStyle(fontSize: 16, color: Colors.white),
                       ),
                     ),
