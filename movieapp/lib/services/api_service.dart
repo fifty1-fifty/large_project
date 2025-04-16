@@ -35,33 +35,35 @@ class ApiService {
 
   //Register
   static Future<Map<String, dynamic>> register({
-    required String email,
-    required String password,
-    required String firstName,
-    required String lastName,
-    required String username,
-  }) async {
-    final response = await http.post(
-      Uri.parse('$_baseUrl/register'),
-      headers: {'Content-Type': 'application/json'},
-      body: jsonEncode({
-        'regemail': email,
-        'regpassword': password,
-        'first': firstName,
-        'last': lastName,
-        'reglogin': username,
-      }),
-    );
+  required String email,
+  required String password,
+  required String firstName,
+  required String lastName,
+  required String username,
+}) async {
+  // Step 1: Register the user
+  final response = await http.post(
+    Uri.parse('$_baseUrl/register'),
+    headers: {'Content-Type': 'application/json'},
+    body: jsonEncode({
+      'regemail': email,
+      'regpassword': password,
+      'first': firstName,
+      'last': lastName,
+      'reglogin': username,
+    }),
+  );
 
-    final data = _handleResponse(response);
+  final data = _handleResponse(response);
 
-    // The response should include: { error: "", login: ..., password: ... }
-    if (data is Map<String, dynamic>) {
-      return data;
-    } else {
-      throw Exception('Unexpected response format during registration.');
-    }
+  if (data is Map<String, dynamic> && data['error'] == "") {
+    // Step 2: Send verification email
+    await sendEmail(to: email);
   }
+
+  return data;
+}
+
 
   //Get trending movies
   static Future<List<Movie>> trendingMovie({
@@ -116,22 +118,16 @@ class ApiService {
   }
 
   //send email
-  static Future<void> sendEmail({
-    required String to,
-    required String subject,
-    required String html,
-    required String token,
-  }) async {
-    final rawToken = token.replaceFirst('Bearer ', '');
+  static Future<void> sendEmail({ required String to }) async {
+  final response = await http.post(
+    Uri.parse('$_baseUrl/sendEmail'),
+    headers: {'Content-Type': 'application/json'},
+    body: jsonEncode({'to': to}),
+  );
 
-    final response = await http.post(
-      Uri.parse('$_baseUrl/sendEmail'),
-      headers: {'Authorization': rawToken, 'Content-Type': 'application/json'},
-      body: jsonEncode({'to': to, 'subject': subject, 'html': html}),
-    );
+  _handleResponse(response);
+}
 
-    _handleResponse(response);
-  }
 
   //get full movie info
   static Future<Map<String, dynamic>> getFullMovieInfo({
@@ -203,7 +199,9 @@ class ApiService {
     if (data is List) {
       return data;
     } else {
-      throw Exception('Unexpected response format for user posts, not a list of posts');
+      throw Exception(
+        'Unexpected response format for user posts, not a list of posts',
+      );
     }
   }
 
@@ -218,10 +216,12 @@ class ApiService {
         .toList();
   }
 
+  //get a specific user's posts
   static Future<List<PostCard>> getUserPosts(String userId) async {
     try {
       final response = await http.get(
-        Uri.parse('$_baseUrl/api/posts/user/$userId'));
+        Uri.parse('$_baseUrl/api/posts/user/$userId'),
+      );
 
       final responseBody = _handleResponse(response);
 
@@ -242,8 +242,8 @@ class ApiService {
   static Future<void> requestPasswordReset(String email) async {
     final url = Uri.parse('$_baseUrl/api/requestReset');
     final headers = {'Content-Type': 'application/json'};
-    
-    final body = jsonEncode({'email': email,});
+
+    final body = jsonEncode({'email': email});
 
     try {
       final response = await http.post(url, headers: headers, body: body);
@@ -253,6 +253,24 @@ class ApiService {
       return result['message'];
     } catch (error) {
       throw Exception("Error during password reset request: $error");
+    }
+  }
+
+  // Reset Password
+  static Future<String> resetPassword(String token, String newPassword) async {
+    final url = Uri.parse('$_baseUrl/api/resetPassword');
+    final headers = {'Content-Type': 'application/json'};
+
+    final body = jsonEncode({'token': token, 'newPassword': newPassword});
+
+    try {
+      final response = await http.post(url, headers: headers, body: body);
+
+      final result = _handleResponse(response);
+
+      return result['message'];
+    } catch (error) {
+      throw Exception('Error during password reset: $error');
     }
   }
 
