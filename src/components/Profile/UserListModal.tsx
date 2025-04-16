@@ -66,10 +66,40 @@ const UserListModal: React.FC<UserListModalProps> = ({ userIds, title, onClose, 
 
   const handleUserClick = (user: User) => {
     console.log("User clicked:", user);
-    // Use _id if UserId is not available
-    const userId = user.UserId ? user.UserId.toString() : user._id;
+    // Get the user ID from the user object
+    const userId = user._id;
     console.log("Navigating to user ID:", userId);
-    onUserClick(userId);
+    
+    // Get the current user's token
+    const storedUser = localStorage.getItem("user_data");
+    const token = storedUser ? JSON.parse(storedUser).token : null;
+
+    if (!token) {
+      console.error("No token found");
+      return;
+    }
+
+    // Fetch the user's profile data
+    fetch(`/api/profile/${userId}`, {
+      headers: {
+        'authorization': token
+      }
+    })
+      .then(response => {
+        if (!response.ok) {
+          throw new Error("Failed to fetch profile");
+        }
+        return response.json();
+      })
+      .then(data => {
+        // Store the fetched profile data in localStorage
+        localStorage.setItem(`profile_${userId}`, JSON.stringify(data));
+        // Navigate to the profile page
+        onUserClick(userId);
+      })
+      .catch(error => {
+        console.error("Error fetching profile:", error);
+      });
   };
 
   return (
