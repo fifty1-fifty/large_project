@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useMemo } from "react";
 import { useParams, useNavigate } from "react-router-dom";
 import ProfileDetails from "../components/Profile/ProfileDetails";
 import ReviewCard from "../components/Profile/ReviewCard";
@@ -195,11 +195,13 @@ const ProfilePage: React.FC = () => {
   const handlePostClick = (post: Post) => setSelectedPost(post);
   const handleClosePostDetail = () => setSelectedPost(null);
 
+  const validPosts = useMemo(() => {
+    return posts.filter((post: Post) => post.Comment || post.Rating);
+  }, [posts]);
+
   if (isLoading) return <div className="text-center mt-5">Loading...</div>;
   if (error) return <div className="alert alert-danger mt-5">{error}</div>;
   if (!user) return <div className="alert alert-warning mt-5">User not found</div>;
-
-  const validPosts = posts.filter((post: Post) => post.Comment || post.Rating);
 
   return (
     <div>
