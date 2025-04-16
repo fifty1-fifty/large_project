@@ -41,6 +41,13 @@
   border-radius: 8px;
   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
 }
+.rating-input label,
+.comment-input label {
+  color: white;
+  font-weight: 500;
+  margin-bottom: 0.25rem;
+  display: inline-block;
+}
 
 .post-details {
   flex: 1;
