@@ -25,23 +25,16 @@
 }
 
 .reviews-section {
+  margin-top: -70px;
   width: 100%;
   max-width: 1200px;
-  margin: 0 auto;
-  display: flex;
-  justify-content: center;
 }
 
 .reviews-grid {
-  display: grid !important;
-  grid-template-columns: repeat(3, 1fr) !important;
-  gap: 1.5rem !important;
-  width: 100% !important;
-  min-height: 200px !important;
-  align-items: start !important;
-  grid-auto-flow: row !important;
-  grid-auto-rows: minmax(160px, auto) !important;
-  padding: 1rem !important;
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+  gap: 1.5rem;
+  width: 100%;
 }
 
 .no-reviews {
@@ -54,13 +47,12 @@
 }
 
 .review-card {
-  width: 100% !important;
-  min-height: 120px !important;
-  max-height: 160px !important;
-  border-radius: 6px !important;
-  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1) !important;
-  overflow: hidden !important;
-  transition: transform 0.2s ease !important;
+  width: 100%;
+  min-height: 120px;
+  max-height: 160px;
+  border-radius: 6px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  overflow: hidden;
 }
 
 .review-content {
@@ -118,19 +110,13 @@
 
 @media (max-width: 1200px) {
   .reviews-grid {
-    grid-template-columns: repeat(2, 1fr) !important;
-  }
-}
-
-@media (max-width: 768px) {
-  .reviews-grid {
-    grid-template-columns: 1fr !important;
+    grid-template-columns: repeat(auto-fill, minmax(180px, 1fr));
   }
 }
 
 @media (min-width: 1600px) {
   .reviews-grid {
-    grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+    grid-template-columns: repeat(auto-fill, minmax(240px, 1fr));
   }
 }
 
