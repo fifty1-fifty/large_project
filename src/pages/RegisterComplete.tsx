@@ -1,4 +1,3 @@
-import PageTitle from '../components/PageTitle.tsx';
 
 const RegisterComplete = () => {
     return(
