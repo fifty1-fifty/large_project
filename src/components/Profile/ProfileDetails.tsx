@@ -23,11 +23,9 @@ const ProfileDetails: React.FC<ProfileDetailsProps> = ({
 }) => {
   const [showFollowersModal, setShowFollowersModal] = useState(false);
   const [showFollowingModal, setShowFollowingModal] = useState(false);
-  const navigate = useNavigate();
+  
 
-  const handleUserClick = (userId: number) => {
-    navigate(`/profile/${userId}`);
-  };
+
 
   return (
     <div className="profile-details">
