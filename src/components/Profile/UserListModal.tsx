@@ -31,30 +31,38 @@ const UserListModal: React.FC<UserListModalProps> = ({ userIds, title, onClose, 
 
         console.log("Fetching users with IDs:", userIds);
         const userPromises = userIds.map(async (id) => {
-          // Convert ID to string for the API call
-          const userId = typeof id === 'number' ? id.toString() : id;
-          console.log("Fetching user with ID:", userId);
-          
-          const response = await fetch(`/api/profile/${userId}`, {
-            headers: {
-              'authorization': token
+          try {
+            // Convert ID to string for the API call
+            const userId = typeof id === 'number' ? id.toString() : id;
+            console.log("Fetching user with ID:", userId);
+            
+            const response = await fetch(`/api/profile/${userId}`, {
+              headers: {
+                'authorization': token
+              }
+            });
+            
+            if (!response.ok) {
+              console.error(`Failed to fetch user ${userId}:`, response.status);
+              return null; // Return null for failed fetches
             }
-          });
-          
-          if (!response.ok) {
-            console.error(`Failed to fetch user ${userId}:`, response.status);
-            throw new Error('Failed to fetch user');
+            
+            const data = await response.json();
+            console.log("Fetched user data:", data);
+            return data;
+          } catch (error) {
+            console.error(`Error fetching user ${id}:`, error);
+            return null; // Return null for any errors
           }
-          
-          const data = await response.json();
-          console.log("Fetched user data:", data);
-          return data;
         });
 
         const userData = await Promise.all(userPromises);
-        console.log("All users fetched:", userData);
+        // Filter out null values (failed fetches)
+        const validUsers = userData.filter(user => user !== null);
+        console.log("All users fetched:", validUsers);
+        
         // Transform the user data to ensure UserId is a number
-        const transformedUsers = userData.map(user => ({
+        const transformedUsers = validUsers.map(user => ({
           ...user,
           UserId: parseInt(user.id || "0")
         }));
