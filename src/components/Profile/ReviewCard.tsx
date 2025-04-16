@@ -12,11 +12,9 @@ interface MovieDetails {
 interface ReviewCardProps {
   post: Post;
   onPostClick: (post: Post) => void;
-  showDeleteButton?: boolean; // If the parent passes this as true, show delete button
-  onDelete?: (postId: string) => void; // Callback for post deletion
 }
 
-const ReviewCard: React.FC<ReviewCardProps> = ({ post, onPostClick, showDeleteButton, onDelete }) => {
+const ReviewCard: React.FC<ReviewCardProps> = ({ post, onPostClick }) => {
   const [movieDetails, setMovieDetails] = useState<MovieDetails | null>(null);
   const [isLoading, setIsLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
@@ -74,12 +72,6 @@ const ReviewCard: React.FC<ReviewCardProps> = ({ post, onPostClick, showDeleteBu
     fetchMovieDetails();
   }, [post.MovieId]);
 
-  const handleDeleteClick = () => {
-    if (onDelete && post._id) {
-      onDelete(post._id); // Call the parent delete function when delete button is clicked
-    }
-  };
-
   if (isLoading) {
     return <div className="review-card loading">Loading...</div>;
   }
@@ -113,11 +105,6 @@ const ReviewCard: React.FC<ReviewCardProps> = ({ post, onPostClick, showDeleteBu
           <p className="comment">{post.Comment}</p>
         </div>
       </div>
-      {showDeleteButton && (
-        <button className="delete-post-btn" onClick={handleDeleteClick}>
-          Delete Post
-        </button>
-      )}
     </div>
   );
 };

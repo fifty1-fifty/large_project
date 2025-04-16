@@ -226,8 +226,6 @@ const ProfilePage: React.FC = () => {
                     key={post._id}
                     post={post}
                     onPostClick={handlePostClick}
-                    showDeleteButton={isOwnProfile}
-                    onDelete={isOwnProfile ? handleDeletePost : undefined}
                   />
                 ))}
               </div>
