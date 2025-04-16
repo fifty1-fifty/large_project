@@ -53,7 +53,12 @@ const UserListModal: React.FC<UserListModalProps> = ({ userIds, title, onClose, 
 
         const userData = await Promise.all(userPromises);
         console.log("All users fetched:", userData);
-        setUsers(userData);
+        // Transform the user data to ensure UserId is a number
+        const transformedUsers = userData.map(user => ({
+          ...user,
+          UserId: parseInt(user.id || "0")
+        }));
+        setUsers(transformedUsers);
       } catch (error) {
         console.error('Error fetching users:', error);
       } finally {
@@ -67,7 +72,7 @@ const UserListModal: React.FC<UserListModalProps> = ({ userIds, title, onClose, 
   const handleUserClick = (user: User) => {
     console.log("User clicked:", user);
     // Get the user ID from the user object
-    const userId = parseInt(user.UserId.toString());
+    const userId = user.UserId;
     console.log("Navigating to user ID:", userId);
     
     // Navigate to the profile page
