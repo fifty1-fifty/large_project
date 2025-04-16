@@ -134,13 +134,9 @@ const ProfilePage: React.FC = () => {
         return;
       }
 
-      // const endpoint = isFollowing
-      //   ? `/api/profile/${currentUser._id}/unfollow/${user._id}`
-      //   : `/api/profile/${currentUser._id}/follow/${user._id}`;
       const endpoint = isFollowing
         ? `/api/profile/${currentUser.UserId}/unfollow/${user.UserId}`
         : `/api/profile/${currentUser.UserId}/follow/${user.UserId}`;
-
 
       const response = await fetch(endpoint, {
         method: "POST",
@@ -157,13 +153,25 @@ const ProfilePage: React.FC = () => {
 
       setIsFollowing(!isFollowing);
 
+      // Update both the followers and following arrays
       setUser((prevUser) => {
         if (!prevUser) return null;
         return {
           ...prevUser,
           followers: isFollowing
-            ? prevUser.followers?.filter((id) => id !== currentUser._id)
-            : [...(prevUser.followers || []), currentUser._id],
+            ? prevUser.followers?.filter((id) => id !== currentUser.UserId)
+            : [...(prevUser.followers || []), currentUser.UserId],
+        };
+      });
+
+      // Update current user's following array
+      setCurrentUser((prevUser) => {
+        if (!prevUser) return null;
+        return {
+          ...prevUser,
+          following: isFollowing
+            ? prevUser.following?.filter((id) => id !== user.UserId)
+            : [...(prevUser.following || []), user.UserId],
         };
       });
     } catch (err) {

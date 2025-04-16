@@ -73,7 +73,7 @@ const UserListModal: React.FC<UserListModalProps> = ({ userIds, title, onClose }
                 onClick={() => handleUserClick(userId)}
               >
                 <span className="user-name">
-                  {userInfo[userId] ? `${userInfo[userId].firstName} ${userInfo[userId].lastName}` : 'Loading...'}
+                  {userInfo[userId] ? `${userInfo[userId].firstName}${userInfo[userId].lastName ? ` ${userInfo[userId].lastName}` : ''}` : 'Loading...'}
                 </span>
               </div>
             ))
