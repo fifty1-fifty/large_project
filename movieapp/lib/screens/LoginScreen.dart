@@ -69,7 +69,7 @@ class _LoginScreenState extends State<LoginScreen> {
         child: SingleChildScrollView(
           child: Column(
             children: [
-              // 🍿 Top row of movie-themed stickers
+              // top row of movie-themed assets
               Padding(
                 padding: const EdgeInsets.only(top: 24.0),
                 child: Row(
@@ -83,7 +83,7 @@ class _LoginScreenState extends State<LoginScreen> {
               ),
               SizedBox(height: 16),
 
-              // 🎬 App Title
+              // welcome text
               Text(
                 'Welcome to Flicks',
                 style: TextStyle(
@@ -94,7 +94,7 @@ class _LoginScreenState extends State<LoginScreen> {
               ),
               SizedBox(height: 32),
 
-              // 🧾 Login form section
+              // login form section
               Container(
                 width: 250,
                 padding: EdgeInsets.all(16),
@@ -102,7 +102,7 @@ class _LoginScreenState extends State<LoginScreen> {
                   mainAxisAlignment: MainAxisAlignment.center,
                   crossAxisAlignment: CrossAxisAlignment.center,
                   children: <Widget>[
-                    // Message display (shows error if exists)
+                    // display messages/errors
                     Text(
                       _errorMessage ?? message,
                       style: TextStyle(

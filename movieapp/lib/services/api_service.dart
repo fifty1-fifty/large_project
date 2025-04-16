@@ -41,7 +41,7 @@ class ApiService {
   required String lastName,
   required String username,
 }) async {
-  // Step 1: Register the user
+  // Step 1: register user
   final response = await http.post(
     Uri.parse('$_baseUrl/register'),
     headers: {'Content-Type': 'application/json'},
@@ -57,7 +57,7 @@ class ApiService {
   final data = _handleResponse(response);
 
   if (data is Map<String, dynamic> && data['error'] == "") {
-    // Step 2: Send verification email
+    // Step 2: send verification email
     await sendEmail(to: email);
   }
 
@@ -103,18 +103,6 @@ class ApiService {
     final data = _handleResponse(response);
     final movieList = data['movieData']['results'];
     return (movieList as List).map((item) => Movie.fromJson(item)).toList();
-  }
-
-  //verify email
-  static Future<String> verifyEmail(String token) async {
-    final response = await http.get(
-      Uri.parse('$_baseUrl/verifyEmail?token=$token'),
-    );
-
-    final data = _handleResponse(response);
-
-    // If the server sends just a plain string, cast to String. Adjust as needed.
-    return data is String ? data : data.toString();
   }
 
   //send email
