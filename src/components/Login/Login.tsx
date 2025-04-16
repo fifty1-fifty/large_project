@@ -89,7 +89,7 @@ function Login()
                 var user =
                 {firstName:res.firstName,lastName:res.lastName,id:res.id,token:res.token}
                 localStorage.setItem('user_data', JSON.stringify(user));
-                window.location.href = '/explore';
+                window.location.href = '/home';
             }
         }
         catch(error:any)
