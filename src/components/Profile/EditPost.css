@@ -25,9 +25,16 @@
     gap: 8px;
 }
 
-.form-group label {
+.edit-form-label {
     color: #fff !important;
     font-weight: normal;
+    text-transform: none;
+    margin-bottom: 5px;
+}
+
+.form-group label {
+    font-weight: normal;
+    color: #fff;
     text-transform: none;
 }
 
