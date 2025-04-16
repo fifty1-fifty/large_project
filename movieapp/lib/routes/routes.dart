@@ -3,6 +3,7 @@ import 'package:movieapp/screens/LoginScreen.dart';
 import 'package:movieapp/screens/RegisterScreen.dart';
 import 'package:movieapp/screens/ExploreScreen.dart';
 import 'package:movieapp/screens/MovieDetailScreen.dart';
+import 'package:movieapp/screens/ProfileScreen.dart';
 import 'package:movieapp/models/movie.dart';
 
 class Routes {
@@ -10,31 +11,51 @@ class Routes {
   static const String REGISTERSCREEN = '/register';
   static const String EXPLORESCREEN = '/explore';
   static const String movieDetail = '/movie-detail';
+  static const String PROFILESCREEN = '/profile';
 
   static Route<dynamic>? onGenerateRoute(RouteSettings settings) {
     switch (settings.name) {
       case '/':
       case LOGINSCREEN:
-        return MaterialPageRoute(builder: (_) => const LoginScreen(), settings: settings);
+        return MaterialPageRoute(
+          builder: (_) => const LoginScreen(),
+          settings: settings,
+        );
 
       case REGISTERSCREEN:
-        return MaterialPageRoute(builder: (_) => const RegisterScreen(), settings: settings);
+        return MaterialPageRoute(
+          builder: (_) => const RegisterScreen(),
+          settings: settings,
+        );
 
       case EXPLORESCREEN:
         final token = settings.arguments as String;
         return MaterialPageRoute(
-          builder: (_) => ExploreScreen(token: token), settings: settings);
+          builder: (_) => ExploreScreen(token: token),
+          settings: settings,
+        );
 
       case movieDetail:
         final movie = settings.arguments as Movie;
         return MaterialPageRoute(
-          builder: (_) => MovieDetailScreen(movie: movie), settings: settings);
+          builder: (_) => MovieDetailScreen(movie: movie),
+          settings: settings,
+        );
+
+      case PROFILESCREEN:
+        // Ensure that a user ID is provided as an argument.
+        final userId = settings.arguments as int;
+        return MaterialPageRoute(
+          builder: (_) => ProfileScreen(userId: userId),
+          settings: settings,
+        );
 
       default:
         return MaterialPageRoute(
-          builder: (_) => const Scaffold(
-            body: Center(child: Text('No route defined')),
-          ),
+          builder:
+              (_) =>
+                  const Scaffold(body: Center(child: Text('No route defined'))),
+          settings: settings,
         );
     }
   }

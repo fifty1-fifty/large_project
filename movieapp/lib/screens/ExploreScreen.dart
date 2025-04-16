@@ -6,6 +6,7 @@ import '../services/api_service.dart';
 import '../services/secure_storage.dart';
 import '../widgets/movie_card.dart';
 import 'package:movieapp/routes/routes.dart';
+import 'package:movieapp/global_data.dart';
 
 class ExploreScreen extends StatefulWidget {
   const ExploreScreen({super.key, required this.token});
@@ -116,6 +117,10 @@ class _ExploreScreenState extends State<ExploreScreen> {
     }
   }
 
+  void _navigateToDetail(Movie movie) {
+    Navigator.pushNamed(context, Routes.movieDetail, arguments: movie);
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -130,6 +135,20 @@ class _ExploreScreenState extends State<ExploreScreen> {
           ),
         ),
         actions: [
+          // New profile button added here:
+          IconButton(
+            icon: const Icon(Icons.person),
+            onPressed: () {
+              Navigator.pushNamed(
+                context,
+                '/profile',
+                arguments: GlobalData.userId,
+              );
+              print(
+                "DEBUG: userId = ${GlobalData.userId} before navigating to /profile",
+              );
+            },
+          ),
           IconButton(icon: const Icon(Icons.logout), onPressed: _forceLogout),
         ],
       ),
@@ -220,9 +239,5 @@ class _ExploreScreenState extends State<ExploreScreen> {
         ],
       ),
     );
-  }
-
-  void _navigateToDetail(Movie movie) {
-    Navigator.pushNamed(context, Routes.movieDetail, arguments: movie);
   }
 }
