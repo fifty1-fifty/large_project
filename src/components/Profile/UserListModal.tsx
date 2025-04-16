@@ -3,7 +3,7 @@ import { User } from '../../types';
 import './UserListModal.css';
 
 interface UserListModalProps {
-  userIds: string[] | undefined;
+  userIds: (string | number)[] | undefined;
   title: string;
   onClose: () => void;
   onUserClick: (userId: string) => void;
@@ -24,7 +24,9 @@ const UserListModal: React.FC<UserListModalProps> = ({ userIds, title, onClose, 
         const storedUser = localStorage.getItem("user_data");
         const token = storedUser ? JSON.parse(storedUser).token : null;
 
-        const userPromises = userIds.map(async (userId) => {
+        const userPromises = userIds.map(async (id) => {
+          // Convert ID to string for the API call
+          const userId = typeof id === 'number' ? id.toString() : id;
           const response = await fetch(`/api/profile/${userId}`, {
             headers: {
               'authorization': token
@@ -46,6 +48,11 @@ const UserListModal: React.FC<UserListModalProps> = ({ userIds, title, onClose, 
     fetchUsers();
   }, [userIds]);
 
+  const handleUserClick = (user: User) => {
+    // Use UserId for navigation to match ProfilePage's usage
+    onUserClick(user.UserId.toString());
+  };
+
   return (
     <div className="modal-overlay" onClick={onClose}>
       <div className="modal-content" onClick={(e) => e.stopPropagation()}>
@@ -61,7 +68,7 @@ const UserListModal: React.FC<UserListModalProps> = ({ userIds, title, onClose, 
               <div 
                 key={user._id} 
                 className="user-item"
-                onClick={() => onUserClick(user._id)}
+                onClick={() => handleUserClick(user)}
               >
                 <span className="user-name">{user.firstName} {user.lastName}</span>
               </div>
