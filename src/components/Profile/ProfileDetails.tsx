@@ -80,7 +80,7 @@ const ProfileDetails: React.FC<ProfileDetailsProps> = ({
 
       {showFollowersModal && (
         <UserListModal
-          users={userInfo?.followers}
+          userIds={userInfo?.followers}
           title="Followers"
           onClose={() => setShowFollowersModal(false)}
           onUserClick={handleUserClick}
@@ -89,7 +89,7 @@ const ProfileDetails: React.FC<ProfileDetailsProps> = ({
 
       {showFollowingModal && (
         <UserListModal
-          users={userInfo?.following}
+          userIds={userInfo?.following}
           title="Following"
           onClose={() => setShowFollowingModal(false)}
           onUserClick={handleUserClick}
