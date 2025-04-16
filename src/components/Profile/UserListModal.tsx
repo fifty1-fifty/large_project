@@ -6,7 +6,7 @@ interface UserListModalProps {
   userIds: (string | number)[] | undefined;
   title: string;
   onClose: () => void;
-  onUserClick: (userId: string) => void;
+  onUserClick: (userId: number) => void;
 }
 
 const UserListModal: React.FC<UserListModalProps> = ({ userIds, title, onClose, onUserClick }) => {
