@@ -248,7 +248,7 @@ client.connect().then(() => {
             if (result.modifiedCount === 1) {
                 res.send("Your email has been successfully verified!");
             } else {
-                res.status(404).send("⚠️ User not found or already verified.");
+                res.status(404).send("User not found or already verified.");
             }
         } catch (err) {
             console.error("Token verification failed:", err.message);
@@ -466,7 +466,7 @@ client.connect().then(() => {
     }
 
 
-    // ✅ POST /api/login (Fixed MongoDB Query)
+    //  POST /api/login (Fixed MongoDB Query)
     app.post('/api/login', async (req, res) => {
         const {  password, email } = req.body;
 
@@ -501,7 +501,7 @@ client.connect().then(() => {
 
 
 
-    // ✅ POST /api/register
+    //  POST /api/register
 app.post('/api/register', async (req, res) => {
     const { first, last, reglogin, regpassword, regemail } = req.body;
 
@@ -532,7 +532,7 @@ app.post('/api/register', async (req, res) => {
             Bio: ""
         });
 
-        // ✅ Send verification email with subject + message
+        //  Send verification email with subject + message
         const subject = 'Please verify your email address';
         const message = `Hi ${reglogin}, please verify your email to activate your account.`;
         await sendVerificationEmail(regemail, subject, message);
