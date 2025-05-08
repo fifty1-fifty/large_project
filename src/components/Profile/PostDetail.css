@@ -91,6 +91,15 @@
   white-space: pre-wrap;
   word-wrap: break-word;
   overflow-wrap: break-word;
+  overflow-y: auto;
+  max-height: 200px; 
+  scrollbar-width: none; 
+  -ms-overflow-style: none;  
+
+}
+
+.review-comment::-webkit-scrollbar {
+  display: none;
 }
 
 
