@@ -220,6 +220,7 @@
   justify-content: center;
   gap: 2rem;
   margin-top: 1rem;
+  color: white;
 }
 
 .arrow-button {
@@ -227,6 +228,7 @@
   background: none;
   border: none;
   cursor: pointer;
+  color: white;
 }
 
 
