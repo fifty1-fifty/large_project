@@ -85,23 +85,27 @@
 
 .review-comment {
   font-size: 1.1rem;
-  line-height: 1.6;
-  color: #ffff;
-  margin-bottom: 1rem;
-  white-space: pre-wrap;
-  word-wrap: break-word;
-  overflow-wrap: break-word;
-  overflow-y: auto;
-  max-height: 200px; 
-  scrollbar-width: none; 
-  -ms-overflow-style: none;  
+  color: #fff;
+  white-space: nowrap; 
+  overflow-x: auto;     
+  overflow-y: hidden;   
+  max-width: 100%;
+  padding-bottom: 0.5rem;
 
+  scrollbar-width: thin;     
+  scrollbar-color: #888 #1a1a1a; 
 }
-
 .review-comment::-webkit-scrollbar {
-  display: none;
+  height: 6px;
+}
+.review-comment::-webkit-scrollbar-thumb {
+  background: #888;
+  border-radius: 10px;
 }
 
+.review-comment::-webkit-scrollbar-track {
+  background: #1a1a1a;
+}
 
 .review-rating {
   font-size: 1.2rem;
