@@ -207,24 +207,6 @@
   margin-right: auto;
   margin-top: 10px;
 }
-.carousel-scroll {
-  display: flex;
-  overflow-x: auto;
-  scroll-behavior: smooth;
-  gap: 1rem;
-  padding: 1rem;
-  width: 100%;
-}
-
-.carousel-scroll::-webkit-scrollbar {
-  display: none; 
-}
-
-.scroll-card {
-  flex: 0 0 auto;
-  width: 90%;
-  max-width: 600px;
-}
 
 .movie-button:hover {
   background-color: #7d2b2b;
