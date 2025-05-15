@@ -31,6 +31,22 @@
 This project is built using React + TypeScript + Vite and includes ESLint for linting. 
 
 ## 👥 Contributors
-https://github.com/fifty1-fifty
-[![](https://github.com/fifty1-fifty.png?size=80)](https://github.com/fifty1-fifty)
-[![](https://github.com/johndoe.png?size=80)](https://github.com/johndoe)
+## 👥 Contributors
+
+<table>
+  <tr>
+    <td align="center">
+      <a href="https://github.com/fifty1-fifty">
+        <img src="https://github.com/fifty1-fifty" width="80" height="80" style="border-radius: 50%;" alt="username1"/>
+        <br /><sub><b>username1</b></sub>
+      </a>
+    </td>
+    <td align="center">
+      <a href="https://github.com/username2">
+        <img src="https://github.com/username2.png" width="80" height="80" style="border-radius: 50%;" alt="username2"/>
+        <br /><sub><b>username2</b></sub>
+      </a>
+    </td>
+  </tr>
+</table>
+
