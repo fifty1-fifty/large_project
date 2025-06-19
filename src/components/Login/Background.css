@@ -7,12 +7,12 @@
 .background {
     background-color: red;
     color: red;
+    background: red;
     position: fixed;
     width: 100vw;
     height: 100vh;
     top: 0;
     left: 0;
-    background: #13141d;
     overflow: hidden;
     z-index: -1;
     pointer-events: none;
