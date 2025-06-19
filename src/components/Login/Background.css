@@ -18,7 +18,7 @@
     pointer-events: none;
 }
 
-/*.background span {
+.background span {
     width: 50vmin;
     height: 50vmin;
     border-radius: 50vmin;
@@ -480,4 +480,4 @@
     animation-delay: -12s;
     transform-origin: 8vw -12vh;
     box-shadow: -100vmin 0 12.883359795510968vmin currentColor;
-} */
+} 
