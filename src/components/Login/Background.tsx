@@ -4,7 +4,7 @@ const Background = ()  =>
 {
     return(
         <div className="background">
-    <span></span>
+    <span>a</span>
    <span></span>
    <span></span>
    <span></span>
